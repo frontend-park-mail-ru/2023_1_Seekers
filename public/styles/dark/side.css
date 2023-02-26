@@ -1,0 +1,35 @@
+.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+    min-height: 100vh;
+
+    background: conic-gradient(from 168.74deg at 129.9% 12.36%, #8370F8 -47.46deg, #1F7FF6 22.68deg, #C77FEA 120.47deg, #8370F8 312.54deg, #1F7FF6 382.68deg);
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    min-height: 100vh;
+
+    background: #1C1C1C;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}

@@ -1,0 +1,37 @@
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    min-height: 100vh;
+
+    background: #F3F5F7;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    min-height: 100vh;
+
+    background: conic-gradient(from 185.23deg at 153.33% 10.51%, #E0ACFF -120.14deg, #E0ACFF 41.27deg, #9FC8FB 74.4deg, #E0ACFF 239.86deg, #E0ACFF 401.27deg);
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}

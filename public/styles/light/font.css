@@ -1,0 +1,57 @@
+.font-title-0-black{
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    letter-spacing: 0.03em;
+
+    color: #E5E5E5;
+}
+
+.font-title-0-white{
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.font-title-1{
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.font-normal-0 {
+    position: absolute;
+    bottom: 0;
+
+    align-self: center;
+    padding: 20px;
+
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 22px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.font-normal-1 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.signup-link {
+    color: #5226FF !important;
+    text-decoration: none;
+}

@@ -33,3 +33,39 @@
     box-shadow: 0px 3px 8px rgba(136, 144, 194, 0.25), 0px 7px 21px rgba(37, 44, 97, 0.2);
     border-radius: 4px;
 }
+
+.button-short {
+    min-height: 50px;
+    min-width: 215px;
+
+    background: #5226FF;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-short:hover {
+    min-height: 50px;
+    min-width: 215px;
+
+    background: #7654FE;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-short:active {
+    min-height: 50px;
+    min-width: 215px;
+
+    background: #5336C7;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-short:disabled {
+    min-height: 50px;
+    min-width: 215px;
+
+    background: #C4BEDF;
+    box-shadow: 0px 3px 8px rgba(136, 144, 194, 0.25), 0px 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}

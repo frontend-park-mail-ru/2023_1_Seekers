@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>My awesome site</title>
-    <link rel="stylesheet" href="index_light.css">
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="styles/light/input.css">
     <link rel="stylesheet" href="styles/light/button.css">
+    <link rel="stylesheet" href="styles/light/font.css">
+    <link rel="stylesheet" href="styles/light/triangle.css">
+    <link rel="stylesheet" href="styles/light/glass.css">
+    <link rel="stylesheet" href="styles/light/side.css">
+
 </head>
 <body>
 <div class="container">
     <div class="left">
         <div class="login">
-            <div class="icon">
+            <div class="icon font-title-1">
                 <img src="img/mail.svg" class="MenuButtonIcon" alt="">MailBox
             </div>
-            <div class="login-title">
-                Авторизация
+            <div class="font-title-1 login-title">
+                Создание почтового ящика
             </div>
             <form action="#" method="get" enctype="multipart/form-data">
+                <div class="full-name">
+                    <div class="wrapper-input wrapper-input-short" >
+                        <input type="text" name="first-name" value="" minlength="3" maxlength="20" required/>
+                        <span>Имя</span>
+                    </div>
+                    <div class="wrapper-input wrapper-input-short" >
+                        <input type="text" name="last-name" value="" minlength="3" maxlength="20" required/>
+                        <span>Фамилия</span>
+                    </div>
+                </div>
                 <div class="wrapper-input">
                     <input type="text" name="email" value="" minlength="3" maxlength="20" required/>
                     <span>Email</span>
@@ -26,23 +41,20 @@
                     <input type="password" name="password" value="" minlength="3" maxlength="20" required/>
                     <span>Пароль</span>
                 </div>
-                <div class="remember">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember" value="yes">
-                        Запомнить
-                    </label>
-                    <a class="input-checkbox-link" href="#"> Забыли пароль?</a>
+                <div class="wrapper-input">
+                    <input type="password" name="password" value="" minlength="3" maxlength="20" required/>
+                    <span>Повторите пароль</span>
                 </div>
 
                 <div class="wrapper-input">
                     <button class="button-long" type="submit">
-                        <label class="button-text">Войти</label>
+                        <label class="font-normal-1">Создать</label>
                     </button>
                 </div>
             </form>
             <div class="wrapper-input-bottom">
-                <p class="login-input-text">Мы еще не знакомы?</p>
-                <a class="signup-link" href="#">Регистрация</a>
+                <p class="font-normal-1">Мы уже знакомы?</p>
+                <a class="font-normal-1 signup-link" href="#">Войти</a>
             </div>
         </div>
     </div>
@@ -51,13 +63,13 @@
             <div class="triangle-right-1"></div>
             <div class="triangle-right-2"></div>
             <div class="triangle-right-3"></div>
-            <div class="text-title">
+            <div class="font-title-0-black">
                 Ваши данные всегда
             </div>
-            <div class="text-subtitle">
+            <div class="font-title-0-white">
                 под рукой.
             </div>
-            <div class="subtext">
+            <div class="font-normal-0">
                 Попробуйте функцию анонимного ящика!
             </div>
         </div>

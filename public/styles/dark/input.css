@@ -99,3 +99,23 @@ select:-webkit-autofill:focus,
 
     border-radius: 7px;
 }
+
+.wrapper-input-short {
+    min-width: 220px;
+    width: 220px; !important;
+}
+
+.wrapper-input-short input{
+    min-width: 220px;
+    width: 220px; !important;
+}
+
+.wrapper-input-short input:focus{
+    min-width: 220px;
+    width: 220px; !important;
+}
+
+.wrapper-input-short input:hover{
+    min-width: 220px;
+    width: 220px; !important;
+}

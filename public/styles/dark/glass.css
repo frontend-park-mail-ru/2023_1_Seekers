@@ -1,0 +1,18 @@
+.glass-square {
+    background: rgba(150, 179, 236, 0.5);
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+    aspect-ratio: 1 / 1;
+    position: relative;
+    padding: 0 20px 50px;
+
+    border-radius: 50px;
+}
