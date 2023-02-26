@@ -11,11 +11,12 @@ box text colour             bt               #123456
 :root {
     --primary-background-color: #1C1C1C;
     --secondary-background-color: #262626;
-    --primary-elements-color: #3E3E3E;
+    --primary-elements-color: #7c7c7d;
     --primary-delimeters-color: #3E3E3E;
     --primary-active-color: #5060EC;
     --primary-text-color: #FFFFFF;
     --secondary-text-color: #E5E5E5;
+    --active-elements-color: #adadae;
 
 }
 

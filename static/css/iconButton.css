@@ -25,17 +25,16 @@
 
 .icon-button-icon{
     display: flex;
-    filter: invert(62%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(90%) contrast(87%);
-    /*stroke: var(--primary-elements-color);*/
-    /*color: var(--primary-elements-color);*/
-    /*fill: red;*/
+    stroke: var(--primary-elements-color);
     flex: available;
 }
 
-.icon-button:Hover .icon-button-icon {
-    filter: invert(62%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(90%) contrast(87%);
+.icon-button:hover .icon-button-icon {
+    stroke: var(--primary-elements-color);
 }
 
-.icon-button:Active .icon-button-icon {
-    filter: invert(99%) sepia(7%) saturate(0%) hue-rotate(236deg) brightness(111%) contrast(73%);
+.icon-button:active .icon-button-icon {
+    stroke: var(--active-elements-color);
 }
+
+
