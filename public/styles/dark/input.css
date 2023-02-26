@@ -7,7 +7,7 @@
     position: relative;
 }
 
-.wrapper-input input{
+.wrapper-input input {
     box-sizing: border-box;
 
     outline: none;
@@ -51,7 +51,7 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus,
 .wrapper-input input:focus ~ span,
-.wrapper-input input:valid ~ span{
+.wrapper-input input:valid ~ span {
     transform: translateX(10px) translateY(-7px);
     font-size: 0.90em;
     padding: 0 10px;
@@ -63,7 +63,7 @@ select:-webkit-autofill:focus,
     /*transition: background-color 5000s ease-in-out 0.5s;*/
 }
 
-.wrapper-input input:focus{
+.wrapper-input input:focus {
     box-sizing: border-box;
 
     min-height: 50px;
@@ -82,7 +82,7 @@ select:-webkit-autofill:focus,
     border-radius: 7px;
 }
 
-.wrapper-input input:hover{
+.wrapper-input input:hover {
     box-sizing: border-box;
 
     min-height: 50px;
@@ -102,20 +102,24 @@ select:-webkit-autofill:focus,
 
 .wrapper-input-short {
     min-width: 220px;
-    width: 220px; !important;
+    width: 220px;
+!important;
 }
 
-.wrapper-input-short input{
+.wrapper-input-short input {
     min-width: 220px;
-    width: 220px; !important;
+    width: 220px;
+!important;
 }
 
-.wrapper-input-short input:focus{
+.wrapper-input-short input:focus {
     min-width: 220px;
-    width: 220px; !important;
+    width: 220px;
+!important;
 }
 
-.wrapper-input-short input:hover{
+.wrapper-input-short input:hover {
     min-width: 220px;
-    width: 220px; !important;
+    width: 220px;
+!important;
 }
