@@ -1,0 +1,390 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: content-box;
+}
+
+
+body, html {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+
+    position: relative;
+
+
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    min-height: 100vh;
+
+    background: #1C1C1C;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+
+    min-height: 100vh;
+
+    background: conic-gradient(from 168.74deg at 129.9% 12.36%, #8370F8 -47.46deg, #1F7FF6 22.68deg, #C77FEA 120.47deg, #8370F8 312.54deg, #1F7FF6 382.68deg);
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+.icon {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: row;
+
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+
+    padding-left: 20px;
+    padding-bottom: 80px;
+
+    color: #f5ebeb;
+}
+
+.MenuButtonIcon{
+    width: 34px;
+}
+
+
+.glass-square {
+    background: rgba(150, 179, 236, 0.5);
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+    aspect-ratio: 1 / 1;
+    position: relative;
+    padding: 0 20px 50px;
+
+    border-radius: 50px;
+}
+
+.text-title {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.triangle-right-1 {
+    align-self: flex-start;
+    position: absolute;
+    bottom: 100px;
+    width: 0;
+    height: 0;
+    border-top: 100px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 50px solid transparent;
+}
+.triangle-right-2 {
+    top: 20px;
+    place-self: center;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 100px solid transparent;
+}
+.triangle-right-3 {
+    align-self: flex-end;
+    bottom: 20px;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 70px solid transparent;
+}
+
+.text-subtitle {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    letter-spacing: 0.03em;
+
+    color: #F5EBEBFF;
+}
+
+.subtext {
+    position: absolute;
+    bottom: 0;
+
+    align-self: center;
+    padding: 20px;
+
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 22px;
+    letter-spacing: 0.03em;
+
+    color: #000000;
+}
+
+.login {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    padding: 0 20px;
+}
+
+.login-title {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 30px;
+    text-align: center;
+    letter-spacing: 0.03em;
+
+    color: #F5EBEBFF;
+
+    padding: 20px;
+}
+
+.wrapper-input {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px 20px;
+}
+
+.remember {
+    display: flex;
+    text-align: left;
+    padding: 20px 20px;
+
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.checkbox {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.03em;
+
+    color: #9276FFFF;
+}
+
+.input-checkbox {
+    text-decoration: none;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.03em;
+
+    color: #9276FFFF;
+}
+
+.input-checkbox-link {
+    text-decoration: none;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.03em;
+
+    color: #9276FFFF;
+}
+
+.login-input-text {
+
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.03em;
+
+    color: #F5EBEBFF;
+}
+
+.input-field {
+    box-sizing: border-box;
+
+    min-height: 50px;
+    min-width: 440px;
+
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+
+    background: #262626;
+    border: 2px solid #2E2E2E;
+    backdrop-filter: blur(30px);
+
+    border-radius: 7px;
+}
+
+.input-field input:active {
+    box-sizing: border-box;
+
+    min-height: 50px;
+    min-width: 440px;
+
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+
+    background: #262626;
+    border: 2px solid #c50000;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px);
+
+    border-radius: 7px;
+}
+
+.input-field:active {
+    box-sizing: border-box;
+
+    min-height: 50px;
+    min-width: 440px;
+
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+
+    background: #262626;
+    border: 2px solid #c50000;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px);
+
+    border-radius: 7px;
+}
+
+.input-field:hover {
+    box-sizing: border-box;
+
+    min-height: 50px;
+    min-width: 440px;
+
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+
+    background: #262626;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px);
+
+    border-radius: 7px;
+}
+
+.button-long {
+    min-height: 50px;
+    min-width: 440px;
+
+    background: #5226FF;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-long:hover {
+    min-height: 50px;
+    min-width: 440px;
+
+    background: #7654FE;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-long:active {
+    min-height: 50px;
+    min-width: 440px;
+
+    background: #5336C7;
+    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    border-radius: 4px;
+}
+
+.button-text {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.03em;
+
+    color: #F5EBEBFF;
+}
+
+.wrapper-input-bottom {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding: 20px 20px;
+    gap: 20px;
+}
+
+.signup-link {
+    text-decoration: none;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.03em;
+
+    color: #9276ff;
+}
