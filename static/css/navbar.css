@@ -1,0 +1,89 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 10px;
+
+    gap: 10px;
+
+    flex: available;
+    position: relative;
+    height: 40px;
+    background: var(--secondary-background-color);
+}
+
+.navbar-frame-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+
+    /* Inside auto layout */
+
+    flex: available;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.navbar-frame-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 10px;
+    gap: 32px;
+
+    /* Inside auto layout */
+
+    flex: available;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.navbar-img-button {
+    display: flex;
+    position: relative;
+    width: 50px;
+    height: 50px;
+
+    border-radius: 90px;
+    border: 1px solid var(--secondary-background-color);
+
+    flex: none;
+}
+
+.navbar-img-button:Hover {
+    border: 1px solid var(--primary-active-color);
+}
+
+.navbar-img-button:Active {
+    border: 1px solid var(--primary-active-color);
+}
+
+.navbar-text {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    /* or 19px */
+
+    display: flex;
+    align-items: center;
+
+    color: var(--primary-text-color);
+}
+
+.navbar-emblem-button {
+    display: flex;
+    position: relative;
+    height: 50px;
+
+    background-color: var(--secondary-background-color);
+
+    gap: 10px;
+
+
+    flex: available;
+}
