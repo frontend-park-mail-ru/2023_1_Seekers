@@ -72,10 +72,10 @@ body, html {
     padding-left: 20px;
     padding-bottom: 80px;
 
-    color: #f5ebeb;
+    color: #E5E5E5;
 }
 
-.MenuButtonIcon{
+.MenuButtonIcon {
     width: 34px;
 }
 
@@ -118,6 +118,7 @@ body, html {
     border-left: 100px solid rgba(150, 179, 236, 0.5);
     border-bottom: 50px solid transparent;
 }
+
 .triangle-right-2 {
     top: 20px;
     place-self: center;
@@ -128,6 +129,7 @@ body, html {
     border-left: 100px solid rgba(150, 179, 236, 0.5);
     border-bottom: 100px solid transparent;
 }
+
 .triangle-right-3 {
     align-self: flex-end;
     bottom: 20px;
@@ -145,7 +147,7 @@ body, html {
     font-size: 60px;
     letter-spacing: 0.03em;
 
-    color: #F5EBEBFF;
+    color: #E5E5E5;
 }
 
 .subtext {
@@ -183,16 +185,9 @@ body, html {
     text-align: center;
     letter-spacing: 0.03em;
 
-    color: #F5EBEBFF;
+    color: #E5E5E5;
 
     padding: 20px;
-}
-
-.wrapper-input {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    padding: 20px 20px;
 }
 
 .remember {
@@ -254,109 +249,9 @@ body, html {
     line-height: 21px;
     letter-spacing: 0.03em;
 
-    color: #F5EBEBFF;
+    color: #E5E5E5;
 }
 
-.input-field {
-    box-sizing: border-box;
-
-    min-height: 50px;
-    min-width: 440px;
-
-    left: 0;
-    right: 0;
-    top: 34.45%;
-    bottom: 0;
-
-    background: #262626;
-    border: 2px solid #2E2E2E;
-    backdrop-filter: blur(30px);
-
-    border-radius: 7px;
-}
-
-.input-field input:active {
-    box-sizing: border-box;
-
-    min-height: 50px;
-    min-width: 440px;
-
-    left: 0;
-    right: 0;
-    top: 34.45%;
-    bottom: 0;
-
-    background: #262626;
-    border: 2px solid #c50000;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(30px);
-
-    border-radius: 7px;
-}
-
-.input-field:active {
-    box-sizing: border-box;
-
-    min-height: 50px;
-    min-width: 440px;
-
-    left: 0;
-    right: 0;
-    top: 34.45%;
-    bottom: 0;
-
-    background: #262626;
-    border: 2px solid #c50000;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(30px);
-
-    border-radius: 7px;
-}
-
-.input-field:hover {
-    box-sizing: border-box;
-
-    min-height: 50px;
-    min-width: 440px;
-
-    left: 0;
-    right: 0;
-    top: 34.45%;
-    bottom: 0;
-
-    background: #262626;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(30px);
-
-    border-radius: 7px;
-}
-
-.button-long {
-    min-height: 50px;
-    min-width: 440px;
-
-    background: #5226FF;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
-    border-radius: 4px;
-}
-
-.button-long:hover {
-    min-height: 50px;
-    min-width: 440px;
-
-    background: #7654FE;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
-    border-radius: 4px;
-}
-
-.button-long:active {
-    min-height: 50px;
-    min-width: 440px;
-
-    background: #5336C7;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
-    border-radius: 4px;
-}
 
 .button-text {
     font-family: "Roboto Thin", sans-serif;
@@ -366,7 +261,7 @@ body, html {
     line-height: 21px;
     letter-spacing: 0.03em;
 
-    color: #F5EBEBFF;
+    color: #E5E5E5;
 }
 
 .wrapper-input-bottom {

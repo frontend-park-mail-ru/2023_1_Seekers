@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>My awesome site</title>
-    <link rel="stylesheet" href="index_dark.css">
+    <link rel="stylesheet" href="index_light.css">
+    <link rel="stylesheet" href="styles/light/input.css">
+    <link rel="stylesheet" href="styles/light/button.css">
 </head>
 <body>
 <div class="container">
@@ -17,12 +19,12 @@
             </div>
             <form action="#" method="get" enctype="multipart/form-data">
                 <div class="wrapper-input">
-                    <p class="login-input-text">Email</p>
-                    <input class="input-field" type="text" name="email" value=""/>
+                    <input type="text" name="email" value="" minlength="3" maxlength="20" required/>
+                    <span>Email</span>
                 </div>
                 <div class="wrapper-input">
-                    <p class="login-input-text">Пароль</p>
-                    <input class="input-field" type="password" name="password" value=""/>
+                    <input type="password" name="password" value="" minlength="3" maxlength="20" required/>
+                    <span>Пароль</span>
                 </div>
                 <div class="remember">
                     <label class="checkbox">
