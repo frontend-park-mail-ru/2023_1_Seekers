@@ -61,7 +61,9 @@ body, html {
 }
 
 .icon {
+    display: flex;
     align-self: flex-start;
+    flex-direction: row;
 
     font-family: "Roboto Thin", sans-serif;
     font-style: normal;
@@ -74,18 +76,8 @@ body, html {
     color: #000000;
 }
 
-.MenuButtonIcon {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-
-    width: 22px;
-    height: 18px;
-
-    flex: none;
-    flex-grow: 0;
+.MenuButtonIcon{
+    width: 34px;
 }
 
 
@@ -118,14 +110,35 @@ body, html {
     color: #FFFFFF;
 }
 
-.triangle-right {
+.triangle-right-1 {
     align-self: flex-start;
-    position: sticky;
+    position: absolute;
+    bottom: 100px;
     width: 0;
     height: 0;
     border-top: 100px solid transparent;
     border-left: 100px solid rgba(150, 179, 236, 0.5);
     border-bottom: 50px solid transparent;
+}
+.triangle-right-2 {
+    top: 20px;
+    place-self: center;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 100px solid transparent;
+}
+.triangle-right-3 {
+    align-self: flex-end;
+    bottom: 20px;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 70px solid transparent;
 }
 
 .text-subtitle {
