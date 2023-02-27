@@ -10,8 +10,6 @@
 
     background: #F3F5F7;
 
-    /* Inside auto layout */
-
     flex: none;
     order: 0;
     flex-grow: 1;
