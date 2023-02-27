@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title>My awesome site</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="styles/dark/input.css">
-    <link rel="stylesheet" href="styles/dark/button.css">
-    <link rel="stylesheet" href="styles/dark/font.css">
-    <link rel="stylesheet" href="styles/dark/glass.css">
-    <link rel="stylesheet" href="styles/dark/side.css">
-
+    <link rel="stylesheet" href="styles/light/input.css">
+    <link rel="stylesheet" href="styles/light/button.css">
+    <link rel="stylesheet" href="styles/light/font.css">
+    <link rel="stylesheet" href="styles/light/glass.css">
+    <link rel="stylesheet" href="styles/light/side.css">
 </head>
 <body>
 <div class="container">
@@ -19,19 +18,9 @@
                 <img src="img/mail.svg" class="MenuButtonIcon" alt="">MailBox
             </div>
             <div class="font-title-1 login-title">
-                Создание почтового ящика
+                Авторизация
             </div>
             <form action="#" method="get" enctype="multipart/form-data">
-                <div class="full-name">
-                    <div class="wrapper-input wrapper-input-short" >
-                        <input type="text" name="first-name" value="" minlength="3" maxlength="20" required/>
-                        <span class="font-normal-1 span-wrapper">Имя</span>
-                    </div>
-                    <div class="wrapper-input wrapper-input-short" >
-                        <input type="text" name="last-name" value="" minlength="3" maxlength="20" required/>
-                        <span class="font-normal-1 span-wrapper">Фамилия</span>
-                    </div>
-                </div>
                 <div class="wrapper-input">
                     <input type="text" name="email" value="" minlength="3" maxlength="20" required/>
                     <span class="font-normal-1 span-wrapper">Email</span>
@@ -40,20 +29,23 @@
                     <input type="password" name="password" value="" minlength="3" maxlength="20" required/>
                     <span class="font-normal-1 span-wrapper">Пароль</span>
                 </div>
-                <div class="wrapper-input">
-                    <input type="password" name="password" value="" minlength="3" maxlength="20" required/>
-                    <span class="font-normal-1 span-wrapper">Повторите пароль</span>
+                <div class="remember">
+                    <label class="font-normal-1">
+                        <input type="checkbox" name="remember" value="yes">
+                        Запомнить
+                    </label>
+                    <a class="font-normal-1 signup-link" href="#"> Забыли пароль?</a>
                 </div>
 
                 <div class="wrapper-input">
                     <button class="button-long" type="submit">
-                        <label class="font-normal-1">Создать</label>
+                        <label class="font-normal-1">Войти</label>
                     </button>
                 </div>
             </form>
             <div class="wrapper-input-bottom">
-                <p class="font-normal-1">Мы уже знакомы?</p>
-                <a class="font-normal-1 signup-link" href="#">Войти</a>
+                <p class="font-normal-1">Мы еще не знакомы?</p>
+                <a class="font-normal-1 signup-link" href="#">Регистрация</a>
             </div>
         </div>
     </div>
