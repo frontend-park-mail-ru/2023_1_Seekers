@@ -1,0 +1,31 @@
+.font-title-0 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    letter-spacing: 0.03em;
+}
+
+.font-title-1 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+}
+
+.font-normal-0 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 22px;
+    letter-spacing: 0.03em;
+}
+
+.font-normal-1 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+}
+
+.signup-link {
+    text-decoration: none;
+}

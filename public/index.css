@@ -1,0 +1,122 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: content-box;
+}
+
+
+body, html {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+
+    position: relative;
+}
+
+.span-wrapper{
+    position: absolute;
+    padding: 15px;
+    pointer-events: none;
+    font-size: 1em;
+}
+
+.icon {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: row;
+
+    padding-left: 20px;
+    padding-bottom: 80px;
+}
+
+.MenuButtonIcon {
+    width: 34px;
+}
+
+
+.full-name{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.login {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    padding: 0 20px;
+}
+
+.login-title {
+    text-align: center;
+    padding: 20px;
+}
+
+.remember {
+    display: flex;
+    text-align: left;
+    padding: 20px 20px;
+
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.wrapper-input-bottom {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding: 20px 20px;
+    gap: 20px;
+}
+
+.triangle-right-1 {
+    align-self: flex-start;
+    position: absolute;
+    bottom: 100px;
+    width: 0;
+    height: 0;
+    border-top: 100px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 50px solid transparent;
+}
+.triangle-right-2 {
+    top: 20px;
+    place-self: center;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 100px solid transparent;
+}
+.triangle-right-3 {
+    align-self: flex-end;
+    bottom: 20px;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid rgba(150, 179, 236, 0.5);
+    border-bottom: 70px solid transparent;
+}
+
+.bottom-text{
+    position: absolute;
+    bottom: 0;
+
+    align-self: center;
+    padding: 20px;
+}
