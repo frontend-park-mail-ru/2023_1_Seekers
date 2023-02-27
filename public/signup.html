@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="styles/dark/glass-color.css">
     <link rel="stylesheet" href="styles/side.css">
     <link rel="stylesheet" href="styles/dark/side-color.css">
+    <link rel="stylesheet" href="styles/dark/border.css">
 
 </head>
 <body>
 <div class="container">
     <div class="left">
-        <div class="login">
+        <div class="login border">
             <div class="icon font-title-1">
                 <img src="img/mail.svg" class="MenuButtonIcon" alt="">MailBox
             </div>
@@ -27,26 +28,29 @@
                 <p>Создание почтового ящика</p>
             </div>
             <form action="#" method="get" enctype="multipart/form-data">
-                <div class="full-name">
-                    <div class="wrapper-input wrapper-input-short">
-                        <input class="wrapper-input-input wrapper-input-color" type="text" name="first-name" value="" minlength="3" maxlength="20" required/>
-                        <span class="font-normal-1 span-wrapper wrapper-input-span">Имя</span>
-                    </div>
-                    <div class="wrapper-input wrapper-input-short">
-                        <input class="wrapper-input-input wrapper-input-color" type="text" name="last-name" value="" minlength="3" maxlength="20" required/>
-                        <span class="font-normal-1 span-wrapper wrapper-input-span">Фамилия</span>
-                    </div>
+                <div class="wrapper-input ">
+                    <input class="wrapper-input-input wrapper-input-color" type="text" name="first-name" value=""
+                           minlength="3" maxlength="20" required/>
+                    <span class="font-normal-1 span-wrapper wrapper-input-span">Имя</span>
                 </div>
                 <div class="wrapper-input">
-                    <input class="wrapper-input-input wrapper-input-color" type="text" name="email" value="" minlength="3" maxlength="20" required/>
+                    <input class="wrapper-input-input wrapper-input-color" type="text" name="last-name" value=""
+                           minlength="3" maxlength="20" required/>
+                    <span class="font-normal-1 span-wrapper wrapper-input-span">Фамилия</span>
+                </div>
+                <div class="wrapper-input">
+                    <input class="wrapper-input-input wrapper-input-color" type="email" name="email" value=""
+                           minlength="3" maxlength="20" required/>
                     <span class="font-normal-1 span-wrapper wrapper-input-span">Email</span>
                 </div>
                 <div class="wrapper-input">
-                    <input class="wrapper-input-input wrapper-input-color" type="password" name="password" value="" minlength="3" maxlength="20" required/>
+                    <input class="wrapper-input-input wrapper-input-color" type="password" name="password" value=""
+                           minlength="3" maxlength="20" required/>
                     <span class="font-normal-1 span-wrapper wrapper-input-span">Пароль</span>
                 </div>
                 <div class="wrapper-input">
-                    <input class="wrapper-input-input wrapper-input-color" type="password" name="password" value="" minlength="3" maxlength="20" required/>
+                    <input class="wrapper-input-input wrapper-input-color" type="password" name="password" value=""
+                           minlength="3" maxlength="20" required/>
                     <span class="font-normal-1 span-wrapper wrapper-input-span">Повторите пароль</span>
                 </div>
 
@@ -59,22 +63,6 @@
             <div class="wrapper-input-bottom">
                 <p class="font-normal-1">Мы уже знакомы?</p>
                 <a class="font-normal-1 signup-link" href="#">Войти</a>
-            </div>
-        </div>
-    </div>
-    <div class="right">
-        <div class="glass-square glass-square-color">
-            <div class="triangle-right-1"></div>
-            <div class="triangle-right-2"></div>
-            <div class="triangle-right-3"></div>
-            <div class="font-title-0">
-                <p>Ваши данные всегда</p>
-            </div>
-            <div class="font-title-0 bottom-color">
-                <p>под рукой.</p>
-            </div>
-            <div class="font-normal-1 bottom-text bottom-color">
-                <p>Попробуйте функцию анонимного ящика!</p>
             </div>
         </div>
     </div>
