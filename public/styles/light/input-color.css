@@ -1,0 +1,45 @@
+.wrapper-input-color{
+    color: #262626 !important;;
+    background: #FFFFFF !important;;
+    border: 2px solid #DEC8C8 !important;;
+}
+
+.wrapper-input-span-color {
+    color: #262626 !important;
+}
+
+.wrapper-input input:focus ~ span,
+.wrapper-input input:valid ~ span{
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.90em;
+    padding: 0 10px;
+    background: #DEC8C8 !important;
+    border-radius: 7px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus  {
+    -webkit-text-fill-color: #262626;
+    -webkit-box-shadow: 0 0 0 1000px #262626 inset;
+    transition: background-color 5000s ease-in-out 0.5s;
+}
+
+.wrapper-input-input:focus{
+    background: #FFFFFF !important;
+    border: 2px solid #DEC8C8 !important;
+    box-shadow: 0 0 10px #1062FA !important;
+    backdrop-filter: blur(30px) !important;
+}
+
+.wrapper-input-input:hover{
+    background: #FFFFFF !important;
+    box-shadow: 0 0 10px #1062FA !important;
+    backdrop-filter: blur(30px) !important;
+}

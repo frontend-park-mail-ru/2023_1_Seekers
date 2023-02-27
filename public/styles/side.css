@@ -7,8 +7,6 @@
 
     min-height: 100vh;
 
-    background: conic-gradient(from 168.74deg at 129.9% 12.36%, #8370F8 -47.46deg, #1F7FF6 22.68deg, #C77FEA 120.47deg, #8370F8 312.54deg, #1F7FF6 382.68deg);
-
     flex: none;
     order: 1;
     flex-grow: 1;
@@ -23,8 +21,6 @@
 
 
     min-height: 100vh;
-
-    background: #1C1C1C;
 
     flex: none;
     order: 0;
