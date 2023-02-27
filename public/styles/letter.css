@@ -21,11 +21,13 @@
 .letter-frame:Hover {
     background: var(--letterlist-hover-fill-color);
     border: 1px solid var(--letterlist-hover-border-color);
+    box-shadow: 0 0 20px var(--letterlist-hover-border-color);
 }
 
 .letter-frame:Active {
     background: var(--letterlist-active-fill-color);
     border: 1px solid var(--letterlist-active-border-color);
+    box-shadow: 0 0 20px var(--letterlist-hover-border-color);
 }
 
 

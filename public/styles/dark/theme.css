@@ -46,7 +46,7 @@
     --letterlist-default-fill-color: var(--primary-background-color);
     --letterlist-default-border-color: var(--primary-background-color);
     --letterlist-hover-fill-color: var(--primary-background-color);
-    --letterlist-hover-border-color: var(--secondary-background-color);
+    --letterlist-hover-border-color: #3E3E3E;
     --letterlist-active-fill-color: var(--secondary-background-color);
     --letterlist-active-border-color: var(--secondary-background-color);
 
