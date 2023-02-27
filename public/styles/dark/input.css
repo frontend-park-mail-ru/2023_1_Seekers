@@ -25,20 +25,19 @@
 }
 
 .wrapper-input span {
-    position: absolute;
-    left: 20px;
-    padding: 15px;
-    pointer-events: none;
-    font-size: 1em;
-
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 21px;
-    letter-spacing: 0.03em;
     color: #9f9898;
     text-transform: uppercase;
     transition: 0.5s;
+}
+
+
+.wrapper-input input:focus ~ span,
+.wrapper-input input:valid ~ span {
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.90em;
+    padding: 0 10px;
+    background: #2E2E2E;
+    border-radius: 7px;
 }
 
 input:-webkit-autofill,
@@ -49,18 +48,10 @@ textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus,
-.wrapper-input input:focus ~ span,
-.wrapper-input input:valid ~ span {
-    transform: translateX(10px) translateY(-7px);
-    font-size: 0.90em;
-    padding: 0 10px;
-    background: #2E2E2E;
-    border-radius: 7px;
-
-    /*-webkit-text-fill-color: #E5E5E5;*/
-    /*-webkit-box-shadow: 0 0 0 1000px #262626 inset;*/
-    /*transition: background-color 5000s ease-in-out 0.5s;*/
+select:-webkit-autofill:focus  {
+    -webkit-text-fill-color: #E5E5E5;
+    -webkit-box-shadow: 0 0 0 1000px #262626 inset;
+    transition: background-color 5000s ease-in-out 0.5s;
 }
 
 .wrapper-input input:focus {
