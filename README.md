@@ -1,1 +1,17 @@
-# 2023_1_Seekers
+# Почта frontend by Seekers
+
+Фронтенд для итогового проекта 2 семестра проекта "VK образование" команды Seekers.
+
+### [Бэкенд](https://github.com/go-park-mail-ru/2023_1_Seekers)
+### [Деплой](https://dev-task1-merge--eloquent-empanada-747abe.netlify.app/)
+
+### Состав команды:
+- [Александр Вяткин](https://github.com/MoraPresence)
+- [Олег Котков](https://github.com/Ogrebatel)
+- [Максим Власов](https://github.com/dyndtikj)
+- [Валерий Винокуршин](https://github.com/vvinokurshin)
+
+### Менторы:
+- [Даниил Чёрный](https://github.com/Dellvin) - backend
+- [Александр Науменко](https://github.com/sashanau) - frontend
+- [Петр Памужак](https://github.com/mars444) - design 
