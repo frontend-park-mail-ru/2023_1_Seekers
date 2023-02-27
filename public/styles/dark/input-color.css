@@ -1,19 +1,19 @@
-.wrapper-input-input,
-.wrapper-input input:empty ~ span
+.wrapper-input-input
 {
     color: #E5E5E5;
     background: #262626;
 
 }
 
-.wrapper-input-span,
-.wrapper-input input:empty ~ span
+.wrapper-input-span
 {
     color: #9f9898 !important;
+    border-radius: 7px;
 }
 
-.wrapper-input input:focus ~ span,
-.wrapper-input input:valid ~ span{
+.wrapper-input-input:focus ~ span,
+.wrapper-input-input:valid ~ span
+{
     transform: translateX(10px) translateY(-7px);
     font-size: 0.90em;
     padding: 0 10px;
@@ -29,19 +29,22 @@ textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
+select:-webkit-autofill:focus
+{
     -webkit-text-fill-color: #E5E5E5;
     -webkit-box-shadow: 0 0 0 1000px #262626 inset;
     transition: background-color 5000s ease-in-out 0.5s;
 }
 
-.wrapper-input input:focus {
+.wrapper-input-input:focus
+{
     background: #262626;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(30px);
 }
 
-.wrapper-input input:hover {
+.wrapper-input-input:hover
+{
     background: #262626;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(30px);
