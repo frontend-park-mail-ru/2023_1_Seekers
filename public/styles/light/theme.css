@@ -1,0 +1,58 @@
+:root {
+    --primary-background-color: #f1f3f7;
+    --secondary-background-color: #ffffff;
+    --primary-elements-color: #7c7c7d;
+    --primary-delimeters-color: #1062fa;
+    --primary-active-color: #e7f0ff;
+    --primary-text-color: #000000;
+    --secondary-text-color: #1062fa;
+    --active-elements-color: #adadae;
+
+    --background-color: var(--primary-background-color);
+
+    --navbar-color: #1062fa;
+
+    --menu-color: var(--secondary-background-color);
+
+    --menu-icons-default-color: #000000;
+    --menu-icons-hover-color: #000000;
+    --menu-icons-active-color: #1062fa;
+
+    --menu-text-default-color: #000000;
+    --menu-text-hover-color: #000000;
+    --menu-text-active-color: #1062fa;
+
+    --menu-buttons-default-fill-color: var(--secondary-background-color);
+    --menu-buttons-default-border-color: var(--secondary-background-color);
+    --menu-buttons-hover-fill-color: var(--secondary-background-color);
+    --menu-buttons-hover-border-color:#88BDFD;
+    --menu-buttons-active-fill-color:#e7f0ff;
+    --menu-buttons-active-border-color: #e7f0ff;
+
+    --navbar-icons-default-color: #f1f3f7;
+    --navbar-icons-hover-color: #f1f3f7;
+    --navbar-icons-active-color: #1062fa;
+
+
+    --navbar-buttons-default-fill-color: #1062fa;
+    --navbar-buttons-default-border-color: #1062fa;
+    --navbar-buttons-hover-fill-color: #1062fa;
+    --navbar-buttons-hover-border-color: #88BDFD;
+    --navbar-buttons-active-fill-color: #e7f0ff;
+    --navbar-buttons-active-border-color: #e7f0ff;
+
+    --navbar-text-color: #f1f3f7;
+
+    --letterlist-default-fill-color: #ffffff;
+    --letterlist-default-border-color: #ffffff;
+    --letterlist-hover-fill-color: #ffffff;
+    --letterlist-hover-border-color: #e7f0ff;
+    --letterlist-active-fill-color: #e7f0ff;
+    --letterlist-active-border-color: #e7f0ff;
+
+    --letterlist-name-text-color: #000000;
+    --letterlist-header-text-color: #1062fa;
+    --letterlist-content-text-color: #000000;
+
+    --delimeters-color: #88BDFD;
+}

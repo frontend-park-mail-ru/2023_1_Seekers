@@ -1,4 +1,4 @@
-@import "colors.css";
+/*@import "colors.css";*/
 
 .letter-frame {
     display: flex;
@@ -10,8 +10,8 @@
     position: relative;
     height: 126px;
 
-    background: var(--primary-background-color);
-    border: 1px solid var(--primary-background-color);
+    background: var(--letterlist-default-fill-color);
+    border: 1px solid var(--letterlist-default-border-color);
     border-radius: 6px;
 
     overflow: hidden;
@@ -19,12 +19,13 @@
 }
 
 .letter-frame:Hover {
-    border: 1px solid var(--secondary-background-color);
+    background: var(--letterlist-hover-fill-color);
+    border: 1px solid var(--letterlist-hover-border-color);
 }
 
 .letter-frame:Active {
-    background: var(--secondary-background-color);
-    border: 1px solid var(--secondary-background-color);
+    background: var(--letterlist-active-fill-color);
+    border: 1px solid var(--letterlist-active-border-color);
 }
 
 
@@ -37,8 +38,6 @@
 
     width: 8px;
 
-    /* Inside auto layout */
-
     flex: none;
     align-self: stretch;
     flex-grow: 0;
@@ -50,7 +49,6 @@
     align-items: center;
     padding: 10px 0;
     gap: 10px;
-    /* Inside auto layout */
 
     flex: available;
     order: 1;
@@ -67,9 +65,6 @@
 
     height: 50px;
 
-
-    /* Inside auto layout */
-
     flex: none;
     order: 0;
     align-self: stretch;
@@ -85,9 +80,6 @@
 
     width: 100%;
     height: 100%;
-
-
-    /* Inside auto layout */
 
     flex: available;
     align-self: auto;
@@ -108,17 +100,14 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 
-    color: var(--secondary-text-color);
-
-
-    /* Inside auto layout */
+    color: var(--letterlist-content-text-color);
 
     flex: available;
     align-self: stretch;
     flex-grow: 1;
 }
 
-.letter-content-header-text {
+.letter-content-header-name-text {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -126,10 +115,22 @@
     line-height: 21px;
     letter-spacing: 0.03em;
 
-    color: var(--primary-text-color);
+    color: var(--letterlist-name-text-color);
 
+    flex: none;
+    align-self: stretch;
+    flex-grow: 1;
+}
 
-    /* Inside auto layout */
+.letter-content-header-second-text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.03em;
+
+    color: var(--letterlist-header-text-color);
 
     flex: none;
     align-self: stretch;
@@ -143,10 +144,6 @@
     padding: 0;
     gap: 5px;
 
-
-
-    /* Inside auto layout */
-
     flex: available;
     align-self: stretch;
     flex-grow: 1;
@@ -159,16 +156,12 @@
     padding: 0;
     gap: 10px;
 
-    /* Inside auto layout */
-
     flex: available;
     align-self: stretch;
     flex-grow: 1;
 }
 
 .letter-content-header-image-frame {
-    /* Auto layout */
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -178,20 +171,13 @@
 
     width: 50px;
 
-    /* Inside auto layout */
-
     flex: available;
     align-self: stretch;
     flex-grow: 0;
 }
 
 .letter-content-image-letter {
-    /* Auto layout */
-
     display: flex;
-
-
-    /* Inside auto layout */
 
     flex: available;
     align-self: stretch;
