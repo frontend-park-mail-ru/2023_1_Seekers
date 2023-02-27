@@ -7,7 +7,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: green;
+    background-color: var(--background-color);
 
     overflow: hidden;
 
@@ -30,7 +30,6 @@ html, body {
     flex: available;
 
     align-self: stretch;
-
 }
 
 .content {
@@ -69,6 +68,7 @@ html, body {
     width: 700px;
     height: 91vh;
 
+    align-self: stretch;
     flex: available;
     overflow: auto;
     overflow-x: hidden;
