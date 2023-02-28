@@ -64,11 +64,6 @@ function formAddParam(form, action, method, enctype) {
     form.enctype = enctype;
 }
 
-// function createWrapperInput(){
-//     const wrapper = document.createElement('div');
-//     wrapper.classList.add("login", "border");
-// }
-
 function createSpan(text) {
     const span = document.createElement('span')
     span.textContent = text
@@ -217,9 +212,7 @@ function renderLogin(parent) {
                 alert('Неверный емейл или пароль');
             }
         );
-
     });
-
     parent.appendChild(container);
 }
 
