@@ -14,10 +14,7 @@ body, html {
 
 .container {
     display: flex;
-    flex-flow: row nowrap;
     padding: 0;
-
-    position: relative;
 }
 
 .span-wrapper{
@@ -29,10 +26,6 @@ body, html {
 
 .icon {
     display: flex;
-    align-self: flex-start;
-    flex-direction: row;
-
-    padding:20px;
 }
 
 .MenuButtonIcon {
