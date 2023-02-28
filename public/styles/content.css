@@ -46,7 +46,7 @@ html, body {
     flex-grow: 1;
 }
 
-.horizontal-line {
+.vertical-line {
     width: 0;
     height: 100%;
 
