@@ -199,26 +199,26 @@ function renderLogin(parent) {
     login.appendChild(wrapperInputBottom)
     mainSide.appendChild(login)
 
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //
-    //     const email = emailInput.value.trim();
-    //     const password = passwordInput.value;
-    //
-    //     ajax(
-    //         'POST',
-    //         '/login',
-    //         {email, password},
-    //         status => {
-    //             if (status === 200) {
-    //                 return;
-    //             }
-    //
-    //             alert('Неверный емейл или пароль');
-    //         }
-    //     );
-    //
-    // });
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+
+        ajax(
+            'POST',
+            '/login',
+            {email, password},
+            status => {
+                if (status === 200) {
+                    return;
+                }
+                console.log(email, password)
+                alert('Неверный емейл или пароль');
+            }
+        );
+
+    });
 
     parent.appendChild(container);
 }
