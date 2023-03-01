@@ -55,4 +55,34 @@
     --letterlist-content-text-color: var(--secondary-text-color);
 
     --delimeters-color: #3E3E3E;
+
+    --input-default-fill-color: var(--secondary-background-color);
+    --input-default-border-color: var(--secondary-background-color);
+    --input-hover-fill-color: var(--secondary-background-color);
+    --input-hover-border-color: var(--secondary-background-color);
+    --input-active-fill-color: var(--secondary-background-color);
+    --input-active-border-color: var(--secondary-background-color);
+
+    --button-default-color: #BB86FC;
+    --button-shadow-close-default-color: #8890C23F;
+    --button-shadow-far-default-color: #252C6133;
+
+    --button-hover-color: #7654FE;
+    --button-shadow-close-hover-color: #8890C23F;
+    --button-shadow-far-hover-color: #252C6133;
+
+    --button-active-color: #5336C7;
+    --button-shadow-close-active-color: #8890C23F;
+    --button-shadow-far-active-color: #252C6133;
+
+    --button-disabled-color: #C4BEDF;
+    --button-shadow-close-disabled-color: #8890C23F;
+    --button-shadow-far-disabled-color: #252C6133;
+
+
+    --link-text-color: #bb86fc;
+    --helpers-text-color: #9e9798;
+    --text-main-color: #e3e4e5;
+
+    --glass-color: #96B3EC7F;
 }

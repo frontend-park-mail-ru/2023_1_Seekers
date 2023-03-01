@@ -1,19 +1,23 @@
 .b-color {
-    background: #BB86FC;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    background: var(--button-default-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
+                0 7px 21px var(--button-shadow-far-default-color);
 }
 
 .b-color:hover {
-    background: #7654FE;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    background: var(--button-hover-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
+                0 7px 21px var(--button-shadow-far-hover-color);
 }
 
 .b-color:active {
-    background: #5336C7;
-    box-shadow: 0 3px 8px rgba(136, 144, 194, 0.25), 0 7px 21px rgba(37, 44, 97, 0.2);
+    background: var(--button-active-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
+                0 7px 21px var(--button-shadow-far-active-color);
 }
 
 .b-color:disabled {
-    background: #C4BEDF;
-    box-shadow: 0px 3px 8px rgba(136, 144, 194, 0.25), 0px 7px 21px rgba(37, 44, 97, 0.2);
+    background: var(--button-disabled-color);
+    box-shadow: 0px 3px 8px var(--button-shadow-close-disabled-color),
+                0px 7px 21px var(--button-shadow-far-disabled-color);
 }

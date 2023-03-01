@@ -3,11 +3,11 @@
 }
 
 .bottom-color {
-    color: #E5E5E5;
+    color: var(--text-main-color);
 }
 
 .font-title-2 {
-    color: #E5E5E5;
+    color: var(--text-main-color);
 }
 
 .font-normal-3 {
@@ -15,10 +15,10 @@
 }
 
 .font-normal-0 {
-    color: #E5E5E5;
+    color: var(--text-main-color);
 }
 
 .signup-link {
-    color: #BB86FC !important;
+    color: var(--link-text-color) !important;
 }
 

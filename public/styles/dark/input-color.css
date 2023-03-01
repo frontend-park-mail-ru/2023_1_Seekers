@@ -1,13 +1,11 @@
 .wrapper-input-input
 {
-    color: #E5E5E5;
-    background: #262626;
-
+    background: var(--input-default-fill-color);
 }
 
 .wrapper-input-span
 {
-    color: #9f9898 !important;
+    color: var(--helpers-text-color) !important;
     border-radius: 7px;
 }
 
