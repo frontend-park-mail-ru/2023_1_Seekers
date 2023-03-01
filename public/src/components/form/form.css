@@ -5,6 +5,8 @@
     padding: 20px 20px;
 
     position: relative;
+
+
 }
 
 .wrapper-input-input {
@@ -19,6 +21,7 @@
     backdrop-filter: blur(30px);
 
     border-radius: 7px;
+
 }
 
 .wrapper-input-span {
