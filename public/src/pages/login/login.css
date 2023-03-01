@@ -68,25 +68,28 @@
     color: var(--text-main-color);
 }
 
+.font-caption-0 {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+}
+
 .signup-link {
     text-decoration: none;
     color: var(--link-text-color);
 }
 
-.wrapper-input-input
-{
+.wrapper-input-input {
     background: var(--input-default-fill-color);
 }
 
-.wrapper-input-span
-{
+.wrapper-input-span {
     color: var(--helpers-text-color) !important;
     border-radius: 7px;
 }
 
-.wrapper-input-input:focus ~ span,
-.wrapper-input-input:valid ~ span
-{
+.wrapper-input-input:focus ~ span{
     transform: translateX(10px) translateY(-7px);
     font-size: 0.90em;
     padding: 0 10px;
@@ -102,22 +105,19 @@ textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus
-{
+select:-webkit-autofill:focus {
     -webkit-text-fill-color: #E5E5E5;
     -webkit-box-shadow: 0 0 0 1000px #262626 inset;
     transition: background-color 5000s ease-in-out 0.5s;
 }
 
-.wrapper-input-input:focus
-{
+.wrapper-input-input:focus {
     background: #262626;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(30px);
 }
 
-.wrapper-input-input:hover
-{
+.wrapper-input-input:hover {
     background: #262626;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(30px);
@@ -154,12 +154,13 @@ select:-webkit-autofill:focus
     0px 7px 21px var(--button-shadow-far-disabled-color);
 }
 
-.span-wrapper{
+.span-wrapper {
     position: absolute;
     padding: 15px;
     pointer-events: none;
     font-size: 1em;
 }
+
 .remember {
     display: flex;
     text-align: left;
@@ -167,6 +168,14 @@ select:-webkit-autofill:focus
 
     flex-direction: row;
     justify-content: space-between;
+}
+
+.error-input {
+    position: absolute;
+    bottom: 0;
+    padding-left: 15px;
+
+    color: var(--error-input);
 }
 
 
