@@ -34,6 +34,9 @@ export default class login extends basePage {
                 case 'email':
                     const email_check = validation.validateEmail(e.target.value);
                     if (!email_check.status) {
+                        if(document.getElementById('emailError') !== null){
+                            break
+                        }
                         validation.putErrorMessage(document.getElementById(e.target.name), 'emailError', email_check.message)
                     } else if (document.getElementById('emailError') !== null) {
                         document.getElementById('emailError').remove()
@@ -43,6 +46,9 @@ export default class login extends basePage {
                 case 'password':
                     const pass_check = validation.validatePassword(e.target.value);
                     if (!pass_check.status) {
+                        if(document.getElementById('passError') !== null){
+                            break
+                        }
                         validation.putErrorMessage(document.getElementById(e.target.name), 'passError', pass_check.message)
                     } else if (document.getElementById('passError') !== null) {
                         document.getElementById('passError').remove()
