@@ -86,7 +86,7 @@ const config = {
                 },
                 email: {
                     title: 'Логин',
-                    type: 'email',
+                    type: 'text',
                     name: 'email',
                     maxlenght: '30',
                 },
