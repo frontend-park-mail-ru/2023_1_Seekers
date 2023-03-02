@@ -27,5 +27,29 @@ export default class Navbar {
     render(context) {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['Navbar.hbs'](context));
+
+        this.childs = [...this.#parent.getElementsByClassName('icon-button')];
+        console.log(this.childs);
+        this.element = this.#parent.getElementsByClassName('navbar')[0];
+    }
+
+    registerEventListener() {
+        this.childs.forEach(child => {
+            child.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    child.dispatchEvent(new Event('toMainPage', {bubbles: true}))
+                }
+            )
+        })
+    }
+
+    unregisterEventListener() {
+        this.childs.forEach(child => {
+            child.removeEventListener('click')
+        })
+    }
+
+    purge() {
+        this.element.remove();
     }
 }

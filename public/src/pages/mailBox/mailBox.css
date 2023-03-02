@@ -1,7 +1,18 @@
 /*@import "colors.css";*/
 
-.main {
 
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+
+    flex: 1;
+    align-self: stretch;
 }
 
 .content {

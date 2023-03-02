@@ -20,6 +20,22 @@ export default class Menu {
         this.#parent = parent;
     }
 
+    registerEventListener() {
+        this.buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    button.dispatchEvent(new Event("toMainPage", {bubbles: true}))
+                }
+            )
+        })
+    }
+
+    unregisterEventListener() {
+        this.buttons.forEach(button => {
+            button.removeEventListener('click')
+        })
+    }
+
     /**
      * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
      * @param {Object} context контекст отрисовки шаблона
@@ -29,13 +45,5 @@ export default class Menu {
             window.Handlebars.templates['Menu.hbs'](context));
 
         this.buttons = [...this.#parent.getElementsByClassName('menu-button')];
-        this.buttons.forEach(button => {
-            button.addEventListener('click', function (e) {
-                    e.preventDefault()
-                    button.dispatchEvent(new Event("rerenderLetters", {bubbles: true}))
-
-                }
-            )
-        })
     }
 }

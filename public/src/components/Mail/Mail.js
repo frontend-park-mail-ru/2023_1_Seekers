@@ -28,4 +28,13 @@ export default class Mail {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['Mail.hbs'](context));
     }
+
+
+    registerEventListener() {
+    }
+
+    unregisterEventListener() {
+    }
+
+    purge(){}
 }

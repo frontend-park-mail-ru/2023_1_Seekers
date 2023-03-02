@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="./src/components/LetterList/LetterList.css" type="text/css">
 
 <div class="LetterList">
-    {{#each letterFrames}}
+    {{#each messages}}
 
         <div class="letter-frame">
             <div class="letter-read-state-frame"></div>
@@ -13,14 +13,14 @@
                     </div>
                     <div class="letter-content-header-text-frame">
                         <label class="letter-content-header-name-text">
-                            {{name}}
+                            {{from_user}}
                         </label>
                         <div class="letter-content-header-text-bottom-frame">
                             <label class="letter-content-header-second-text">
                                 {{title}}
                             </label>
                             <label class="letter-content-header-second-text" style="text-align: right">
-                                {{time}}
+                                {{creating_date}}
                             </label>
                         </div>
 
@@ -28,7 +28,7 @@
                 </div>
                 <div class="letter-content-text-frame">
                     <label class="letter-content-text">
-                        {{content}}
+                        {{text}}
                     </label>
                 </div>
             </div>

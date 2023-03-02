@@ -27,5 +27,18 @@ export default class LetterList {
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['LetterList.hbs'](context));
+
+        this.element = this.#parent.getElementsByClassName('LetterList')[0];
+        this.elements = this.element.getElementsByClassName('letter-frame');
+    }
+
+    purge(){
+        this.element.remove();
+    }
+
+    registerEventListener() {
+    }
+
+    unregisterEventListener() {
     }
 }
