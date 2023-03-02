@@ -1,0 +1,8 @@
+.remember {
+    display: flex;
+    text-align: left;
+    padding: 20px;
+
+    flex-direction: row;
+    justify-content: space-between;
+}

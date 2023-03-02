@@ -1,0 +1,104 @@
+.wrapper-input,
+.wrapper-input-button{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px 20px;
+
+    position: relative;
+}
+
+.wrapper-input-input {
+    box-sizing: border-box;
+
+    outline: none;
+    padding-left: 15px;
+
+    min-height: 50px;
+    min-width: 440px;
+    font-size: 1em;
+    backdrop-filter: blur(30px);
+
+    border-radius: 7px;
+
+    color: var(--secondary-text-color);
+
+    background: var(--input-default-fill-color);
+}
+
+.wrapper-input-span {
+    text-transform: uppercase;
+    transition: 0.5s;
+
+    color: var(--helpers-text-color) !important;
+    border-radius: 7px;
+}
+
+.wrapper-input-input:focus,
+.wrapper-input-input:hover {
+    box-sizing: border-box;
+
+    min-height: 50px;
+    min-width: 440px;
+
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+
+    border-radius: 7px;
+
+    background: #262626;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px);
+}
+
+.wrapper-input-short {
+    min-width: 220px;
+    width: 220px;
+}
+
+.wrapper-input-short input {
+    min-width: 220px;
+    width: 220px;
+}
+
+.wrapper-input-short input:focus {
+    min-width: 220px;
+    width: 220px;
+}
+
+.wrapper-input-short input:hover {
+    min-width: 220px;
+    width: 220px;
+}
+
+.wrapper-input-input:focus ~ span,
+.wrapper-input-input:valid ~ span{
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.90em;
+    padding: 0 10px;
+    background: #2E2E2E;
+    border-radius: 7px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #E5E5E5;
+    -webkit-box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    transition: background-color 5000s ease-in-out 0.5s;
+}
+
+.span-wrapper {
+    position: absolute;
+    padding: 15px;
+    pointer-events: none;
+    font-size: 1em;
+}

@@ -1,0 +1,19 @@
+.page {
+    display: flex;
+    padding: 0;
+}
+
+.main-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+
+    background: #1C1C1C;
+}
