@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 const mainElement = document.getElementById('main');
-mainElement.classList.add('main')
+mainElement.classList.add('main');
 
 
 const navbarButtonIcons = {
@@ -44,7 +44,7 @@ const navbarButtonIcons = {
                     0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
                           stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                 </svg>`,
-}
+};
 
 const menuContent = {
     input: {
@@ -112,7 +112,7 @@ const menuContent = {
         text: 'Корзина',
         count: '999',
     },
-}
+};
 
 const cake = `<svg class="content-mail" fill="none" height="20" viewBox="0 0 20 20" width="20"
              xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +129,7 @@ const cake = `<svg class="content-mail" fill="none" height="20" viewBox="0 0 20 
                  1-1zm-9-11.8679c0-.55228.44772-1 1-1h.01c.5523 0 1 .44772 1 1s-.4477 1-1 1h-.01c-.55228
                  0-1-.44772-1-1zm3 0c0-.55228.4477-1 1-1h.01c.5523 0 1 .44772 1 1s-.4477 1-1 1h-.01c-.5523 0-1-.44772-1-1z"
                   fill-rule="evenodd"/>
-        </svg>`
+        </svg>`;
 
 const letterListContent = [
     {
@@ -249,7 +249,7 @@ const letterListContent = [
                             illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
                             Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
     },
-]
+];
 
 function createLetterFrame(img, name, title, time, letterContent) {
     const letterFrame = document.createElement('div');
@@ -300,11 +300,11 @@ function createLetterFrame(img, name, title, time, letterContent) {
 
     const letterContentHeaderSecondTextTitle = document.createElement('label');
     letterContentHeaderSecondTextTitle.classList.add('letter-content-header-second-text');
-    letterContentHeaderSecondTextTitle.textContent = title
+    letterContentHeaderSecondTextTitle.textContent = title;
 
     const letterContentHeaderSecondTextTime = document.createElement('label');
     letterContentHeaderSecondTextTime.classList.add('letter-content-header-second-text');
-    letterContentHeaderSecondTextTime.style.textAlign = "right";
+    letterContentHeaderSecondTextTime.style.textAlign = 'right';
     letterContentHeaderSecondTextTime.textContent = time;
 
     letterContentHeaderTextBottomFrame.appendChild(letterContentHeaderSecondTextTitle);
@@ -319,7 +319,7 @@ function createLetterFrame(img, name, title, time, letterContent) {
     return letterFrame;
 }
 
-function createButton(img, text, c){
+function createButton(img, text, c) {
     const button = document.createElement('a');
     button.classList.add('menu-button');
 
@@ -352,7 +352,7 @@ function createButton(img, text, c){
     return button;
 }
 
-function createNavbar(){
+function createNavbar() {
     const navbar = document.createElement('div');
     navbar.classList.add('navbar');
 
@@ -367,7 +367,7 @@ function createNavbar(){
 
     const emblem = document.createElement('a');
     emblem.classList.add('navbar-emblem-button');
-    emblem.href = "";
+    emblem.href = '';
 
     const emblemIcon = document.createElement('img');
     emblemIcon.src = 'img/emblem.svg';
@@ -406,7 +406,7 @@ function createVerticalLine() {
     return line;
 }
 
-function createContent(){
+function createContent() {
     const content = document.createElement('div');
     content.classList.add('content');
     content.appendChild(createMenu());
@@ -416,7 +416,7 @@ function createContent(){
     return content;
 }
 
-function createMenu(){
+function createMenu() {
     const menu = document.createElement('div');
     menu.classList.add('Menu');
 
@@ -426,21 +426,21 @@ function createMenu(){
     return menu;
 }
 
-function createLetterList(){
+function createLetterList() {
     const letterList = document.createElement('div');
     letterList.classList.add('LetterList');
 
-    letterListContent.forEach(e =>
-        letterList.appendChild(createLetterFrame(e.img, e.name, e.title, e.time, e.content))
+    letterListContent.forEach((e) =>
+        letterList.appendChild(createLetterFrame(e.img, e.name, e.title, e.time, e.content)),
     );
 
     return letterList;
 }
 
-const navbar = createNavbar()
+const navbar = createNavbar();
 mainElement.appendChild(navbar);
 
-const content = createContent()
+const content = createContent();
 mainElement.appendChild(content);
 
 content.innerHTML += cake;

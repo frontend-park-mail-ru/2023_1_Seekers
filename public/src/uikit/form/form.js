@@ -1,30 +1,25 @@
 import '../templates.js';
-export default class form
-{
-    #parent
+export default class form {
+    #parent;
 
-    constructor(parent)
-    {
-        this.#parent = parent
+    constructor(parent) {
+        this.#parent = parent;
     }
 
-    prepareForm(ctx)
-    {
+    prepareForm(ctx) {
         return {
-            field: {...ctx.fields}
+            field: {...ctx.fields},
         };
     }
 
-    render(ctx)
-    {
-        const data = this.prepareForm(ctx)
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data))
+    render(ctx) {
+        const data = this.prepareForm(ctx);
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
     }
 
-    purge()
-    {
-        document.querySelectorAll("div.wrapper-input").forEach(e => {
-            e.remove()
-        })
+    purge() {
+        document.querySelectorAll('div.wrapper-input').forEach((e) => {
+            e.remove();
+        });
     }
 }

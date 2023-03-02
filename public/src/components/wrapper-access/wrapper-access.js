@@ -3,45 +3,39 @@ import buttonComponent from '../../uikit/button/button.js';
 import '../templates.js';
 
 export default class wrapperAccess {
-    #parent
+    #parent;
 
-    constructor(parent)
-    {
-        this.#parent = parent
+    constructor(parent) {
+        this.#parent = parent;
     }
-    prepareForm(ctx)
-    {
+    prepareForm(ctx) {
         return {
-             ...ctx
+            ...ctx,
         };
     }
 
-    render(config)
-    {
+    render(config) {
         const data = this.prepareForm(config.windowData);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['wrapper-access.hbs'](data))
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['wrapper-access.hbs'](data));
 
         this.formComponent = new formComponent(document.getElementById('wrapper-access-form'));
         this.formComponent.render(config);
 
         this.buttonComponent = new buttonComponent(document.getElementById('wrapper-input-button'));
         this.buttonComponent.render(config.button);
-
     }
 
-    purge()
-    {
-        this.buttonComponent.purge()
-        this.formComponent.purge()
+    purge() {
+        this.buttonComponent.purge();
+        this.formComponent.purge();
 
-        document.querySelectorAll("div.wrapper-access").forEach(e => {
-            e.remove()
-        })
+        document.querySelectorAll('div.wrapper-access').forEach((e) => {
+            e.remove();
+        });
     }
 
-    purgeChild()
-    {
-        this.buttonComponent.purge()
-        this.formComponent.purge()
+    purgeChild() {
+        this.buttonComponent.purge();
+        this.formComponent.purge();
     }
 }

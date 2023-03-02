@@ -1,5 +1,5 @@
-import login from "./pages/login/login.js";
-import signup from "./pages/signup/signup.js";
+import login from './pages/login/login.js';
+import signup from './pages/signup/signup.js';
 
 const root = document.getElementById('root');
 
