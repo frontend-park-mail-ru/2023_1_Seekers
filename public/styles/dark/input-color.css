@@ -37,13 +37,13 @@ select:-webkit-autofill:focus
 .wrapper-input-input:focus
 {
     background: #262626;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgb(255 255 255 / 25%);
     backdrop-filter: blur(30px);
 }
 
 .wrapper-input-input:hover
 {
     background: #262626;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgb(255 255 255 / 25%);
     backdrop-filter: blur(30px);
 }

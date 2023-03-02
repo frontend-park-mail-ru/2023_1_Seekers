@@ -1,6 +1,6 @@
 .wrapper-input-color{
     color: #262626 !important;;
-    background: #FFFFFF !important;;
+    background: #FFF !important;;
     border: 2px solid #DEC8C8 !important;;
 }
 
@@ -32,14 +32,14 @@ select:-webkit-autofill:focus  {
 }
 
 .wrapper-input-input:focus{
-    background: #FFFFFF !important;
+    background: #FFF !important;
     border: 2px solid #DEC8C8 !important;
     box-shadow: 0 0 10px #1062FA !important;
     backdrop-filter: blur(30px) !important;
 }
 
 .wrapper-input-input:hover{
-    background: #FFFFFF !important;
+    background: #FFF !important;
     box-shadow: 0 0 10px #1062FA !important;
     backdrop-filter: blur(30px) !important;
 }
