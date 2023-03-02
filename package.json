@@ -13,7 +13,8 @@
   },
   "scripts": {
     "test": "----",
-    "lint": "eslint --cache --ext .js public/src --fix"
+    "lint": "eslint --cache --ext .js public/src --fix",
+    "build": "handlebars -m public/src/components/*/*.hbs -f ./public/src/components/templates.js && handlebars -m public/src/pages/*/*.hbs -f ./public/src/pages/templates.js && handlebars -m public/src/uikit/*/*.hbs -f ./public/src/uikit/templates.js"
   },
   "repository": {
     "type": "git",
