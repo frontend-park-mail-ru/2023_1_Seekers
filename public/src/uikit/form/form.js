@@ -20,4 +20,11 @@ export default class form
         const data = this.prepareForm(ctx)
         this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data))
     }
+
+    purge()
+    {
+        document.querySelectorAll("div.wrapper-input").forEach(e => {
+            e.remove()
+        })
+    }
 }

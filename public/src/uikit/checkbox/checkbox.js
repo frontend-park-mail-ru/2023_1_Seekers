@@ -9,4 +9,11 @@ export default class checkbox {
     render() {
         this.#parent.insertAdjacentHTML('beforebegin', window.Handlebars.templates['checkbox.hbs']())
     }
+
+    purge()
+    {
+        document.querySelectorAll("div.remember").forEach(e => {
+            e.remove()
+        })
+    }
 }

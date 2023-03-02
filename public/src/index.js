@@ -22,8 +22,8 @@ const renderLetterListPage = (context) => {
  * @param {object} context контекст отрисовки страницы
  */
 const renderRegisterPage = (context) => {
-    const page = new signup(root);
-    page.render(context);
+    const page = new signup(root, context);
+    page.render();
 };
 
 const config = {
@@ -116,4 +116,5 @@ const config = {
     },
     authorised: false,
 };
+
 config.header.signup.render(config);

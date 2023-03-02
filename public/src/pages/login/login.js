@@ -43,6 +43,7 @@ export default class login extends basePage {
             const [email, password] = data;
             if (validation.validateRegFields(email.value, password.value)) {
                 console.log("send to /login")
+                this.purge()
             }
         }
 
@@ -50,6 +51,23 @@ export default class login extends basePage {
         const validation = new Validation()
         form.addEventListener('focusout', validation.focusValidator);
         form.addEventListener('submit', onSubmitHandler);
+    }
+
+    purge()
+    {
+        this.unregisterEvents();
+        this.accessComponent.purge();
+        this.checkboxComponent.purge();
+        document.querySelectorAll("div.main-side").forEach(e => {
+            e.remove()
+        })
+    }
+
+    purgeChild()
+    {
+        this.unregisterEvents();
+        this.checkboxComponent.purge();
+        this.accessComponent.purge();
     }
 }
 

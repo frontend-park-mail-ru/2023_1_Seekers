@@ -26,5 +26,22 @@ export default class wrapperAccess {
 
         this.buttonComponent = new buttonComponent(document.getElementById('wrapper-input-button'));
         this.buttonComponent.render(config.button);
+
+    }
+
+    purge()
+    {
+        this.buttonComponent.purge()
+        this.formComponent.purge()
+
+        document.querySelectorAll("div.wrapper-access").forEach(e => {
+            e.remove()
+        })
+    }
+
+    purgeChild()
+    {
+        this.buttonComponent.purge()
+        this.formComponent.purge()
     }
 }

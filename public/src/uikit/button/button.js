@@ -7,7 +7,15 @@ export default class button {
         this.#parent = parent
     }
 
-    render(ctx) {
+    render(ctx)
+    {
         this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['button.hbs'](ctx))
+    }
+
+    purge()
+    {
+        document.querySelectorAll("button.button-long.b-color").forEach(e => {
+            e.remove()
+        })
     }
 }
