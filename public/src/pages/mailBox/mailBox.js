@@ -1,18 +1,18 @@
-'use strict'
+'use strict';
 
-import BasePage from "../base-page.js";
-import "../templates.js"
-import Navbar from "../../components/Navbar/Navbar.js";
-import LetterList from "../../components/LetterList/LetterList.js";
-import Mail from "../../components/Mail/Mail.js";
+import BasePage from '../base-page.js';
+import '../templates.js';
+import Navbar from '../../components/navbar/navbar.js';
+import LetterList from '../../components/letterList/letterList.js';
+import Mail from '../../components/mail/mail.js';
 
 /**
- * Класс, реализующий главную страницу
+ * class implementing main page
  */
 export default class mailBox extends BasePage {
     /**
-     * Конструктор, создающий конструктор базовой страницы с нужными параметрами
-     * @param {Element} parent HTML-элемент, в который будет осуществлена отрисовка
+     *
+     * @param {Element} parent HTML-element for including content
      */
     constructor(parent) {
         super(
@@ -20,43 +20,53 @@ export default class mailBox extends BasePage {
             window.Handlebars.templates['mailBox.hbs'],
         );
 
-        this.childs = {}
+        this.childs = {};
     }
 
+    /**
+     * method register events button submit and input focus
+     */
     registerEventListener() {
-        console.log('register mailBox')
+        console.log('register mailBox');
         Object.entries(this.childs).forEach(([_, child]) => {
             child.registerEventListener();
-        })
+        });
 
-        addEventListener('toMainPage', this.eventCatcher)
+        addEventListener('toMainPage', this.eventCatcher);
     }
 
+    /**
+     * method unregister events button submit and input focus
+     */
     unregisterEventListener() {
-        console.log('unregister mailBox')
+        console.log('unregister mailBox');
         Object.entries(this.childs).forEach(([_, child]) => {
             if (child.hasOwnProperty('unregisterEventListener')) {
                 child.unregisterEventListener();
             }
-        })
+        });
 
-        removeEventListener('logout', this.eventCatcher)
-    }
-
-    eventCatcher = (e) => {
-        console.log(e.target)
-        const rel = e.target.href.substring(new URL(e.target.href).origin.length)
-
-        if (rel === '/logout') {
-            e.target.dispatchEvent(new Event("login", {bubbles: true}));
-            return;
-        }
-        console.log("something is wrong!");
+        removeEventListener('logout', this.eventCatcher);
     }
 
     /**
-     * Метод, отрисовывающий страницу.
-     * @param {object} context контекст отрисовки страницы
+     * promise redirect to login page TODO:help
+     * @param {object} e - event click on button logout
+     */
+    eventCatcher = (e) => {
+        console.log(e.target);
+        const rel = e.target.href.substring(new URL(e.target.href).origin.length);
+
+        if (rel === '/logout') {
+            e.target.dispatchEvent(new Event('login', {bubbles: true}));
+            return;
+        }
+        console.log('something is wrong!');
+    };
+
+    /**
+     * method insert mailbox to HTML
+     * @param {object} context - template rendering context
      */
     async render(context) {
         super.render(context);
@@ -75,15 +85,18 @@ export default class mailBox extends BasePage {
         this.childs['mail'] = new Mail(this.content);
         this.childs['mail'].render(context);
 
-        this.registerEventListener()
+        this.registerEventListener();
     }
 
+    /**
+     * method mailbox page clearing
+     */
     purge() {
-        this.unregisterEventListener()
+        this.unregisterEventListener();
         Object.entries(this.childs).forEach(([_, child]) => {
             child.purge();
-        })
-        console.log(this.element)
+        });
+        console.log(this.element);
         this.element.remove();
     }
 }

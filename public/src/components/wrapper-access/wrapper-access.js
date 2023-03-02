@@ -1,30 +1,51 @@
-import formComponent from '../../uikit/form/form.js';
-import buttonComponent from '../../uikit/button/button.js';
+import FormComponent from '../../uikit/form/form.js';
+import ButtonComponent from '../../uikit/button/button.js';
 import '../templates.js';
 
+/**
+ * class implementing component wrapper-access
+ */
 export default class wrapperAccess {
     #parent;
 
+    /**
+     *
+     * @param {Element} parent HTML-element for including content
+     */
     constructor(parent) {
         this.#parent = parent;
     }
+
+    /**
+     * method prepare ctx to send in handlebars
+     * @param {object} ctx - template rendering context
+     * @return {Object} - form filling
+     */
     prepareForm(ctx) {
         return {
             ...ctx,
         };
     }
 
-    render(config) {
-        const data = this.prepareForm(config.windowData);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['wrapper-access.hbs'](data));
+    /**
+     * method insert wrapper-access(signup and login) to HTML
+     * @param {Object} ctx - template rendering context
+     */
+    render(ctx) {
+        const data = this.prepareForm(ctx.windowData);
+        this.#parent.insertAdjacentHTML('afterbegin',
+            window.Handlebars.templates['wrapper-access.hbs'](data));
 
-        this.formComponent = new formComponent(document.getElementById('wrapper-access-form'));
-        this.formComponent.render(config);
+        this.formComponent = new FormComponent(document.getElementById('wrapper-access-form'));
+        this.formComponent.render(ctx);
 
-        this.buttonComponent = new buttonComponent(document.getElementById('wrapper-input-button'));
-        this.buttonComponent.render(config.button);
+        this.buttonComponent = new ButtonComponent(document.getElementById('wrapper-input-button'));
+        this.buttonComponent.render(ctx.button);
     }
 
+    /**
+     * method wrapper-access(signup and login) page clearing
+     */
     purge() {
         this.buttonComponent.purge();
         this.formComponent.purge();
@@ -32,10 +53,5 @@ export default class wrapperAccess {
         document.querySelectorAll('div.wrapper-access').forEach((e) => {
             e.remove();
         });
-    }
-
-    purgeChild() {
-        this.buttonComponent.purge();
-        this.formComponent.purge();
     }
 }

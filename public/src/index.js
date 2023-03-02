@@ -1,11 +1,11 @@
-import login from "./pages/login/login.js";
-import signup from "./pages/signup/signup.js";
-import mailBox from "./pages/mailBox/mailBox.js";
+import Login from './pages/login/login.js';
+import Signup from './pages/signup/signup.js';
+import MailBox from './pages/mailBox/mailBox.js';
 
 const root = document.getElementById('root');
 
 const renderLoginPage = (context) => {
-    const page = new login(root);
+    const page = new Login(root);
     page.render(context);
 };
 
@@ -23,7 +23,7 @@ const renderLetterListPage = (context) => {
  * @param {object} context контекст отрисовки страницы
  */
 const renderRegisterPage = (context) => {
-    const page = new signup(root, context);
+    const page = new Signup(root, context);
     page.render();
 };
 
@@ -120,135 +120,132 @@ const config = {
 
 const context = {
     profile: {
-        profileAvatar: "./img/female-avatar.svg",
+        profileAvatar: './img/female-avatar.svg',
     },
 
     messages: [
         {
             message_id: 3,
-            from_user: "gena@example.com",
-            creating_date: "2023-01-29",
-            title: "Title3",
-            text: "Text3",
+            from_user: 'gena@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title3',
+            text: 'Text3',
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 4,
-            from_user: "max@example.com",
-            creating_date: "2023-01-01",
-            title: "Title4",
-            text: "Text4",
+            from_user: 'max@example.com',
+            creating_date: '2023-01-01',
+            title: 'Title4',
+            text: 'Text4',
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 8,
-            from_user: "valera@example.com",
-            creating_date: "2023-01-29",
-            title: "Title6",
+            from_user: 'valera@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title6',
             text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
                             consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
                             illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
                             Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 5,
-            from_user: "gena@example.com",
-            creating_date: "2023-01-29",
-            title: "Title5",
-            text: "Text5",
+            from_user: 'gena@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title5',
+            text: 'Text5',
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 5,
-            from_user: "ivan@example.com",
-            creating_date: "2023-01-29",
-            title: "Title5",
+            from_user: 'ivan@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title5',
             text: 'Lorem ipsum dolor sit amet',
             read: false,
-            favorite: false
+            favorite: false,
         },
 
         {
             message_id: 6,
-            from_user: "valera@example.com",
-            creating_date: "2023-01-29",
-            title: "Title6",
+            from_user: 'valera@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title6',
             text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
                             consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
                             illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
                             Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 9,
-            from_user: "valera@example.com",
-            creating_date: "2023-01-29",
-            title: "Title6",
+            from_user: 'valera@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title6',
             text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
                             consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
                             illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
                             Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
             read: false,
-            favorite: false
+            favorite: false,
         },
         {
             message_id: 10,
-            from_user: "valera@example.com",
-            creating_date: "2023-01-29",
-            title: "Title6",
+            from_user: 'valera@example.com',
+            creating_date: '2023-01-29',
+            title: 'Title6',
             text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
                             consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
                             illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
                             Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
             read: false,
-            favorite: false
+            favorite: false,
         },
-    ]
-}
+    ],
+};
 
-context.messages.forEach(message => {
-    message.img = 'img/female-avatar.svg'
-})
+context.messages.forEach((message) => {
+    message.img = 'img/female-avatar.svg';
+});
 
 // config.header.signup.render(config);
 
-const mailBoxO = new mailBox(root)
-const loginO = new login(root, config)
-const  signupO = new signup(root, config)
+const mailBoxO = new MailBox(root);
+const loginO = new Login(root, config);
+const signupO = new Signup(root, config);
 
-addEventListener('main', e =>{
+addEventListener('main', (e) =>{
     currentPage.purge();
     currentPage = mailBoxO;
-    console.log('to list')
-    mailBoxO.render(context)
-})
+    console.log('to list');
+    mailBoxO.render(context);
+});
 
-addEventListener('login', e =>{
+addEventListener('login', (e) =>{
     currentPage.purge();
     currentPage = loginO;
-    console.log('to signup')
-    currentPage.render()
-})
+    console.log('to signup');
+    currentPage.render();
+});
 
-addEventListener('signup', e =>{
+addEventListener('signup', (e) =>{
     currentPage.purge();
     currentPage = signupO;
-    console.log('to signup')
-    currentPage.render()
-})
+    console.log('to signup');
+    currentPage.render();
+});
 
 
 let currentPage = loginO;
-currentPage.render()
-
-
-
+currentPage.render();
 
 
 // import MailBox from './pages/mailBox/mailBox.js';

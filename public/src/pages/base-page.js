@@ -1,12 +1,14 @@
+/**
+ * class implementing base page
+ */
 export default class basePage {
     #parent;
     #template;
 
     /**
-     * Конструктор, создающий базовый класс реализации страницы.
-     * @param {Element} parent HTML-элемент, в который будет
-     * осуществлена отрисовка
-     * @param {function} template шаблон для отрисовки
+     *
+     * @param {Element} parent HTML-element for including content
+     * @param {Object} template - template rendering context
      */
     constructor(parent, template) {
         this.#parent = parent;
@@ -14,8 +16,8 @@ export default class basePage {
     }
 
     /**
-     * Метод, отрисовывающий страницу.
-     * @param {any} data контекст данных для страницы
+     * method insert base page to HTML
+     * @param {any} data data context
      */
     render(data) {
         this.#parent.innerHTML += this.#template(data);

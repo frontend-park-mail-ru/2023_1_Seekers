@@ -1,10 +1,10 @@
-import "../templates.js"
+import '../templates.js';
 
 
 /**
- * Класс для реализации компонента Mail
+ * Класс для реализации компонента letterList
  */
-export default class Mail {
+export default class LetterList {
     /**
      * Приватное поле класса, хранящее parent HTML-элемент
      * @type {Element}
@@ -26,15 +26,28 @@ export default class Mail {
      */
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
-            window.Handlebars.templates['Mail.hbs'](context));
+            window.Handlebars.templates['letterList.hbs'](context));
+
+        this.element = this.#parent.getElementsByClassName('LetterList')[0];
+        this.elements = this.element.getElementsByClassName('letter-frame');
     }
 
+    /**
+     * method letterList page clearing
+     */
+    purge() {
+        this.element.remove();
+    }
 
+    /**
+     * method register TODO:why emtpy?
+     */
     registerEventListener() {
     }
 
+    /**
+     * method unregister TODO:why emtpy?
+     */
     unregisterEventListener() {
     }
-
-    purge(){}
 }
