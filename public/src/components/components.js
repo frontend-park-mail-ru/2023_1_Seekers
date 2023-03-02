@@ -6,7 +6,7 @@ function ajax(method, url, body = null, callback) {
     xhr.open(method, url, true);
     xhr.withCredentials = true;
 
-    xhr.addEventListener('readystatechange', function () {
+    xhr.addEventListener('readystatechange', function() {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
         callback(xhr.status, xhr.responseText);
@@ -22,15 +22,15 @@ function ajax(method, url, body = null, callback) {
 }
 
 function createInput(type, name, value, minlength, maxlength, required) {
-    const input = document.createElement('input')
-    input.type = type
-    input.name = name
-    input.value = value
-    input.minLength = minlength
-    input.maxLength = maxlength
-    input.required = required
+    const input = document.createElement('input');
+    input.type = type;
+    input.name = name;
+    input.value = value;
+    input.minLength = minlength;
+    input.maxLength = maxlength;
+    input.required = required;
 
-    return input
+    return input;
 }
 
 function createIcon(textContent, src, alt) {
@@ -65,23 +65,23 @@ function formAddParam(form, action, method, enctype) {
 }
 
 function createSpan(text) {
-    const span = document.createElement('span')
-    span.textContent = text
+    const span = document.createElement('span');
+    span.textContent = text;
 
-    return span
+    return span;
 }
 
 function createButton(type, value) {
-    const button = document.createElement('input')
-    button.type = type
-    button.value = value
+    const button = document.createElement('input');
+    button.type = type;
+    button.value = value;
 
-    return button
+    return button;
 }
 
 function createLabel(text) {
-    const label = document.createElement('label')
-    label.textContent = text
+    const label = document.createElement('label');
+    label.textContent = text;
 
-    return label
+    return label;
 }
