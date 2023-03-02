@@ -1,5 +1,6 @@
 import login from "./pages/login/login.js";
 import signup from "./pages/signup/signup.js";
+import mailBox from "./pages/mailBox/mailBox.js";
 
 const root = document.getElementById('root');
 
@@ -117,12 +118,6 @@ const config = {
     authorised: false,
 };
 
-config.header.signup.render(config);
-
-import MailBox from './pages/mailBox/mailBox.js';
-
-
-const root = document.getElementById('root');
 const context = {
     profile: {
         profileAvatar: "./img/female-avatar.svg",
@@ -221,27 +216,69 @@ context.messages.forEach(message => {
     message.img = 'img/female-avatar.svg'
 })
 
-const mailBox = new MailBox(root);
-mailBox.render(context);
+// config.header.signup.render(config);
 
-mailBox.registerEventListener();
+const mailBoxO = new mailBox(root)
+const loginO = new login(root, config)
+const  signupO = new signup(root, config)
 
-addEventListener('toAnotherPage', e => {
-    console.log('to another')
+addEventListener('main', e =>{
+    currentPage.purge();
+    currentPage = mailBoxO;
+    console.log('to list')
+    mailBoxO.render(context)
 })
 
-class PageChanger{
+addEventListener('login', e =>{
+    currentPage.purge();
+    currentPage = loginO;
+    console.log('to signup')
+    currentPage.render()
+})
 
-    initPages() {
-        this.pages = {};
-        this.pages['mainPage'] = new MailBox(root);
-        // this.pages['auth'] = new Auth(root);
-
-        addEventListener('toAnotherPage', e => {
-            mailBox.unregisterEventListener();
-        })
-
-    }
+addEventListener('signup', e =>{
+    currentPage.purge();
+    currentPage = signupO;
+    console.log('to signup')
+    currentPage.render()
+})
 
 
-}
+let currentPage = loginO;
+currentPage.render()
+
+
+
+
+
+// import MailBox from './pages/mailBox/mailBox.js';
+//
+//
+// const root = document.getElementById('root');
+
+
+//
+// const mailBox = new MailBox(root);
+// mailBox.render(context);
+//
+// mailBox.registerEventListener();
+//
+// addEventListener('toAnotherPage', e => {
+//     console.log('to another')
+// })
+//
+// class PageChanger{
+//
+//     initPages() {
+//         this.pages = {};
+//         this.pages['mainPage'] = new MailBox(root);
+//         // this.pages['auth'] = new Auth(root);
+//
+//         addEventListener('toAnotherPage', e => {
+//             mailBox.unregisterEventListener();
+//         })
+//
+//     }
+//
+//
+// }

@@ -18,6 +18,6 @@ export default class basePage {
      * @param {any} data контекст данных для страницы
      */
     render(data) {
-        this.#parent.innerHTML = this.#template(data);
+        this.#parent.innerHTML += this.#template(data);
     }
 }

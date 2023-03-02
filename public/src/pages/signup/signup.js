@@ -33,9 +33,15 @@ export default class signup extends basePage {
         const [name, surname, email, password, anotherPassword] = data;
         console.log(email.value, password.value, anotherPassword.value, name.value, surname.value)
         if (validation.validateRegFields(email.value, password.value, anotherPassword.value, name.value, surname.value)) {
-            console.log("send to /signup")
-            this.purge()
+            console.log("send to /login")
+            e.target.dispatchEvent(new Event("login", {bubbles: true}));
         }
+    }
+
+    onRedirectHandler = async (e) => {
+        e.preventDefault()
+        console.log("send to /login")
+        e.target.dispatchEvent(new Event("login", {bubbles: true}));
     }
 
     registerEvents = () =>
@@ -43,6 +49,9 @@ export default class signup extends basePage {
         const form = document.getElementById('wrapper-access-form');
         form.addEventListener('submit', this.onSubmitHandler);
         form.addEventListener('focusout', this.#validator.focusValidator);
+
+        const redirect = document.getElementById('redirect-link');
+        redirect.addEventListener('click', this.onRedirectHandler);
     }
 
     unregisterEvents = () =>
@@ -50,6 +59,9 @@ export default class signup extends basePage {
         const form = document.getElementById('wrapper-access-form');
         form.removeEventListener('submit', this.onSubmitHandler);
         form.removeEventListener('focusout', this.#validator.focusValidator);
+
+        const redirect = document.getElementById('redirect-link');
+        redirect.removeEventListener('click', this.onRedirectHandler);
     }
 
     render = () =>

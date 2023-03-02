@@ -1,7 +1,7 @@
 'use strict'
 
 import BasePage from "../base-page.js";
-import "../precompiled.js"
+import "../templates.js"
 import Navbar from "../../components/Navbar/Navbar.js";
 import LetterList from "../../components/LetterList/LetterList.js";
 import Mail from "../../components/Mail/Mail.js";
@@ -24,6 +24,7 @@ export default class mailBox extends BasePage {
     }
 
     registerEventListener() {
+        console.log('register mailBox')
         Object.entries(this.childs).forEach(([_, child]) => {
             child.registerEventListener();
         })
@@ -32,20 +33,22 @@ export default class mailBox extends BasePage {
     }
 
     unregisterEventListener() {
+        console.log('unregister mailBox')
         Object.entries(this.childs).forEach(([_, child]) => {
             if (child.hasOwnProperty('unregisterEventListener')) {
                 child.unregisterEventListener();
             }
         })
 
-        removeEventListener('toMainPage', this.eventCatcher)
+        removeEventListener('logout', this.eventCatcher)
     }
 
-    eventCatcher(e) {
+    eventCatcher = (e) => {
+        console.log(e.target)
         const rel = e.target.href.substring(new URL(e.target.href).origin.length)
 
         if (rel === '/logout') {
-            e.target.dispatchEvent(new Event("toAnotherPage", {bubbles: true}));
+            e.target.dispatchEvent(new Event("login", {bubbles: true}));
             return;
         }
         console.log("something is wrong!");
@@ -57,7 +60,7 @@ export default class mailBox extends BasePage {
      */
     async render(context) {
         super.render(context);
-        this.element = document.getElementById('main-page');
+        this.element = document.getElementsByClassName('page')[0];
 
         this.childs['navbar'] = new Navbar(this.element);
         this.childs['navbar'].render(context.profile);
@@ -71,12 +74,16 @@ export default class mailBox extends BasePage {
 
         this.childs['mail'] = new Mail(this.content);
         this.childs['mail'].render(context);
+
+        this.registerEventListener()
     }
 
     purge() {
+        this.unregisterEventListener()
         Object.entries(this.childs).forEach(([_, child]) => {
             child.purge();
         })
+        console.log(this.element)
         this.element.remove();
     }
 }

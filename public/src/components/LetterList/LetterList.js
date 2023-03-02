@@ -1,4 +1,4 @@
-import "../precompiled.js"
+import "../templates.js"
 
 
 /**

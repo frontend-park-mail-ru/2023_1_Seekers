@@ -1,4 +1,4 @@
-import "../precompiled.js"
+import "../templates.js"
 
 
 /**
@@ -33,23 +33,29 @@ export default class Navbar {
         this.element = this.#parent.getElementsByClassName('navbar')[0];
     }
 
+    eventCatcher = (e) => {
+        console.log(e.currentTarget)
+        console.log('click')
+        e.preventDefault()
+        e.currentTarget.dispatchEvent(new Event('toMainPage', {bubbles: true}))
+    }
+
     registerEventListener() {
+        console.log('register navbar')
         this.childs.forEach(child => {
-            child.addEventListener('click', (e) => {
-                    e.preventDefault()
-                    child.dispatchEvent(new Event('toMainPage', {bubbles: true}))
-                }
-            )
+            child.addEventListener('click', this.eventCatcher)
         })
+
     }
 
     unregisterEventListener() {
         this.childs.forEach(child => {
-            child.removeEventListener('click')
+            child.removeEventListener('click', this.eventCatcher);
         })
     }
 
     purge() {
+        this.unregisterEventListener();
         this.element.remove();
     }
 }
