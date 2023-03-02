@@ -22,7 +22,6 @@ body, html {
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
-
     flex: 1;
     align-self: stretch;
 }

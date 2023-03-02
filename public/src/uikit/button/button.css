@@ -1,7 +1,6 @@
 .button-long {
     min-height: 50px;
     min-width: 440px;
-
     border-radius: 4px;
 }
 
@@ -25,6 +24,6 @@
 
 .b-color:disabled {
     background: var(--button-disabled-color);
-    box-shadow: 0px 3px 8px var(--button-shadow-close-disabled-color),
-    0px 7px 21px var(--button-shadow-far-disabled-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-disabled-color),
+    0 7px 21px var(--button-shadow-far-disabled-color);
 }

@@ -1,15 +1,13 @@
-/*@import "colors.css";*/
+/* @import "colors.css"; */
 
 .icon-button {
     display: flex;
     position: relative;
     width: 40px;
     height: 40px;
-
     background: var(--navbar-buttons-default-fill-color);
     border-radius: 6px;
     border: 1px solid var(--navbar-buttons-default-border-color);
-
     flex: none;
 }
 
