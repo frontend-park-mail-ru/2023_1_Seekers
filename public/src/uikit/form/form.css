@@ -20,6 +20,8 @@
     backdrop-filter: blur(30px);
 
     border-radius: 7px;
+
+    color: var(--secondary-text-color);
 }
 
 .wrapper-input-span {

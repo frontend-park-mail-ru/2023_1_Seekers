@@ -51,14 +51,7 @@ body, html {
     padding: 20px;
 }
 
-.remember {
-    display: flex;
-    text-align: left;
-    padding: 20px;
 
-    flex-direction: row;
-    justify-content: space-between;
-}
 
 .wrapper-input-bottom {
     display: flex;

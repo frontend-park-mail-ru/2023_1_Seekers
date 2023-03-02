@@ -1,4 +1,5 @@
 import login from "./pages/login/login.js";
+import signup from "./pages/signup/signup.js";
 
 const root = document.getElementById('root');
 
@@ -21,8 +22,8 @@ const renderLetterListPage = (context) => {
  * @param {object} context контекст отрисовки страницы
  */
 const renderRegisterPage = (context) => {
-    // const registerPage = new RegisterPage(root);
-    // registerPage.render(context);
+    const page = new signup(root);
+    page.render(context);
 };
 
 const config = {
@@ -51,7 +52,6 @@ const config = {
                     type: 'email',
                     name: 'email',
                     maxlenght: '30',
-                    value: '',
                 },
                 password: {
                     title: 'Пароль',
@@ -59,6 +59,15 @@ const config = {
                     name: 'password',
                     maxlenght: '16',
                 },
+            },
+            windowData: {
+                title: 'Авторизация',
+                bottomText: 'Мы еще не знакомы?',
+                bottomLink: '/signup',
+                bottomLinkText: 'Регистрация',
+            },
+            button: {
+                buttonText: 'Войти',
             },
         },
         signup: {
@@ -94,8 +103,17 @@ const config = {
                     maxlenght: '16',
                 },
             },
+            windowData: {
+                title: 'Регистрация',
+                bottomText: 'Мы уже знакомы?',
+                bottomLink: '/login',
+                bottomLinkText: 'Войти',
+            },
+            button: {
+                buttonText: 'Создать',
+            },
         },
     },
     authorised: false,
 };
-config.header.login.render(config);
+config.header.signup.render(config);

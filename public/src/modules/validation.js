@@ -1,7 +1,6 @@
 const emailRegex = /@/;
 
-export default class Validation
-{
+export default class Validation {
     putErrorMessage = (target, id, text) => {
         const err = document.createElement('div');
         err.textContent = text;
@@ -24,8 +23,50 @@ export default class Validation
         return {status: true, message: ''};
     };
 
-    validateRegFields = (email, password, anotherPassword = password) => {
-        return ((password === anotherPassword) && (this.validateEmail(email).status) &&
-            (this.validatePassword(password).status));
+    validateRePassword = (password, anotherPassword) => {
+        if (!(password === anotherPassword)) {
+            return {status: false, message: 'Пароли не совпадают'};
+        }
+        return {status: true, message: ''};
     };
+
+    validateText = (data) => {
+        if (data.length < 1) {
+            return {status: false, message: 'Заполните поле'};
+        }
+        return {status: true, message: ''};
+    };
+
+    validateRegFields = (email, password, anotherPassword = password, name = ' ', surname = ' ') => {
+        return ((password === anotherPassword) && (this.validateEmail(email).status) &&
+            (this.validatePassword(password).status) && (this.validateText(name).status) && (this.validateText(surname).status));
+    };
+
+    focusValidator = async (e) => {
+        let check;
+        switch (e.target.name) {
+            case 'first-name':
+            case 'last-name':
+                check = this.validateText(e.target.value);
+                break;
+            case 'email':
+                check = this.validateEmail(e.target.value);
+                break
+            case 'password':
+                check = this.validatePassword(e.target.value);
+                break;
+            case 'repeat_password':
+                check = this.validateRePassword(document.getElementById('password').value, e.target.value);
+                break;
+            default:
+                return;
+        }
+        if (!check.status) {
+            if (document.getElementById(e.target.name + 'Error') === null) {
+                this.putErrorMessage(document.getElementById(e.target.name), e.target.name + 'Error', check.message)
+            }
+        } else if (document.getElementById(e.target.name + 'Error') !== null) {
+            document.getElementById(e.target.name + 'Error').remove()
+        }
+    }
 }
