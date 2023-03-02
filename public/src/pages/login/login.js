@@ -1,4 +1,4 @@
-import formComponent from '../../components/form/form.js';
+import formComponent from '../../uikit/form/form.js';
 import basePage from '../base-page.js';
 import '../templates.js';
 import Validation from "../../modules/validation.js";

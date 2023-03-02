@@ -1,0 +1,30 @@
+.button-long {
+    min-height: 50px;
+    min-width: 440px;
+
+    border-radius: 4px;
+}
+
+.b-color {
+    background: var(--button-default-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
+    0 7px 21px var(--button-shadow-far-default-color);
+}
+
+.b-color:hover {
+    background: var(--button-hover-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
+    0 7px 21px var(--button-shadow-far-hover-color);
+}
+
+.b-color:active {
+    background: var(--button-active-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
+    0 7px 21px var(--button-shadow-far-active-color);
+}
+
+.b-color:disabled {
+    background: var(--button-disabled-color);
+    box-shadow: 0px 3px 8px var(--button-shadow-close-disabled-color),
+    0px 7px 21px var(--button-shadow-far-disabled-color);
+}

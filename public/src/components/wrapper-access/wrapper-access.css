@@ -1,0 +1,11 @@
+.wrapper-access {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 20px;
+    border: 2px solid #585151;
+    border-radius: 7px;
+}
+
