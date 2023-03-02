@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="./src/components/LetterList/LetterFrame.css" type="text/css">
+<link rel="stylesheet" href="./src/components/LetterList/LetterList.css" type="text/css">
+
+<div class="LetterList">
+    {{#each letterFrames}}
+
+        <div class="letter-frame">
+            <div class="letter-read-state-frame"></div>
+            <div class="letter-content-frame">
+                <div class="letter-content-header-frame">
+                    <div class="letter-content-header-image-frame">
+                        <img src={{img}} class="letter-content-image-letter" alt="">
+                    </div>
+                    <div class="letter-content-header-text-frame">
+                        <label class="letter-content-header-name-text">
+                            {{name}}
+                        </label>
+                        <div class="letter-content-header-text-bottom-frame">
+                            <label class="letter-content-header-second-text">
+                                {{title}}
+                            </label>
+                            <label class="letter-content-header-second-text" style="text-align: right">
+                                {{time}}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="letter-content-text-frame">
+                    <label class="letter-content-text">
+                        {{content}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    {{/each}}
+</div>

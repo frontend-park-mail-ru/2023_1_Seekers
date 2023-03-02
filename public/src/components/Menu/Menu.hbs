@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="./src/components/Menu/Menu.css" type="text/css">
+<link rel="stylesheet" href="./src/components/Menu/MenuButton.css" type="text/css">
+
+<div class="Menu">
+    {{#each this.commonButtons}}
+        <a class="menu-button" href="{{href}}">
+            <div class="menu-button-left-frame">
+                <div>
+                    {{ img }}
+                </div>
+                <div class="menu-button-text">
+                    <label>{{ text }}</label>
+                </div>
+            </div>
+            <div class="menu-button-right-frame">
+                <div class="menu-button-count">
+                    <p>{{ count }}</p>
+                </div>
+            </div>
+        </a>
+    {{/each}}
+    <div class="MenuDelimeter"></div>
+    {{#each this.advancedButtons}}
+        <a class="menu-button">
+            <div class="menu-button-left-frame">
+                {{ img }}
+                <div class="menu-button-text">
+                    <label>{{ text }}</label>
+                </div>
+            </div>
+            <div class="menu-button-right-frame">
+                <div class="menu-button-count">
+                    <p>{{ count }}</p>
+                </div>
+            </div>
+        </a>
+    {{/each}}
+    <div class="MenuDelimeter"></div>
+</div>
