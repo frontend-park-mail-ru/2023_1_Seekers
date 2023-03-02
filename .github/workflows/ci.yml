@@ -5,16 +5,22 @@ on:
     branches: [ 'main', 'dev/**' ]
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-          cache: 'npm'
-      - name: Install modules
-        run: npm ci
-      - name: Run ESLint
+          node-version: 16
+
+      - name:  Install deps
+        run: npm install
+
+      - name: Lint
         run: npm run lint
+
+      - name: Stylelint
+        run: npm run stylelint
