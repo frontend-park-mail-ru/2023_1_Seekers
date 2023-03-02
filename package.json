@@ -12,7 +12,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "----"
+    "test": "----",
+    "lint": "eslint --cache --ext .js src --fix"
   },
   "repository": {
     "type": "git",
