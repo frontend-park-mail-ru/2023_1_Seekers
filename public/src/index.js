@@ -5,6 +5,12 @@ import Connector from "./modules/ajax.js";
 
 const root = document.getElementById('root');
 
+const renderLoginPage = () => {
+    currentPage.purge();
+    currentPage = new Login(root, config);
+    console.log('to login');
+    currentPage.render();
+}
 /**
  *
  * @param {object} context - контекст отрисовки страницы
@@ -15,15 +21,19 @@ const renderLoginPage = (context, conn) => {
     page.render(context);
 };
 
-/**
- * Функция отрисовки главной страницы
- * @param {object} context контекст отрисовки страницы
- */
-const renderLetterListPage = (context) => {
-    // const mainPage = new MainPage(root);
-    // mainPage.render(context);
-};
+const renderMainPage = () => {
+    currentPage.purge();
+    currentPage = new MailBox(root, config);
+    console.log('to list');
+    currentPage.render();
+}
 
+const renderRegisterPage = () => {
+    currentPage.purge();
+    currentPage = new Signup(root, config);
+    console.log('to signup');
+    currentPage.render();
+}
 /**
  * Функция отрисовки страницы регистрации
  * @param {object} context - контекст отрисовки страницы
@@ -47,9 +57,9 @@ const config = {
             render: renderRegisterPage,
         },
         letterlist: {
-            href: '/letterlist',
+            href: '/main',
             name: 'Главная',
-            render: renderLetterListPage,
+            render: renderMainPage,
         },
     },
     forms: {

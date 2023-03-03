@@ -10,6 +10,7 @@
     border: 1px solid var(--menu-buttons-default-border-color);
     border-radius: 6px;
 
+    cursor: pointer;
 }
 
 
@@ -85,37 +86,37 @@
 
 
 
-.menu-button:Hover {
+.menu-button:hover {
     border: 1px solid var(--menu-buttons-hover-border-color);
     background: var(--menu-buttons-hover-fill-color);
 }
 
-.menu-button:Active {
+.menu-button:active {
     background: var(--menu-buttons-active-fill-color);
     border: 1px solid var(--menu-buttons-active-border-color);
     border-radius: 6px;
 }
 
-.menu-button:Hover .menu-button-icon {
+.menu-button:hover .menu-button-icon {
     stroke: var(--menu-icons-hover-color);
 }
 
-.menu-button:Active .menu-button-icon {
+.menu-button:active .menu-button-icon {
     stroke: var(--menu-icons-active-color);
 }
 
-.menu-button:Hover .menu-button-text {
+.menu-button:hover .menu-button-text {
     color: var(--menu-text-hover-color);
 }
 
-.menu-button:Active .menu-button-text {
+.menu-button:active .menu-button-text {
     color: var(--menu-text-active-color);
 }
 
-.menu-button:Hover .menu-button-count {
+.menu-button:hover .menu-button-count {
     color: var(--menu-text-hover-color);
 }
 
-.menu-button:Active .menu-button-count {
+.menu-button:active .menu-button-count {
     color: var(--menu-text-active-color);
 }

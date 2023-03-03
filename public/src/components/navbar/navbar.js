@@ -1,13 +1,29 @@
 import '../templates.js';
 
 /**
- * class implementing component navbar
+ * class implementing component Navbar
  */
-export default class Navbar {
+export class Navbar {
+    /**
+     * Private field that contains parent HTML-element
+     * @type {Element}
+     */
     #parent;
 
     /**
-     *
+     * Private field that contains current HTML-element
+     * @type {Element}
+     */
+    #element;
+
+    /**
+     * Private field that contains HTML-elements that inside of current element
+     * @type {{}}
+     */
+    #childs = {};
+
+    /**
+     * Constructor that creates a component class Navbar
      * @param {Element} parent HTML-element for including content
      */
     constructor(parent) {
@@ -16,31 +32,29 @@ export default class Navbar {
 
 
     /**
-     * method handle click on navbar TODO: async??
-     * @param {object} e - event ???
+     * method handle click on navbar
+     * @param {Event} e - event that goes from one of childs of current element
      */
     eventCatcher = (e) => {
-        console.log(e.currentTarget);
-        console.log('click');
         e.preventDefault();
         e.currentTarget.dispatchEvent(new Event('toMainPage', {bubbles: true}));
     };
 
     /**
-     * method register events click on navbar
+     * method registerEventListener
+     * unregister listeners for each button in letter-list
      */
     registerEventListener() {
-        console.log('register navbar');
-        this.childs.forEach((child) => {
+        this.#childs.forEach((child) => {
             child.addEventListener('click', this.eventCatcher);
         });
     }
 
     /**
-     * method unregister events click on navbar
+     * method unregisterEventListener unregister events click on navbar
      */
     unregisterEventListener() {
-        this.childs.forEach((child) => {
+        this.#childs.forEach((child) => {
             child.removeEventListener('click', this.eventCatcher);
         });
     }
@@ -53,9 +67,8 @@ export default class Navbar {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['navbar.hbs'](ctx));
 
-        this.childs = [...this.#parent.getElementsByClassName('icon-button')];
-        console.log(this.childs);
-        this.element = this.#parent.getElementsByClassName('navbar')[0];
+        this.#childs = [...this.#parent.getElementsByClassName('icon-button')];
+        this.#element = this.#parent.getElementsByClassName('navbar')[0];
     }
 
     /**
@@ -63,6 +76,6 @@ export default class Navbar {
      */
     purge() {
         this.unregisterEventListener();
-        this.element.remove();
+        this.#element.remove();
     }
 }

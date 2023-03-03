@@ -1,13 +1,14 @@
 import basePage from '../base-page.js';
 import '../templates.js';
-import Validation from '../../modules/validation.js';
-import WrapperAccess from '../../components/wrapper-access/wrapper-access.js';
-import CheckboxComponent from '../../uikit/checkbox/checkbox.js';
+import {Validation} from '../../modules/validation.js';
+import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {Checkbox} from '../../uikit/checkbox/checkbox.js';
+import Request from "../../modules/ajax.js";
 
 /**
  * class implementing login page
  */
-export default class login extends basePage {
+export default class Login extends basePage {
     #validator;
     #context;
 
@@ -105,27 +106,26 @@ export default class login extends basePage {
     /**
      * method insert login to HTML
      */
-    render() {
+    render = () => {
         const context = this.#context.forms.login;
         super.render(context);
 
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
-        this.checkboxComponent = new CheckboxComponent(document.getElementById('wrapper-input-button'));
+        this.checkboxComponent = new Checkbox(document.getElementById('wrapper-input-button'));
         this.checkboxComponent.render();
 
         const fields = context.fields;
         document.getElementById(fields.email.name).focus();
 
         this.registerEvents();
-    }
+    };
 
     /**
      * method login page clearing
      */
     purge() {
-        console.log('purge login');
         this.unregisterEvents();
         this.accessComponent.purge();
         this.checkboxComponent.purge();

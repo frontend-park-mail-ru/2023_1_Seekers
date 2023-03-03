@@ -3,7 +3,7 @@ import '../templates.js';
 /**
  * class implementing component button
  */
-export default class button {
+export class Button {
     #parent;
 
     /**
