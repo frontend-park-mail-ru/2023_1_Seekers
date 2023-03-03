@@ -144,6 +144,6 @@ const conn = new Connector('https://89.208.197.150', 8001, {
 addEventListener('main', (e) => renderMainPage(root, config, conn));
 addEventListener('login', (e) => renderLoginPage(root, config, conn));
 addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
-console.log('Hello!')
+console.log('Hello https!')
 let currentPage = new Login(root, config, conn);
 currentPage.render();
