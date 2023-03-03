@@ -1,6 +1,7 @@
 import Login from './pages/login/login.js';
 import Signup from './pages/signup/signup.js';
 import MailBox from './pages/mailBox/mailBox.js';
+import Connector from "./modules/ajax.js";
 
 const root = document.getElementById('root');
 
@@ -217,6 +218,12 @@ context.messages.forEach((message) => {
 });
 
 // config.header.signup.render(config);
+
+const conn = new Connector('http://89.208.197.150', 8001, {
+    'Content-Type': 'application/json',
+    'accept': 'application/json',
+    'Origin': 'http://localhost:8002/',
+});
 
 const mailBoxO = new MailBox(root);
 const loginO = new Login(root, config);

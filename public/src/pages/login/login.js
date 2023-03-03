@@ -3,7 +3,6 @@ import '../templates.js';
 import Validation from '../../modules/validation.js';
 import WrapperAccess from '../../components/wrapper-access/wrapper-access.js';
 import CheckboxComponent from '../../uikit/checkbox/checkbox.js';
-import Request from "../../modules/ajax.js";
 
 /**
  * class implementing login page
@@ -12,26 +11,22 @@ export default class login extends basePage {
     #validator;
     #context;
 
-    #req
+    #connector
 
     /**
      *
      * @param {Element} parent HTML-element for including content
      * @param {Object} context - template rendering context
+     * @param {Object} connector - connector to backend
      */
-    constructor(parent, context) {
+    constructor(parent, context, connector) {
         super(
             parent,
             window.Handlebars.templates['login.hbs'],
         );
         this.#validator = new Validation();
         this.#context = context;
-
-        this.#req = new Request('http://89.208.197.150', 8001, {
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-            'Origin': 'http://localhost:8002/',
-        });
+        this.#connector = connector;
     }
 
     /**
@@ -40,7 +35,6 @@ export default class login extends basePage {
      */
     onSubmitHandler = async (e) => {
         const data = [];
-        const validation = new Validation();
         const form = document.getElementById('wrapper-access-form');
         const fields = this.#context.forms.login.fields;
 
@@ -51,26 +45,27 @@ export default class login extends basePage {
         });
 
         const [email, password] = data;
-        console.log(email, password)
 
-        if (validation.validateRegFields(email, password)) {
-            const [status] = await this.#req.makePostRequest('api/v1/signin', {email, password})
+        if (this.#validator.validateRegFields(email, password)) {
+            const response = await this.#connector.makePostRequest('api/v1/signin', {email, password})
                 .catch((err) => console.log(err))
 
-            switch (status)
-            {
+            const content = await response.text()
+            switch (response.status) {
                 case 200:
                     this.#context.authorised = true;
                     e.target.dispatchEvent(new Event('main', {bubbles: true}));
                     break;
+                case 401:
+                    if (document.getElementById('passwordError') === null) {
+                        this.putErrorMessage(document.getElementById(e.target.name),
+                            'passwordError', content);
+                    }
+                    break;
                 default:
-
+                    console.log('redirect to bad page');
+                    break
             }
-
-
-            console.log(status)
-            //
-            // this.purge()
         }
     };
 

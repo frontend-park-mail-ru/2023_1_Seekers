@@ -1,7 +1,7 @@
 /**
  * class implementing request work
  */
-export default class Request
+export default class Connector
 {
     #baseURI;
 

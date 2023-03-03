@@ -10,16 +10,20 @@ export default class signup extends basePage {
     #validator;
     #context;
 
+    #connector
+
     /**
      *
      * @param {Element} parent HTML-element for including content
      * @param {Object} context - template rendering context
+     * @param {Object} connector - connector to backend
      */
-    constructor(parent, context) {
+    constructor(parent, context, connector) {
         super(parent, window.Handlebars.templates['signup.hbs']);
 
         this.#validator = new Validation();
         this.#context = context;
+        this.#connector = connector;
     }
 
     /**
@@ -35,16 +39,38 @@ export default class signup extends basePage {
         e.preventDefault();
 
         Object.keys(fields).forEach((input) => {
-            data.push(form.querySelector(`[name=${fields[input].name}]`));
+            data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
-        const [name, surname, email, password, anotherPassword] = data;
-        console.log(email.value, password.value, anotherPassword.value, name.value, surname.value);
-        if (validation
-            .validateRegFields(email.value, password.value, anotherPassword.value,
-                name.value, surname.value)) {
-            console.log('send to /login');
-            e.target.dispatchEvent(new Event('login', {bubbles: true}));
+        const [first_name, last_name, email, password, repeat_pw] = data;
+
+        if (validation.validateRegFields(email, password, repeat_pw, first_name, last_name)) {
+            const response = await this.#connector.makePostRequest('api/v1/signup',
+                {first_name, last_name, email, password, repeat_pw})
+                .catch((err) => console.log(err))
+
+            const content = await response.text()
+            switch (response.status) {
+                case 200:
+                    e.target.dispatchEvent(new Event('login', {bubbles: true}));
+                    break;
+                case 403:
+                case 401:
+                    if (document.getElementById('passwordError') === null) {
+                        this.putErrorMessage(document.getElementById(e.target.name),
+                            'passwordError', content);
+                    }
+                    break;
+                case 409:
+                    if (document.getElementById('emailError') === null) {
+                        this.putErrorMessage(document.getElementById(e.target.name),
+                            'emailError', content);
+                    }
+                    break;
+                default:
+                    console.log('redirect to bad page');
+                    break
+            }
         }
     };
 
@@ -54,7 +80,6 @@ export default class signup extends basePage {
      */
     onRedirectHandler = async (e) => {
         e.preventDefault();
-        console.log('send to /login');
         e.target.dispatchEvent(new Event('login', {bubbles: true}));
     };
 
