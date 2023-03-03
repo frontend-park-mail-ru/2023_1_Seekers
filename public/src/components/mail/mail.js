@@ -21,11 +21,10 @@ export class Mail {
 
     /**
      * method insert mail to HTML
-     * @param {Object} context template rendering context
      */
-    render(context) {
+    render() {
         this.#parent.insertAdjacentHTML('beforeend',
-            window.Handlebars.templates['mail.hbs'](context));
+            window.Handlebars.templates['mail.hbs']());
     }
 
     /**

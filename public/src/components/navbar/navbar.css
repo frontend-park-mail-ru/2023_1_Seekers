@@ -69,4 +69,6 @@
     background-color: var(--navbar-color);
     gap: 10px;
     flex: available;
+
+    cursor: pointer;
 }

@@ -54,23 +54,25 @@ export default class Login extends basePage {
         console.log(email, password)
 
         if (validation.validateRegFields(email, password)) {
-            const [status] = await this.#req.makePostRequest('api/v1/signin', {email, password})
-                .catch((err) => console.log(err))
-
-            switch (status)
-            {
-                case 200:
-                    this.#context.authorised = true;
-                    e.target.dispatchEvent(new Event('main', {bubbles: true}));
-                    break;
-                default:
-
-            }
-
-
-            console.log(status)
+            // const [status] = await this.#req.makePostRequest('api/v1/signin', {email, password})
+            //     .catch((err) => console.log(err))
             //
-            // this.purge()
+            // switch (status)
+            // {
+            //     case 200:
+            //         this.#context.authorised = true;
+            //         e.target.dispatchEvent(new Event('main', {bubbles: true}));
+            //         break;
+            //     default:
+            //
+            // }
+            // console.log(status)
+
+            this.#context.authorised = true;
+
+            //
+            // this.purge();
+            e.target.dispatchEvent(new Event('main', {bubbles: true}));
         }
     };
 
@@ -110,7 +112,7 @@ export default class Login extends basePage {
     /**
      * method insert login to HTML
      */
-    render() {
+    render = () => {
         const context = this.#context.forms.login;
         super.render(context);
 
@@ -124,7 +126,7 @@ export default class Login extends basePage {
         document.getElementById(fields.email.name).focus();
 
         this.registerEvents();
-    }
+    };
 
     /**
      * method login page clearing

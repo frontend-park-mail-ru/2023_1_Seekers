@@ -10,6 +10,7 @@
     border: 1px solid var(--menu-buttons-default-border-color);
     border-radius: 6px;
 
+    cursor: pointer;
 }
 
 
