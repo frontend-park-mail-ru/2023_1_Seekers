@@ -1,8 +1,7 @@
 /**
  * class implementing request work
  */
-export default class Connector
-{
+export default class Connector {
     #baseURI;
 
     #port;
@@ -28,9 +27,9 @@ export default class Connector
      * @returns {Promise<Response>} - request promise
      */
     makeRequest = (uri, options) => {
-        return fetch(uri, options).then((response) => response.ok ?
-            response.json().then((data) => [response.status, data]) :
-            response.json().then((errorData) => [response.status, errorData.message])).catch((error) => [500, error]);
+        return fetch(uri, options).then((response) =>
+            response.json().then((data) => [response.status, data.message]))
+            .catch((error) => [500, error]);
     };
 
     /**
@@ -65,7 +64,6 @@ export default class Connector
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
-
 
 
     /**
