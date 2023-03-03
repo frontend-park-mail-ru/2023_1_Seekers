@@ -47,11 +47,11 @@ export default class login extends basePage {
         const [email, password] = data;
 
         if (this.#validator.validateRegFields(email, password)) {
-            const response = await this.#connector.makePostRequest('api/v1/signin', {email, password})
+            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password})
                 .catch((err) => console.log(err))
 
-            const content = await response.text()
-            switch (response.status) {
+            console.log(status, data)
+            switch (status) {
                 case 200:
                     this.#context.authorised = true;
                     e.target.dispatchEvent(new Event('main', {bubbles: true}));
@@ -59,7 +59,7 @@ export default class login extends basePage {
                 case 401:
                     if (document.getElementById('passwordError') === null) {
                         this.putErrorMessage(document.getElementById(e.target.name),
-                            'passwordError', content);
+                            'passwordError', data);
                     }
                     break;
                 default:

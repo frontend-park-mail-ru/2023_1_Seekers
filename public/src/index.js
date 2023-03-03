@@ -5,8 +5,13 @@ import Connector from "./modules/ajax.js";
 
 const root = document.getElementById('root');
 
-const renderLoginPage = (context) => {
-    const page = new Login(root);
+/**
+ *
+ * @param {object} context - контекст отрисовки страницы
+ * @param {object} conn - connector with backend
+ */
+const renderLoginPage = (context, conn) => {
+    const page = new Login(root, context, conn);
     page.render(context);
 };
 
@@ -21,10 +26,11 @@ const renderLetterListPage = (context) => {
 
 /**
  * Функция отрисовки страницы регистрации
- * @param {object} context контекст отрисовки страницы
+ * @param {object} context - контекст отрисовки страницы
+ * @param {object} conn - connector with backend
  */
-const renderRegisterPage = (context) => {
-    const page = new Signup(root, context);
+const renderRegisterPage = (context, conn) => {
+    const page = new Signup(root, context, conn);
     page.render();
 };
 
@@ -226,8 +232,8 @@ const conn = new Connector('http://89.208.197.150', 8001, {
 });
 
 const mailBoxO = new MailBox(root);
-const loginO = new Login(root, config);
-const signupO = new Signup(root, config);
+const loginO = new Login(root, config, conn);
+const signupO = new Signup(root, config, conn);
 
 addEventListener('main', (e) =>{
     currentPage.purge();

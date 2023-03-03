@@ -42,7 +42,7 @@ export default class Connector
     makePostRequest = async (uri, data) => {
         const options = {
             method: 'post',
-            mode: 'no-cors',
+            mode: 'cors',
             credentials: 'include',
             headers: this.#headers,
             body: JSON.stringify(data),
@@ -82,4 +82,19 @@ export default class Connector
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
+
+    testPost = async (uri, data) => {
+        const response = await fetch(`${this.#baseURI}:${this.#port}/${uri}`, {
+            method: 'post',
+            mode: 'cors',
+            credentials: 'include',
+            headers: this.#headers,
+            body: JSON.stringify(data),
+        })
+
+        console.log(response);
+        const content = await response.text();
+
+        console.log(content);
+    }
 }
