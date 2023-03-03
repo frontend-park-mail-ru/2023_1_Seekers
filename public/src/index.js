@@ -4,13 +4,6 @@ import MailBox from './pages/mailBox/mailBox.js';
 import Connector from "./modules/ajax.js";
 
 const root = document.getElementById('root');
-
-const renderLoginPage = () => {
-    currentPage.purge();
-    currentPage = new Login(root, config);
-    console.log('to login');
-    currentPage.render();
-}
 /**
  *
  * @param {object} context - контекст отрисовки страницы
@@ -25,13 +18,6 @@ const renderMainPage = () => {
     currentPage.purge();
     currentPage = new MailBox(root, config);
     console.log('to list');
-    currentPage.render();
-}
-
-const renderRegisterPage = () => {
-    currentPage.purge();
-    currentPage = new Signup(root, config);
-    console.log('to signup');
     currentPage.render();
 }
 /**
