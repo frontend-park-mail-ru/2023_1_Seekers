@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between;
     padding: 20px 20px 0 20px;
-    margin-bottom: -15px;
 }
 
 .checkbox-input{
