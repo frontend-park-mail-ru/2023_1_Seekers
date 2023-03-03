@@ -80,7 +80,7 @@
     list-style: none;
     width: 25px;
     height: 25px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.02);
     animation: animate 20s linear infinite;
 
     bottom: -150px;
