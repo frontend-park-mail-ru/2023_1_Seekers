@@ -45,10 +45,12 @@ export default class Login extends basePage {
             data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
-        const [email, password] = data;
+        data.push(form.querySelector(`[name='remember']`).checked)
+
+        const [email, password, remember] = data;
 
         if (this.#validator.validateRegFields(email, password)) {
-            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password})
+            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password, remember})
                 .catch((err) => console.log(err))
 
             switch (status) {
@@ -75,7 +77,6 @@ export default class Login extends basePage {
      */
     onRedirectHandler = async (e) => {
         e.preventDefault();
-        console.log('send to /signup');
         e.target.dispatchEvent(new Event('signup', {bubbles: true}));
     };
 
