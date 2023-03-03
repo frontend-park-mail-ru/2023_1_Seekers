@@ -16,14 +16,6 @@ const renderLoginPage = (root, context, conn) => {
     currentPage.render();
 }
 
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-}
-
 /**
  *
  * @param {Element} root - элемент, в который добавится страница
@@ -31,7 +23,6 @@ function sleep(milliseconds) {
  * @param {object} conn - connector with backend
  */
 const renderMainPage = (root, context, conn) => {
-    sleep(1000);
     currentPage.purge();
     currentPage = new MailBox(root, context, conn);
     console.log('to list');
