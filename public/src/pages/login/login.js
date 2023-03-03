@@ -1,13 +1,13 @@
 import basePage from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
-import {wrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
 import {checkbox} from '../../uikit/checkbox/checkbox.js';
 
 /**
  * class implementing login page
  */
-export default class login extends basePage {
+export default class Login extends basePage {
     #validator;
     #context;
 
@@ -88,7 +88,7 @@ export default class login extends basePage {
         const context = this.#context.forms.login;
         super.render(context);
 
-        this.accessComponent = new wrapperAccess(document.getElementById('main-side'));
+        this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
         this.checkboxComponent = new checkbox(document.getElementById('wrapper-input-button'));

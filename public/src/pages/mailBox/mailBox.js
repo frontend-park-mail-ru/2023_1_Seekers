@@ -9,7 +9,7 @@ import {Mail} from '../../components/mail/mail.js';
 /**
  * class implementing mailBox
  */
-export default class mailBox extends BasePage {
+export default class MailBox extends BasePage {
     /**
      * Private field that contains current HTML-element
      * @type {Element}

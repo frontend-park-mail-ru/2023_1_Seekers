@@ -5,7 +5,7 @@ import '../templates.js';
 /**
  * class implementing component wrapper-access
  */
-export class wrapperAccess {
+export class WrapperAccess {
     #parent;
 
     /**

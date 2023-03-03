@@ -1,12 +1,12 @@
 import basePage from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
-import {wrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
 
 /**
  * class implementing signup page
  */
-export default class signup extends basePage {
+export default class Signup extends basePage {
     #validator;
     #context;
 
@@ -86,7 +86,7 @@ export default class signup extends basePage {
         const context = this.#context.forms.signup;
         super.render(context);
 
-        this.accessComponent = new wrapperAccess(document.getElementById('main-side'));
+        this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
         const fields = context.fields;
