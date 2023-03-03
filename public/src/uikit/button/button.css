@@ -29,3 +29,7 @@
     0 7px 21px var(--button-shadow-far-disabled-color);
     cursor: default;
 }
+
+.wrapper-input-button{
+    padding: 20px !important;
+}

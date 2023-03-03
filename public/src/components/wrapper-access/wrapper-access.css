@@ -55,6 +55,7 @@
 .signup-link {
     text-decoration: none;
     color: var(--link-text-color);
+    position: relative;
 }
 
 .error-input {
@@ -64,12 +65,8 @@
     color: var(--error-input);
 }
 
-.wrapper-input-button{
-    padding: 20px !important;
-}
-
 .box-area{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
