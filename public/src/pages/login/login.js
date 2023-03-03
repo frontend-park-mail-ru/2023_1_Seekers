@@ -3,6 +3,7 @@ import '../templates.js';
 import Validation from '../../modules/validation.js';
 import WrapperAccess from '../../components/wrapper-access/wrapper-access.js';
 import CheckboxComponent from '../../uikit/checkbox/checkbox.js';
+import Request from "../../modules/ajax.js";
 
 /**
  * class implementing login page
@@ -10,6 +11,8 @@ import CheckboxComponent from '../../uikit/checkbox/checkbox.js';
 export default class login extends basePage {
     #validator;
     #context;
+
+    #req
 
     /**
      *
@@ -23,6 +26,12 @@ export default class login extends basePage {
         );
         this.#validator = new Validation();
         this.#context = context;
+
+        this.#req = new Request('http://89.208.197.150', 8001, {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'Origin': 'http://localhost:8002/',
+        });
     }
 
     /**
@@ -38,13 +47,29 @@ export default class login extends basePage {
         e.preventDefault();
 
         Object.keys(fields).forEach((input) => {
-            data.push(form.querySelector(`[name=${fields[input].name}]`));
+            data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
         const [email, password] = data;
-        if (validation.validateRegFields(email.value, password.value)) {
-            console.log('send to /main');
-            e.target.dispatchEvent(new Event('main', {bubbles: true}));
+        console.log(email, password)
+
+        if (validation.validateRegFields(email, password)) {
+            const [status] = await this.#req.makePostRequest('api/v1/signin', {email, password})
+                .catch((err) => console.log(err))
+
+            switch (status)
+            {
+                case 200:
+                    this.#context.authorised = true;
+                    e.target.dispatchEvent(new Event('main', {bubbles: true}));
+                    break;
+                default:
+
+            }
+
+
+            console.log(status)
+            //
             // this.purge()
         }
     };
