@@ -1,3 +1,6 @@
+/**
+ * class implementing request work
+ */
 export default class Request
 {
     #baseURI;
@@ -6,21 +9,37 @@ export default class Request
 
     #headers;
 
-
+    /**
+     *
+     * @param {string} URI  - path uri
+     * @param {int} port - port uri
+     * @param {object} headers - headers of request
+     */
     constructor(URI, port, headers) {
         this.#baseURI = URI;
         this.#port = port;
         this.#headers = headers;
     }
 
-    makeRequest = (url, options) => {
-        return fetch(url, options).then((response) => response.ok ?
+    /**
+     * method implementing http-request
+     * @param {string} uri - path uri
+     * @param {object} options - options of request
+     * @returns {Promise<Response>} - request promise
+     */
+    makeRequest = (uri, options) => {
+        return fetch(uri, options).then((response) => response.ok ?
             response.json().then((data) => [response.status, data]) :
             [response.status, response.body]).catch((error) => [500, error]);
     };
 
-
-    makePostRequest = async (url, data) => {
+    /**
+     * method implementing request post
+     * @param {string} uri - path uri
+     * @param {object} data - body of ajax request
+     * @return {Promise<Response>} - request promise
+     */
+    makePostRequest = async (uri, data) => {
         const options = {
             method: 'post',
             mode: 'no-cors',
@@ -28,39 +47,39 @@ export default class Request
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURI}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
 
 
     /**
-     * Метод, реализующий запрос GET.
-     * @param {string} url - путь URL
-     * @return {Promise<Response>} - промис запроса
+     * method implementing request get
+     * @param {string} uri - path uri
+     * @return {Promise<Response>} - request promise
      */
-    makeGetRequest = async (url) => {
+    makeGetRequest = async (uri) => {
         const options = {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURI}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
 
 
 
     /**
-     * Метод, реализующий запрос DELETE
-     * @param {string} url - путь URL
-     * @return {Promise<Response>} промис запроса
+     * method implementing request delete
+     * @param {string} uri - path uri
+     * @return {Promise<Response>} - request promise
      */
-    makeDeleteRequest = async (url) => {
+    makeDeleteRequest = async (uri) => {
         const options = {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
             headers: this.#headers,
         };
-        return this.makeRequest(`${this.#baseURI}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
 }
