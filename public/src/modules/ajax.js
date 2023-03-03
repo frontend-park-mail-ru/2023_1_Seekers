@@ -30,7 +30,7 @@ export default class Connector
     makeRequest = (uri, options) => {
         return fetch(uri, options).then((response) => response.ok ?
             response.json().then((data) => [response.status, data]) :
-            [response.status, response.body]).catch((error) => [500, error]);
+            response.json().then((errorData) => [response.status, errorData.message])).catch((error) => [500, error]);
     };
 
     /**

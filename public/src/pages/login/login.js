@@ -50,7 +50,6 @@ export default class login extends basePage {
             const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password})
                 .catch((err) => console.log(err))
 
-            console.log(status, data)
             switch (status) {
                 case 200:
                     this.#context.authorised = true;
@@ -58,7 +57,7 @@ export default class login extends basePage {
                     break;
                 case 401:
                     if (document.getElementById('passwordError') === null) {
-                        this.putErrorMessage(document.getElementById(e.target.name),
+                        this.#validator.putErrorMessage(document.getElementById('password'),
                             'passwordError', data);
                     }
                     break;

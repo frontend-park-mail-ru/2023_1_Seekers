@@ -45,26 +45,26 @@ export default class signup extends basePage {
         const [first_name, last_name, email, password, repeat_pw] = data;
 
         if (validation.validateRegFields(email, password, repeat_pw, first_name, last_name)) {
-            const response = await this.#connector.makePostRequest('api/v1/signup',
+            const [status, data] = await this.#connector.makePostRequest('api/v1/signup',
                 {first_name, last_name, email, password, repeat_pw})
                 .catch((err) => console.log(err))
 
-            const content = await response.text()
-            switch (response.status) {
+            switch (status) {
                 case 200:
                     e.target.dispatchEvent(new Event('login', {bubbles: true}));
                     break;
                 case 403:
                 case 401:
                     if (document.getElementById('passwordError') === null) {
-                        this.putErrorMessage(document.getElementById(e.target.name),
-                            'passwordError', content);
+                        this.#validator.putErrorMessage(document.getElementById('password'),
+                            'passwordError', data);
                     }
                     break;
                 case 409:
                     if (document.getElementById('emailError') === null) {
-                        this.putErrorMessage(document.getElementById(e.target.name),
-                            'emailError', content);
+                        console.log(data)
+                        this.#validator.putErrorMessage(document.getElementById('email'),
+                            'emailError', data);
                     }
                     break;
                 default:
