@@ -91,3 +91,7 @@ select:-webkit-autofill:focus {
     pointer-events: none;
     font-size: 1em;
 }
+
+.error-border{
+    border: 2px solid var(--error-input);
+}

@@ -16,6 +16,8 @@ export class Validation {
         err.id = id;
         err.classList.add('error-input', 'font-caption-0');
         target.parentElement.insertAdjacentElement('beforeend', err);
+
+        target.classList.add('error-border');
     };
 
     /**
