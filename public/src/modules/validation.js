@@ -3,7 +3,7 @@ const emailRegex = /@/;
 /**
  * class implementing validation
  */
-export default class Validation {
+export class Validation {
     /**
      * method insert error in HTML
      * @param {Element} target - place to insert

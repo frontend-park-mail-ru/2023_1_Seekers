@@ -3,7 +3,7 @@ import '../templates.js';
 /**
  * class implementing component input form
  */
-export default class form {
+export class form {
     #parent;
 
     /**

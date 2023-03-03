@@ -1,8 +1,8 @@
 import basePage from '../base-page.js';
 import '../templates.js';
-import Validation from '../../modules/validation.js';
-import WrapperAccess from '../../components/wrapper-access/wrapper-access.js';
-import CheckboxComponent from '../../uikit/checkbox/checkbox.js';
+import {Validation} from '../../modules/validation.js';
+import {wrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {checkbox} from '../../uikit/checkbox/checkbox.js';
 
 /**
  * class implementing login page
@@ -43,7 +43,6 @@ export default class login extends basePage {
 
         const [email, password] = data;
         if (validation.validateRegFields(email.value, password.value)) {
-            console.log('send to /main');
             e.target.dispatchEvent(new Event('main', {bubbles: true}));
             // this.purge()
         }
@@ -55,7 +54,6 @@ export default class login extends basePage {
      */
     onRedirectHandler = async (e) => {
         e.preventDefault();
-        console.log('send to /signup');
         e.target.dispatchEvent(new Event('signup', {bubbles: true}));
     };
 
@@ -90,10 +88,10 @@ export default class login extends basePage {
         const context = this.#context.forms.login;
         super.render(context);
 
-        this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
+        this.accessComponent = new wrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
-        this.checkboxComponent = new CheckboxComponent(document.getElementById('wrapper-input-button'));
+        this.checkboxComponent = new checkbox(document.getElementById('wrapper-input-button'));
         this.checkboxComponent.render();
 
         const fields = context.fields;
@@ -106,7 +104,6 @@ export default class login extends basePage {
      * method login page clearing
      */
     purge() {
-        console.log('purge login');
         this.unregisterEvents();
         this.accessComponent.purge();
         this.checkboxComponent.purge();

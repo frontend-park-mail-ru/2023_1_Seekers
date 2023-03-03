@@ -103,7 +103,6 @@ export default class mailBox extends BasePage {
         Object.values(this.#childs).forEach((child) => {
             child.purge();
         });
-        console.log(this.#element);
         this.#element.remove();
     }
 }

@@ -1,11 +1,11 @@
-import FormComponent from '../../uikit/form/form.js';
-import ButtonComponent from '../../uikit/button/button.js';
+import {form} from '../../uikit/form/form.js';
+import {button} from '../../uikit/button/button.js';
 import '../templates.js';
 
 /**
  * class implementing component wrapper-access
  */
-export default class wrapperAccess {
+export class wrapperAccess {
     #parent;
 
     /**
@@ -36,10 +36,10 @@ export default class wrapperAccess {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['wrapper-access.hbs'](data));
 
-        this.formComponent = new FormComponent(document.getElementById('wrapper-access-form'));
+        this.formComponent = new form(document.getElementById('wrapper-access-form'));
         this.formComponent.render(ctx);
 
-        this.buttonComponent = new ButtonComponent(document.getElementById('wrapper-input-button'));
+        this.buttonComponent = new button(document.getElementById('wrapper-input-button'));
         this.buttonComponent.render(ctx.button);
     }
 

@@ -4,45 +4,22 @@ import MailBox from './pages/mailBox/mailBox.js';
 
 const root = document.getElementById('root');
 
-const renderLoginPage = (context) => {
-    const page = new Login(root);
-    page.render(context);
-};
-
-/**
- * Функция отрисовки главной страницы
- * @param {object} context контекст отрисовки страницы
- */
-const renderLetterListPage = (context) => {
-    // const mainPage = new MainPage(root);
-    // mainPage.render(context);
-};
-
-/**
- * Функция отрисовки страницы регистрации
- * @param {object} context контекст отрисовки страницы
- */
-const renderRegisterPage = (context) => {
-    const page = new Signup(root, context);
-    page.render();
-};
-
 const config = {
     header: {
         login: {
             href: '/login',
             name: 'Авторизация',
-            render: renderLoginPage,
+            // render: renderLoginPage,
         },
         signup: {
             href: '/signup',
             name: 'Регистрация',
-            render: renderRegisterPage,
+            // render: renderRegisterPage,
         },
         letterlist: {
             href: '/letterlist',
             name: 'Главная',
-            render: renderLetterListPage,
+            // render: renderLetterListPage,
         },
     },
     forms: {
@@ -216,8 +193,6 @@ context.messages.forEach((message) => {
     message.img = 'img/female-avatar.svg';
 });
 
-// config.header.signup.render(config);
-
 const mailBoxO = new MailBox(root);
 const loginO = new Login(root, config);
 const signupO = new Signup(root, config);
@@ -232,7 +207,7 @@ addEventListener('main', (e) =>{
 addEventListener('login', (e) =>{
     currentPage.purge();
     currentPage = loginO;
-    console.log('to signup');
+    console.log('to login');
     currentPage.render();
 });
 
@@ -245,37 +220,5 @@ addEventListener('signup', (e) =>{
 
 
 let currentPage = mailBoxO;
+// window.location.href = "localhost/mailBox"
 mailBoxO.render(context);
-
-
-// import MailBox from './pages/mailBox/mailBox.js';
-//
-//
-// const root = document.getElementById('root');
-
-
-//
-// const mailBox = new MailBox(root);
-// mailBox.render(context);
-//
-// mailBox.registerEventListener();
-//
-// addEventListener('toAnotherPage', e => {
-//     console.log('to another')
-// })
-//
-// class PageChanger{
-//
-//     initPages() {
-//         this.pages = {};
-//         this.pages['mainPage'] = new MailBox(root);
-//         // this.pages['auth'] = new Auth(root);
-//
-//         addEventListener('toAnotherPage', e => {
-//             mailBox.unregisterEventListener();
-//         })
-//
-//     }
-//
-//
-// }
