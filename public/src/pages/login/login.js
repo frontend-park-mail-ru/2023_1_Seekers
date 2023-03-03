@@ -2,7 +2,7 @@ import basePage from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
-import {checkbox} from '../../uikit/checkbox/checkbox.js';
+import {Checkbox} from '../../uikit/checkbox/checkbox.js';
 
 /**
  * class implementing login page
@@ -91,7 +91,7 @@ export default class Login extends basePage {
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
-        this.checkboxComponent = new checkbox(document.getElementById('wrapper-input-button'));
+        this.checkboxComponent = new Checkbox(document.getElementById('wrapper-input-button'));
         this.checkboxComponent.render();
 
         const fields = context.fields;

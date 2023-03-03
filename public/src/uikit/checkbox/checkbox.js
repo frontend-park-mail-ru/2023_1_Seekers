@@ -3,7 +3,7 @@ import '../templates.js';
 /**
  * class implementing component checkbox
  */
-export class checkbox {
+export class Checkbox {
     #parent;
 
     /**
