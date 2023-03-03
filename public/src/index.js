@@ -3,16 +3,18 @@ import Signup from './pages/signup/signup.js';
 import MailBox from './pages/mailBox/mailBox.js';
 import Connector from "./modules/ajax.js";
 
-const root = document.getElementById('root');
 /**
  *
+ * @param {Element} root - элемент, в который добавится страница
  * @param {object} context - контекст отрисовки страницы
  * @param {object} conn - connector with backend
  */
-const renderLoginPage = (context, conn) => {
-    const page = new Login(root, context, conn);
-    page.render(context);
-};
+const renderLoginPage = (root, context, conn) => {
+    currentPage.purge();
+    currentPage = new Login(root, config, conn);
+    console.log('to login');
+    currentPage.render();
+}
 
 const renderMainPage = () => {
     currentPage.purge();
@@ -20,15 +22,19 @@ const renderMainPage = () => {
     console.log('to list');
     currentPage.render();
 }
+
 /**
  * Функция отрисовки страницы регистрации
+ * @param {Element} root - элемент, в который добавится страница
  * @param {object} context - контекст отрисовки страницы
  * @param {object} conn - connector with backend
  */
-const renderRegisterPage = (context, conn) => {
-    const page = new Signup(root, context, conn);
-    page.render();
-};
+const renderRegisterPage = (root, context, conn) => {
+    currentPage.purge();
+    currentPage = new Signup(root, config, conn);
+    console.log('to signup');
+    currentPage.render();
+}
 
 const config = {
     header: {
@@ -121,105 +127,7 @@ const config = {
     authorised: false,
 };
 
-const context = {
-    profile: {
-        profileAvatar: './img/female-avatar.svg',
-    },
-
-    messages: [
-        {
-            message_id: 3,
-            from_user: 'gena@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title3',
-            text: 'Text3',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 4,
-            from_user: 'max@example.com',
-            creating_date: '2023-01-01',
-            title: 'Title4',
-            text: 'Text4',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 8,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 5,
-            from_user: 'gena@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title5',
-            text: 'Text5',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 5,
-            from_user: 'ivan@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title5',
-            text: 'Lorem ipsum dolor sit amet',
-            read: false,
-            favorite: false,
-        },
-
-        {
-            message_id: 6,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 9,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 10,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-    ],
-};
-
-context.messages.forEach((message) => {
-    message.img = 'img/female-avatar.svg';
-});
-
-// config.header.signup.render(config);
+const root = document.getElementById('root');
 
 const conn = new Connector('http://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
@@ -227,64 +135,9 @@ const conn = new Connector('http://89.208.197.150', 8001, {
     'Origin': 'http://localhost:8002/',
 });
 
-const mailBoxO = new MailBox(root);
-const loginO = new Login(root, config, conn);
-const signupO = new Signup(root, config, conn);
+addEventListener('main', (e) => renderMainPage(root));
+addEventListener('login', (e) => renderLoginPage(root, config, conn));
+addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
 
-addEventListener('main', (e) =>{
-    currentPage.purge();
-    currentPage = mailBoxO;
-    console.log('to list');
-    mailBoxO.render(context);
-});
-
-addEventListener('login', (e) =>{
-    currentPage.purge();
-    currentPage = loginO;
-    console.log('to signup');
-    currentPage.render();
-});
-
-addEventListener('signup', (e) =>{
-    currentPage.purge();
-    currentPage = signupO;
-    console.log('to signup');
-    currentPage.render();
-});
-
-
-let currentPage = loginO;
+let currentPage = new MailBox(root, config);
 currentPage.render();
-
-
-// import MailBox from './pages/mailBox/mailBox.js';
-//
-//
-// const root = document.getElementById('root');
-
-
-//
-// const mailBox = new MailBox(root);
-// mailBox.render(context);
-//
-// mailBox.registerEventListener();
-//
-// addEventListener('toAnotherPage', e => {
-//     console.log('to another')
-// })
-//
-// class PageChanger{
-//
-//     initPages() {
-//         this.pages = {};
-//         this.pages['mainPage'] = new MailBox(root);
-//         // this.pages['auth'] = new Auth(root);
-//
-//         addEventListener('toAnotherPage', e => {
-//             mailBox.unregisterEventListener();
-//         })
-//
-//     }
-//
-//
-// }
