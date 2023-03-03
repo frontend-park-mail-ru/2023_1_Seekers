@@ -1,14 +1,13 @@
-import basePage from '../base-page.js';
+import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
 import {Checkbox} from '../../uikit/checkbox/checkbox.js';
-import Request from "../../modules/ajax.js";
 
 /**
  * class implementing login page
  */
-export default class Login extends basePage {
+export class Login extends BasePage {
     #validator;
     #context;
 

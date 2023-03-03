@@ -1,7 +1,7 @@
-import Login from './pages/login/login.js';
-import Signup from './pages/signup/signup.js';
-import MailBox from './pages/mailBox/mailBox.js';
-import Connector from "./modules/ajax.js";
+import {Login} from './pages/login/login.js';
+import {Signup} from './pages/signup/signup.js';
+import {MailBox} from './pages/mailBox/mailBox.js';
+import {Connector} from "./modules/ajax.js";
 
 /**
  *
@@ -16,9 +16,24 @@ const renderLoginPage = (root, context, conn) => {
     currentPage.render();
 }
 
-const renderMainPage = () => {
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
+/**
+ *
+ * @param {Element} root - элемент, в который добавится страница
+ * @param {object} context - контекст отрисовки страницы
+ * @param {object} conn - connector with backend
+ */
+const renderMainPage = (root, context, conn) => {
+    sleep(1000);
     currentPage.purge();
-    currentPage = new MailBox(root, config);
+    currentPage = new MailBox(root, context, conn);
     console.log('to list');
     currentPage.render();
 }
@@ -135,9 +150,9 @@ const conn = new Connector('http://89.208.197.150', 8001, {
     'Origin': 'http://localhost:8002/',
 });
 
-addEventListener('main', (e) => renderMainPage(root));
+addEventListener('main', (e) => renderMainPage(root, config, conn));
 addEventListener('login', (e) => renderLoginPage(root, config, conn));
 addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
 
-let currentPage = new MailBox(root, config);
+let currentPage = new Login(root, config, conn);
 currentPage.render();

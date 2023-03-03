@@ -1,7 +1,7 @@
 /**
  * class implementing request work
  */
-export default class Connector {
+export class Connector {
     #baseURI;
 
     #port;
@@ -45,6 +45,7 @@ export default class Connector {
             credentials: 'include',
             headers: this.#headers,
             body: JSON.stringify(data),
+            SameSite: 'None',
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
@@ -77,22 +78,8 @@ export default class Connector {
             mode: 'cors',
             credentials: 'include',
             headers: this.#headers,
+            SameSite: 'None',
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
-
-    testPost = async (uri, data) => {
-        const response = await fetch(`${this.#baseURI}:${this.#port}/${uri}`, {
-            method: 'post',
-            mode: 'cors',
-            credentials: 'include',
-            headers: this.#headers,
-            body: JSON.stringify(data),
-        })
-
-        console.log(response);
-        const content = await response.text();
-
-        console.log(content);
-    }
 }

@@ -1,11 +1,10 @@
 'use strict';
 
-import BasePage from '../base-page.js';
+import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Navbar} from '../../components/navbar/navbar.js';
 import {LetterList} from '../../components/letterList/letterList.js';
 import {Mail} from '../../components/mail/mail.js';
-import Request from "../../modules/ajax.js";
 
 const context = {
     profile: {
@@ -108,7 +107,7 @@ context.messages.forEach((message) => {
 /**
  * class implementing mailBox
  */
-export default class MailBox extends BasePage {
+export class MailBox extends BasePage {
     /**
      * Private field that contains current HTML-element
      * @type {Element}
@@ -121,7 +120,7 @@ export default class MailBox extends BasePage {
      */
     #childs = {};
 
-    #req
+    #connector
 
     #context;
 
@@ -129,19 +128,16 @@ export default class MailBox extends BasePage {
      *
      * @param {Element} parent HTML-element for including content
      * @param {Object} config - template rendering context
+     * @param {Object} connector - connector to backend
      */
-    constructor(parent, config) {
+    constructor(parent, config, connector) {
         super(
             parent,
             window.Handlebars.templates['mailBox.hbs'],
         );
 
         this.#context = config;
-        this.#req = new Request('http://89.208.197.150', 8001, {
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-            'Origin': 'http://localhost:8002/',
-        });
+        this.#connector = connector;
     }
 
     /**
@@ -168,6 +164,17 @@ export default class MailBox extends BasePage {
         removeEventListener('toMainPage', this.eventCatcher);
     };
 
+    getLetterList = async () => {
+        const [status, data] = await this.#connector.makeGetRequest('api/v1/inbox')
+            .catch((err) => console.log(err))
+        return {status, data};
+    }
+
+    logout = async () => {
+        const [status, data] = await this.#connector.makeGetRequest('api/v1/logout')
+            .catch((err) => console.log(err))
+    }
+
     /**
      * promise redirect to login page TODO:help
      * @param {object} e - event click on button logout
@@ -176,33 +183,35 @@ export default class MailBox extends BasePage {
         const rel = e.target.href.substring(new URL(e.target.href).origin.length);
 
         if (rel === '/logout') {
+            this.logout();
             this.#element.dispatchEvent(new Event('login', {bubbles: true}));
             return;
         }
         console.log('something is wrong!');
     };
 
-    getLetterList = () => {
-        const [status, data] = this.#req.makeGetRequest('api/v1/inbox')
-            .catch((err) => console.log(err))
-
-        return [status, data];
-    }
-
     /**
      * method insert mailbox to HTML
      */
-    render = () => {
+    render = async () => {
         super.render({});
         this.#element = document.getElementsByClassName('page')[0];
 
-        // let [status, data] = this.getLetterList();
+        const {status, data} = await this.getLetterList();
+        console.log('hello')
+        switch (status){
+            case 401:
+                console.log('unauthorized')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return;
+            case 500:
+                console.log('internal server eror')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                break;
+            case '200':
+                break;
+        }
 
-        // if (status === 401) {
-        //     this.#element.dispatchEvent(new Event('login', {bubbles: true}))
-        // } else if (status !== 200) {
-        //     console.log('unexpected error!');
-        // }
 
         this.#childs['navbar'] = new Navbar(this.#element);
         this.#childs['navbar'].render(context.profile);
@@ -213,7 +222,7 @@ export default class MailBox extends BasePage {
 
 
         this.#childs['letterList'] = new LetterList(this.content);
-        this.#childs['letterList'].render(context.messages);
+        this.#childs['letterList'].render(data);
 
         this.#childs['mail'] = new Mail(this.content);
         this.#childs['mail'].render();

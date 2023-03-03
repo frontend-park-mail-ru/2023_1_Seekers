@@ -1,4 +1,4 @@
-import basePage from '../base-page.js';
+import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
@@ -6,7 +6,7 @@ import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
 /**
  * class implementing signup page
  */
-export default class Signup extends basePage {
+export class Signup extends BasePage {
     #validator;
     #context;
 

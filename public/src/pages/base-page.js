@@ -1,7 +1,7 @@
 /**
  * class implementing base page
  */
-export default class basePage {
+export class BasePage {
     #parent;
     #template;
 
