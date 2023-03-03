@@ -138,7 +138,7 @@ const root = document.getElementById('root');
 const conn = new Connector('https://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
-    'Origin': 'https://dev-task2-3--flourishing-brioche-a1150d.netlify.app/',
+    'Origin': 'https://deploy-preview-2--flourishing-brioche-a1150d.netlify.app/',
 });
 
 addEventListener('main', (e) => renderMainPage(root, config, conn));
