@@ -41,7 +41,8 @@ export class Menu {
     }
 
     /**
-     * A method that draws a component into a parent HTML element according to a given template and context
+     * A method that draws a component into a parent HTML element
+     * according to a given template and context
      * @param {Object} context pattern rendering context
      */
     render(context) {

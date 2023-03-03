@@ -3,7 +3,6 @@ import '../templates.js';
 /**
  * class implementing component LetterList
  */
-
 export class LetterList {
     /**
      * Private field that contains parent HTML-element
@@ -27,7 +26,8 @@ export class LetterList {
     }
 
     /**
-     * A method that draws a component into a parent HTML element according to a given template and context
+     * A method that draws a component into a parent HTML element
+     * according to a given template and context
      * @param {Object} context pattern rendering context
      */
     render(context) {
