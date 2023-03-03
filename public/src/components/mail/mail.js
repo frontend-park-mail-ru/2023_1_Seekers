@@ -4,11 +4,15 @@ import '../templates.js';
 /**
  * class implementing component Mail
  */
-export default class Mail {
+export class Mail {
+    /**
+     * Private field that contains parent HTML-element
+     * @type {Element}
+     */
     #parent;
 
     /**
-     *
+     * Constructor that creates a component class Mail
      * @param {Element} parent HTML-element for including content
      */
     constructor(parent) {
@@ -25,20 +29,25 @@ export default class Mail {
     }
 
     /**
-     * method register TODO:why emtpy?
+     * method register NOT IMPLEMENTED
+     * will unregister listeners for each button in mail
      */
     registerEventListener() {
     }
 
     /**
-     * method unregister TODO:why emtpy?
+     * method unregister NOT IMPLEMENTED
+     * will register listeners for each button in mail
      */
     unregisterEventListener() {
     }
 
     /**
-     * method mail page clearing TODO:why emtpy?
+     * method purge NOT IMPLEMENTED
+     * mail page clearing
+     * will purge all the content in mail
      */
     purge() {
+
     }
 }
