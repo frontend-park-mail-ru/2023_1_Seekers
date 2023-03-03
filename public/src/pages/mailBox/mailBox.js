@@ -205,11 +205,15 @@ export class MailBox extends BasePage {
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
                 return;
             case 500:
-                console.log('internal server eror')
+                console.log('internal server error')
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return;
+            case 200:
                 break;
-            case '200':
-                break;
+            default:
+                console.log('unhandled error')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return;
         }
 
 

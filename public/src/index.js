@@ -135,10 +135,10 @@ const config = {
 
 const root = document.getElementById('root');
 
-const conn = new Connector('https://89.208.197.150', 8001, {
+const conn = new Connector('http://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
-    'Origin': 'https://deploy-preview-2--flourishing-brioche-a1150d.netlify.app/',
+    'Origin': 'http://localhost:8002',
 });
 
 addEventListener('main', (e) => renderMainPage(root, config, conn));
