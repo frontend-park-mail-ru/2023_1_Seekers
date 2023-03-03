@@ -244,8 +244,8 @@ addEventListener('signup', (e) =>{
 });
 
 
-let currentPage = loginO;
-currentPage.render();
+let currentPage = mailBoxO;
+mailBoxO.render(context);
 
 
 // import MailBox from './pages/mailBox/mailBox.js';

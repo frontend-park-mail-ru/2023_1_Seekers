@@ -1,52 +1,59 @@
 import '../templates.js';
 
-
 /**
- * Класс для реализации компонента letterList
+ * class implementing component LetterList
  */
-export default class LetterList {
+
+export class LetterList {
     /**
-     * Приватное поле класса, хранящее parent HTML-элемент
+     * Private field that contains parent HTML-element
      * @type {Element}
      */
     #parent;
 
     /**
-     * Конструктор, создающий класс компонента menuButton
-     * @param {Element} parent HTML-элемент, в который будет
-     * осуществлена отрисовка
+     * Private field that contains current HTML-element
+     * @type {Element}
+     */
+    #element;
+
+    /**
+     * Constructor that creates a component class menuButton
+     * @param {Element} parent HTML element into which
+     * will be rendered current element
      */
     constructor(parent) {
         this.#parent = parent;
     }
 
     /**
-     * Метод, отрисовывающий компонент в родительский HTML-элемент по заданному шаблону и контексту
-     * @param {Object} context контекст отрисовки шаблона
+     * A method that draws a component into a parent HTML element according to a given template and context
+     * @param {Object} context pattern rendering context
      */
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['letterList.hbs'](context));
 
-        this.element = this.#parent.getElementsByClassName('letterList')[0];
-        this.elements = this.element.getElementsByClassName('letter-frame');
+        this.#element = this.#parent.getElementsByClassName('letterList')[0];
     }
 
     /**
      * method letterList page clearing
      */
     purge() {
-        this.element.remove();
+        this.#element.remove();
     }
 
     /**
-     * method register TODO:why emtpy?
+     * method register NOT IMPLEMENTED
+     * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
     }
 
     /**
-     * method unregister TODO:why emtpy?
+     * method unregister NOT IMPLEMENTED
+     * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
     }
