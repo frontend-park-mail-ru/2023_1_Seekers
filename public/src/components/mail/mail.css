@@ -10,4 +10,6 @@
     flex-grow: 1;
     overflow: auto;
     overflow-x: hidden;
+
+    order: 4;
 }

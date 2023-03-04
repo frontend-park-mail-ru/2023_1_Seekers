@@ -5,6 +5,9 @@
 @import './src/components/navbar/navbar.css';
 @import './src/components/navbar/iconButton.css';
 
+@import './src/components/menu/menu.css';
+@import './src/components/menu/menuButton.css';
+
 @import './src/components/letterList/letterFrame.css';
 @import './src/components/letterList/letterList.css';
 

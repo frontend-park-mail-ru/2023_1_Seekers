@@ -43,13 +43,13 @@
     flex: none;
 }
 
-.navbar-img-button:Hover {
-    border: 1px solid var(--navbar-buttons-active-border-color);
-}
+/*.navbar-img-button:Hover {*/
+/*    border: 1px solid var(--navbar-buttons-active-border-color);*/
+/*}*/
 
-.navbar-img-button:Active {
-    border: 1px solid var(--navbar-buttons-active-border-color);
-}
+/*.navbar-img-button:Active {*/
+/*    border: 1px solid var(--navbar-buttons-active-border-color);*/
+/*}*/
 
 .navbar-text {
     font-family: 'Noto Sans';
@@ -63,12 +63,11 @@
 }
 
 .navbar-emblem-button {
+    cursor: default;
     display: flex;
     position: relative;
     height: 50px;
     background-color: var(--navbar-color);
     gap: 10px;
     flex: available;
-
-    cursor: pointer;
 }

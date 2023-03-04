@@ -1,12 +1,27 @@
-import '../precompiled.js';
+import '../templates.js';
 
 
 /**
  * class implementing component Menu
  */
 export class Menu {
+    /**
+     * Private field that contains parent HTML-element
+     * @type {Element}
+     */
     #parent;
-    #buttons;
+
+    /**
+     * Private field that contains current HTML-element
+     * @type {Element}
+     */
+    #element;
+
+    /**
+     * Private field that contains current HTML-element
+     * @type {Element[]}
+     */
+    #childs;
 
     /**
      * Constructor that creates a component class Menu
@@ -17,26 +32,31 @@ export class Menu {
     }
 
     /**
+     * method handle click on navbar
+     * @param {Event} e - event that goes from one of childs of current element
+     */
+    eventCatcher = (e) => {
+        e.preventDefault();
+        e.currentTarget.dispatchEvent(new Event('toMainPage', {bubbles: true}));
+    };
+
+    /**
      * method register
      * register listeners for each button in letter-list
      */
     registerEventListener() {
-        this.#buttons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                button.dispatchEvent(new Event('toMainPage', {bubbles: true}));
-            },
-            );
+        this.#childs.forEach((child) => {
+            child.addEventListener('click', this.eventCatcher);
         });
     }
 
     /**
-     * method register
+     * method unregister
      * unregister listeners for each button in letter-list
      */
     unregisterEventListener() {
-        this.#buttons.forEach((button) => {
-            button.removeEventListener('click');
+        this.#childs.forEach((button) => {
+            button.removeEventListener('click', this.eventCatcher);
         });
     }
 
@@ -49,6 +69,16 @@ export class Menu {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['menu.hbs'](context));
 
-        this.#buttons = [...this.#parent.getElementsByClassName('menu-button')];
+        this.#element = this.#parent.getElementsByClassName('menu')[0];
+        this.#childs = [...this.#element.getElementsByClassName('menu-button')];
+
+        this.registerEventListener();
+    }
+
+    /**
+     * method menu clearing
+     */
+    purge(){
+        this.#element.remove();
     }
 }

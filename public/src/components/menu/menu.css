@@ -9,6 +9,8 @@
     height: fit-content;
     background: var(--menu-color);
     border-radius: 6px;
+
+    order: 0;
 }
 
 .menuDelimeter{

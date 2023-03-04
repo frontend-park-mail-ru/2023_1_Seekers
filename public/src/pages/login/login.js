@@ -8,10 +8,20 @@ import {Checkbox} from '../../uikit/checkbox/checkbox.js';
  * class implementing login page
  */
 export class Login extends BasePage {
+    /**
+     * Private field that contains a form validator
+     */
     #validator;
-    #context;
 
-    #connector
+    /**
+     * Private field that contains request worker
+     */
+    #connector;
+
+    /**
+     * information for configuring page
+     */
+    #context;
 
     /**
      *

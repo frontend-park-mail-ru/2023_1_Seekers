@@ -67,8 +67,8 @@ export class Navbar {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['navbar.hbs'](ctx));
 
-        this.#childs = [...this.#parent.getElementsByClassName('icon-button')];
         this.#element = this.#parent.getElementsByClassName('navbar')[0];
+        this.#childs = [...this.#element.getElementsByClassName('icon-button')];
     }
 
     /**

@@ -5,104 +5,13 @@ import '../templates.js';
 import {Navbar} from '../../components/navbar/navbar.js';
 import {LetterList} from '../../components/letterList/letterList.js';
 import {Mail} from '../../components/mail/mail.js';
+import {Menu} from "../../components/menu/menu.js";
 
 const context = {
     profile: {
         profileAvatar: './img/female-avatar.svg',
     },
-
-    messages: [
-        {
-            message_id: 3,
-            from_user: 'gena@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title3',
-            text: 'Text3',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 4,
-            from_user: 'max@example.com',
-            creating_date: '2023-01-01',
-            title: 'Title4',
-            text: 'Text4',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 8,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 5,
-            from_user: 'gena@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title5',
-            text: 'Text5',
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 5,
-            from_user: 'ivan@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title5',
-            text: 'Lorem ipsum dolor sit amet',
-            read: false,
-            favorite: false,
-        },
-
-        {
-            message_id: 6,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 9,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-        {
-            message_id: 10,
-            from_user: 'valera@example.com',
-            creating_date: '2023-01-29',
-            title: 'Title6',
-            text: `Lorem ipsum dolor sit amet, consectetur adipisicing amet,
-                            consectetur adipisicing elit. Alias, assumenda corporis doloribus ea
-                            illum iure optio pariatur, provident ratione repellendus reprehenderit vero.
-                            Amet culpa dolorem dolorum harum, praesentium quaerat rem.`,
-            read: false,
-            favorite: false,
-        },
-    ],
-};
-
-context.messages.forEach((message) => {
-    message.img = 'img/female-avatar.svg';
-});
+}
 
 /**
  * class implementing mailBox
@@ -120,8 +29,14 @@ export class MailBox extends BasePage {
      */
     #childs = {};
 
-    #connector
+    /**
+     * Private field that contains request worker
+     */
+    #connector;
 
+    /**
+     * information for configuring page
+     */
     #context;
 
     /**
@@ -156,22 +71,45 @@ export class MailBox extends BasePage {
      */
     unregisterEventListener = () => {
         Object.values(this.#childs).forEach((child) => {
-            if (child.hasOwnProperty('unregisterEventListener')) {
-                child.unregisterEventListener();
-            }
+            child.unregisterEventListener();
         });
 
         removeEventListener('toMainPage', this.eventCatcher);
     };
 
-    getLetterList = async () => {
-        const [status, data] = await this.#connector.makeGetRequest('api/v1/inbox')
+    /**
+     *
+     * @param listName
+     * @returns {Promise<{}|{data: *, status: *}>}
+     */
+    getLetterList = async (listName) => {
+        const [status, data] = await this.#connector.makeGetRequest('api/v1' + listName)
             .catch((err) => console.log(err))
+
+        switch (status) {
+            case 401:
+                console.log('unauthorized')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return {};
+
+            case 500:
+                console.log('internal server error')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return {};
+
+            case 200:
+                break;
+
+            default:
+                console.log('unhandled error')
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                return {};
+        }
         return {status, data};
     }
 
     logout = async () => {
-        const [status, data] = await this.#connector.makeGetRequest('api/v1/logout')
+        await this.#connector.makeGetRequest('api/v1/logout')
             .catch((err) => console.log(err))
     }
 
@@ -179,15 +117,25 @@ export class MailBox extends BasePage {
      * promise redirect to login page TODO:help
      * @param {object} e - event click on button logout
      */
-    eventCatcher = (e) => {
+    eventCatcher = async (e) => {
         const rel = e.target.href.substring(new URL(e.target.href).origin.length);
 
-        if (rel === '/logout') {
-            this.logout();
-            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-            return;
+        switch (rel) {
+            case '/logout':
+                this.logout().then(() => {
+                    this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+                });
+                return;
+            default:
+
+                const {status, data} = await this.getLetterList(rel);
+                if (status !== 200) return;
+
+                this.#childs['letterList'].purge();
+
+                this.#childs['letterList'] = new LetterList(this.content);
+                this.#childs['letterList'].render(data);
         }
-        console.log('something is wrong!');
     };
 
     /**
@@ -197,23 +145,8 @@ export class MailBox extends BasePage {
         super.render({});
         this.#element = document.getElementsByClassName('page')[0];
 
-        const {status, data} = await this.getLetterList();
-        switch (status){
-            case 401:
-                console.log('unauthorized')
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return;
-            case 500:
-                console.log('internal server error')
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return;
-            case 200:
-                break;
-            default:
-                console.log('unhandled error')
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return;
-        }
+        const {status, data} = await this.getLetterList('/inbox');
+        if (status !== 200) return;
 
         this.#childs['navbar'] = new Navbar(this.#element);
         this.#childs['navbar'].render(context.profile);
@@ -222,6 +155,12 @@ export class MailBox extends BasePage {
         this.content.classList.add('content');
         this.#element.appendChild(this.content);
 
+        this.#childs['menu'] = new Menu(this.content);
+        this.#childs['menu'].render({});
+
+        this.line = document.createElement('div');
+        this.line.classList.add('vertical-line');
+        this.content.appendChild(this.line);
 
         this.#childs['letterList'] = new LetterList(this.content);
         this.#childs['letterList'].render(data);

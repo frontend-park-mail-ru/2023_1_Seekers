@@ -1,19 +1,40 @@
 <div class="menu">
-    {{#each this.commonButtons}}
-        <a class="menu-button" href="{{href}}">
-            <div class="menu-button-left-frame">
-                    {{{ img }}}
-                <div class="menu-button-text">
-                    <label>{{ text }}</label>
-                </div>
+    <a class="menu-button" href="/inbox">
+        <div class="menu-button-left-frame">
+            <svg class="menu-button-icon" width="100%" height="100%" fill="none" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="m3 8 7.8906 5.2604c.6718.4479 1.547.4479 2.2188 0l7.8906-5.2604m-16 11h14c1.1046
+                            0 2-.8954 2-2v-10c0-1.10457-.8954-2-2-2h-14c-1.10457 0-2 .89543-2 2v10c0 1.1046.89543
+                            2 2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+            <div class="menu-button-text">
+                <p>Входящие</p>
             </div>
-            <div class="menu-button-right-frame">
-                <div class="menu-button-count">
-                    <p>{{ count }}</p>
-                </div>
+        </div>
+        <div class="menu-button-right-frame">
+            <div class="menu-button-count">
+                <p></p>
             </div>
-        </a>
-    {{/each}}
+        </div>
+    </a>
+
+    <a class="menu-button" href="/outbox">
+        <div class="menu-button-left-frame">
+            <svg class="menu-button-icon" fill="none" height="100%" viewBox="0 0 24 24" width="100%"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="m12 19 9 2-9-18-9 18zm0 0v-8" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+            <div class="menu-button-text">
+                <p>Исходящие</p>
+            </div>
+        </div>
+        <div class="menu-button-right-frame">
+            <div class="menu-button-count">
+                <p></p>
+            </div>
+        </div>
+    </a>
     <div class="menuDelimeter"></div>
     {{#each this.advancedButtons}}
         <a class="menu-button">

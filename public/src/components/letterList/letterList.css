@@ -12,6 +12,17 @@
     max-width: 600px;
     overflow: auto;
     overflow-x: hidden;
+
+    order: 2;
+}
+
+.horizontal-line {
+    /*width: 0;*/
+
+     height: 0;
+    border: 1px solid var(--delimeters-color);
+    flex: 0;
+    align-self: stretch;
 }
 
 /* width */

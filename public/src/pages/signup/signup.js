@@ -7,10 +7,20 @@ import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
  * class implementing signup page
  */
 export class Signup extends BasePage {
+    /**
+     * Private field that contains a form validator
+     */
     #validator;
-    #context;
 
-    #connector
+    /**
+     * Private field that contains request worker
+     */
+    #connector;
+
+    /**
+     * information for configuring page
+     */
+    #context;
 
     /**
      *
