@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  front:
+    container_name: seekers-mail-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
