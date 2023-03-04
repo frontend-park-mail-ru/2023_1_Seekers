@@ -198,7 +198,6 @@ export class MailBox extends BasePage {
         this.#element = document.getElementsByClassName('page')[0];
 
         const {status, data} = await this.getLetterList();
-        console.log('hello')
         switch (status){
             case 401:
                 console.log('unauthorized')
@@ -215,7 +214,6 @@ export class MailBox extends BasePage {
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
                 return;
         }
-
 
         this.#childs['navbar'] = new Navbar(this.#element);
         this.#childs['navbar'].render(context.profile);

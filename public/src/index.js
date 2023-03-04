@@ -138,12 +138,14 @@ const root = document.getElementById('root');
 const conn = new Connector('http://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
-    'Origin': 'http://localhost:8002',
+    // 'Sec-Fetch-Mode': 'cors',
+    // 'Sec-Fetch-Site': 'cross-site',
+    // 'Origin': 'http://localhost:8002',
 });
 
 addEventListener('main', (e) => renderMainPage(root, config, conn));
 addEventListener('login', (e) => renderLoginPage(root, config, conn));
 addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
 console.log('Hello https!')
-let currentPage = new Login(root, config, conn);
+let currentPage = new MailBox(root, config, conn);
 currentPage.render();

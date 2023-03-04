@@ -28,7 +28,7 @@ export class Connector {
      */
     makeRequest = (uri, options) => {
         return fetch(uri, options).then((response) =>
-            response.json().then((data) => [response.status, data.message]))
+            response.json().then((data) => [response.status, data]))
             .catch((error) => [500, error]);
     };
 
@@ -45,7 +45,6 @@ export class Connector {
             credentials: 'include',
             headers: this.#headers,
             body: JSON.stringify(data),
-            SameSite: 'None',
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
@@ -78,7 +77,6 @@ export class Connector {
             mode: 'cors',
             credentials: 'include',
             headers: this.#headers,
-            SameSite: 'None',
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };

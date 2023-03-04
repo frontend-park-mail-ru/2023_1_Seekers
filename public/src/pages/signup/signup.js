@@ -57,14 +57,14 @@ export class Signup extends BasePage {
                 case 401:
                     if (document.getElementById('passwordError') === null) {
                         this.#validator.putErrorMessage(document.getElementById('password'),
-                            'passwordError', data);
+                            'passwordError', data.message);
                     }
                     break;
                 case 409:
                     if (document.getElementById('emailError') === null) {
-                        console.log(data)
+                        console.log(data.message)
                         this.#validator.putErrorMessage(document.getElementById('email'),
-                            'emailError', data);
+                            'emailError', data.message);
                     }
                     break;
                 default:
