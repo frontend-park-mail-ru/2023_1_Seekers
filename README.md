@@ -3,7 +3,7 @@
 Фронтенд для итогового проекта 2 семестра проекта "VK образование" команды Seekers.
 
 ### [Бэкенд](https://github.com/go-park-mail-ru/2023_1_Seekers)
-### [Деплой](https://dev-task2-3--starlit-eclair-fe0104.netlify.app/)
+### [Деплой](https://deploy-preview-2--papaya-gingersnap-c9306c.netlify.app/)
 
 ### Состав команды:
 - [Александр Вяткин](https://github.com/MoraPresence)
