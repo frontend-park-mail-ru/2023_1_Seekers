@@ -55,7 +55,7 @@ export class Signup extends BasePage {
         const [firstName, lastName, login, password, repeatPw] = data;
 
         if (validation.validateRegFields(login, password, repeatPw, firstName, lastName)) {
-            const [status] = await this.#connector.makePostRequest('api/v1/signup',
+            const [status, errBody] = await this.#connector.makePostRequest('api/v1/signup',
                 {first_name: firstName, last_name: lastName, login, password, repeat_pw: repeatPw})
                 .catch((err) => console.log(err));
 
@@ -65,7 +65,12 @@ export class Signup extends BasePage {
                 break;
             case 403:
             case 401:
-                if (document.getElementById('passwordError') === null) {
+                if (errBody.message === 'invalid login') {
+                    if (document.getElementById('loginError') === null) {
+                        this.#validator.putErrorMessage(document.getElementById('login'),
+                            'loginError', 'Некорректный логин');
+                    }
+                } else if (document.getElementById('passwordError') === null) {
                     this.#validator.putErrorMessage(document.getElementById('password'),
                         'passwordError', 'Пароль слишком короткий');
                 }

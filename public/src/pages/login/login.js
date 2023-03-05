@@ -57,17 +57,21 @@ export class Login extends BasePage {
         const [login, password] = data;
 
         if (this.#validator.validateRegFields(login, password)) {
-            const [status] =
+            const [status, errBody] =
                 await this.#connector.makePostRequest('api/v1/signin', {login, password})
                     .catch((err) => console.log(err));
-
             switch (status) {
             case 200:
                 this.#context.authorised = true;
                 e.target.dispatchEvent(new Event('main', {bubbles: true}));
                 break;
             case 401:
-                if (document.getElementById('passwordError') === null) {
+                if (errBody.message === 'invalid login') {
+                    if (document.getElementById('loginError') === null) {
+                        this.#validator.putErrorMessage(document.getElementById('login'),
+                            'loginError', 'Некорректный логин');
+                    }
+                } else if (document.getElementById('passwordError') === null) {
                     this.#validator.putErrorMessage(document.getElementById('password'),
                         'passwordError', 'Неправильный пароль');
                 }
