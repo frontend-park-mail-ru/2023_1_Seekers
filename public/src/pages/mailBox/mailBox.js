@@ -5,7 +5,7 @@ import '../templates.js';
 import {Navbar} from '../../components/navbar/navbar.js';
 import {LetterList} from '../../components/letterList/letterList.js';
 import {Mail} from '../../components/mail/mail.js';
-import {Menu} from "../../components/menu/menu.js";
+import {Menu} from '../../components/menu/menu.js';
 
 
 /**
@@ -74,40 +74,40 @@ export class MailBox extends BasePage {
 
     /**
      *
-     * @param listName type of letterList (inbox, outbox, ...))
-     * @returns {Promise<{}|{data: *, status: *}>}
+     * @param {string} listName type of letterList (inbox, outbox, ...))
+     * @return {Promise<{}|{data: *, status: *}>}
      */
     getLetterList = async (listName) => {
         const [status, data] = await this.#connector.makeGetRequest('api/v1' + listName)
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err));
 
         switch (status) {
-            case 401:
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return {};
+        case 401:
+            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+            return {};
 
-            case 500:
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return {};
+        case 500:
+            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+            return {};
 
-            case 200:
-                break;
+        case 200:
+            break;
 
-            default:
-                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                return {};
+        default:
+            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+            return {};
         }
         return {status, data};
-    }
+    };
 
     /**
      * Function that makes logout request
-     * @returns {Promise<void>}
+     * @return {Promise<void>}
      */
     logout = async () => {
         await this.#connector.makeGetRequest('api/v1/logout')
-            .catch((err) => console.log(err))
-    }
+            .catch((err) => console.log(err));
+    };
 
     /**
      * promise redirect to login page TODO:help
@@ -117,20 +117,20 @@ export class MailBox extends BasePage {
         const rel = e.target.href.substring(new URL(e.target.href).origin.length);
 
         switch (rel) {
-            case '/logout':
-                this.logout().then(() => {
-                    this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-                });
-                return;
-            default:
+        case '/logout':
+            this.logout().then(() => {
+                this.#element.dispatchEvent(new Event('login', {bubbles: true}));
+            });
+            return;
+        default:
 
-                const {status, data} = await this.getLetterList(rel);
-                if (status !== 200) return;
+            const {status, data} = await this.getLetterList(rel);
+            if (status !== 200) return;
 
-                this.#childs['letterList'].purge();
+            this.#childs['letterList'].purge();
 
-                this.#childs['letterList'] = new LetterList(this.content);
-                this.#childs['letterList'].render(data);
+            this.#childs['letterList'] = new LetterList(this.content);
+            this.#childs['letterList'].render(data);
         }
     };
 

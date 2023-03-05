@@ -1,7 +1,7 @@
 import {Login} from './pages/login/login.js';
 import {Signup} from './pages/signup/signup.js';
 import {MailBox} from './pages/mailBox/mailBox.js';
-import {Connector} from "./modules/ajax.js";
+import {Connector} from './modules/ajax.js';
 
 /**
  *
@@ -13,7 +13,7 @@ const renderLoginPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new Login(root, config, conn);
     currentPage.render();
-}
+};
 
 /**
  *
@@ -25,7 +25,7 @@ const renderMainPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new MailBox(root, context, conn);
     currentPage.render();
-}
+};
 
 /**
  * Функция отрисовки страницы регистрации
@@ -37,7 +37,7 @@ const renderRegisterPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new Signup(root, config, conn);
     currentPage.render();
-}
+};
 
 const config = {
     header: {

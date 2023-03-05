@@ -24,7 +24,7 @@ export class Connector {
      * method implementing http-request
      * @param {string} uri - path uri
      * @param {object} options - options of request
-     * @returns {Promise<Response>} - request promise
+     * @return {Promise<Response>} - request promise
      */
     makeRequest = (uri, options) => {
         return fetch(uri, options).then((response) =>

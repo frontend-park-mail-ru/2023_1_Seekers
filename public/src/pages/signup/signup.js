@@ -55,29 +55,29 @@ export class Signup extends BasePage {
         const [firstName, lastName, email, password, repeatPw] = data;
 
         if (validation.validateRegFields(email, password, repeatPw, firstName, lastName)) {
-            const [status, _] = await this.#connector.makePostRequest('api/v1/signup',
+            const [status] = await this.#connector.makePostRequest('api/v1/signup',
                 {first_name: firstName, last_name: lastName, email, password, repeat_pw: repeatPw})
-                .catch((err) => console.log(err))
+                .catch((err) => console.log(err));
 
             switch (status) {
-                case 200:
-                    e.target.dispatchEvent(new Event('login', {bubbles: true}));
-                    break;
-                case 403:
-                case 401:
-                    if (document.getElementById('passwordError') === null) {
-                        this.#validator.putErrorMessage(document.getElementById('password'),
-                            'passwordError', 'Пароль слишком короткий');
-                    }
-                    break;
-                case 409:
-                    if (document.getElementById('emailError') === null) {
-                        this.#validator.putErrorMessage(document.getElementById('email'),
-                            'emailError', 'Пользователь уже существует');
-                    }
-                    break;
-                default:
-                    break
+            case 200:
+                e.target.dispatchEvent(new Event('login', {bubbles: true}));
+                break;
+            case 403:
+            case 401:
+                if (document.getElementById('passwordError') === null) {
+                    this.#validator.putErrorMessage(document.getElementById('password'),
+                        'passwordError', 'Пароль слишком короткий');
+                }
+                break;
+            case 409:
+                if (document.getElementById('emailError') === null) {
+                    this.#validator.putErrorMessage(document.getElementById('email'),
+                        'emailError', 'Пользователь уже существует');
+                }
+                break;
+            default:
+                break;
             }
         }
     };

@@ -78,7 +78,7 @@ export class Menu {
     /**
      * method menu clearing
      */
-    purge(){
+    purge() {
         this.#element.remove();
     }
 }

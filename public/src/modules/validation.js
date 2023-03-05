@@ -115,7 +115,7 @@ export class Validation {
             }
         } else if (document.getElementById(e.target.name + 'Error') !== null) {
             document.getElementById(e.target.name + 'Error').remove();
-            document.getElementById(e.target.name).classList.remove('error-border')
+            document.getElementById(e.target.name).classList.remove('error-border');
         }
     };
 }
