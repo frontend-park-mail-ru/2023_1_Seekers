@@ -135,7 +135,7 @@ const config = {
 
 const root = document.getElementById('root');
 
-const conn = new Connector('https://dev-task2-3--papaya-gingersnap-c9306c.netlify.app', 0, {
+const conn = new Connector('https://dev-task2-3--papaya-gingersnap-c9306c.netlify.app',  {
     'Content-Type': 'application/json',
     'accept': 'application/json',
     // 'Sec-Fetch-Mode': 'cors',
