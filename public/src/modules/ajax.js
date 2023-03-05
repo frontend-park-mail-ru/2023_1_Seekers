@@ -45,7 +45,6 @@ export class Connector {
             credentials: 'include',
             headers: this.#headers,
             body: JSON.stringify(data),
-            referrerPolicy: "unsafe_url"
         };
         return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
