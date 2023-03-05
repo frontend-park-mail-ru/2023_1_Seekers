@@ -1,1 +1,1 @@
-https://dev-task2-3--papaya-gingersnap-c9306c.netlify.app:0/api/v1/* http://89.208.197.150:8001/:splat 200!
+/api/v1/* http://89.208.197.150:8001/:splat 200!
