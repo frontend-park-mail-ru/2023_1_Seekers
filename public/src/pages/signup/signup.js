@@ -52,11 +52,11 @@ export class Signup extends BasePage {
             data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
-        const [first_name, last_name, email, password, repeat_pw] = data;
+        const [firstName, lastName, email, password, repeatPw] = data;
 
-        if (validation.validateRegFields(email, password, repeat_pw, first_name, last_name)) {
-            const [status, data] = await this.#connector.makePostRequest('api/v1/signup',
-                {first_name, last_name, email, password, repeat_pw})
+        if (validation.validateRegFields(email, password, repeatPw, firstName, lastName)) {
+            const [status, _] = await this.#connector.makePostRequest('api/v1/signup',
+                {first_name: firstName, last_name: lastName, email, password, repeat_pw: repeatPw})
                 .catch((err) => console.log(err))
 
             switch (status) {

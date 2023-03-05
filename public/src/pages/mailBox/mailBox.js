@@ -74,7 +74,7 @@ export class MailBox extends BasePage {
 
     /**
      *
-     * @param listName
+     * @param listName type of letterList (inbox, outbox, ...))
      * @returns {Promise<{}|{data: *, status: *}>}
      */
     getLetterList = async (listName) => {
@@ -100,6 +100,10 @@ export class MailBox extends BasePage {
         return {status, data};
     }
 
+    /**
+     * Function that makes logout request
+     * @returns {Promise<void>}
+     */
     logout = async () => {
         await this.#connector.makeGetRequest('api/v1/logout')
             .catch((err) => console.log(err))

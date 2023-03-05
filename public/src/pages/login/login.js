@@ -2,7 +2,6 @@ import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
-import {Checkbox} from '../../uikit/checkbox/checkbox.js';
 
 /**
  * class implementing login page
@@ -58,8 +57,9 @@ export class Login extends BasePage {
         const [email, password] = data;
 
         if (this.#validator.validateRegFields(email, password)) {
-            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password})
-                .catch((err) => console.log(err))
+            const [status, _] =
+                await this.#connector.makePostRequest('api/v1/signin', {email, password})
+                    .catch((err) => console.log(err))
 
             switch (status) {
                 case 200:
