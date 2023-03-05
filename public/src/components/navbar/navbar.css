@@ -43,14 +43,6 @@
     flex: none;
 }
 
-/*.navbar-img-button:Hover {*/
-/*    border: 1px solid var(--navbar-buttons-active-border-color);*/
-/*}*/
-
-/*.navbar-img-button:Active {*/
-/*    border: 1px solid var(--navbar-buttons-active-border-color);*/
-/*}*/
-
 .navbar-text {
     font-family: 'Noto Sans';
     font-style: normal;
@@ -63,7 +55,7 @@
 }
 
 .navbar-emblem-button {
-    cursor: default;
+    cursor: pointer;
     display: flex;
     position: relative;
     height: 50px;

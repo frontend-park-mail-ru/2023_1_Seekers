@@ -7,11 +7,6 @@ import {LetterList} from '../../components/letterList/letterList.js';
 import {Mail} from '../../components/mail/mail.js';
 import {Menu} from "../../components/menu/menu.js";
 
-const context = {
-    profile: {
-        profileAvatar: './img/female-avatar.svg',
-    },
-}
 
 /**
  * class implementing mailBox
@@ -146,7 +141,7 @@ export class MailBox extends BasePage {
         if (status !== 200) return;
 
         this.#childs['navbar'] = new Navbar(this.#element);
-        this.#childs['navbar'].render(context.profile);
+        this.#childs['navbar'].render({});
 
         this.content = document.createElement('div');
         this.content.classList.add('content');

@@ -1,7 +1,7 @@
 <header id="header" class="navbar">
     <div class="navbar-frame-left">
-
-        <svg class="navbar-emblem-button" viewBox="0 0 59.9995 60" xmlns="http://www.w3.org/2000/svg">
+    <a class="navbar-emblem-button" href="/">
+        <svg viewBox="0 0 59.9995 60" xmlns="http://www.w3.org/2000/svg">
             <path d="m18.3135 36.5039-16.0913 19.6377v-29.7261z" fill="#fde3e3"/>
             <path d="m20.2114 37.6943 9.7881 6.1358 9.8916-6.2012 16.5088 20.1484h-52.646z"
                   fill="#fde3e3"/>
@@ -35,12 +35,17 @@
                 <path d="m2.9023 58.8174-1.7187-1.4092 18.3276-22.3662 1.7188 1.4092z"/>
             </g>
         </svg>
-        <label class="navbar-text">MailBox</label>
+        <p class="navbar-text">MailBox</p>
+    </a>
 
     </div>
     <div class="navbar-frame-right">
         <a class="navbar-img-button">
-            <img src="{{profileAvatar}}" alt="">
+            {{#if img includeZero=true}}
+                <img src={{img}} alt="">
+            {{else}}
+                <img src='img/female-avatar.png' alt="">
+            {{/if}}
         </a>
         <a class="icon-button" href="/logout">
             <svg class="icon-button-icon" fill="none" height=100% viewBox="0 0 24 24" width=100%
