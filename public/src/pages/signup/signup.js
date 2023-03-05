@@ -67,13 +67,13 @@ export class Signup extends BasePage {
                 case 401:
                     if (document.getElementById('passwordError') === null) {
                         this.#validator.putErrorMessage(document.getElementById('password'),
-                            'passwordError', data.message);
+                            'passwordError', 'Пароль слишком короткий');
                     }
                     break;
                 case 409:
                     if (document.getElementById('emailError') === null) {
                         this.#validator.putErrorMessage(document.getElementById('email'),
-                            'emailError', data.message);
+                            'emailError', 'Пользователь уже существует');
                     }
                     break;
                 default:

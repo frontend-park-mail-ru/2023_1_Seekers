@@ -70,7 +70,7 @@ export class Login extends BasePage {
                 case 401:
                     if (document.getElementById('passwordError') === null) {
                         this.#validator.putErrorMessage(document.getElementById('password'),
-                            'passwordError', data.message);
+                            'passwordError', 'Неправильный пароль');
                     }
                     break;
                 default:
