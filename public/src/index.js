@@ -135,7 +135,7 @@ const config = {
 
 const root = document.getElementById('root');
 
-const conn = new Connector('http://89.208.197.150', 8001, {
+const conn = new Connector('https://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
     // 'Sec-Fetch-Mode': 'cors',
