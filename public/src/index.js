@@ -61,7 +61,7 @@ const config = {
         login: {
             fields: {
                 email: {
-                    title: 'Логин',
+                    title: 'Почта',
                     type: 'text',
                     name: 'email',
                     maxlenght: '30',

@@ -27,7 +27,7 @@ export class Validation {
      */
     validateEmail = (email) => {
         if (!(emailRegex).test(email)) {
-            return {status: false, message: 'Неверный логин'};
+            return {status: false, message: 'Почта должна содержать @'};
         }
         return {status: true, message: ''};
     };
