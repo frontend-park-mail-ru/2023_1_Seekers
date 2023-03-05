@@ -82,7 +82,7 @@
     list-style: none;
     width: 25px;
     height: 25px;
-    background: #ffffff05;
+    background: var(--animation-color);
     animation: animate 20s linear infinite;
     bottom: -150px;
 }
