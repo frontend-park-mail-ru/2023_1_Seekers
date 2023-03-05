@@ -10,6 +10,8 @@
 
 .icon {
     display: flex;
+    padding: 22px;
+    gap: 10px;
 }
 
 .favicon {
