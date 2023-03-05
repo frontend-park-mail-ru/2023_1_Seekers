@@ -46,7 +46,7 @@ export class Connector {
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
+        return this.makeRequest(`/${uri}`, options);
     };
 
 
