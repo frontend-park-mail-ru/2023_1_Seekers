@@ -9,7 +9,6 @@
     border-radius: 6px;
     border: 1px solid var(--navbar-buttons-default-border-color);
     flex: none;
-
     cursor: pointer;
 }
 

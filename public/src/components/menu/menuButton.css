@@ -9,7 +9,6 @@
     background: var(--menu-buttons-default-fill-color);
     border: 1px solid var(--menu-buttons-default-border-color);
     border-radius: 6px;
-
     cursor: pointer;
     text-decoration: none;
 }
