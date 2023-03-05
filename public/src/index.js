@@ -60,10 +60,10 @@ const config = {
     forms: {
         login: {
             fields: {
-                email: {
+                login: {
                     title: 'Логин',
                     type: 'text',
-                    name: 'email',
+                    name: 'login',
                     maxlenght: '30',
                 },
                 password: {
@@ -97,10 +97,10 @@ const config = {
                     name: 'last-name',
                     maxlenght: '30',
                 },
-                email: {
+                login: {
                     title: 'Логин',
                     type: 'text',
-                    name: 'email',
+                    name: 'login',
                     maxlenght: '30',
                 },
                 password: {

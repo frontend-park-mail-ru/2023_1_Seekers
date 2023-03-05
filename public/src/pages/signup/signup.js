@@ -52,11 +52,11 @@ export class Signup extends BasePage {
             data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
-        const [firstName, lastName, email, password, repeatPw] = data;
+        const [firstName, lastName, login, password, repeatPw] = data;
 
-        if (validation.validateRegFields(email, password, repeatPw, firstName, lastName)) {
+        if (validation.validateRegFields(login, password, repeatPw, firstName, lastName)) {
             const [status] = await this.#connector.makePostRequest('api/v1/signup',
-                {first_name: firstName, last_name: lastName, email, password, repeat_pw: repeatPw})
+                {first_name: firstName, last_name: lastName, login, password, repeat_pw: repeatPw})
                 .catch((err) => console.log(err));
 
             switch (status) {
@@ -71,9 +71,9 @@ export class Signup extends BasePage {
                 }
                 break;
             case 409:
-                if (document.getElementById('emailError') === null) {
-                    this.#validator.putErrorMessage(document.getElementById('email'),
-                        'emailError', 'Пользователь уже существует');
+                if (document.getElementById('loginError') === null) {
+                    this.#validator.putErrorMessage(document.getElementById('login'),
+                        'loginError', 'Пользователь уже существует');
                 }
                 break;
             default:

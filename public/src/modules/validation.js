@@ -1,5 +1,3 @@
-const emailRegex = /@/;
-
 /**
  * class implementing validation
  */
@@ -26,11 +24,12 @@ export class Validation {
      * @return {{message: string, status: boolean}} - message for error and status
      */
     validateLogin = (login) => {
-        // if (!(emailRegex).test(login)) {
-        //     return {status: false, message: 'Почта должна содержать @'};
-        // }
-        if (login.length > 30 || login.length < 3 ) {
-            return {status: false, message: 'Логин не может быть короче 3 и длиннее 30 символов'};
+        if (login.length < 3 ) {
+            return {status: false, message: 'Логин короче 3 символов'};
+        }
+
+        if (login.length > 30) {
+            return {status: false, message: 'Логин длиннее 30 символов'};
         }
         return {status: true, message: ''};
     };
@@ -73,16 +72,16 @@ export class Validation {
     };
 
     /**
-     * general method calls validatePassword && validateEmail && validateText
-     * @param {String} email
+     * general method calls validatePassword && validateLogin && validateText
+     * @param {String} login
      * @param {String} password
      * @param {String} anotherPassword
      * @param {String} name
      * @param {String} surname
      * @return {false|boolean|*} - status
      */
-    validateRegFields = (email, password, anotherPassword = password, name = ' ', surname = ' ') => {
-        return ((password === anotherPassword) && (this.validateEmail(email).status) &&
+    validateRegFields = (login, password, anotherPassword = password, name = ' ', surname = ' ') => {
+        return ((password === anotherPassword) && (this.validateLogin(login).status) &&
             (this.validatePassword(password).status) && (this.validateText(name).status) &&
             (this.validateText(surname).status));
     };
@@ -98,8 +97,8 @@ export class Validation {
         case 'last-name':
             check = this.validateText(e.target.value);
             break;
-        case 'email':
-            check = this.validateEmail(e.target.value);
+        case 'login':
+            check = this.validateLogin(e.target.value);
             break;
         case 'password':
             check = this.validatePassword(e.target.value);

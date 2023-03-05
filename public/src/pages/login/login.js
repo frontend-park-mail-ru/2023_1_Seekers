@@ -54,11 +54,11 @@ export class Login extends BasePage {
         });
 
 
-        const [email, password] = data;
+        const [login, password] = data;
 
-        if (this.#validator.validateRegFields(email, password)) {
+        if (this.#validator.validateRegFields(login, password)) {
             const [status] =
-                await this.#connector.makePostRequest('api/v1/signin', {email, password})
+                await this.#connector.makePostRequest('api/v1/signin', {login, password})
                     .catch((err) => console.log(err));
 
             switch (status) {
@@ -122,7 +122,7 @@ export class Login extends BasePage {
         this.accessComponent.render(context);
 
         const fields = context.fields;
-        document.getElementById(fields.email.name).focus();
+        document.getElementById(fields.login.name).focus();
 
         this.registerEvents();
     };
