@@ -14,8 +14,9 @@ export class Connector {
      * @param {int} port - port uri
      * @param {object} headers - headers of request
      */
-    constructor(URI, headers) {
+    constructor(URI, port, headers) {
         this.#baseURI = URI;
+        this.#port = port;
         this.#headers = headers;
     }
 
@@ -45,7 +46,7 @@ export class Connector {
             headers: this.#headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#baseURI}/${uri}`, options);
+        return this.makeRequest(`${this.#baseURI}:${this.#port}/${uri}`, options);
     };
 
 
