@@ -98,7 +98,7 @@ const config = {
                     maxlenght: '30',
                 },
                 email: {
-                    title: 'Логин',
+                    title: 'Почта',
                     type: 'text',
                     name: 'email',
                     maxlenght: '30',
