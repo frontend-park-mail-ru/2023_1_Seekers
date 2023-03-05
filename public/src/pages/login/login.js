@@ -54,12 +54,11 @@ export class Login extends BasePage {
             data.push(form.querySelector(`[name=${fields[input].name}]`).value);
         });
 
-        data.push(form.querySelector(`[name='remember']`).checked)
 
-        const [email, password, remember] = data;
+        const [email, password] = data;
 
         if (this.#validator.validateRegFields(email, password)) {
-            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password, remember})
+            const [status, data] = await this.#connector.makePostRequest('api/v1/signin', {email, password})
                 .catch((err) => console.log(err))
 
             switch (status) {
