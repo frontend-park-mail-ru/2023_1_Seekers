@@ -72,13 +72,11 @@ export class Signup extends BasePage {
                     break;
                 case 409:
                     if (document.getElementById('emailError') === null) {
-                        console.log(data.message)
                         this.#validator.putErrorMessage(document.getElementById('email'),
                             'emailError', data.message);
                     }
                     break;
                 default:
-                    console.log('redirect to bad page');
                     break
             }
         }

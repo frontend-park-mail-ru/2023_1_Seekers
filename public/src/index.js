@@ -12,7 +12,6 @@ import {Connector} from "./modules/ajax.js";
 const renderLoginPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new Login(root, config, conn);
-    console.log('to login');
     currentPage.render();
 }
 
@@ -25,7 +24,6 @@ const renderLoginPage = (root, context, conn) => {
 const renderMainPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new MailBox(root, context, conn);
-    console.log('to list');
     currentPage.render();
 }
 
@@ -38,7 +36,6 @@ const renderMainPage = (root, context, conn) => {
 const renderRegisterPage = (root, context, conn) => {
     currentPage.purge();
     currentPage = new Signup(root, config, conn);
-    console.log('to signup');
     currentPage.render();
 }
 
@@ -138,14 +135,10 @@ const root = document.getElementById('root');
 const conn = new Connector('http://89.208.197.150', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
-    // 'Sec-Fetch-Mode': 'cors',
-    // 'Sec-Fetch-Site': 'cross-site',
-    // 'Origin': 'http://localhost:8002',
 });
 
 addEventListener('main', (e) => renderMainPage(root, config, conn));
 addEventListener('login', (e) => renderLoginPage(root, config, conn));
 addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
-console.log('Hello https!')
 let currentPage = new MailBox(root, config, conn);
 currentPage.render();

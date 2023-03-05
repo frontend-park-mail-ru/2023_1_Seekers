@@ -74,7 +74,6 @@ export class Login extends BasePage {
                     }
                     break;
                 default:
-                    console.log('redirect to bad page');
                     break
             }
         }
@@ -123,9 +122,6 @@ export class Login extends BasePage {
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
-        this.checkboxComponent = new Checkbox(document.getElementById('wrapper-input-button'));
-        this.checkboxComponent.render();
-
         const fields = context.fields;
         document.getElementById(fields.email.name).focus();
 
@@ -138,7 +134,6 @@ export class Login extends BasePage {
     purge() {
         this.unregisterEvents();
         this.accessComponent.purge();
-        this.checkboxComponent.purge();
         document.querySelectorAll('div.page').forEach((e) => {
             e.remove();
         });

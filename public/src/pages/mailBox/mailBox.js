@@ -88,12 +88,10 @@ export class MailBox extends BasePage {
 
         switch (status) {
             case 401:
-                console.log('unauthorized')
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
                 return {};
 
             case 500:
-                console.log('internal server error')
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
                 return {};
 
@@ -101,7 +99,6 @@ export class MailBox extends BasePage {
                 break;
 
             default:
-                console.log('unhandled error')
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
                 return {};
         }
