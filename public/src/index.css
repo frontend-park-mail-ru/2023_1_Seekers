@@ -1,0 +1,30 @@
+@import './src/pages/signup/signup.css';
+@import './src/pages/login/login.css';
+@import './src/pages/mailBox/mailBox.css';
+
+@import './src/components/navbar/navbar.css';
+@import './src/components/navbar/iconButton.css';
+
+@import './src/components/letterList/letterFrame.css';
+@import './src/components/letterList/letterList.css';
+
+@import './src/components/wrapper-access/wrapper-access.css';
+
+@import './src/components/mail/mail.css';
+
+@import './src/uikit/button/button.css';
+@import './src/uikit/checkbox/checkbox.css';
+@import './src/uikit/form/form.css';
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: content-box;
+}
+
+body, html {
+    height: 100%;
+}
