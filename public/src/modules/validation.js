@@ -21,13 +21,16 @@ export class Validation {
     };
 
     /**
-     * method validate email
-     * @param {String} email
+     * method validate login
+     * @param {String} login
      * @return {{message: string, status: boolean}} - message for error and status
      */
-    validateEmail = (email) => {
-        if (!(emailRegex).test(email)) {
-            return {status: false, message: 'Почта должна содержать @'};
+    validateLogin = (login) => {
+        // if (!(emailRegex).test(login)) {
+        //     return {status: false, message: 'Почта должна содержать @'};
+        // }
+        if (login.length > 30 || login.length < 3 ) {
+            return {status: false, message: 'Логин не может быть короче 3 и длиннее 30 символов'};
         }
         return {status: true, message: ''};
     };
