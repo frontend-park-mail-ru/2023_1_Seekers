@@ -105,22 +105,22 @@ export class Validation {
     focusValidator = async (e) => {
         let check;
         switch (e.target.name) {
-            case 'first-name':
-            case 'last-name':
-                check = this.validateText(e.target.value);
-                break;
-            case 'login':
-                check = this.validateLogin(e.target.value);
-                break;
-            case 'password':
-                check = this.validatePassword(e.target.value);
-                break;
-            case 'repeat_password':
-                check = this.validateRePassword(document.getElementById('password').value,
-                    e.target.value);
-                break;
-            default:
-                return;
+        case 'first-name':
+        case 'last-name':
+            check = this.validateText(e.target.value);
+            break;
+        case 'login':
+            check = this.validateLogin(e.target.value);
+            break;
+        case 'password':
+            check = this.validatePassword(e.target.value);
+            break;
+        case 'repeat_password':
+            check = this.validateRePassword(document.getElementById('password').value,
+                e.target.value);
+            break;
+        default:
+            return;
         }
         if (!check.status) {
             if (document.getElementById(e.target.name + 'Error') === null) {
