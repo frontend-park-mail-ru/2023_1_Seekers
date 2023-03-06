@@ -24,12 +24,24 @@ export class Validation {
      * @return {{message: string, status: boolean}} - message for error and status
      */
     validateLogin = (login) => {
-        if (login.length < 3 ) {
+        if (login.length < 3) {
             return {status: false, message: 'Логин короче 3 символов'};
         }
 
         if (login.length > 30) {
             return {status: false, message: 'Логин длиннее 30 символов'};
+        }
+        const postAtDomain = '@mailbox.ru';
+        if (!login.includes(postAtDomain)) {
+            if (login.includes('@') || login.includes('.')) {
+                return {status: false, message: 'Логин не может содержать @ или .'};
+            }
+        } else {
+            const idx = login.indexOf(postAtDomain);
+            if (idx + postAtDomain.length < login.length ||
+                login.indexOf('@') < idx || login.indexOf('.') < idx) {
+                return {status: false, message: 'Некорректный логин'};
+            }
         }
         return {status: true, message: ''};
     };
@@ -93,22 +105,22 @@ export class Validation {
     focusValidator = async (e) => {
         let check;
         switch (e.target.name) {
-        case 'first-name':
-        case 'last-name':
-            check = this.validateText(e.target.value);
-            break;
-        case 'login':
-            check = this.validateLogin(e.target.value);
-            break;
-        case 'password':
-            check = this.validatePassword(e.target.value);
-            break;
-        case 'repeat_password':
-            check = this.validateRePassword(document.getElementById('password').value,
-                e.target.value);
-            break;
-        default:
-            return;
+            case 'first-name':
+            case 'last-name':
+                check = this.validateText(e.target.value);
+                break;
+            case 'login':
+                check = this.validateLogin(e.target.value);
+                break;
+            case 'password':
+                check = this.validatePassword(e.target.value);
+                break;
+            case 'repeat_password':
+                check = this.validateRePassword(document.getElementById('password').value,
+                    e.target.value);
+                break;
+            default:
+                return;
         }
         if (!check.status) {
             if (document.getElementById(e.target.name + 'Error') === null) {
