@@ -1,6 +1,6 @@
 .button-long {
     min-height: 50px;
-    min-width: 440px;
+    min-width: 80%;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -31,5 +31,5 @@
 }
 
 .wrapper-input-button{
-    padding: 20px !important;
+    padding: 10px 20px !important;
 }

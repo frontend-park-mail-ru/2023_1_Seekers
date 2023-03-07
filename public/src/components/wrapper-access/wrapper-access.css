@@ -3,14 +3,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+    margin: 10px;
     border: 2px solid #585151;
     border-radius: 7px;
+    min-width: 300px;
+    width: 400px;
 }
 
 .icon {
     display: flex;
-    padding: 22px;
+    padding: 10px 20px;
     gap: 10px;
 }
 
@@ -20,14 +23,14 @@
 
 .login-title {
     text-align: center;
-    padding: 20px;
+    padding: 10px 20px;
 }
 
 .wrapper-input-bottom {
     display: flex;
     flex-direction: row;
     align-self: center;
-    padding: 20px;
+    padding: 10px 20px;
     gap: 20px;
 }
 
@@ -39,7 +42,7 @@
 
 .error-input {
     position: absolute;
-    bottom: 0;
+    bottom: -7px;
     padding-left: 15px;
     color: var(--error-input);
 }

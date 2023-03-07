@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    padding: 20px;
+    padding: 10px 20px;
     position: relative;
 }
 
@@ -12,7 +12,7 @@
     outline: none;
     padding-left: 15px;
     min-height: 50px;
-    min-width: 440px;
+    min-width: 80%;
     font-size: 1em;
     backdrop-filter: blur(30px);
     border-radius: 7px;
@@ -31,7 +31,7 @@
 .wrapper-input-input:hover {
     box-sizing: border-box;
     min-height: 50px;
-    min-width: 440px;
+    min-width: 80%;
     left: 0;
     right: 0;
     top: 34.45%;
@@ -43,22 +43,22 @@
 }
 
 .wrapper-input-short {
-    min-width: 220px;
+    min-width: 40%;
     width: 220px;
 }
 
 .wrapper-input-short input {
-    min-width: 220px;
+    min-width: 40%;
     width: 220px;
 }
 
 .wrapper-input-short input:focus {
-    min-width: 220px;
+    min-width: 40%;
     width: 220px;
 }
 
 .wrapper-input-short input:hover {
-    min-width: 220px;
+    min-width: 40%;
     width: 220px;
 }
 

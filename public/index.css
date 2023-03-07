@@ -17,6 +17,7 @@
 
 @import './src/components/mail/mail.css';
 
+@import './src/uikit/notification/notification.css';
 @import './src/uikit/button/button.css';
 @import './src/uikit/checkbox/checkbox.css';
 @import './src/uikit/form/form.css';

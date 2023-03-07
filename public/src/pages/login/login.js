@@ -125,9 +125,6 @@ export class Login extends BasePage {
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
 
-        const fields = context.fields;
-        document.getElementById(fields.login.name).focus();
-
         this.registerEvents();
     };
 
