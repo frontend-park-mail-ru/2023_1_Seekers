@@ -52,3 +52,10 @@
         width: calc(100% - 10px);
     }
 }
+
+.error-label {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    background: red;
+}

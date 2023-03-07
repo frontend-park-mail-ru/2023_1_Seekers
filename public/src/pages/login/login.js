@@ -2,6 +2,7 @@ import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {Notification} from '../../uikit/notification/notification.js';
 
 /**
  * class implementing login page
@@ -57,6 +58,10 @@ export class Login extends BasePage {
         const [login, password] = data;
 
         if (this.#validator.validateRegFields(login, password)) {
+            console.log('hello');
+            const notification = new Notification(document.getElementById('main-side'));
+            notification.render('hello from notification');
+
             const [status, errBody] =
                 await this.#connector.makePostRequest('api/v1/signin', {login, password})
                     .catch((err) => console.log(err));
