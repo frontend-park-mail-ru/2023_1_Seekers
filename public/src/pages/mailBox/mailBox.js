@@ -139,7 +139,7 @@ export class MailBox extends BasePage {
      */
     render = async () => {
         super.render({});
-        this.#element = document.getElementsByClassName('page')[0];
+        this.#element = document.getElementsByClassName('main-page')[0];
 
         const {status, data} = await this.getLetterList('/inbox');
         if (status !== 200) return;

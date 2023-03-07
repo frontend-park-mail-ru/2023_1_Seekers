@@ -2,13 +2,18 @@
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    fill: var(--menu-icons-default-color);
-    height: 91vh;
-    flex: auto;
     flex-grow: 1;
     overflow: auto;
-    overflow-x: hidden;
+    min-width: 600px;
+
+    /*overflow-x: hidden;*/
     order: 4;
+}
+
+.no-chosen-mail {
+    display: flex;
+    fill: var(--menu-icons-default-color);
 }
