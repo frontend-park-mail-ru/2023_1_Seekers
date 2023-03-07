@@ -61,7 +61,7 @@ export class Signup extends BasePage {
 
             switch (status) {
             case 200:
-                e.target.dispatchEvent(new Event('login', {bubbles: true}));
+                e.target.dispatchEvent(new Event('main', {bubbles: true}));
                 break;
             case 403:
             case 401:
@@ -72,7 +72,7 @@ export class Signup extends BasePage {
                     }
                 } else if (document.getElementById('passwordError') === null) {
                     this.#validator.putErrorMessage(document.getElementById('password'),
-                        'passwordError', 'Пароль слишком короткий');
+                        'passwordError', 'Пароль короче 5 символов');
                 }
                 break;
             case 409:
@@ -129,9 +129,6 @@ export class Signup extends BasePage {
 
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
-
-        const fields = context.fields;
-        document.getElementById(fields.firstName.name).focus();
 
         this.registerEvents();
     };

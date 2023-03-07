@@ -41,7 +41,7 @@ export class Validation {
      */
     validatePassword = (password) => {
         if (password.length < 5) {
-            return {status: false, message: 'Пароль слишком короткий'};
+            return {status: false, message: 'Пароль короче 5 символов'};
         }
         return {status: true, message: ''};
     };
