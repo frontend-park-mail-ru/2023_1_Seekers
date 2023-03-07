@@ -80,12 +80,6 @@
 }
 
 .letter-content-text {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: 0.03em;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -97,12 +91,6 @@
 }
 
 .letter-content-header-name-text {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    letter-spacing: 0.03em;
     color: var(--letterlist-name-text-color);
     flex: none;
     align-self: stretch;
@@ -110,12 +98,6 @@
 }
 
 .letter-content-header-second-text {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    letter-spacing: 0.03em;
     color: var(--letterlist-header-text-color);
     flex: none;
     align-self: stretch;

@@ -44,11 +44,6 @@
 }
 
 .navbar-text {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 120%;
     display: flex;
     align-items: center;
     color: var(--navbar-text-color);
