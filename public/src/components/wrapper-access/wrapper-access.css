@@ -13,7 +13,7 @@
 
 .icon {
     display: flex;
-    padding: 12px 20px;
+    padding: 14px 20px;
     gap: 10px;
 }
 
@@ -23,14 +23,14 @@
 
 .login-title {
     text-align: center;
-    padding: 12px 20px;
+    padding: 14px 20px;
 }
 
 .wrapper-input-bottom {
     display: flex;
     flex-direction: row;
     align-self: center;
-    padding: 12px 20px;
+    padding: 14px 20px;
     gap: 20px;
 }
 
