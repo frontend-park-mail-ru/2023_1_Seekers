@@ -143,7 +143,7 @@ export class Signup extends BasePage {
     purge() {
         this.unregisterEvents();
         this.accessComponent.purge();
-        document.querySelectorAll('div.main-side').forEach((e) => {
+        document.querySelectorAll('div.page').forEach((e) => {
             e.remove();
         });
     }

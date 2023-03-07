@@ -1,3 +1,10 @@
+.notification-area {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    z-index: calc(9e999);
+}
+
 .notification {
     position: relative;
     display: inline-block;
@@ -52,16 +59,10 @@
     }
 }
 
-.notification-area {
-    position: absolute;
-    right: 0;
-    top: 10%;
-}
-
 .notification-error {
     background-color: var(--error-input);
 }
 
 .notification-warning {
-    background-color: var(--error-input);
+    background-color: var(--warning-input);
 }
