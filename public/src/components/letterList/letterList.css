@@ -15,7 +15,7 @@
 }
 
 .horizontal-line {
-     height: 0;
+    height: 0;
     border: 1px solid var(--delimeters-color);
     flex: 0;
     align-self: stretch;

@@ -1,4 +1,5 @@
 import '../templates.js';
+import {LetterFrame} from '../../uikit/letter-frame/letter-frame.js';
 
 /**
  * class implementing component LetterList
@@ -15,6 +16,12 @@ export class LetterList {
      * @type {Element}
      */
     #element;
+
+    /**
+     * Private field that contains current HTML-element
+     * @type {Object[]}
+     */
+    #childs = [];
 
     /**
      * Constructor that creates a component class menuButton
@@ -35,12 +42,25 @@ export class LetterList {
             window.Handlebars.templates['letterList.hbs'](context));
 
         this.#element = this.#parent.getElementsByClassName('letterList')[0];
+
+        context.forEach((e) => {
+            const letterFrame = new LetterFrame(this.#element);
+            letterFrame.render(e);
+            this.#childs.push(letterFrame);
+
+            const line = document.createElement('div');
+            line.classList.add('horizontal-line');
+            this.#element.appendChild(line);
+        });
     }
 
     /**
      * method letterList page clearing
      */
     purge() {
+        this.#childs.forEach((child) => {
+            child.purge();
+        });
         this.#element.remove();
     }
 
