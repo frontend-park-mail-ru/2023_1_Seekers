@@ -2,6 +2,7 @@ import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {Notification} from '../../uikit/notification/notification.js';
 
 /**
  * class implementing signup page
@@ -61,6 +62,9 @@ export class Signup extends BasePage {
 
             switch (status) {
             case 200:
+                const notification = new Notification(document.getElementById('root'));
+                notification.render('Вы успешно зарегестрировались!');
+
                 e.target.dispatchEvent(new Event('main', {bubbles: true}));
                 break;
             case 403:

@@ -26,20 +26,32 @@ export class Notification {
     }
 
     /**
+     * method for wait animation render before purge
+     * @param {int} ms - time to sleep in ms
+     * @returns {Promise}
+     */
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    /**
      * method insert notification to HTML
      * @param {String} ctx - string to paste in template
      */
-    render(ctx) {
+    async render(ctx) {
         const data = this.prepareForm(ctx);
-        this.#parent.insertAdjacentHTML('afterend',
+        this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['notification.hbs'](data));
+
+        await this.sleep(4 * 1000);
+        this.purge()
     }
 
     /**
      * method form page clearing
      */
     purge() {
-        document.querySelectorAll('div.error-label').forEach((e) => {
+        document.querySelectorAll('div.notification-area').forEach((e) => {
             e.remove();
         });
     }
