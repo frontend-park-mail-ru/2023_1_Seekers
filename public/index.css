@@ -1,3 +1,5 @@
+@import './styles/fonts.css';
+
 @import './src/pages/signup/signup.css';
 @import './src/pages/login/login.css';
 @import './src/pages/mailBox/mailBox.css';
