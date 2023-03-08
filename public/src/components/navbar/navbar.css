@@ -50,6 +50,7 @@
 }
 
 .navbar-emblem-button {
+    text-decoration: none;
     cursor: pointer;
     display: flex;
     position: relative;
