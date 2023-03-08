@@ -130,7 +130,7 @@ export class MailBox extends BasePage {
             this.#childs['letterList'].purge();
 
             this.#childs['letterList'] = new LetterList(this.content);
-            this.#childs['letterList'].render(data);
+            this.#childs['letterList'].render(data.messages);
         }
     };
 
@@ -142,6 +142,7 @@ export class MailBox extends BasePage {
         this.#element = document.getElementsByClassName('main-page')[0];
 
         const {status, data} = await this.getLetterList('/inbox');
+        console.log(data);
         if (status !== 200) return;
 
         this.#childs['navbar'] = new Navbar(this.#element);
@@ -159,7 +160,7 @@ export class MailBox extends BasePage {
         this.content.appendChild(this.line);
 
         this.#childs['letterList'] = new LetterList(this.content);
-        this.#childs['letterList'].render(data);
+        this.#childs['letterList'].render(data.messages);
 
         this.#childs['mail'] = new Mail(this.content);
         this.#childs['mail'].render();
