@@ -3,10 +3,10 @@
 .main-page {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
+    height: 100%;
     flex: 1;
 }
 
@@ -17,6 +17,7 @@
     gap: 10px;
     flex: 1;
     overflow-x: auto;
+    padding: 10px;
 }
 
 .vertical-line {
@@ -33,7 +34,7 @@
     align-items: stretch;
     position: relative;
     fill: var(--menu-icons-default-color);
-    height: 91vh;
+    /*height: 91vh;*/
     flex: auto;
     flex-grow: 1;
     overflow: auto;

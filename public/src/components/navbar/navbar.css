@@ -6,7 +6,7 @@
     gap: 10px;
     flex: 0;
     position: relative;
-    flex-basis: 55px;
+    flex-basis: 60px;
     background: var(--navbar-color);
 }
 
@@ -53,11 +53,12 @@
     text-decoration: none;
     cursor: pointer;
     display: flex;
+
     position: relative;
-    height: 50px;
+    /*height: 30px;*/
     background-color: var(--navbar-color);
     gap: 10px;
-    flex: available;
+    flex: 0;
 }
 
 .icon-button {

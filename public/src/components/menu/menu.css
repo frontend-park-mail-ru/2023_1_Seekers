@@ -5,11 +5,13 @@
     padding: 10px;
     gap: 5px;
     position: relative;
+    min-width: 200px;
     width: 200px;
     height: fit-content;
     background: var(--menu-color);
     border-radius: 6px;
     order: 0;
+    overflow: auto;
 }
 
 .menuDelimeter{

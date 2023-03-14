@@ -5,9 +5,9 @@
     padding: 10px 20px 10px 10px;
     gap: 10px;
     position: relative;
-    height: 88vh;
-    flex: 2;
-    max-width: 1000px;
+    height: 100%;
+    flex: 1;
+    max-width: 800px;
     min-width: 400px;
     overflow: auto;
     overflow-x: hidden;
