@@ -67,4 +67,6 @@
     --error-input: #e17272;
     --warning-input: #e1c272;
     --animation-color: #ffffff05;
+    --custom-color-account-sidebar: #303030;
+    --custom-color-account-sidebar-shadow: rgb(0 0 0 / 48%);
 }

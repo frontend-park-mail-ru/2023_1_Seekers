@@ -1,35 +1,37 @@
-.button-long {
+.button-classic {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.button-classic__size-l {
     min-height: 50px;
     min-width: 80%;
     border-radius: 4px;
-    cursor: pointer;
+    padding: 10px 20px !important;
 }
 
-.b-color {
+.button-classic__color {
     background: var(--button-default-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
     0 7px 21px var(--button-shadow-far-default-color);
 }
 
-.b-color:hover {
+.button-classic__color:hover {
     background: var(--button-hover-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
     0 7px 21px var(--button-shadow-far-hover-color);
 }
 
-.b-color:active {
+.button-classic__color:active {
     background: var(--button-active-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
     0 7px 21px var(--button-shadow-far-active-color);
 }
 
-.b-color:disabled {
+.button-classic__color:disabled {
     background: var(--button-disabled-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-disabled-color),
     0 7px 21px var(--button-shadow-far-disabled-color);
     cursor: default;
-}
-
-.wrapper-input-button{
-    padding: 10px 20px !important;
 }

@@ -1,5 +1,4 @@
-.wrapper-input,
-.wrapper-input-button{
+.wrapper-input {
     display: flex;
     flex-direction: column;
     text-align: left;

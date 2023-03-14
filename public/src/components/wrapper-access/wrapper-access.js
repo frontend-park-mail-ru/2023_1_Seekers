@@ -39,7 +39,7 @@ export class WrapperAccess {
         this.formComponent = new Form(document.getElementById('wrapper-access-form'));
         this.formComponent.render(ctx);
 
-        this.buttonComponent = new Button(document.getElementById('wrapper-input-button'));
+        this.buttonComponent = new Button(document.getElementById('wrapper-access-form'));
         this.buttonComponent.render(ctx.button);
     }
 
