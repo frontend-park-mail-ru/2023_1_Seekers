@@ -19,7 +19,8 @@
 @import './src/uikit/checkbox/checkbox.css';
 @import './src/uikit/form/form.css';
 @import './src/uikit/letter-frame/letter-frame.css';
-@import './src/uikit/menu-button/menuButton.css';
+@import './src/uikit/menu-button/menu-button.css';
+@import "./src/uikit/icon-button/icon-button.css";
 
 *,
 *::before,

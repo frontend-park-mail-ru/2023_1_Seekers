@@ -146,7 +146,7 @@ export class MailBox extends BasePage {
         if (status !== 200) return;
 
         this.#childs['navbar'] = new Navbar(this.#element);
-        this.#childs['navbar'].render({});
+        this.#childs['navbar'].render(this.#context.navbarIconButtons);
 
         this.content = document.createElement('div');
         this.content.classList.add('content');

@@ -10,30 +10,28 @@
     background: var(--navbar-color);
 }
 
-.navbar-frame-left {
+.navbar__frame-left {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 10px;
     gap: 10px;
-    flex: available;
+    flex: 1;
     align-self: stretch;
-    flex-grow: 1;
 }
 
-.navbar-frame-right {
+.navbar__frame-right {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     padding: 0 10px;
     gap: 32px;
-    flex: available;
+    flex: 1;
     align-self: stretch;
-    flex-grow: 1;
 }
 
-.navbar-img-button {
+.navbar__img-button {
     display: flex;
     position: relative;
     width: 50px;
@@ -43,56 +41,13 @@
     flex: none;
 }
 
-.navbar-text {
-    display: flex;
-    align-items: center;
-    color: var(--navbar-text-color);
-}
-
-.navbar-emblem-button {
+.navbar__emblem-button {
     text-decoration: none;
     cursor: pointer;
     display: flex;
-
     position: relative;
-    /*height: 30px;*/
+    align-items: center;
     background-color: var(--navbar-color);
     gap: 10px;
     flex: 0;
-}
-
-.icon-button {
-    display: flex;
-    position: relative;
-    width: 40px;
-    height: 40px;
-    background: var(--navbar-buttons-default-fill-color);
-    border-radius: 6px;
-    border: 1px solid var(--navbar-buttons-default-border-color);
-    flex: none;
-    cursor: pointer;
-}
-
-.icon-button:Hover {
-    background: var(--navbar-buttons-hover-fill-color);
-    border: 1px solid var(--navbar-buttons-hover-border-color);
-}
-
-.icon-button:Active {
-    background: var(--navbar-buttons-active-fill-color);
-    border: 1px solid var(--navbar-buttons-active-border-color);
-}
-
-.icon-button-icon {
-    display: flex;
-    stroke: var(--navbar-icons-default-color);
-    flex: available;
-}
-
-.icon-button:hover .icon-button-icon {
-    stroke: var(--navbar-icons-hover-color);
-}
-
-.icon-button:active .icon-button-icon {
-    stroke: var(--navbar-icons-active-color);
 }

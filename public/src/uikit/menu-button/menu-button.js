@@ -23,14 +23,14 @@ export class MenuButtton {
      * A method that draws a component into a parent HTML element
      * according to a given template and context
      * @param {Object} context pattern rendering context
-     * @param context.img button icon (raw svg code)
-     * @param context.text text inside button
-     * @param context.count count of unread messages
-     * @param context.href href of button to proceed
+     * @param {string} context.img button icon (raw svg code)
+     * @param {string} context.text text inside button
+     * @param {string} context.count count of unread messages
+     * @param {string} context.href href of button to proceed
      */
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
-            window.Handlebars.templates['menuButton.hbs'](context));
+            window.Handlebars.templates['menu-button.hbs'](context));
 
         // this.element = document.getElementById(`letter-frame-id-${context.message_id}`);
     }

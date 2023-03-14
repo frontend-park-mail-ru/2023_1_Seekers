@@ -1,5 +1,5 @@
 import '../templates.js';
-import {MenuButtton} from "../../uikit/menu-button/menuButton.js";
+import {MenuButtton} from '../../uikit/menu-button/menu-button.js';
 
 
 /**
@@ -72,10 +72,10 @@ export class Menu {
 
         this.#element = this.#parent.getElementsByClassName('menu')[0];
 
-        context.forEach(buttonCtx => {
+        context.forEach((buttonCtx) => {
             const button = new MenuButtton(document.getElementById('common-menu-buttons'));
             button.render(buttonCtx);
-        })
+        });
         this.#childs = [...this.#element.getElementsByClassName('menu-button')];
 
         this.registerEventListener();

@@ -1,6 +1,6 @@
 <header id="header" class="navbar">
-    <div class="navbar-frame-left">
-        <a class="navbar-emblem-button" href="/">
+    <div class="navbar__frame-left">
+        <a class="navbar__emblem-button" href="/">
             <svg width="40px" height="40px" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.4537 33.3434L1.99634 50.987V24.2793L16.4537 33.3434Z" fill="#88BDFD"/>
                 <path d="M18.159 34.4133L26.9531 39.9261L35.8401 34.3545L50.6726 52.4568H3.37256L18.159 34.4133Z"
@@ -37,28 +37,17 @@
                       fill="#393939"/>
             </svg>
 
-            <p class="navbar-text font-normal-0">MailBox</p>
+            <p class="font-normal-0">MailBox</p>
         </a>
 
     </div>
-    <div class="navbar-frame-right">
-            <a class="navbar-img-button">
+    <div class="navbar__frame-right">
+            <a class="navbar__img-button">
                 {{#if img includeZero=true}}
                     <img src={{img}} alt="">
                 {{else}}
                     <img src='img/female-avatar.png' alt="">
                 {{/if}}
             </a>
-
-
-        <a class="icon-button" href="/logout">
-            <svg class="icon-button-icon" fill="none" height=100% viewBox="0 0 24 24" width=100%
-                 xmlns="http://www.w3.org/2000/svg">
-                <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
-                    0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            </svg>
-        </a>
-
     </div>
 </header>

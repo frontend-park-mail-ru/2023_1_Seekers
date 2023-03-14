@@ -1,4 +1,5 @@
 import '../templates.js';
+import {IconButton} from '../../uikit/icon-button/icon-button.js';
 
 /**
  * class implementing component Navbar
@@ -68,6 +69,12 @@ export class Navbar {
             window.Handlebars.templates['navbar.hbs'](ctx));
 
         this.#element = this.#parent.getElementsByClassName('navbar')[0];
+
+        ctx.forEach((buttonCtx) => {
+            const button =
+                new IconButton(this.#element.getElementsByClassName('navbar__frame-right')[0]);
+            button.render(buttonCtx);
+        });
         this.#childs = [...this.#element.getElementsByClassName('icon-button')];
     }
 
