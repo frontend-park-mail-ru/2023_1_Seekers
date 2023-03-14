@@ -38,7 +38,7 @@ export class Form {
      * method form page clearing
      */
     purge() {
-        document.querySelectorAll('div.wrapper-input').forEach((e) => {
+        document.querySelectorAll('div.input-form').forEach((e) => {
             e.remove();
         });
     }

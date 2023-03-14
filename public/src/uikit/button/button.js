@@ -26,7 +26,7 @@ export class Button {
      * method button page clearing
      */
     purge() {
-        document.querySelectorAll('button.button-classic__size-l.button-classic__color').forEach((e) => {
+        document.querySelectorAll('button.button-classic_size-l.button-classic_color').forEach((e) => {
             e.remove();
         });
     }
