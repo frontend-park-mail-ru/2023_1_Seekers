@@ -1,4 +1,5 @@
 import '../templates.js';
+import {MenuButtton} from "../../uikit/menu-button/menuButton.js";
 
 
 /**
@@ -21,7 +22,7 @@ export class Menu {
      * Private field that contains current HTML-element
      * @type {Element[]}
      */
-    #childs;
+    #childs = [];
 
     /**
      * Constructor that creates a component class Menu
@@ -63,13 +64,18 @@ export class Menu {
     /**
      * A method that draws a component into a parent HTML element
      * according to a given template and context
-     * @param {Object} context pattern rendering context
+     * @param {Object[]} context pattern rendering context
      */
     render(context) {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['menu.hbs'](context));
 
         this.#element = this.#parent.getElementsByClassName('menu')[0];
+
+        context.forEach(buttonCtx => {
+            const button = new MenuButtton(document.getElementById('common-menu-buttons'));
+            button.render(buttonCtx);
+        })
         this.#childs = [...this.#element.getElementsByClassName('menu-button')];
 
         this.registerEventListener();

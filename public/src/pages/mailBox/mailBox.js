@@ -153,7 +153,7 @@ export class MailBox extends BasePage {
         this.#element.appendChild(this.content);
 
         this.#childs['menu'] = new Menu(this.content);
-        this.#childs['menu'].render({});
+        this.#childs['menu'].render(this.#context.menuButtons);
 
         this.line = document.createElement('div');
         this.line.classList.add('vertical-line');
