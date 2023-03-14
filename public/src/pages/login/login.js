@@ -2,6 +2,7 @@ import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {PromoBox} from "../../components/promo-box/promo-box.js";
 
 /**
  * class implementing login page
@@ -124,6 +125,9 @@ export class Login extends BasePage {
 
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
+
+        this.promoBox = new PromoBox(document.getElementById('main-side'));
+        this.promoBox.render(context.promoBox);
 
         this.registerEvents();
     };

@@ -3,9 +3,10 @@
     padding: 0;
 }
 
-.main-side {
+.main-side,
+.secondary-side{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     min-height: 100vh;

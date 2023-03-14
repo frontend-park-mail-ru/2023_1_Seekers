@@ -11,6 +11,7 @@
 @import './src/components/letterList/letterFrame.css';
 @import './src/components/letterList/letterList.css';
 
+@import './src/components/promo-box/promo-box.css';
 @import './src/components/wrapper-access/wrapper-access.css';
 
 @import './src/components/mail/mail.css';

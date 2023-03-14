@@ -82,6 +82,20 @@ const config = {
             button: {
                 buttonText: 'Войти',
             },
+            promoBox: {
+                title: 'Крутой тайтл',
+                textFields: {
+                    first: {
+                        title: 'Крутая фича'
+                    },
+                    second: {
+                        title: 'Крутая фича'
+                    },
+                    third: {
+                        title: 'Крутая фича'
+                    },
+                }
+            }
         },
         signup: {
             fields: {
