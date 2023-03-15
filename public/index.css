@@ -4,15 +4,12 @@
 @import './src/pages/login/login.css';
 @import './src/pages/mailBox/mailBox.css';
 
+@import './src/components/account-sidebar/account-sidebar.css';
 @import './src/components/navbar/navbar.css';
-
 @import './src/components/menu/menu.css';
-
 @import './src/components/letterList/letterList.css';
-
 @import './src/components/promo-box/promo-box.css';
 @import './src/components/wrapper-access/wrapper-access.css';
-
 @import './src/components/mail/mail.css';
 
 @import './src/uikit/notification/notification.css';
@@ -22,7 +19,7 @@
 @import './src/uikit/letter-frame/letter-frame.css';
 @import './src/uikit/menu-button/menu-button.css';
 @import "./src/uikit/icon-button/icon-button.css";
-@import './src/uikit/listItem/listItem.css';
+@import './src/uikit/list-item/list-item.css';
 
 *,
 *::before,

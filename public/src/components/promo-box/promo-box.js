@@ -1,5 +1,5 @@
 import '../templates.js';
-import {ListItem} from "../../uikit/listItem/listItem.js";
+import {ListItem} from "../../uikit/list-item/list-item.js";
 
 /**
  * class implementing component PromoBox

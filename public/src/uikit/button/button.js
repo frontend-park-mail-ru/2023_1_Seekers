@@ -19,7 +19,7 @@ export class Button {
      * @param {Object} ctx - template rendering context
      */
     render(ctx) {
-        this.#parent.insertAdjacentHTML('afterend', window.Handlebars.templates['button.hbs'](ctx));
+        this.#parent.insertAdjacentHTML('beforeend', window.Handlebars.templates['button.hbs'](ctx));
     }
 
     /**
