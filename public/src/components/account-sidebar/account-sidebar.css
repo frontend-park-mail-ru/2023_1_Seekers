@@ -5,10 +5,18 @@
     z-index: 100000;
     top: 0;
     bottom: 0;
-    right: 0;
+    right: -434px;
     padding-top: 60px;
     background-color: var(--custom-color-account-sidebar);
+    will-change: right;
+    -webkit-animation: slide 0.5s forwards;
 }
+
+@-webkit-keyframes slide {
+    100% { right: 0; }
+}
+
+
 
 .account-sidebar__frame {
     height: 100%;
