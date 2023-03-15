@@ -2,13 +2,12 @@
     position: absolute;
     height: 100vh;
     width: 434px;
-    z-index: 1;
+    z-index: 100000;
     top: 0;
     bottom: 0;
     right: 0;
-    padding-top: 36px;
+    padding-top: 60px;
     background-color: var(--custom-color-account-sidebar);
-    box-shadow: 0 0 48px 0 var(--custom-color-account-sidebar-shadow);
 }
 
 .account-sidebar__frame {

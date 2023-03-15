@@ -1,4 +1,5 @@
 import '../templates.js';
+import {AccountSidebar} from "../../components/account-sidebar/account-sidebar.js";
 
 
 /**
@@ -10,6 +11,9 @@ export class ProfileButton {
      * @type {Element}
      */
     #parent;
+    #sidebar
+
+    #context;
 
     /**
      * Constructor that creates a component class Menu
@@ -17,6 +21,22 @@ export class ProfileButton {
      */
     constructor(parent) {
         this.#parent = parent;
+    }
+
+    /**
+     * promise handle profile button
+     * @param e - event click on profile button
+     * @returns {Promise<void>}
+     */
+    onClick = async (e) => {
+        e.preventDefault();
+        if (this.#sidebar !== null) {
+            this.#sidebar.purge()
+        }else{
+            this.content = document.getElementsByClassName('main-page__content')[0];
+            this.#sidebar = new AccountSidebar(this.content);
+            this.#sidebar.render(this.#context)
+        }
     }
 
     /**
@@ -30,6 +50,7 @@ export class ProfileButton {
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['profile-button.hbs'](context));
+        this.#context = context;
     }
 
     /**
