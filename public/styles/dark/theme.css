@@ -1,6 +1,6 @@
 :root {
-    --primary-background-color: #1C1C1C;
-    --secondary-background-color: #262626;
+    --primary-background-color: #151516;
+    --secondary-background-color: #202020;
     --primary-elements-color: #7c7c7d;
     --primary-delimeters-color: #3E3E3E;
     --primary-active-color: #5060EC;
@@ -70,5 +70,6 @@
     --custom-color-account-sidebar: #303030;
     --custom-color-account-sidebar-shadow: rgb(0 0 0 / 48%);
     --promo-box_background-color: conic-gradient(from 168.74deg at 129.9% 12.36%, #8370F8 -47.46deg, #1F7FF6 22.68deg, #C77FEA 120.47deg, #8370F8 312.54deg, #1F7FF6 382.68deg);
-    --color-separator-primary: #151516
+    --color-separator-primary: #151516;
+    --mail-text-background-color: #282828;
 }

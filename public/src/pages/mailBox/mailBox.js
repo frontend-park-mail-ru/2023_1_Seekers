@@ -157,7 +157,7 @@ export class MailBox extends BasePage {
         this.#childs['letterList'].render(data.messages);
 
         this.#childs['mail'] = new Mail(this.content);
-        this.#childs['mail'].render();
+        this.#childs['mail'].render({from_user: 'example@mailbox.ru', recipient: 'recip@mailbox.ru', time: '2023.14.14'});
 
         this.registerEventListener();
     };
