@@ -20,6 +20,7 @@
 @import './src/uikit/menu-button/menu-button.css';
 @import "./src/uikit/icon-button/icon-button.css";
 @import './src/uikit/list-item/list-item.css';
+@import './src/uikit/sidebar-linkButton/sidebar-linkButton.css';
 
 *,
 *::before,
