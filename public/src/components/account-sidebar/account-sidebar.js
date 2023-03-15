@@ -30,9 +30,9 @@ export class AccountSidebar {
      * @param {String} ctx - string to paste in template
      */
     render(ctx) {
-        const data = this.prepareForm(ctx);
+        // const data = this.prepareForm(ctx);
         this.#parent.insertAdjacentHTML('beforeend',
-            window.Handlebars.templates['account-sidebar.hbs'](data));
+            window.Handlebars.templates['account-sidebar.hbs']());
     }
 
     /**

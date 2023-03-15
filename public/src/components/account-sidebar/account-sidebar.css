@@ -10,3 +10,19 @@
     background-color: var(--custom-color-account-sidebar);
     box-shadow: 0 0 48px 0 var(--custom-color-account-sidebar-shadow);
 }
+
+.account-sidebar__frame {
+    height: 100%;
+    overflow: auto;
+}
+
+.accounts {
+    padding: 0 20px 32px;
+    overflow: auto;
+}
+
+.account-sidebar__hr {
+    border: none;
+    border-top: 1px solid var(--color-separator-primary);
+    margin: 16px 12px;
+}

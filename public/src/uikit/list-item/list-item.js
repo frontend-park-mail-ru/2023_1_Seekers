@@ -1,7 +1,7 @@
 import '../templates.js';
 
 /**
- * class implementing component listItem
+ * class implementing component list-item
  */
 export class ListItem {
     #parent;
@@ -31,12 +31,11 @@ export class ListItem {
      */
     render(ctx) {
         const data = this.prepareForm(ctx);
-        console.log(ctx)
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['listItem.hbs'](data));
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['list-item.hbs'](data));
     }
 
     /**
-     * method listItem page clearing
+     * method list-item page clearing
      */
     purge() {
         document.querySelectorAll('div.input-form').forEach((e) => {
