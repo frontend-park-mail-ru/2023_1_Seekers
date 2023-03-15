@@ -1,10 +1,9 @@
 import '../templates.js';
-import {ListItem} from "../../uikit/listItem/listItem.js";
 
 /**
- * class implementing component PromoBox
+ * class implementing component listItem
  */
-export class PromoBox {
+export class ListItem {
     #parent;
 
     /**
@@ -22,29 +21,25 @@ export class PromoBox {
      */
     prepareForm(ctx) {
         return {
-            ...ctx,
+            field: {...ctx.fields},
         };
     }
 
     /**
-     * method insert PromoBox to HTML
+     * method insert form to HTML
      * @param {Object} ctx - template rendering context
      */
     render(ctx) {
         const data = this.prepareForm(ctx);
-
-        this.#parent.insertAdjacentHTML('afterbegin',
-            window.Handlebars.templates['promo-box.hbs'](data));
-
-        this.list = new ListItem(document.getElementById('promo-box__list'));
-        this.list.render(ctx);
+        console.log(ctx)
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['listItem.hbs'](data));
     }
 
     /**
-     * method promo-box page clearing
+     * method listItem page clearing
      */
     purge() {
-        document.querySelectorAll('div.promo-box').forEach((e) => {
+        document.querySelectorAll('div.input-form').forEach((e) => {
             e.remove();
         });
     }

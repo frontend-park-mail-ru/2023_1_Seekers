@@ -74,7 +74,7 @@ const config = {
                 },
             },
             windowData: {
-                title: 'Авторизация',
+                title: 'Вход в «MailBox»',
                 bottomText: 'Мы еще не знакомы?',
                 bottomLink: '/signup',
                 bottomLinkText: 'Регистрация',
@@ -83,16 +83,16 @@ const config = {
                 buttonText: 'Войти',
             },
             promoBox: {
-                title: 'Крутой тайтл',
-                textFields: {
+                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                fields: {
                     first: {
-                        title: 'Крутая фича'
+                        text: 'Фильтрация писем в соотвесвии с заданными параметрами'
                     },
                     second: {
-                        title: 'Крутая фича'
+                        text: 'Возможность создания анонимного ящика для контроля спама'
                     },
                     third: {
-                        title: 'Крутая фича'
+                        text: 'Крутая фича, придуманная нами, но еще не реализованная'
                     },
                 }
             }
@@ -131,7 +131,7 @@ const config = {
                 },
             },
             windowData: {
-                title: 'Регистрация',
+                title: 'Регистрация в «MailBox»',
                 bottomText: 'Мы уже знакомы?',
                 bottomLink: '/login',
                 bottomLinkText: 'Войти',
@@ -139,6 +139,20 @@ const config = {
             button: {
                 buttonText: 'Создать',
             },
+            promoBox: {
+                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                fields: {
+                    first: {
+                        text: 'Фильтрация писем в соотвесвии с заданными параметрами'
+                    },
+                    second: {
+                        text: 'Возможность создания анонимного ящика для контроля спама'
+                    },
+                    third: {
+                        text: 'Крутая фича, придуманная нами, но еще не реализованная'
+                    },
+                }
+            }
         },
     },
     authorised: false,

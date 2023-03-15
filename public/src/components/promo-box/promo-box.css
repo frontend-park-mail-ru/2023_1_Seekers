@@ -25,6 +25,10 @@
     width: 360px;
 }
 
+.promo-box_color {
+    background: var(--promo-box_background-color)
+}
+
 .promo-box_indent {
     padding: 10px;
 }
@@ -35,27 +39,15 @@
     list-style: none;
 }
 
-.promo-box__listItem {
-    margin: 0 0 4px;
-    padding: 8px 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -moz-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+.promo-box__title {
+    font-size: 18px;
+    line-height: 1.33;
+    margin-bottom: 16px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-.promo-box__listItemText {
-    font-size: 15px;
+.promo-box__title_color {
+    font-family: "Roboto Thin", sans-serif;
     color: var(--text-main-color);
-    width: 1px;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -moz-box-flex: 1;
-    flex-grow: 1;
 }

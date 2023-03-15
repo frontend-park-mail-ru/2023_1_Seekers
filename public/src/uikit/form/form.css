@@ -6,7 +6,7 @@
 }
 
 .input-form_indent {
-    padding: 10px 20px;
+    padding: 10px 0;
 }
 
 .input-form__size-l {
@@ -57,6 +57,11 @@ select:-webkit-autofill:focus {
     position: absolute;
     pointer-events: none;
     text-transform: uppercase;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
 }
 
 .input-form__span_indent {
@@ -77,8 +82,8 @@ select:-webkit-autofill:focus {
 
 .input-form__size-l:focus ~ span,
 .input-form__size-l:valid ~ span {
-    transform: translateX(10px) translateY(-7px);
-    font-size: 0.90em;
+    transform: translateX(10px) translateY(-4px);
+    font-size: 0.70em;
     padding: 0 10px;
     background: #2E2E2E;
     border-radius: 7px;

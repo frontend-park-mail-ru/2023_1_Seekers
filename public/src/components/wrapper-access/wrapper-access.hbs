@@ -1,30 +1,29 @@
-<div class="wrapper-access">
+<div class="wrapper-access wrapper-access_color">
     <div class="wrapper-access__box">
-        <div class="icon">
-            <svg class="favicon" height=100% viewBox="0 0 232 138" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="232" height="138" fill="#5336C7"/>
-                <path d="M71 48.3282L8 123.214V9.85715L71 48.3282Z" fill="#88BDFD"/>
-                <path d="M78.0847 52.4928L116.199 75.9069L154.716 52.2429L219 129.129H14L78.0847 52.4928Z" fill="#88BDFD"/>
-                <path d="M161 47.9892L224 9.85715V122.229L161 47.9892Z" fill="#88BDFD"/>
-                <path d="M223 4.92856H9L116 67.0286L223 4.92856Z" fill="#88BDFD"/>
-                <path d="M221.484 133.071L152 48.688L158.516 43.3714L228 127.755L221.484 133.071Z" fill="#393939"/>
-                <path d="M115.943 76.8857L0 8.04905V0L115.943 66.8803L232 0V8.04905L115.943 76.8857Z" fill="#393939"/>
-                <path d="M232 138H116.511H0V0H232L223.406 5.58124H8.5926V128.802H223.406V5.58124L232 0V138Z" fill="#393939"/>
-                <path d="M10.6016 133.071L4 127.755L74.3979 43.3714L81 48.688L10.6016 133.071Z" fill="#393939"/>
-            </svg>
-            <p class="font-title-2">
-                MailBox
-            </p>
+        <div class="wrapper-access__titleIcon">
+            <div class="icon">
+                <svg class="favicon" height=100% viewBox="0 0 232 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="232" height="138" fill="#5336C7"/>
+                    <path d="M71 48.3282L8 123.214V9.85715L71 48.3282Z" fill="#88BDFD"/>
+                    <path d="M78.0847 52.4928L116.199 75.9069L154.716 52.2429L219 129.129H14L78.0847 52.4928Z" fill="#88BDFD"/>
+                    <path d="M161 47.9892L224 9.85715V122.229L161 47.9892Z" fill="#88BDFD"/>
+                    <path d="M223 4.92856H9L116 67.0286L223 4.92856Z" fill="#88BDFD"/>
+                    <path d="M221.484 133.071L152 48.688L158.516 43.3714L228 127.755L221.484 133.071Z" fill="#393939"/>
+                    <path d="M115.943 76.8857L0 8.04905V0L115.943 66.8803L232 0V8.04905L115.943 76.8857Z" fill="#393939"/>
+                    <path d="M232 138H116.511H0V0H232L223.406 5.58124H8.5926V128.802H223.406V5.58124L232 0V138Z" fill="#393939"/>
+                    <path d="M10.6016 133.071L4 127.755L74.3979 43.3714L81 48.688L10.6016 133.071Z" fill="#393939"/>
+                </svg>
+            </div>
+            <p class="wrapper-access__titleIconText">{{this.title}}</p>
         </div>
-        <p class="font-title-2 login-title">{{this.title}}</p>
         <div>
-            <form action="#" method="get" enctype="multipart/form-data" id="wrapper-access-form">
+            <form action="#" method="get" enctype="multipart/form-data" id="wrapper-access__form">
 
             </form>
         </div>
-        <div class="wrapper-input-bottom">
+        <div class="wrapper-access__redirectBottomText">
             <p class="font-normal-0">{{this.bottomText}}</p>
-            <a id="redirect-link" class="font-normal-0 signup-link" href="{{this.bottomLink}}">{{this.bottomLinkText}}</a>
+            <a id="redirect-link" class="font-normal-0 redirect-link" href="{{this.bottomLink}}">{{this.bottomLinkText}}</a>
         </div>
     </div>
 </div>
