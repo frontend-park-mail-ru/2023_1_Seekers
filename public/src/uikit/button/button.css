@@ -5,6 +5,14 @@
     cursor: pointer;
 }
 
+.button-classic__label {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+}
+
 .button-classic_indent {
     padding: 10px 0;
 }

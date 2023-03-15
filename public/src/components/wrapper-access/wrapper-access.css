@@ -33,6 +33,11 @@
     padding: 10px 0;
     gap: 20px;
     justify-content: space-between;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
 }
 
 .wrapper-access__titleIcon {
@@ -69,28 +74,3 @@
     padding-left: 15px;
     color: var(--error-input);
 }
-
-.font-title-2 {
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 18px;
-    letter-spacing: 0.03em;
-    color: var(--text-main-color);
-}
-
-.font-normal-0 {
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    color: var(--text-main-color);
-}
-
-.font-caption-0 {
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 12px;
-    letter-spacing: 0.03em;
-}
-
-

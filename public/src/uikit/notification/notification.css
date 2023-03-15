@@ -5,7 +5,7 @@
     z-index: calc(9e999);
 }
 
-.notification {
+.notification-area__notification {
     position: relative;
     display: inline-block;
     max-width: 300px;
@@ -17,6 +17,14 @@
     opacity: 0;
     visibility: hidden;
     animation: fade 4s linear forwards;
+}
+
+.notification-area__notificationText {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
 }
 
 .progress {
