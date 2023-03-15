@@ -1,5 +1,3 @@
-/* @import "colors.css"; */
-
 .main-page {
     display: flex;
     flex-direction: column;
@@ -10,7 +8,7 @@
     flex: 1;
 }
 
-.content {
+.main-page__content {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -20,27 +18,12 @@
     padding: 10px;
 }
 
-.vertical-line {
+.main-page__vertical-line {
     width: 0;
     border: 1px solid var(--delimeters-color);
     flex: 0;
     align-self: stretch;
 }
-
-.content-mail {
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-    align-items: stretch;
-    position: relative;
-    fill: var(--menu-icons-default-color);
-    /*height: 91vh;*/
-    flex: auto;
-    flex-grow: 1;
-    overflow: auto;
-    overflow-x: hidden;
-}
-
 
 
 /* width */
