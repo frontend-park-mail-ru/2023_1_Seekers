@@ -21,8 +21,10 @@
 @import './src/uikit/form/form.css';
 @import './src/uikit/letter-frame/letter-frame.css';
 @import './src/uikit/menu-button/menu-button.css';
-@import "./src/uikit/icon-button/icon-button.css";
+@import './src/uikit/icon-button/icon-button.css';
+@import './src/uikit/profile-button/profile-button.css';
 @import './src/uikit/listItem/listItem.css';
+
 
 *,
 *::before,

@@ -1,15 +1,32 @@
-.content-mail {
+.mail {
     display: flex;
     flex-direction: column;
-    align-self: stretch;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    padding: 10px 20px 10px 10px;
+    gap: 10px;
     position: relative;
-    flex: 1;
-    overflow: auto;
     height: 100%;
+    flex: 1;
     min-width: 400px;
+    overflow: auto;
+    overflow-x: hidden;
     order: 4;
+
+}
+
+.mail__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.mail__bottom-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    width: 100%;
 }
 
 .no-chosen-mail {
