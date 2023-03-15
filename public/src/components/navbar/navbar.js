@@ -78,7 +78,7 @@ export class Navbar {
         });
         this.profileButton = new ProfileButton(
             this.#element.getElementsByClassName('navbar__frame-right')[0]);
-        this.profileButton.render({text: 'example@mailbox.com', href: '/'});
+        this.profileButton.render({text: 'example@mailbox.com'});
 
         this.#childs = [...this.#element.getElementsByClassName('icon-button')];
     }
