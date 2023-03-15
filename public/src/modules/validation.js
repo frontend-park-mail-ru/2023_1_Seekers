@@ -12,7 +12,7 @@ export class Validation {
         const err = document.createElement('div');
         err.textContent = text;
         err.id = id;
-        err.classList.add('error-input', 'font-caption-0');
+        err.classList.add('error-input');
         target.parentElement.insertAdjacentElement('beforeend', err);
 
         target.classList.add('error-border');

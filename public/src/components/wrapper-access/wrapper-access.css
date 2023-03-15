@@ -73,4 +73,8 @@
     bottom: -7px;
     padding-left: 15px;
     color: var(--error-input);
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
 }
