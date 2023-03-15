@@ -1,35 +1,41 @@
-.button-long {
-    min-height: 50px;
-    min-width: 80%;
-    border-radius: 4px;
+.button-classic {
+    display: flex;
+    flex-direction: column;
+    position: relative;
     cursor: pointer;
 }
 
-.b-color {
+.button-classic_indent {
+    padding: 10px 0;
+}
+
+.button-classic_size-l {
+    height: 36px;
+    min-width: 80%;
+    border-radius: 4px;
+}
+
+.button-classic_color {
     background: var(--button-default-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
     0 7px 21px var(--button-shadow-far-default-color);
 }
 
-.b-color:hover {
+.button-classic_color:hover {
     background: var(--button-hover-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
     0 7px 21px var(--button-shadow-far-hover-color);
 }
 
-.b-color:active {
+.button-classic_color:active {
     background: var(--button-active-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
     0 7px 21px var(--button-shadow-far-active-color);
 }
 
-.b-color:disabled {
+.button-classic_color:disabled {
     background: var(--button-disabled-color);
     box-shadow: 0 3px 8px var(--button-shadow-close-disabled-color),
     0 7px 21px var(--button-shadow-far-disabled-color);
     cursor: default;
-}
-
-.wrapper-input-button{
-    padding: 14px 20px !important;
 }

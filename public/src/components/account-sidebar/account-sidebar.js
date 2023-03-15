@@ -1,9 +1,9 @@
 import '../templates.js';
 
 /**
- * class implementing component input form
+ * class implementing uikit account-sidebar
  */
-export class Form {
+export class AccountSidebar {
     #parent;
 
     /**
@@ -17,28 +17,29 @@ export class Form {
     /**
      * method prepare ctx to send in handlebars
      * @param {object} ctx - template rendering context
-     * @return {Object} - form filling
+     * @return {{Object}} - form filling
      */
     prepareForm(ctx) {
         return {
-            field: {...ctx.fields},
+            sidebar: ctx,
         };
     }
 
     /**
-     * method insert form to HTML
-     * @param {Object} ctx - template rendering context
+     * method insert sidebar to HTML
+     * @param {String} ctx - string to paste in template
      */
     render(ctx) {
         const data = this.prepareForm(ctx);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
+        this.#parent.insertAdjacentHTML('beforeend',
+            window.Handlebars.templates['account-sidebar.hbs'](data));
     }
 
     /**
-     * method form page clearing
+     * method sidebar clearing from page
      */
     purge() {
-        document.querySelectorAll('div.input-form').forEach((e) => {
+        document.querySelectorAll('div.account-sidebar').forEach((e) => {
             e.remove();
         });
     }

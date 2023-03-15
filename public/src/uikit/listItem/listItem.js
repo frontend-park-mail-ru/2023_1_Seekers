@@ -1,9 +1,9 @@
 import '../templates.js';
 
 /**
- * class implementing component input form
+ * class implementing component listItem
  */
-export class Form {
+export class ListItem {
     #parent;
 
     /**
@@ -31,11 +31,12 @@ export class Form {
      */
     render(ctx) {
         const data = this.prepareForm(ctx);
-        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['form.hbs'](data));
+        console.log(ctx)
+        this.#parent.insertAdjacentHTML('afterbegin', window.Handlebars.templates['listItem.hbs'](data));
     }
 
     /**
-     * method form page clearing
+     * method listItem page clearing
      */
     purge() {
         document.querySelectorAll('div.input-form').forEach((e) => {

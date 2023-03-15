@@ -36,10 +36,10 @@ export class WrapperAccess {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['wrapper-access.hbs'](data));
 
-        this.formComponent = new Form(document.getElementById('wrapper-access-form'));
+        this.formComponent = new Form(document.getElementById('wrapper-access__form'));
         this.formComponent.render(ctx);
 
-        this.buttonComponent = new Button(document.getElementById('wrapper-input-button'));
+        this.buttonComponent = new Button(document.getElementById('wrapper-access__form'));
         this.buttonComponent.render(ctx.button);
     }
 

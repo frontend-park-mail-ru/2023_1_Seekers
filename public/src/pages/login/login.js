@@ -2,6 +2,7 @@ import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Validation} from '../../modules/validation.js';
 import {WrapperAccess} from '../../components/wrapper-access/wrapper-access.js';
+import {PromoBox} from "../../components/promo-box/promo-box.js";
 
 /**
  * class implementing login page
@@ -44,7 +45,7 @@ export class Login extends BasePage {
      */
     onSubmitHandler = async (e) => {
         const data = [];
-        const form = document.getElementById('wrapper-access-form');
+        const form = document.getElementById('wrapper-access__form');
         const fields = this.#context.forms.login.fields;
 
         e.preventDefault();
@@ -95,7 +96,7 @@ export class Login extends BasePage {
      * method register events button submit/input focus/redirect link
      */
     registerEvents = () => {
-        const form = document.getElementById('wrapper-access-form');
+        const form = document.getElementById('wrapper-access__form');
         form.addEventListener('submit', this.onSubmitHandler);
         form.addEventListener('focusout', this.#validator.focusValidator);
 
@@ -107,7 +108,7 @@ export class Login extends BasePage {
      * method unregister events button submit/input focus/redirect link
      */
     unregisterEvents = () => {
-        const form = document.getElementById('wrapper-access-form');
+        const form = document.getElementById('wrapper-access__form');
         form.removeEventListener('submit', this.onSubmitHandler);
         form.removeEventListener('focusout', this.#validator.focusValidator);
 
@@ -124,6 +125,9 @@ export class Login extends BasePage {
 
         this.accessComponent = new WrapperAccess(document.getElementById('main-side'));
         this.accessComponent.render(context);
+
+        this.promoBox = new PromoBox(document.getElementById('main-side'));
+        this.promoBox.render(context.promoBox);
 
         this.registerEvents();
     };
