@@ -1,4 +1,5 @@
 import '../templates.js';
+import {MailContent} from '../../uikit/mail-content/mail-content.js';
 
 
 /**
@@ -10,6 +11,18 @@ export class Mail {
      * @type {Element}
      */
     #parent;
+
+    /**
+     * Private field that contains current HTML-element
+     * @type {Element}
+     */
+    #element;
+
+    /**
+     * Private field that contains current HTML-element
+     * @type {Object[]}
+     */
+    #childs = [];
 
     /**
      * Constructor that creates a component class Mail
@@ -25,6 +38,10 @@ export class Mail {
     render() {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['mail.hbs']());
+        this.#element = this.#parent.getElementsByClassName('mail')[0];
+        const mailContent = new MailContent(
+            this.#element.getElementsByClassName('mail__content')[0]);
+        mailContent.render({});
     }
 
     /**

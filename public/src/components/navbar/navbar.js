@@ -1,5 +1,6 @@
 import '../templates.js';
 import {IconButton} from '../../uikit/icon-button/icon-button.js';
+import {ProfileButton} from '../../uikit/profile-button/profile-button.js';
 
 /**
  * class implementing component Navbar
@@ -75,6 +76,10 @@ export class Navbar {
                 new IconButton(this.#element.getElementsByClassName('navbar__frame-right')[0]);
             button.render(buttonCtx);
         });
+        this.profileButton = new ProfileButton(
+            this.#element.getElementsByClassName('navbar__frame-right')[0]);
+        this.profileButton.render({text: 'example@mailbox.com'});
+
         this.#childs = [...this.#element.getElementsByClassName('icon-button')];
     }
 
