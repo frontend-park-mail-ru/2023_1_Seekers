@@ -148,16 +148,10 @@ export class MailBox extends BasePage {
         this.#childs['navbar'] = new Navbar(this.#element);
         this.#childs['navbar'].render(this.#context.navbarIconButtons);
 
-        this.content = document.createElement('div');
-        this.content.classList.add('content');
-        this.#element.appendChild(this.content);
+        this.content = document.getElementsByClassName('content')[0];
 
         this.#childs['menu'] = new Menu(this.content);
         this.#childs['menu'].render(this.#context.menuButtons);
-
-        this.line = document.createElement('div');
-        this.line.classList.add('vertical-line');
-        this.content.appendChild(this.line);
 
         this.#childs['letterList'] = new LetterList(this.content);
         this.#childs['letterList'].render(data.messages);
