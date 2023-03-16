@@ -38,7 +38,7 @@ export class Menu {
      */
     eventCatcher = (e) => {
         e.preventDefault();
-        e.currentTarget.dispatchEvent(new Event('toMainPage', {bubbles: true}));
+        e.currentTarget.dispatchEvent(new Event('toMailArea', {bubbles: true}));
     };
 
     /**

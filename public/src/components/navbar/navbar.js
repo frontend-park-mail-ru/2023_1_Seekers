@@ -1,6 +1,7 @@
 import '../templates.js';
 import {IconButton} from '../../uikit/icon-button/icon-button.js';
 import {ProfileButton} from '../../uikit/profile-button/profile-button.js';
+import {AccountSidebar} from '../account-sidebar/account-sidebar.js';
 
 /**
  * class implementing component Navbar
@@ -23,6 +24,8 @@ export class Navbar {
      * @type {{}}
      */
     #childs = {};
+
+    #context;
 
     /**
      * Constructor that creates a component class Navbar
@@ -47,8 +50,8 @@ export class Navbar {
      * unregister listeners for each button in letter-list
      */
     registerEventListener() {
-        this.#childs.forEach((child) => {
-            child.addEventListener('click', this.eventCatcher);
+        Object.values(this.#childs).forEach((child) => {
+            child.element.addEventListener('click', this.eventCatcher);
         });
     }
 
@@ -56,8 +59,8 @@ export class Navbar {
      * method unregisterEventListener unregister events click on navbar
      */
     unregisterEventListener() {
-        this.#childs.forEach((child) => {
-            child.removeEventListener('click', this.eventCatcher);
+        Object.values(this.#childs).forEach((child) => {
+            child.element.removeEventListener('click', this.eventCatcher);
         });
     }
 
@@ -68,19 +71,13 @@ export class Navbar {
     render(ctx) {
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['navbar.hbs'](ctx));
-
+        this.#context = ctx;
         this.#element = this.#parent.getElementsByClassName('navbar')[0];
 
-        ctx.forEach((buttonCtx) => {
-            const button =
-                new IconButton(this.#element.getElementsByClassName('navbar__frame-right')[0]);
-            button.render(buttonCtx);
-        });
-        this.profileButton = new ProfileButton(
+        this.#childs['profile button'] = new ProfileButton(
             this.#element.getElementsByClassName('navbar__frame-right')[0]);
-        this.profileButton.render({text: 'example@mailbox.com'});
-
-        this.#childs = [...this.#element.getElementsByClassName('icon-button')];
+        this.#childs['profile button'].render(ctx);
+        this.registerEventListener();
     }
 
     /**
@@ -88,6 +85,9 @@ export class Navbar {
      */
     purge() {
         this.unregisterEventListener();
+        Object.values(this.#childs).forEach((child) => {
+            child.purge();
+        });
         this.#element.remove();
     }
 }

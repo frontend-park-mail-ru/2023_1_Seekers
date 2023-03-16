@@ -11,9 +11,8 @@ export class ProfileButton {
      * @type {Element}
      */
     #parent;
-    #sidebar
 
-    #context;
+    element;
 
     /**
      * Constructor that creates a component class Menu
@@ -24,33 +23,16 @@ export class ProfileButton {
     }
 
     /**
-     * promise handle profile button
-     * @param e - event click on profile button
-     * @returns {Promise<void>}
-     */
-    onClick = async (e) => {
-        e.preventDefault();
-        if (this.#sidebar !== null) {
-            this.#sidebar.purge()
-        }else{
-            this.content = document.getElementsByClassName('main-page__content')[0];
-            this.#sidebar = new AccountSidebar(this.content);
-            this.#sidebar.render(this.#context)
-        }
-    }
-
-    /**
      * A method that draws a component into a parent HTML element
      * according to a given template and context
      * @param {Object} context pattern rendering context
-     * @param {string} context.img button icon (raw svg code)
-     * @param {string} context.text text inside button
-     * @param {string} context.href href of button to proceed
+     * @param {string} context.img profile image
+     * @param {string} context.login profile mail
      */
     render(context) {
         this.#parent.insertAdjacentHTML('beforeend',
             window.Handlebars.templates['profile-button.hbs'](context));
-        this.#context = context;
+        this.element = this.#parent.getElementsByClassName('profile-button')[0];
     }
 
     /**

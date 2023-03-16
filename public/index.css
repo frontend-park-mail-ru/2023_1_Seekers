@@ -14,6 +14,7 @@
 @import './src/components/promo-box/promo-box.css';
 @import './src/components/wrapper-access/wrapper-access.css';
 @import './src/components/mail/mail.css';
+@import './src/components/mail-area/mail-area.css';
 
 @import './src/uikit/notification/notification.css';
 @import './src/uikit/button/button.css';

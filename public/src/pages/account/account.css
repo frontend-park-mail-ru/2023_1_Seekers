@@ -4,10 +4,7 @@
     position: relative;
     width: 100%;
     background: #0a0a0b;
-}
-
-.account-navbar {
-    height: 56px;
+    order: 1;
 }
 
 .account-content-area {

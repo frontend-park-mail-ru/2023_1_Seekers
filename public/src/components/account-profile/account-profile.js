@@ -33,7 +33,6 @@ export class AccountProfile {
      */
     render(ctx) {
         const data = this.prepareForm(ctx);
-        console.log(data)
         this.#parent.insertAdjacentHTML('afterbegin',
             window.Handlebars.templates['account-profile.hbs'](data));
 

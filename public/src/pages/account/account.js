@@ -10,7 +10,7 @@ import {AccountProfile} from "../../components/account-profile/account-profile.j
 /**
  * class implementing account
  */
-export class Account extends BasePage {
+export class Account {
     /**
      * Private field that contains current HTML-element
      * @type {Element}
@@ -33,6 +33,8 @@ export class Account extends BasePage {
      */
     #context;
 
+    #parent;
+
     /**
      *
      * @param {Element} parent HTML-element for including content
@@ -40,16 +42,10 @@ export class Account extends BasePage {
      * @param {Object} connector - connector to backend
      */
     constructor(parent, config, connector) {
-        super(
-            parent,
-            window.Handlebars.templates['account.hbs'],
-        );
+        this.#parent = parent;
 
         this.#context = config;
         this.#connector = connector;
-
-        super.render({});
-        this.#element = document.getElementById('account-page');
     }
 
     /**
@@ -78,15 +74,16 @@ export class Account extends BasePage {
      * method insert account to HTML
      */
     render = () => {
+        this.#parent.insertAdjacentHTML('afterbegin',
+            window.Handlebars.templates['account.hbs']());
 
-        this.#childs['navbar'] = new Navbar(this.#element.children.namedItem('account-navbar'));
-        this.#childs['navbar'].render(this.#context.navbarIconButtons);
+        this.#element = document.getElementById('account-page');
 
         this.#childs['account-navigation'] = new AccountNavigation(document.getElementById('account-content__navigation'));
         this.#childs['account-navigation'].render(this.#context.accountFields.account);
 
         this.profile = new AccountProfile(document.getElementById('account-content__content'));
-        this.profile.render(this.#context.accountFields.account)
+        this.profile.render(this.#context.accountFields.account);
 
 
         this.registerEventListener();

@@ -3,10 +3,9 @@
 import {BasePage} from '../base-page.js';
 import '../templates.js';
 import {Navbar} from '../../components/navbar/navbar.js';
-import {LetterList} from '../../components/letterList/letterList.js';
-import {Mail} from '../../components/mail/mail.js';
-import {Menu} from '../../components/menu/menu.js';
-import {AccountSidebar} from "../../components/account-sidebar/account-sidebar.js";
+import {MailArea} from '../../components/mail-area/mail-area.js';
+import {AccountSidebar} from '../../components/account-sidebar/account-sidebar.js';
+import {Account} from '../account/account.js';
 
 
 /**
@@ -55,10 +54,6 @@ export class MailBox extends BasePage {
      * method register events button submit and input focus
      */
     registerEventListener = () => {
-        Object.values(this.#childs).forEach((child) => {
-            child.registerEventListener();
-        });
-
         addEventListener('toMainPage', this.eventCatcher);
     };
 
@@ -66,39 +61,7 @@ export class MailBox extends BasePage {
      * method unregister events button submit and input focus
      */
     unregisterEventListener = () => {
-        Object.values(this.#childs).forEach((child) => {
-            child.unregisterEventListener();
-        });
-
         removeEventListener('toMainPage', this.eventCatcher);
-    };
-
-    /**
-     *
-     * @param {string} listName type of letterList (inbox, outbox, ...))
-     * @return {Promise<{}|{data: *, status: *}>}
-     */
-    getLetterList = async (listName) => {
-        const [status, data] = await this.#connector.makeGetRequest('api/v1' + listName)
-            .catch((err) => console.log(err));
-
-        switch (status) {
-        case 401:
-            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-            return {};
-
-        case 500:
-            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-            return {};
-
-        case 200:
-            break;
-
-        default:
-            this.#element.dispatchEvent(new Event('login', {bubbles: true}));
-            return {};
-        }
-        return {status, data};
     };
 
     /**
@@ -123,15 +86,25 @@ export class MailBox extends BasePage {
                 this.#element.dispatchEvent(new Event('login', {bubbles: true}));
             });
             return;
+        case '/profile':
+            this.#childs['content'].purge();
+            this.#childs['content'] = new Account(this.#element, this.#context, this.#connector);
+            this.#childs['content'].render();
+            break;
+        case '/security':
+            this.#childs['content'].purge();
+            this.#childs['content'] = new Account(this.#element, this.#context, this.#connector);
+            this.#childs['content'].render();
+            break;
+        case '/sidebar':
+            if (document.getElementById('account-sidebar') !== null) {
+                document.querySelector('.account-sidebar').classList.add('account-sidebar__delete');
+            } else {
+                this.#childs['sidebar'] = new AccountSidebar(this.#element);
+                this.#childs['sidebar'].render(this.#context.accountFields.account);
+            }
+            break;
         default:
-
-            const {status, data} = await this.getLetterList(rel);
-            if (status !== 200) return;
-
-            this.#childs['letterList'].purge();
-
-            this.#childs['letterList'] = new LetterList(this.content);
-            this.#childs['letterList'].render(data.messages);
         }
     };
 
@@ -142,41 +115,24 @@ export class MailBox extends BasePage {
         super.render({});
         this.#element = document.getElementsByClassName('main-page')[0];
 
-        const {status, data} = await this.getLetterList('/inbox');
-        console.log(data);
-        if (status !== 200) return;
-
         this.#childs['navbar'] = new Navbar(this.#element);
-        this.#childs['navbar'].render(this.#context.navbarIconButtons);
+        this.#childs['navbar'].render(this.#context.accountFields.account);
 
-        this.content = document.getElementsByClassName('main-page__content')[0];
-
-        this.#childs['menu'] = new Menu(this.content);
-        this.#childs['menu'].render(this.#context.menuButtons);
-
-        this.#childs['letterList'] = new LetterList(this.content);
-        this.#childs['letterList'].render(data.messages);
-
-        this.#childs['mail'] = new Mail(this.content);
-        this.#childs['mail'].render({from_user: 'example@mailbox.ru', recipient: 'recip@mailbox.ru', time: '2023.14.14'});
-
-        this.#childs['sidebar'] = new AccountSidebar(this.content);
-        this.#childs['sidebar'].render(this.#context.accountFields.account)
-
-
+        this.#childs['content'] = new MailArea(this.#element, this.#context, this.#connector);
+        this.#childs['content'].render();
         this.registerEventListener();
     };
-
 
 
     /**
      * method mailbox page clearing
      */
     purge = () => {
-        this.unregisterEventListener();
         Object.values(this.#childs).forEach((child) => {
+            console.log(child);
             child.purge();
         });
         this.#element.remove();
+        this.unregisterEventListener();
     };
 }
