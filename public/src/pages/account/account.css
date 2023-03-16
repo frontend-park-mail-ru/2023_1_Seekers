@@ -1,0 +1,26 @@
+.account-page {
+    font-family: "Roboto Thin", sans-serif;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    background: #0a0a0b;
+}
+
+.account-navbar {
+    height: 56px;
+}
+
+.account-content-area {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 16px;
+}
+
+.account-content__navigation {
+    width: 280px;
+}
+
+.account-content__content {
+    width: 560px;
+}

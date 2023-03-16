@@ -43,6 +43,7 @@
     height: 40px;
     border-radius: 8px;
     text-decoration: none;
+    min-height: 44px;
 }
 
 .account-sidebar__avatar__active-user {

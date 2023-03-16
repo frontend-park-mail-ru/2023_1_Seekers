@@ -2,6 +2,7 @@ import {Login} from './pages/login/login.js';
 import {Signup} from './pages/signup/signup.js';
 import {MailBox} from './pages/mailBox/mailBox.js';
 import {Connector} from './modules/ajax.js';
+import {Account} from "./pages/account/account.js";
 
 /**
  *
@@ -194,38 +195,65 @@ const config = {
         },
     ],
 
-    account: {
-        login:'test@mb.com',
-        firstName:'Александр',
-        lastName:'Вяткин',
-        avatar:'img/female-avatar.png',
-        fields: {
-            profile: {
-                href: '/profile',
-                text: 'Личные данные',
-                img: `<path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
+    accountFields: {
+        account: {
+            login:'test@mb.com',
+            firstName:'Александр',
+            lastName:'Вяткин',
+            avatar:'img/female-avatar.png',
+            fields: {
+                profile: {
+                    href: '/profile',
+                    text: 'Личные данные',
+                    img: `<path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
                  0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
-            },
-            security: {
-                href: '/security',
-                text: 'Пароль и безопасность',
-                img: `
+                },
+                security: {
+                    href: '/security',
+                    text: 'Пароль и безопасность',
+                    img: `
                  <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
                  0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                  `,
-            },
-            logout: {
-                href: '/logout',
-                text: 'Выйти',
-                img: `
+                },
+                logout: {
+                    href: '/logout',
+                    text: 'Выйти',
+                    img: `
                  <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
                  0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                  `,
+                },
             },
-        }
+            profile: {
+                fields: {
+                    firstName: {
+                        title: 'Имя',
+                        type: 'text',
+                        name: 'first-name',
+                        maxlenght: '30',
+                    },
+                    lastName: {
+                        title: 'Фамилия',
+                        type: 'text',
+                        name: 'last-name',
+                        maxlenght: '30',
+                    },
+                    login: {
+                        title: 'Логин',
+                        type: 'text',
+                        name: 'login',
+                        maxlenght: '30',
+                    },
+                },
+                button: {
+                    buttonText: 'Сохранить',
+                },
+            },
+        },
     },
 
     authorised: false,
@@ -244,3 +272,6 @@ addEventListener('login', (e) => renderLoginPage(root, config, conn));
 addEventListener('signup', (e) => renderRegisterPage(root, config, conn));
 let currentPage = new MailBox(root, config, conn);
 currentPage.render();
+
+// let currentPage = new Account(root, config, conn);
+// currentPage.render();

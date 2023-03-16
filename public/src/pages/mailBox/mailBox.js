@@ -160,8 +160,8 @@ export class MailBox extends BasePage {
         this.#childs['mail'] = new Mail(this.content);
         this.#childs['mail'].render();
 
-        this.sidebar = new AccountSidebar(this.content);
-        this.sidebar.render(this.#context.account)
+        this.#childs['sidebar'] = new AccountSidebar(this.content);
+        this.#childs['sidebar'].render(this.#context.accountFields.account)
 
 
         this.registerEventListener();
