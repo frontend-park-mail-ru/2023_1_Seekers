@@ -90,5 +90,5 @@ select:-webkit-autofill:focus {
 }
 
 .input-form__error__border {
-    border: 2px solid var(--error-input);
+    border: 1px solid var(--error-input);
 }

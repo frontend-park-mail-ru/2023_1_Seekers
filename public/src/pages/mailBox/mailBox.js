@@ -6,7 +6,7 @@ import {Navbar} from '../../components/navbar/navbar.js';
 import {LetterList} from '../../components/letterList/letterList.js';
 import {Mail} from '../../components/mail/mail.js';
 import {Menu} from '../../components/menu/menu.js';
-// import {AccountSidebar} from "../../components/account-sidebar/account-sidebar.js";
+import {AccountSidebar} from "../../components/account-sidebar/account-sidebar.js";
 
 
 /**
@@ -160,19 +160,14 @@ export class MailBox extends BasePage {
         this.#childs['mail'] = new Mail(this.content);
         this.#childs['mail'].render();
 
-        // this.sidebar = new AccountSidebar(this.content);
-        // this.sidebar.render(this.#context.account)
-        //
-        // document.addEventListener('click', this.onSidebarClick);
+        this.sidebar = new AccountSidebar(this.content);
+        this.sidebar.render(this.#context.account)
+
 
         this.registerEventListener();
     };
 
-    // onSidebarClick = (e) => {
-    //     if(e.target.id !== 'account-sidebar'){
-    //         this.sidebar.purge();
-    //     }
-    // }
+
 
     /**
      * method mailbox page clearing

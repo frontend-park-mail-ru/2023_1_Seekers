@@ -16,6 +16,10 @@
     100% { right: 0; }
 }
 
+.account-sidebar__delete {
+    transition: transform 0.5s 0s;
+    transform: translateX(434px);
+}
 
 
 .account-sidebar__frame {
@@ -38,6 +42,7 @@
     padding-right: 12px;
     height: 40px;
     border-radius: 8px;
+    text-decoration: none;
 }
 
 .account-sidebar__avatar__active-user {

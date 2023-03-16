@@ -6,6 +6,7 @@
     background-color: var(--background-color);
     height: 100%;
     flex: 1;
+    overflow: hidden;
 }
 
 .main-page__content {
