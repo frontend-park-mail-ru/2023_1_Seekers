@@ -15,7 +15,7 @@ export class Validation {
         err.classList.add('error-input');
         target.parentElement.insertAdjacentElement('beforeend', err);
 
-        target.classList.add('error-border');
+        target.classList.add('input-form__error__border');
     };
 
     /**

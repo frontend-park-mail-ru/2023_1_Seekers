@@ -23,3 +23,15 @@
     -moz-box-flex: 1;
     flex-grow: 1;
 }
+
+.list-item__icon {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 4px;
+}
+
+.list-item__svg {
+    width: 30px;
+    stroke: var(--text-main-color);
+    pointer-events: none;
+}

@@ -57,12 +57,17 @@ export class Signup extends BasePage {
         const [firstName, lastName, login, password, repeatPw] = data;
 
         if (validation.validateRegFields(login, password, repeatPw, firstName, lastName)) {
-            const [status, errBody] = await this.#connector.makePostRequest('api/v1/signup',
+            const [status, body] = await this.#connector.makePostRequest('api/v1/signup',
                 {first_name: firstName, last_name: lastName, login, password, repeat_pw: repeatPw})
                 .catch((err) => console.log(err));
 
             switch (status) {
             case 200:
+                this.#context.authorised = true;
+                this.#context.accountFields.account.login = body.email;
+                this.#context.accountFields.account.firstName = body.firstName;
+                this.#context.accountFields.account.lastName = body.lastName;
+
                 const notification = new Notification(document.getElementById('root'));
                 notification.render('Вы успешно зарегестрировались!');
 
@@ -70,7 +75,7 @@ export class Signup extends BasePage {
                 break;
             case 403:
             case 401:
-                if (errBody.message === 'invalid login') {
+                if (body.message === 'invalid login') {
                     if (document.getElementById('loginError') === null) {
                         this.#validator.putErrorMessage(document.getElementById('login'),
                             'loginError', 'Некорректный логин');

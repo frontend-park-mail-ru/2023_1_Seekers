@@ -35,7 +35,7 @@
     bottom: 0;
     border-radius: 7px;
     background: #262626;
-    box-shadow: 0 0 20px rgb(255 255 255 / 25%);
+    border: 1px solid var(--field_border);
     backdrop-filter: blur(30px);
 }
 
@@ -91,4 +91,15 @@ select:-webkit-autofill:focus {
 
 .input-form__error__border {
     border: 1px solid var(--error-input);
+}
+
+.error-input {
+    position: absolute;
+    bottom: -6px;
+    padding-left: 10px;
+    color: var(--error-input);
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
 }

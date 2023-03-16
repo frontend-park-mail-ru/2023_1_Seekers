@@ -8,7 +8,7 @@
     border-bottom: 1px solid #585151;
     border-top: 1px solid #585151;
     border-top-right-radius: 7px;
-    height: 456px;
+    height: 490px;
     width: 360px;
 }
 
@@ -66,15 +66,4 @@
     text-decoration: none;
     color: var(--link-text-color) !important;
     position: relative;
-}
-
-.error-input {
-    position: absolute;
-    bottom: -7px;
-    padding-left: 15px;
-    color: var(--error-input);
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 12px;
-    letter-spacing: 0.03em;
 }

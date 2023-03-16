@@ -21,7 +21,7 @@
 }
 
 .promo-box_size {
-    height: 456px;
+    height: 490px;
     width: 360px;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .promo-box_indent {
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .promo-box__list {

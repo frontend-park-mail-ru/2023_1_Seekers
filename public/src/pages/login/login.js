@@ -58,27 +58,32 @@ export class Login extends BasePage {
         const [login, password] = data;
 
         if (this.#validator.validateRegFields(login, password)) {
-            const [status, errBody] =
+            const [status, body] =
                 await this.#connector.makePostRequest('api/v1/signin', {login, password})
                     .catch((err) => console.log(err));
+
             switch (status) {
-            case 200:
-                this.#context.authorised = true;
-                e.target.dispatchEvent(new Event('main', {bubbles: true}));
-                break;
-            case 401:
-                if (errBody.message === 'invalid login') {
-                    if (document.getElementById('loginError') === null) {
-                        this.#validator.putErrorMessage(document.getElementById('login'),
-                            'loginError', 'Некорректный логин');
+                case 200:
+                    this.#context.authorised = true;
+                    this.#context.accountFields.account.login = body.email;
+                    this.#context.accountFields.account.firstName = body.firstName;
+                    this.#context.accountFields.account.lastName = body.lastName;
+
+                    e.target.dispatchEvent(new Event('main', {bubbles: true}));
+                    break;
+                case 401:
+                    if (body.message === 'invalid login') {
+                        if (document.getElementById('loginError') === null) {
+                            this.#validator.putErrorMessage(document.getElementById('login'),
+                                'loginError', 'Некорректный логин');
+                        }
+                    } else if (document.getElementById('passwordError') === null) {
+                        this.#validator.putErrorMessage(document.getElementById('password'),
+                            'passwordError', 'Неправильный пароль');
                     }
-                } else if (document.getElementById('passwordError') === null) {
-                    this.#validator.putErrorMessage(document.getElementById('password'),
-                        'passwordError', 'Неправильный пароль');
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
             }
         }
     };
