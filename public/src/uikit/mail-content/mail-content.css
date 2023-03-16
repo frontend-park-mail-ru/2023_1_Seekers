@@ -1,7 +1,9 @@
 .mail-content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    flex: 1;
+    gap: 20px;
+    padding: 0;
 }
