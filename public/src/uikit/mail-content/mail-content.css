@@ -1,13 +1,9 @@
 .mail-content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 20px 10px 10px;
-    gap: 10px;
     position: relative;
-    height: 100%;
-    width: 100%;
-    flex: 1;
-    overflow: auto;
-    overflow-x: hidden;
+    gap: 20px;
+    padding: 0;
 }

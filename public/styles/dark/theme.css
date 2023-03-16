@@ -1,6 +1,6 @@
 :root {
-    --primary-background-color: #1C1C1C;
-    --secondary-background-color: #262626;
+    --primary-background-color: #151516;
+    --secondary-background-color: #202020;
     --primary-elements-color: #7c7c7d;
     --primary-delimeters-color: #3E3E3E;
     --primary-active-color: #5060EC;
@@ -77,4 +77,6 @@
     --color-transparent--active: rgba(255, 255, 255, 0.08);
     --background_content: #19191a;
     --field_border: #FFFFFF1E;
+    --color-separator-primary: #151516;
+    --mail-text-background-color: #282828;
 }

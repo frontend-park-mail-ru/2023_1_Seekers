@@ -1,5 +1,32 @@
-<div class="mail">
-    <div class="mail__content"></div>
-    <div class="mail__bottom-actions"></div>
+<div class="mail mail_size mail_color">
+
+            <div class="mail__header mail__header_size">
+
+                <div class="mail__read-state"></div>
+                {{#if img includeZero=true}}
+                    <img src={{img}} class="mail__image" alt="{{from_user}}">
+                {{else}}
+                    <img src='img/female-avatar.png' class="mail__image" alt="{{from_user}}">
+                {{/if}}
+
+                <div class="mail__header-details">
+                    <div class="mail__author">
+                        <p class="mail__contact font-normal-0">{{ from_user }}</p>
+                        <p class="mail__date font-normal-0">{{ time }}</p>
+                    </div>
+                    <div class="mail__recipients">
+                        <p class="font-normal-0">to: {{recipient}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mail__content mail__content_color"></div>
+
+
+
+
+    <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color">
+
+    </div>
 </div>
 
