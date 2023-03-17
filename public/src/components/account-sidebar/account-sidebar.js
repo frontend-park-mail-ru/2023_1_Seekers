@@ -43,7 +43,6 @@ export class AccountSidebar {
         document.addEventListener('click', this.onSidebarClick);
 
         this.#buttons.forEach((button) => {
-            console.log(button.href);
             button.addEventListener('click', this.eventCatcher);
         });
 

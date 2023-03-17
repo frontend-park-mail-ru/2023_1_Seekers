@@ -3,6 +3,7 @@
     flex-direction: column;
     text-align: left;
     position: relative;
+    min-width: 180px;
 }
 
 .input-form_indent {

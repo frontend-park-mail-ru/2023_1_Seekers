@@ -1,0 +1,25 @@
+.popout {
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000000;
+}
+
+.popout__viewport {
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.popout__modal {
+    box-sizing: border-box;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}

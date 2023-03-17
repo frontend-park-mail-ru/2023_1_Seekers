@@ -56,7 +56,7 @@ export class Account {
             child.registerEventListener();
         });
 
-        addEventListener('toMainPage', this.eventCatcher);
+        // addEventListener('toMainPage', this.eventCatcher);
     };
 
     /**

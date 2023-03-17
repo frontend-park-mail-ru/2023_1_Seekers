@@ -286,7 +286,7 @@ const config = {
 
 const root = document.getElementById('root');
 
-const conn = new Connector('http://89.208.197.150', 8001, {
+const conn = new Connector('http://127.0.0.1', 8001, {
     'Content-Type': 'application/json',
     'accept': 'application/json',
 });
