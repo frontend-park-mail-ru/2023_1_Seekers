@@ -1,0 +1,49 @@
+.button-classic {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+}
+
+.button-classic__label {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+}
+
+.button-classic_indent {
+    padding: 10px 0;
+}
+
+.button-classic_size-l {
+    height: 36px;
+    min-width: 80%;
+    border-radius: 4px;
+}
+
+.button-classic_color {
+    background: var(--button-default-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
+    0 7px 21px var(--button-shadow-far-default-color);
+}
+
+.button-classic_color:hover {
+    background: var(--button-hover-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
+    0 7px 21px var(--button-shadow-far-hover-color);
+}
+
+.button-classic_color:active {
+    background: var(--button-active-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
+    0 7px 21px var(--button-shadow-far-active-color);
+}
+
+.button-classic_color:disabled {
+    background: var(--button-disabled-color);
+    box-shadow: 0 3px 8px var(--button-shadow-close-disabled-color),
+    0 7px 21px var(--button-shadow-far-disabled-color);
+    cursor: default;
+}

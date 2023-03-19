@@ -1,0 +1,41 @@
+.icon-button {
+    display: flex;
+    position: relative;
+    border-radius: 6px;
+    flex: none;
+    cursor: pointer;
+}
+
+.icon-button_size {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-button_color {
+    background: var(--navbar-buttons-default-fill-color);
+    border: 1px solid var(--navbar-buttons-default-border-color);
+}
+
+.icon-button_color:Hover {
+    background: var(--navbar-buttons-hover-fill-color);
+    border: 1px solid var(--navbar-buttons-hover-border-color);
+}
+
+.icon-button_color:Active {
+    background: var(--navbar-buttons-active-fill-color);
+    border: 1px solid var(--navbar-buttons-active-border-color);
+}
+
+.icon-button__icon {
+    display: flex;
+    stroke: var(--navbar-icons-default-color);
+    flex: 1;
+}
+
+.icon-button:hover .icon-button__icon {
+    stroke: var(--navbar-icons-hover-color);
+}
+
+.icon-button:active .icon-button__icon {
+    stroke: var(--navbar-icons-active-color);
+}

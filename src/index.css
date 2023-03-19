@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.root {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    flex: 1;
+    height: 100%;
+}

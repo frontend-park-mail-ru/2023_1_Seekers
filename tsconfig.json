@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@utils/*":  ["src/utils/*"],
+      "@components/*":  ["src/components/*"],
+      "@config/*":  ["src/config/*"],
+      "@views/*":  ["src/views/*"],
+      "@assets/*":  ["src/assets/*"],
+      "@router/*":  ["src/router/*"],
+      "@stores/*":  ["src/stores/*"],
+    },
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "target": "es2017",
+    "allowJs": true,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+  },
+  "exclude": ["node_modules"],
+}

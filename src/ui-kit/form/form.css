@@ -1,0 +1,106 @@
+.input-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    min-width: 180px;
+}
+
+.input-form_indent {
+    padding: 10px 0;
+}
+
+.input-form__size-l {
+    box-sizing: border-box;
+    outline: none;
+    padding-left: 15px;
+    min-height: 36px;
+    min-width: 80%;
+}
+
+.input-form__color {
+    backdrop-filter: blur(30px);
+    border-radius: 7px;
+    color: var(--secondary-text-color);
+    background: var(--input-default-fill-color);
+}
+
+.input-form__size-l:focus,
+.input-form__size-l:hover {
+    box-sizing: border-box;
+    min-height: 36px;
+    min-width: 80%;
+    left: 0;
+    right: 0;
+    top: 34.45%;
+    bottom: 0;
+    border-radius: 7px;
+    background: #262626;
+    border: 1px solid var(--field_border);
+    backdrop-filter: blur(30px);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #E5E5E5;
+    -webkit-box-shadow: 0 0 20px rgb(255 255 255 / 25%);
+    transition: background-color 5000s ease-in-out 0.5s;
+}
+
+.input-form__span {
+    position: absolute;
+    pointer-events: none;
+    text-transform: uppercase;
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+}
+
+.input-form__span_indent {
+    padding: 10px;
+}
+
+.input-form__span_size-l {
+    border-radius: 7px;
+}
+
+.input-form__span_animation {
+    transition: 0.5s;
+}
+
+.input-form__span_color {
+    color: var(--helpers-text-color) !important;
+}
+
+.input-form__size-l:focus ~ span,
+.input-form__size-l:valid ~ span {
+    transform: translateX(10px) translateY(-4px);
+    font-size: 0.70em;
+    padding: 0 10px;
+    background: #2E2E2E;
+    border-radius: 7px;
+}
+
+.input-form__error__border {
+    border: 1px solid var(--error-input);
+}
+
+.error-input {
+    position: absolute;
+    bottom: -6px;
+    padding-left: 10px;
+    color: var(--error-input);
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+}
