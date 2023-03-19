@@ -3,18 +3,13 @@ declare module "*.hbs" {
     export default _;
 }
 
-interface anyObject{
-    [key: string]: any
-}
-
-interface componentProps extends anyObject {
-    parent: HTMLElement,
-}
-
 type HandlebarsTemplateDelegate<T = any> = Handlebars.TemplateDelegate<T>;
 
+declare const DOMAIN: string;
 
-interface DispatcherCallbackObject {
-    callback: emptyCallback | oneParamCallback,
-    isPending: boolean,
-}
+type userData = {
+    username: string,
+    email: string,
+    avatar: string | Blob,
+    password?: string,
+};

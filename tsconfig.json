@@ -7,11 +7,13 @@
       "@components/*":  ["src/components/*"],
       "@config/*":  ["src/config/*"],
       "@views/*":  ["src/views/*"],
+      "@actions/*":  ["src/actions/*"],
       "@assets/*":  ["src/assets/*"],
       "@router/*":  ["src/router/*"],
       "@stores/*":  ["src/stores/*"],
     },
-    "module": "commonjs",
+    "strict": true,
+    "module": "ES6",
     "noImplicitAny": true,
     "sourceMap": true,
     "target": "es2017",
@@ -22,5 +24,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
   },
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
 }

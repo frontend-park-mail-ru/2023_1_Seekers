@@ -1,25 +1,9 @@
+import { config } from '@config/config'
+
 /**
  * class implementing request work
  */
-export class Connector {
-    readonly #origin;
-
-    readonly #port;
-
-    readonly #headers;
-
-    /**
-     *
-     * @param  origin  -
-     * @param  port -
-     * @param  headers - headers of request
-     */
-    constructor(origin: string, port: number, headers: object) {
-        this.#origin = origin;
-        this.#port = port;
-        this.#headers = headers;
-    }
-
+class Connector {
     /**
      * method implementing http-request
      * @param url - path url
@@ -43,10 +27,10 @@ export class Connector {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            headers: this.#headers,
+            headers: config.headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${this.#origin}:${this.#port}/${url}`, options);
+        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options);
     };
 
 
@@ -60,9 +44,9 @@ export class Connector {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
-            headers: this.#headers,
+            headers: config.headers,
         };
-        return this.makeRequest(`${this.#origin}:${this.#port}/${url}`, options);
+        return this.makeRequest(`$${config.basePath}:${config.basePort}/${url}`, options);
     };
 
 
@@ -76,8 +60,10 @@ export class Connector {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
-            headers: this.#headers,
+            headers: config.headers,
         };
-        return this.makeRequest(`${this.#origin}:${this.#port}/${url}`, options);
+        return this.makeRequest(`$${config.basePath}:${config.basePort}/${url}`, options);
     };
 }
+
+export default new Connector();
