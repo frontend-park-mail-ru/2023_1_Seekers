@@ -13,3 +13,5 @@ type userData = {
     avatar: string | Blob,
     password?: string,
 };
+
+type CustomPages = LoginPage;

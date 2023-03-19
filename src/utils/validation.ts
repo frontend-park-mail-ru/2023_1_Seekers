@@ -8,15 +8,15 @@ export class Validation {
      * @param id - id of error element
      * @param text - message of error
      */
-    putErrorMessage = (target: Element, id: string, text: string) => {
-        const err = document.createElement('div');
-        err.textContent = text;
-        err.id = id;
-        err.classList.add('error-input');
-        target.parentElement.insertAdjacentElement('beforeend', err);
-
-        target.classList.add('input-form__error__border');
-    };
+    // putErrorMessage = (target: Element, id: string, text: string) => {
+    //     const err = document.createElement('div');
+    //     err.textContent = text;
+    //     err.id = id;
+    //     err.classList.add('error-input');
+    //     target.parentElement.insertAdjacentElement('beforeend', err);
+    //
+    //     target.classList.add('input-form__error__border');
+    // };
 
     /**
      * method validate login

@@ -5,7 +5,7 @@ class Dispatcher {
     _callbacks: Map<number, DispatcherCallbackObject>;
     _isDispatching: boolean;
     _lastID: number;
-    _pendingPayload: object;
+    _pendingPayload?: object;
     /**
      * constructor
      */

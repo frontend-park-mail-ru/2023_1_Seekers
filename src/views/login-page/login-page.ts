@@ -1,6 +1,8 @@
-import { View } from '@views/View';
+import { View } from '@views/view';
 import { Validation } from '@utils/validation'
 import template from '@views/login-page/login-page.hbs'
+
+import userStore from '@stores/user-store'
 /**
  * class implementing login page
  */
@@ -8,32 +10,22 @@ export class Login extends View {
     /**
      * Private field that contains a form validator
      */
+    context: any;
+
     #validator;
 
-    /**
-     * Private field that contains request worker
-     */
-    #connector;
-
-    /**
-     * information for configuring page
-     */
-    #context;
 
     /**
      *
      * @param {Element} parent HTML-element for including content
-     * @param {Object} context - template rendering context
-     * @param {Object} connector - connector to backend
      */
-    constructor(parent: Element, context: object, connector: object) {
+    constructor(parent: Element) {
         super(
             parent,
             template,
         );
+        console.log('hello from login page constructor')
         this.#validator = new Validation();
-        this.#context = context;
-        this.#connector = connector;
     }
 
     // /**
@@ -121,8 +113,10 @@ export class Login extends View {
     /**
      * method insert login to HTML
      */
-    render = () => {
-        // const context = this.#context.forms.login;
+    override render = () => {
+        console.log('hello from render login page')
+        this.context = userStore.getContext(userStore._storeNames.context);
+        console.log(this.context)
         // super.render(context);
 
 

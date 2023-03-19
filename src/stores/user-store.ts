@@ -23,8 +23,9 @@ class UserStore extends BaseStore {
     /**
      * constructor
      */
-    constructor() {
+    constructor(config: any) {
         super();
+        this.#context = config;
         this._storage = new Map();
         this._storage.set(this._storeNames.isAuth, false);
         this._storage.set(this._storeNames.responseCode, null);
@@ -72,4 +73,4 @@ class UserStore extends BaseStore {
     }
 }
 
-export default new UserStore();
+export default new UserStore(config);

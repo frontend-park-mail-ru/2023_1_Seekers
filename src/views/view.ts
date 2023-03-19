@@ -1,5 +1,3 @@
-import { Component } from '@components/Component';
-
 export class View  {
     #parent;
     readonly #template;
