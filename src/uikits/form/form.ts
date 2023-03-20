@@ -1,6 +1,8 @@
-import {UiKit} from "@/ui-kit/ui-kit";
+import {UiKit} from "@/uikits/uikit";
 
-import template from '@uikit/form/form.hbs';
+import template from '@uikits/form/form.hbs';
+
+import '@uikits/form/form.scss'
 
 /**
  * class implementing component input form

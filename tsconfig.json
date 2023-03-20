@@ -12,7 +12,7 @@
       "@router/*":  ["src/router/*"],
       "@stores/*":  ["src/stores/*"],
       "@styles/*":  ["src/styles/*"],
-      "@uikit/*":  ["src/ui-kit/*"],
+      "@uikits/*":  ["src/uikits/*"],
     },
     "strict": true,
     "module": "ES6",

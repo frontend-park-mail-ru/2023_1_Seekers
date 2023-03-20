@@ -1,6 +1,8 @@
-import {UiKit} from "@/ui-kit/ui-kit";
+import {UiKit} from "@/uikits/uikit";
 
-import template from '@uikit/button/button.hbs';
+import template from '@uikits/button/button.hbs';
+
+import '@uikits/button/button.scss'
 
 /**
  * class implementing component button

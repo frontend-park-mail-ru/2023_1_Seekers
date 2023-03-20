@@ -5,7 +5,16 @@ import template from '@views/login-page/login-page.hbs'
 import '@views/login-page/login-page.scss';
 
 import userStore from '@stores/user-store'
-import {PromoBox} from "@uikit/../../components/promo-box/promo-box";
+import {PromoBox} from "@components/promo-box/promo-box";
+import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
+
+export interface Login {
+    state: {
+        promoBox: any;
+        wrapperAccess: any;
+    }
+}
+
 /**
  * class implementing login page
  */
@@ -14,8 +23,6 @@ export class Login extends View {
      * Private field that contains a form validator
      */
     context: any;
-
-    // promoBox: anyObject;
 
     #validator;
 
@@ -30,7 +37,10 @@ export class Login extends View {
             template,
         );
         this.#validator = new Validation();
-        // this.promoBox = null;
+        this.state = {
+            promoBox: null,
+            wrapperAccess: null,
+        }
     }
 
     // /**
@@ -124,9 +134,17 @@ export class Login extends View {
         const context = this.context.forms.login;
         super.render(context);
 
-        const mainContent = document.getElementById('main-content');
-        // this.promoBox = new PromoBox(mainContent);
-        // this.promoBox.renderTemplate();
+        const mainContent = document.getElementById('main-content') as HTMLFormElement;
+
+        this.state.wrapperAccess = new WrapperAccess({
+            parent: mainContent,
+        });
+        this.state.wrapperAccess.render();
+
+        this.state.promoBox = new PromoBox({
+            parent: mainContent,
+        });
+        this.state.promoBox.render();
 
 
     };

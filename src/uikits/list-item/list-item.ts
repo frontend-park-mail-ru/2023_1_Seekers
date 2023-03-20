@@ -1,6 +1,8 @@
-import {UiKit} from "@/ui-kit/ui-kit";
+import {UiKit} from "@/uikits/uikit";
 
-import template from '@uikit/list-item/list-item.hbs';
+import template from '@uikits/list-item/list-item.hbs';
+
+import '@uikits/list-item/list-item.scss';
 
 /**
  * class implementing component list-item

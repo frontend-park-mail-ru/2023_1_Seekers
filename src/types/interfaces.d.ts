@@ -12,7 +12,7 @@ interface anyObject{
     [key: string]: any
 }
 
-interface componentProps extends anyObject {
+interface componentContext extends anyObject {
     parent: HTMLElement,
 }
 
