@@ -1,6 +1,8 @@
 'use strict';
 
 import router from "@utils/router";
+import '@/index.scss';
+
 console.log('hello from index ts')
 router.start();
 

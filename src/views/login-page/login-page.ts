@@ -2,7 +2,10 @@ import { View } from '@views/view';
 import { Validation } from '@utils/validation'
 import template from '@views/login-page/login-page.hbs'
 
+import '@views/login-page/login-page.scss';
+
 import userStore from '@stores/user-store'
+import {PromoBox} from "@uikit/../../components/promo-box/promo-box";
 /**
  * class implementing login page
  */
@@ -11,6 +14,8 @@ export class Login extends View {
      * Private field that contains a form validator
      */
     context: any;
+
+    // promoBox: anyObject;
 
     #validator;
 
@@ -24,8 +29,8 @@ export class Login extends View {
             parent,
             template,
         );
-        console.log('hello from login page constructor')
         this.#validator = new Validation();
+        // this.promoBox = null;
     }
 
     // /**
@@ -114,12 +119,14 @@ export class Login extends View {
      * method insert login to HTML
      */
     override render = () => {
-        console.log('hello from render login page')
+
         this.context = userStore.getContext(userStore._storeNames.context);
-        console.log(this.context)
-        // super.render(context);
+        const context = this.context.forms.login;
+        super.render(context);
 
-
+        const mainContent = document.getElementById('main-content');
+        // this.promoBox = new PromoBox(mainContent);
+        // this.promoBox.renderTemplate();
 
 
     };

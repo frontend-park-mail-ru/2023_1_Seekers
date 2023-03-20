@@ -11,6 +11,8 @@
       "@assets/*":  ["src/assets/*"],
       "@router/*":  ["src/router/*"],
       "@stores/*":  ["src/stores/*"],
+      "@styles/*":  ["src/styles/*"],
+      "@uikit/*":  ["src/ui-kit/*"],
     },
     "strict": true,
     "module": "ES6",
