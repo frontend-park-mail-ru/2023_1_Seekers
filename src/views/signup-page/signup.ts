@@ -1,14 +1,11 @@
-import { View } from '@views/view';
-import { Validation } from '@utils/validation'
-import template from '@views/login-page/login-page.hbs'
-
-import '@views/login-page/login-page.scss';
-
-import userStore from '@stores/user-store'
-import {PromoBox} from "@components/promo-box/promo-box";
+import {View} from "@views/view";
+import template from "@views/login-page/login-page.hbs";
+import {Validation} from "@utils/validation";
+import userStore from "@stores/user-store";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
+import {PromoBox} from "@components/promo-box/promo-box";
 
-export interface Login {
+export interface Signup {
     state: {
         promoBox: any;
         wrapperAccess: any;
@@ -16,16 +13,15 @@ export interface Login {
 }
 
 /**
- * class implementing login page
+ * class implementing signup page
  */
-export class Login extends View {
+export class Signup extends View {
     /**
      * Private field that contains a form validator
      */
     context: any;
 
     #validator;
-
 
     /**
      *
@@ -49,8 +45,9 @@ export class Login extends View {
     //  */
     // onSubmitHandler = async (e) => {
     //     const data = [];
+    //     const validation = new Validation();
     //     const form = document.getElementById('wrapper-access__form');
-    //     const fields = this.#context.forms.login.fields;
+    //     const fields = this.#context.forms.signup.fields;
     //
     //     e.preventDefault();
     //
@@ -58,49 +55,58 @@ export class Login extends View {
     //         data.push(form.querySelector(`[name=${fields[input].name}]`).value);
     //     });
     //
+    //     const [firstName, lastName, login, password, repeatPw] = data;
     //
-    //     const [login, password] = data;
-    //
-    //     if (this.#validator.validateRegFields(login, password)) {
-    //         const [status, body] =
-    //             await this.#connector.makePostRequest('api/v1/signin', {login, password})
-    //                 .catch((err) => console.log(err));
+    //     if (validation.validateRegFields(login, password, repeatPw, firstName, lastName)) {
+    //         const [status, body] = await this.#connector.makePostRequest('api/v1/signup',
+    //             {first_name: firstName, last_name: lastName, login, password, repeat_pw: repeatPw})
+    //             .catch((err) => console.log(err));
     //
     //         switch (status) {
-    //             case 200:
-    //                 this.#context.authorised = true;
-    //                 this.#context.accountFields.account.login = body.email;
-    //                 this.#context.accountFields.account.firstName = body.firstName;
-    //                 this.#context.accountFields.account.lastName = body.lastName;
+    //         case 200:
+    //             this.#context.authorised = true;
+    //             this.#context.accountFields.account.login = body.email;
+    //             this.#context.accountFields.account.firstName = body.firstName;
+    //             this.#context.accountFields.account.lastName = body.lastName;
     //
-    //                 e.target.dispatchEvent(new Event('main', {bubbles: true}));
-    //                 break;
-    //             case 401:
-    //                 if (body.message === 'invalid login') {
-    //                     if (document.getElementById('loginError') === null) {
-    //                         this.#validator.putErrorMessage(document.getElementById('login'),
-    //                             'loginError', 'Некорректный логин');
-    //                     }
-    //                 } else if (document.getElementById('passwordError') === null) {
-    //                     this.#validator.putErrorMessage(document.getElementById('password'),
-    //                         'passwordError', 'Неправильный пароль');
+    //             const notification = new Notification(document.getElementById('root'));
+    //             notification.render('Вы успешно зарегестрировались!');
+    //
+    //             e.target.dispatchEvent(new Event('main', {bubbles: true}));
+    //             break;
+    //         case 403:
+    //         case 401:
+    //             if (body.message === 'invalid login') {
+    //                 if (document.getElementById('loginError') === null) {
+    //                     this.#validator.putErrorMessage(document.getElementById('login'),
+    //                         'loginError', 'Некорректный логин');
     //                 }
-    //                 break;
-    //             default:
-    //                 break;
+    //             } else if (document.getElementById('passwordError') === null) {
+    //                 this.#validator.putErrorMessage(document.getElementById('password'),
+    //                     'passwordError', 'Пароль короче 5 символов');
+    //             }
+    //             break;
+    //         case 409:
+    //             if (document.getElementById('loginError') === null) {
+    //                 this.#validator.putErrorMessage(document.getElementById('login'),
+    //                     'loginError', 'Пользователь уже существует');
+    //             }
+    //             break;
+    //         default:
+    //             break;
     //         }
     //     }
     // };
-    //
+
     // /**
-    //  * promise redirect to signup page
-    //  * @param {object} e - event click on redirect link
+    //  * promise redirect to login page
+    //  * @param {object} e - event on click redirect link
     //  */
     // onRedirectHandler = async (e) => {
     //     e.preventDefault();
-    //     e.target.dispatchEvent(new Event('signup', {bubbles: true}));
+    //     e.target.dispatchEvent(new Event('login', {bubbles: true}));
     // };
-
+    //
     // /**
     //  * method register events button submit/input focus/redirect link
     //  */
@@ -126,12 +132,12 @@ export class Login extends View {
     // };
 
     /**
-     * method insert login to HTML
+     * method insert signup to HTML
      */
     override render = () => {
 
         this.context = userStore.getContext(userStore._storeNames.context);
-        const context = this.context.forms.login;
+        const context = this.context.forms.signup;
         super.render(context);
 
         const mainContent = document.getElementById('main-content') as HTMLFormElement;
@@ -146,16 +152,5 @@ export class Login extends View {
         });
         this.state.promoBox.render();
     };
-
-    /**
-     * method login page clearing
-     */
-    // purge() {
-    //     this.unregisterEvents();
-    //     this.accessComponent.purge();
-    //     document.querySelectorAll('div.page').forEach((e) => {
-    //         e.remove();
-    //     });
-    // }
 }
 

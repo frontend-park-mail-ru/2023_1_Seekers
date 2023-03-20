@@ -34,7 +34,6 @@ export class WrapperAccess extends Component {
      * method insert wrapper-access(signup and login) to HTML
      */
     render() {
-
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 title: config.forms.login.windowData.title,
