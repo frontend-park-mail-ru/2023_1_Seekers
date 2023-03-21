@@ -69,10 +69,10 @@ class Store {
 
         let state = {};
 
-        if ( Object.hasOwnProperty.call(action, 'value') ){
-            //state =
-        }else {
-           // state =
+        if (Object.hasOwnProperty.call(action, 'value')) {
+            state = await storeReducer(action.value);
+        } else {
+            state = await storeReducer();
         }
 
         if (state) {
