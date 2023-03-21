@@ -1,4 +1,4 @@
-const CACHE_NAME = `base-${new Date()}`;
+const CACHE_NAME = `seekers-${new Date()}`;
 const urls = [];
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
