@@ -37,7 +37,48 @@ class Store {
         }
     }
 
-    setState() {
+    setState(state: { [key: string]: any }) {
+        let subscribers;
 
+        Object.keys(state).forEach((key) => {
+            this.state[key] = state;
+
+            subscribers = this.mapSubscribers.get(key);
+            if (subscribers && subscribers.length) {
+                subscribers.forEach((subscriber) => subscriber());
+            }
+
+            subscribers = this.mapOnceSubscribers.get(key);
+            if (subscribers && subscribers.length) {
+                subscribers.forEach((subscriber) => subscriber());
+                this.mapOnceSubscribers.delete(key);
+            }
+        })
+    }
+
+    getState(name: string) {
+        return Object.hasOwnProperty.call(this.state, name) ? this.state[name] : null;
+    }
+
+    async dispatch(action: { [key: string]: any }) {
+        const storeReducer = this.mapActionHandlers.get(action.type);
+
+        if (!storeReducer) {
+            return;
+        }
+
+        let state = {};
+
+        if ( Object.hasOwnProperty.call(action, 'value') ){
+            //state =
+        }else {
+           // state =
+        }
+
+        if (state) {
+            this.setState(state);
+        }
     }
 }
+
+export const store = new Store();
