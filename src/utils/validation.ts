@@ -8,15 +8,15 @@ export class Validation {
      * @param id - id of error element
      * @param text - message of error
      */
-    // putErrorMessage = (target: Element, id: string, text: string) => {
-    //     const err = document.createElement('div');
-    //     err.textContent = text;
-    //     err.id = id;
-    //     err.classList.add('error-input');
-    //     target.parentElement.insertAdjacentElement('beforeend', err);
-    //
-    //     target.classList.add('input-form__error__border');
-    // };
+    putErrorMessage = (target: Element, id: string, text: string) => {
+        const err = document.createElement('div');
+        err.textContent = text;
+        err.id = id;
+        err.classList.add('error-input');
+        target.parentElement?.insertAdjacentElement('beforeend', err);
+
+        target.classList.add('input-form__error__border');
+    };
 
     /**
      * method validate login
@@ -98,38 +98,38 @@ export class Validation {
             (this.validateText(surname).status));
     };
 
-    // /**
-    //  * promise handle input real time validation
-    //  * @param {object}  e - event focus on input
-    //  */
-    // focusValidator = async (e: event) => {
-    //     let check;
-    //     switch (e.target.name) {
-    //         case 'first-name':
-    //         case 'last-name':
-    //             check = this.validateText(e.target.value);
-    //             break;
-    //         case 'login':
-    //             check = this.validateLogin(e.target.value);
-    //             break;
-    //         case 'password':
-    //             check = this.validatePassword(e.target.value);
-    //             break;
-    //         case 'repeat_password':
-    //             check = this.validateRePassword(document.getElementById('password').value,
-    //                 e.target.value);
-    //             break;
-    //         default:
-    //             return;
-    //     }
-    //     if (!check.status) {
-    //         if (document.getElementById(e.target.name + 'Error') === null) {
-    //             this.putErrorMessage(document.getElementById(e.target.name),
-    //                 e.target.name + 'Error', check.message);
-    //         }
-    //     } else if (document.getElementById(e.target.name + 'Error') !== null) {
-    //         document.getElementById(e.target.name + 'Error').remove();
-    //         document.getElementById(e.target.name).classList.remove('error-border');
-    //     }
-    // };
+    /**
+     * promise handle input real time validation
+     * @param {object}  e - event focus on input
+     */
+    focusValidator = async (e: any) => {
+        let check;
+        switch (e.target?.name) {
+            case 'first-name':
+            case 'last-name':
+                check = this.validateText(e.target.value);
+                break;
+            case 'login':
+                check = this.validateLogin(e.target.value);
+                break;
+            case 'password':
+                check = this.validatePassword(e.target.value);
+                break;
+            case 'repeat_password':
+                check = this.validateRePassword((document.getElementById('password') as any ).value,
+                    e.target.value);
+                break;
+            default:
+                return;
+        }
+        if (!check.status) {
+            if (document.getElementById(e.target.name + 'Error') === null) {
+                this.putErrorMessage((document.getElementById(e.target.name) as any),
+                    e.target.name + 'Error', check.message);
+            }
+        } else if (document.getElementById(e.target.name + 'Error') !== null) {
+            document.getElementById(e.target.name + 'Error')?.remove();
+            document.getElementById(e.target.name)?.classList.remove('error-border', 'input-form__error__border');
+        }
+    };
 }

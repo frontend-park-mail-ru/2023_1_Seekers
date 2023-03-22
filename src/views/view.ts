@@ -1,5 +1,5 @@
 export class View  {
-    #parent;
+    parent: Element;
     readonly #template;
 
     /**
@@ -8,7 +8,7 @@ export class View  {
      * @param  template - template rendering context
      */
     constructor(parent: Element, template: HandlebarsTemplateDelegate) {
-        this.#parent = parent;
+        this.parent = parent;
         this.#template = template;
     }
 
@@ -17,6 +17,6 @@ export class View  {
      * @param data data context
      */
     render(data: object) {
-        this.#parent.innerHTML += this.#template(data);
+        this.parent.innerHTML += this.#template(data);
     }
 }

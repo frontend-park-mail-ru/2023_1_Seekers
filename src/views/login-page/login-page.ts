@@ -1,5 +1,5 @@
-import { View } from '@views/view';
-import { Validation } from '@utils/validation'
+import {View} from '@views/view';
+import {Validation} from '@utils/validation'
 import template from '@views/login-page/login-page.hbs'
 
 import '@views/login-page/login-page.scss';
@@ -43,75 +43,42 @@ export class Login extends View {
         }
     }
 
-    // /**
-    //  * promise handle button submit
-    //  * @param {object} e - event click on button submit
-    //  */
-    // onSubmitHandler = async (e) => {
-    //     const data = [];
-    //     const form = document.getElementById('wrapper-access__form');
-    //     const fields = this.#context.forms.login.fields;
-    //
-    //     e.preventDefault();
-    //
-    //     Object.keys(fields).forEach((input) => {
-    //         data.push(form.querySelector(`[name=${fields[input].name}]`).value);
-    //     });
-    //
-    //
-    //     const [login, password] = data;
-    //
-    //     if (this.#validator.validateRegFields(login, password)) {
-    //         const [status, body] =
-    //             await this.#connector.makePostRequest('api/v1/signin', {login, password})
-    //                 .catch((err) => console.log(err));
-    //
-    //         switch (status) {
-    //             case 200:
-    //                 this.#context.authorised = true;
-    //                 this.#context.accountFields.account.login = body.email;
-    //                 this.#context.accountFields.account.firstName = body.firstName;
-    //                 this.#context.accountFields.account.lastName = body.lastName;
-    //
-    //                 e.target.dispatchEvent(new Event('main', {bubbles: true}));
-    //                 break;
-    //             case 401:
-    //                 if (body.message === 'invalid login') {
-    //                     if (document.getElementById('loginError') === null) {
-    //                         this.#validator.putErrorMessage(document.getElementById('login'),
-    //                             'loginError', 'Некорректный логин');
-    //                     }
-    //                 } else if (document.getElementById('passwordError') === null) {
-    //                     this.#validator.putErrorMessage(document.getElementById('password'),
-    //                         'passwordError', 'Неправильный пароль');
-    //                 }
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // };
-    //
-    // /**
-    //  * promise redirect to signup page
-    //  * @param {object} e - event click on redirect link
-    //  */
-    // onRedirectHandler = async (e) => {
-    //     e.preventDefault();
-    //     e.target.dispatchEvent(new Event('signup', {bubbles: true}));
-    // };
+    /**
+     * promise handle button submit
+     * @param  e - event click on button submit
+     */
+    onSubmitHandler = async (e: SubmitEvent) => {
+        console.log('login-page -onSubmitHandler - hi')
+        e.preventDefault();
 
-    // /**
-    //  * method register events button submit/input focus/redirect link
-    //  */
-    // registerEvents = () => {
-    //     const form = document.getElementById('wrapper-access__form');
-    //     form.addEventListener('submit', this.onSubmitHandler);
-    //     form.addEventListener('focusout', this.#validator.focusValidator);
-    //
-    //     const redirect = document.getElementById('redirect-link');
-    //     redirect.addEventListener('click', this.onRedirectHandler);
-    // };
+        const data = this.parent.querySelector('.wrapper-access__form') as HTMLElement;
+
+        const login = data.querySelector('input[type=email]') as HTMLInputElement;
+        const password = data.querySelector('input[type=password]') as HTMLInputElement;
+
+        const user = {} as user;
+
+        user.login = login.value;
+        user.password = password.value;
+
+        if (this.#validator.validateRegFields(user.login, user.password)) {
+            console.log('validateRegFields');
+        }
+    };
+
+
+    /**
+     * method register events button submit/input focus/redirect link
+     */
+    registerEvents = () => {
+        const form = document.getElementById('wrapper-access__form');
+
+        form?.addEventListener('submit', this.onSubmitHandler);
+        form?.addEventListener('focusout', this.#validator.focusValidator);
+        // const redirect = document.getElementById('redirect-link');
+        // redirect.addEventListener('click', this.onRedirectHandler);
+
+    };
 
     // /**
     //  * method unregister events button submit/input focus/redirect link
@@ -129,7 +96,6 @@ export class Login extends View {
      * method insert login to HTML
      */
     override render = () => {
-
         this.context = config;
         const context = this.context.forms.login;
         super.render(context);
@@ -145,17 +111,9 @@ export class Login extends View {
             parent: mainContent,
         });
         this.state.promoBox.render();
-    };
 
-    /**
-     * method login page clearing
-     */
-    // purge() {
-    //     this.unregisterEvents();
-    //     this.accessComponent.purge();
-    //     document.querySelectorAll('div.page').forEach((e) => {
-    //         e.remove();
-    //     });
-    // }
+        this.registerEvents();
+
+    };
 }
 

@@ -1,9 +1,10 @@
 import {View} from "@views/view";
 import template from "@views/login-page/login-page.hbs";
 import {Validation} from "@utils/validation";
-import userStore from "@stores/user-store";
+
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
 import {PromoBox} from "@components/promo-box/promo-box";
+import {config} from "@config/config";
 
 export interface Signup {
     state: {
@@ -136,7 +137,7 @@ export class Signup extends View {
      */
     override render = () => {
 
-        this.context = userStore.getContext(userStore._storeNames.context);
+        this.context = config;
         const context = this.context.forms.signup;
         super.render(context);
 
