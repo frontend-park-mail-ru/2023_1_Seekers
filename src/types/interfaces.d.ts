@@ -8,7 +8,7 @@ interface dispatcherPayload {
     data: any
 }
 
-interface anyObject{
+interface anyObject {
     [key: string]: any
 }
 
@@ -20,4 +20,13 @@ interface componentContext extends anyObject {
 interface DispatcherCallbackObject {
     callback: emptyCallback | oneParamCallback,
     isPending: boolean,
+}
+
+interface user extends anyObject {
+    avatar?: string,
+    login: string,
+    password: string,
+    repeatPassword?: string,
+    firstName?: string,
+    lastName?: string,
 }

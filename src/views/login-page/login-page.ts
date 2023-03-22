@@ -4,9 +4,9 @@ import template from '@views/login-page/login-page.hbs'
 
 import '@views/login-page/login-page.scss';
 
-import userStore from '@stores/user-store'
 import {PromoBox} from "@components/promo-box/promo-box";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
+import {config} from "@config/config";
 
 export interface Login {
     state: {
@@ -112,7 +112,7 @@ export class Login extends View {
     //     const redirect = document.getElementById('redirect-link');
     //     redirect.addEventListener('click', this.onRedirectHandler);
     // };
-    //
+
     // /**
     //  * method unregister events button submit/input focus/redirect link
     //  */
@@ -130,7 +130,7 @@ export class Login extends View {
      */
     override render = () => {
 
-        this.context = userStore.getContext(userStore._storeNames.context);
+        this.context = config;
         const context = this.context.forms.login;
         super.render(context);
 
