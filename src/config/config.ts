@@ -14,7 +14,7 @@ export const ROOT: Element = document.getElementById('root')!;
 //     { path: '/profile/', view: profile },
 // ];
 
-export const responsStatuses = {
+export const responseStatuses = {
     OK: 200,
     Created: 201,
     NoContent: 204,
@@ -28,7 +28,7 @@ export const responsStatuses = {
 
 export const config = {
     basePath: 'http://127.0.0.1',
-    basePort: '8002',
+    basePort: '8001',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',

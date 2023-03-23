@@ -1,5 +1,5 @@
 import {Connector} from "@utils/ajax";
-import {config} from "@config/config";
+import {config, responseStatuses} from "@config/config";
 
 interface UserResponse {
     status: number;
@@ -9,8 +9,13 @@ interface UserResponse {
 class ReducerUser {
     async login(user :anyObject) {
         const responsePromise = Connector.makePostRequest(config.api.login, user)
-
         const response = await responsePromise as UserResponse;
+        if (response.status === responseStatuses.OK) {
+            return {
+                user: response.body,
+                statusLogin: null,
+            } as anyObject;
+        }
 
         return {statusLogin: response.status};
     }
@@ -19,7 +24,12 @@ class ReducerUser {
         const responsePromise = Connector.makePostRequest(config.api.signup, user)
 
         const response = await responsePromise as UserResponse;
-
+        if (response.status === responseStatuses.OK) {
+            return {
+                user: response.body,
+                statusLogin: null,
+            } as anyObject;
+        }
         return {statusSignup: response.status};
     }
 }

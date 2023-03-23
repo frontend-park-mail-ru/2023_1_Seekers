@@ -1,3 +1,5 @@
+import {handlers} from '@config/handlers'
+
 interface Store {
     state: { [key: string]: any };
     mapActionHandlers: Map<string, Function>;
@@ -12,7 +14,9 @@ class Store {
         this.mapSubscribers = new Map();
         this.mapOnceSubscribers = new Map();
 
-
+        for (const handler of handlers) {
+            this.register(handler);
+        }
     }
 
     register({type, method}: { type: string, method: Function }) {
@@ -62,7 +66,6 @@ class Store {
 
     async dispatch(action: { [key: string]: any }) {
         const storeReducer = this.mapActionHandlers.get(action.type);
-
         if (!storeReducer) {
             return;
         }

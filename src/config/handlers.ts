@@ -1,5 +1,7 @@
 import {reducerUser} from "@stores/reducers/reducerUser";
 
 const handlers = [
-    { type: 'login', methodStore: reducerUser.login.bind(reducerUser) },
+    { type: 'login', method: reducerUser.login.bind(reducerUser) },
 ]
+
+export { handlers };

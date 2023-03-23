@@ -7,11 +7,16 @@ import '@views/login-page/login-page.scss';
 import {PromoBox} from "@components/promo-box/promo-box";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
 import {config} from "@config/config";
+import { store } from '@stores/store';
+
+import {actionLogin} from "@actions/user";
 
 export interface Login {
     state: {
-        promoBox: any;
-        wrapperAccess: any;
+        promoBox: any,
+        wrapperAccess: any,
+        statusLogin: number,
+        isSubscribed: boolean,
     }
 }
 
@@ -40,7 +45,11 @@ export class Login extends View {
         this.state = {
             promoBox: null,
             wrapperAccess: null,
+            statusLogin: 0,
+            isSubscribed: false,
         }
+
+        this.subscribeLoginStatus = this.subscribeLoginStatus.bind(this);
     }
 
     /**
@@ -48,13 +57,12 @@ export class Login extends View {
      * @param  e - event click on button submit
      */
     onSubmitHandler = async (e: SubmitEvent) => {
-        console.log('login-page -onSubmitHandler - hi')
         e.preventDefault();
 
-        const data = this.parent.querySelector('.wrapper-access__form') as HTMLElement;
+        const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
-        const login = data.querySelector('input[type=email]') as HTMLInputElement;
-        const password = data.querySelector('input[type=password]') as HTMLInputElement;
+        const login = data.querySelector('input[name=login]') as HTMLInputElement;
+        const password = data.querySelector('input[name=password]') as HTMLInputElement;
 
         const user = {} as user;
 
@@ -63,6 +71,14 @@ export class Login extends View {
 
         if (this.#validator.validateRegFields(user.login, user.password)) {
             console.log('validateRegFields');
+
+
+            if (!this.state.isSubscribed) {
+                store.subscribe('statusLogin', this.subscribeLoginStatus);
+                this.state.isSubscribed = true;
+            }
+
+            store.dispatch(actionLogin(user));
         }
     };
 
@@ -80,22 +96,29 @@ export class Login extends View {
 
     };
 
-    // /**
-    //  * method unregister events button submit/input focus/redirect link
-    //  */
-    // unregisterEvents = () => {
-    //     const form = document.getElementById('wrapper-access__form');
-    //     form.removeEventListener('submit', this.onSubmitHandler);
-    //     form.removeEventListener('focusout', this.#validator.focusValidator);
-    //
-    //     const redirect = document.getElementById('redirect-link');
-    //     redirect.removeEventListener('click', this.onRedirectHandler);
-    // };
+    /**
+     * method unregister events button submit/input focus/redirect link
+     */
+    unregisterEvents = () => {
+        const form = document.getElementById('wrapper-access__form');
+        form?.removeEventListener('submit', this.onSubmitHandler);
+        form?.removeEventListener('focusout', this.#validator.focusValidator);
+
+        // const redirect = document.getElementById('redirect-link');
+        // redirect.removeEventListener('click', this.onRedirectHandler);
+    };
 
     /**
      * method insert login to HTML
      */
     override render = () => {
+        if(store.getState('user')) {
+            this.unregisterEvents();
+            this.purge();
+            return;
+        }
+
+
         this.context = config;
         const context = this.context.forms.login;
         super.render(context);
@@ -115,5 +138,20 @@ export class Login extends View {
         this.registerEvents();
 
     };
+
+    /**
+     * method login page clearing
+     */
+    purge() {
+        document.querySelectorAll('div.page').forEach((e) => {
+            e.remove();
+        });
+    }
+
+    subscribeLoginStatus() {
+        console.log('hi subscribeLoginStatus')
+        this.state.statusLogin = store.getState('statusLogin');
+        this.render();
+    }
 }
 
