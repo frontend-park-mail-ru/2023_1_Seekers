@@ -4,7 +4,6 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 
 
-
 class LettersStore extends BaseStore {
 
     _storeNames = {
@@ -12,24 +11,14 @@ class LettersStore extends BaseStore {
     };
 
     constructor() {
-        console.log('from lettters')
+        console.log('from lettters');
         super();
         this._storage.set(this._storeNames.letters, []);
     }
 
-    override async _onDispatch(payload: dispatcherPayload){
-        switch (payload.type){
-            case 'login':
-                await this.getLetters();
-                microEvents.trigger('fromLogin');
-                break
-            default:
-        }
-    }
-
     getLetters = async () => {
         console.log('in getLetters');
-        const responsePromise = Connector.makeGetRequest(config.api.getLetters + 'inbox')
+        const responsePromise = Connector.makeGetRequest(config.api.getLetters + 'inbox');
         const response = await responsePromise;
         if (response.status === responseStatuses.OK) {
             this._storage.set(this._storeNames.letters, response);

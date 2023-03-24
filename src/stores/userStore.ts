@@ -18,18 +18,6 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.password, undefined)
     }
 
-    override async _onDispatch(payload: dispatcherPayload){
-        console.log(payload.type);
-        switch (payload.type){
-            case 'login':
-                console.log('hello1!');
-                await this.login(payload.data);
-                microEvents.trigger('fromLogin');
-                break
-            default:
-        }
-    }
-
     async login(user: anyObject) {
         const responsePromise = Connector.makePostRequest(config.api.login, user)
         const response = await responsePromise;

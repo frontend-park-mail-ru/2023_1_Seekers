@@ -79,7 +79,6 @@ export class Login extends View {
         if (this.#validator.validateRegFields(user.login, user.password)) {
             console.log('validateRegFields');
 
-
             dispatcher.dispatch(actionLogin(user));
         }
     };
@@ -93,9 +92,6 @@ export class Login extends View {
 
         form?.addEventListener('submit', this.onSubmitHandler);
         form?.addEventListener('focusout', this.#validator.focusValidator);
-        // const redirect = document.getElementById('redirect-link');
-        // redirect.addEventListener('click', this.onRedirectHandler);
-
     };
 
     /**
@@ -105,21 +101,12 @@ export class Login extends View {
         const form = document.getElementById('wrapper-access__form');
         form?.removeEventListener('submit', this.onSubmitHandler);
         form?.removeEventListener('focusout', this.#validator.focusValidator);
-
-        // const redirect = document.getElementById('redirect-link');
-        // redirect.removeEventListener('click', this.onRedirectHandler);
     };
 
     /**
      * method insert login to HTML
      */
     override render = () => {
-        // if(dispatcher.getState('user')) {
-        //     this.unregisterEvents();
-        //     this.purge();
-        //     return;
-        // }
-
 
         this.context = config;
         const context = this.context.forms.login;
