@@ -46,6 +46,8 @@ export const config = {
         signup: `${prefixApi}signup`,
         logout: `${prefixApi}logout`,
         getLetters: `${prefixApi}`,
+        getMail: `${prefixApi}`,
+        getMenu: `${prefixApi}`
         // session: `${prefixApi}session`,
     },
     forms: {
