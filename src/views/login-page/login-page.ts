@@ -2,6 +2,9 @@ import {View} from '@views/view';
 import {Validation} from '@utils/validation'
 import template from '@views/login-page/login-page.hbs'
 
+import {reducerLetters} from "@stores/LettersStore";
+import {reducerUser} from "@stores/userStore";
+
 import '@views/login-page/login-page.scss';
 
 import {PromoBox} from "@components/promo-box/promo-box";
@@ -60,6 +63,9 @@ export class Login extends View {
     onSubmitHandler = async (e: SubmitEvent) => {
         e.preventDefault();
 
+        console.log(reducerUser._storage.get('name'));
+        console.log(reducerLetters._storage.get('letters'));
+
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
         const login = data.querySelector('input[name=login]') as HTMLInputElement;
@@ -108,11 +114,11 @@ export class Login extends View {
      * method insert login to HTML
      */
     override render = () => {
-        if(dispatcher.getState('user')) {
-            this.unregisterEvents();
-            this.purge();
-            return;
-        }
+        // if(dispatcher.getState('user')) {
+        //     this.unregisterEvents();
+        //     this.purge();
+        //     return;
+        // }
 
 
         this.context = config;
@@ -151,7 +157,7 @@ export class Login extends View {
 
     subscribeLoginStatus() {
         console.log('hi subscribeLoginStatus')
-        this.state.statusLogin = dispatcher.getState('statusLogin');
+        // this.state.statusLogin = dispatcher.getState('statusLogin');
         this.render();
     }
 }

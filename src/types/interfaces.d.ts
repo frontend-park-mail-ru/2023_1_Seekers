@@ -4,7 +4,7 @@ interface baseStoreObject {
 }
 
 interface dispatcherPayload {
-    actionName: string,
+    type: string,
     data: any
 }
 

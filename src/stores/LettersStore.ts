@@ -1,18 +1,30 @@
-import {Connector} from "@utils/ajax";
-import {config, responseStatuses} from "@config/config";
-import {microEvents} from "@utils/microevents";
+import {Connector} from '@utils/ajax';
+import {config, responseStatuses} from '@config/config';
+import {microEvents} from '@utils/microevents';
+import BaseStore from '@stores/BaseStore';
 
 
 
-class LettersStore {
-    _storage: Map<string, any>;
+class LettersStore extends BaseStore {
+
     _storeNames = {
         letters: 'letters',
     };
 
     constructor() {
-        this._storage = new Map();
-        this._storage.set(this._storeNames.letters, [])
+        console.log('from lettters')
+        super();
+        this._storage.set(this._storeNames.letters, []);
+    }
+
+    override async _onDispatch(payload: dispatcherPayload){
+        switch (payload.type){
+            case 'login':
+                await this.getLetters();
+                microEvents.trigger('fromLogin');
+                break
+            default:
+        }
     }
 
     getLetters = async () => {
@@ -22,6 +34,7 @@ class LettersStore {
         if (response.status === responseStatuses.OK) {
             this._storage.set(this._storeNames.letters, response);
             microEvents.trigger('letterListChanged');
+            console.log(this._storage.get(this._storeNames.letters));
         }
     };
 }
