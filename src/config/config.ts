@@ -1,19 +1,10 @@
 'use strict';
 
+import {Login} from '@views/login-page/login-page'
+
 const prefixApi = 'api/v1/';
 
 export const ROOT: Element = document.getElementById('root')!;
-
-// export const routes = [
-//     { path: '/', view: mainPage },
-//     { path: '/login/', view: login },
-//     { path: '/signup/', view: signup },
-// ];
-
-// export const privateRoutes = [
-//     { path: '/profile/', view: profile },
-// ];
-
 export const responseStatuses = {
     OK: 200,
     Created: 201,
@@ -24,6 +15,15 @@ export const responseStatuses = {
     InternalServerError: 500,
 };
 
+export const routes = [
+    // { path: '/', view: mainPage },
+    {path: '/login/', view: Login},
+    // { path: '/signup/', view: signup },
+];
+
+export const privateRoutes = [
+    // { path: '/profile/', view: profile },
+];
 
 
 export const config = {
@@ -74,6 +74,7 @@ export const config = {
             },
             button: {
                 buttonText: 'Войти',
+                redirect: '/',
             },
             promoBox: {
                 title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
@@ -140,6 +141,7 @@ export const config = {
             },
             button: {
                 buttonText: 'Создать',
+                redirect: '/',
             },
             promoBox: {
                 title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',

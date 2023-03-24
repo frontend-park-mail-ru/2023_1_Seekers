@@ -82,7 +82,9 @@ export class Login extends View {
             dispatcher.dispatch(actionLogin(user));
         }
     };
-
+    onRedirectHandler = async (e: MouseEvent) => {
+        e.preventDefault();
+    };
 
     /**
      * method register events button submit/input focus/redirect link
@@ -92,6 +94,9 @@ export class Login extends View {
 
         form?.addEventListener('submit', this.onSubmitHandler);
         form?.addEventListener('focusout', this.#validator.focusValidator);
+
+        const redirect = document.getElementById('redirect-link');
+        redirect?.addEventListener('click', this.onRedirectHandler);
     };
 
     /**
@@ -101,6 +106,9 @@ export class Login extends View {
         const form = document.getElementById('wrapper-access__form');
         form?.removeEventListener('submit', this.onSubmitHandler);
         form?.removeEventListener('focusout', this.#validator.focusValidator);
+
+        const redirect = document.getElementById('redirect-link');
+        redirect?.removeEventListener('click', this.onRedirectHandler);
     };
 
     /**
