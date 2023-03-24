@@ -27,7 +27,7 @@ export const responseStatuses = {
 
 
 export const config = {
-    basePath: 'http://127.0.0.1',
+    basePath: 'http://89.208.197.150',
     basePort: '8001',
     headers: {
         'Content-Type': 'application/json',
@@ -45,6 +45,7 @@ export const config = {
         login: `${prefixApi}login`,
         signup: `${prefixApi}signup`,
         logout: `${prefixApi}logout`,
+        getLetters: `${prefixApi}`,
         // session: `${prefixApi}session`,
     },
     forms: {

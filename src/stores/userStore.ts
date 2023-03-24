@@ -1,12 +1,18 @@
 import {Connector} from "@utils/ajax";
 import {config, responseStatuses} from "@config/config";
+import {microEvents} from "@utils/microevents";
 
 interface UserResponse {
     status: number;
     body: user
 }
 
-class ReducerUser {
+class UserStore {
+
+    constructor() {
+
+    }
+
     async login(user :anyObject) {
         const responsePromise = Connector.makePostRequest(config.api.login, user)
         const response = await responsePromise as UserResponse;
@@ -16,6 +22,8 @@ class ReducerUser {
                 statusLogin: null,
             } as anyObject;
         }
+
+        microEvents.trigger('fromLogin');
 
         return {statusLogin: response.status};
     }
@@ -34,4 +42,4 @@ class ReducerUser {
     }
 }
 
-export const reducerUser = new ReducerUser();
+export const reducerUser = new UserStore();

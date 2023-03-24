@@ -1,98 +1,87 @@
-/**
- * class implementing dispatcher
- */
+import {handlers} from '@config/handlers'
+
+interface Dispatcher {
+    state: { [key: string]: any };
+    mapActionHandlers: Map<string, Function>;
+    // mapSubscribers: Map<string, Array<Function>>;
+    // mapOnceSubscribers: Map<string, Array<Function>>;
+}
+
 class Dispatcher {
-    _callbacks: Map<number, DispatcherCallbackObject>;
-    _isDispatching: boolean;
-    _lastID: number;
-    _pendingPayload?: object;
-    /**
-     * constructor
-     */
     constructor() {
-        this._isDispatching = false;
-        this._callbacks = new Map();
-        this._lastID = 0;
+        this.state = {};
+        this.mapActionHandlers = new Map();
+        // this.mapSubscribers = new Map();
+        // this.mapOnceSubscribers = new Map();
+
+        for (const handler of handlers) {
+            this.register(handler);
+        }
     }
 
-    /**
-     * method register new callback in dispatcher
-     * @param callback - callback
-     */
-    register(callback: objectFunction) {
-        this._callbacks.set(this._lastID++, {callback: callback, isPending: false});
+    register({type, method}: { type: string, method: Function }) {
+        this.mapActionHandlers.set(type, method);
     }
 
-    /**
-     * method unregister callback
-     * @param id - callback id
-     */
-    unregister(id: number) {
-        if (this._callbacks.has(id)) {
-            this._callbacks.delete(id);
+    // subscribe(type: string, callback: Function, once = false) {
+    //     const arraySubscribe = !once ? this.mapSubscribers.get(type) : this.mapOnceSubscribers.get(type);
+    //     if (arraySubscribe) {
+    //         arraySubscribe.push(callback);
+    //     } else {
+    //         !once ? this.mapSubscribers.set(type, [callback]) : this.mapOnceSubscribers.set(type, [callback]);
+    //     }
+    // }
+    //
+    // unsubscribe(type: string, func: Function) {
+    //     const arraySubscribe = this.mapSubscribers.get(type);
+    //     if (arraySubscribe) {
+    //         this.mapSubscribers.set(type, arraySubscribe.filter(
+    //             (item) => item.name !== func.name
+    //         ));
+    //     }
+    // }
+
+    // setState(state: { [key: string]: any }) {
+    //     let subscribers;
+    //
+    //     Object.keys(state).forEach((key) => {
+    //         this.state[key] = state;
+    //
+    //         subscribers = this.mapSubscribers.get(key);
+    //         if (subscribers && subscribers.length) {
+    //             subscribers.forEach((subscriber) => subscriber());
+    //         }
+    //
+    //         subscribers = this.mapOnceSubscribers.get(key);
+    //         if (subscribers && subscribers.length) {
+    //             subscribers.forEach((subscriber) => subscriber());
+    //             this.mapOnceSubscribers.delete(key);
+    //         }
+    //     })
+    // }
+
+    getState(name: string) {
+        return Object.hasOwnProperty.call(this.state, name) ? this.state[name] : null;
+    }
+
+    async dispatch(action: { [key: string]: any }) {
+        const storeReducer = this.mapActionHandlers.get(action.type);
+        if (!storeReducer) {
             return;
         }
-    }
 
-    /**
-     * method  dispatches a payload to all registered callbacks.
-     * @param payload - data to store
-     */
-    dispatch(payload: object) {
-        if (this.isDispatching()) {
-            return
+        let state = {};
+
+        if (Object.hasOwnProperty.call(action, 'value')) {
+            state = await storeReducer(action.value);
+        } else {
+            state = await storeReducer();
         }
 
-        this._startDispatching(payload);
-
-        try {
-            for (const [key, value] of this._callbacks) {
-                if (value.isPending) {
-                    continue;
-                }
-                this._invokeCallback(key);
-            }
-        } finally {
-            this._stopDispatching();
-        }
-    }
-
-    /**
-     * check dispatch status
-     * @returns dispatch status
-     */
-    isDispatching() {
-        return this._isDispatching;
-    }
-
-    /**
-     * method call khe... khe... callback
-     * @param id - callback id
-     */
-    _invokeCallback(id: number) {
-        this._callbacks.get(id)!.isPending = true;
-        this._callbacks.get(id)!.callback(this._pendingPayload);
-    }
-
-    /**
-     * method initialize sending
-     * @param payload - data for store
-     */
-    _startDispatching(payload: object) {
-        for (const value of this._callbacks.values()) {
-            value.isPending = false;
-        }
-        this._pendingPayload = payload;
-        this._isDispatching = true;
-    }
-
-    /**
-     * method stop dispatch
-     */
-    _stopDispatching() {
-        delete this._pendingPayload;
-        this._isDispatching = false;
+        // if (state) {
+        //     this.setState(state);
+        // }
     }
 }
 
-export default new Dispatcher();
+export const dispatcher = new Dispatcher();

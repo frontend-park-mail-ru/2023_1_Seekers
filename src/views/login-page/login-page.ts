@@ -7,9 +7,10 @@ import '@views/login-page/login-page.scss';
 import {PromoBox} from "@components/promo-box/promo-box";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
 import {config} from "@config/config";
-import { store } from '@stores/store';
+import { dispatcher } from '@utils/dispatcher';
 
 import {actionLogin} from "@actions/user";
+import {microEvents} from "@utils/microevents";
 
 export interface Login {
     state: {
@@ -73,12 +74,7 @@ export class Login extends View {
             console.log('validateRegFields');
 
 
-            if (!this.state.isSubscribed) {
-                store.subscribe('statusLogin', this.subscribeLoginStatus);
-                this.state.isSubscribed = true;
-            }
-
-            store.dispatch(actionLogin(user));
+            dispatcher.dispatch(actionLogin(user));
         }
     };
 
@@ -112,7 +108,7 @@ export class Login extends View {
      * method insert login to HTML
      */
     override render = () => {
-        if(store.getState('user')) {
+        if(dispatcher.getState('user')) {
             this.unregisterEvents();
             this.purge();
             return;
@@ -137,9 +133,14 @@ export class Login extends View {
 
         this.registerEvents();
 
+        if (!this.state.isSubscribed) {
+            microEvents.bind('fromLogin', this.subscribeLoginStatus);
+            this.state.isSubscribed = true;
+        }
+
     };
 
-    /**
+    /**\
      * method login page clearing
      */
     purge() {
@@ -150,7 +151,7 @@ export class Login extends View {
 
     subscribeLoginStatus() {
         console.log('hi subscribeLoginStatus')
-        this.state.statusLogin = store.getState('statusLogin');
+        this.state.statusLogin = dispatcher.getState('statusLogin');
         this.render();
     }
 }
