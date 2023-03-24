@@ -1,87 +1,99 @@
-import {handlers} from '@config/handlers'
-
-interface Dispatcher {
-    state: { [key: string]: any };
-    mapActionHandlers: Map<string, Function>;
-    // mapSubscribers: Map<string, Array<Function>>;
-    // mapOnceSubscribers: Map<string, Array<Function>>;
-}
-
+/**
+ * Класс, реализующий Диспетчер.
+ */
 class Dispatcher {
+    _callbacks: Map<number, DispatcherCallbackObject>;
+    _isDispatching: boolean;
+    _lastId: number;
+    _pendingPayload?: object;
+    /**
+     * constructor
+     */
     constructor() {
-        this.state = {};
-        this.mapActionHandlers = new Map();
-        // this.mapSubscribers = new Map();
-        // this.mapOnceSubscribers = new Map();
-
-        for (const handler of handlers) {
-            this.register(handler);
-        }
+        this._isDispatching = false;
+        this._callbacks = new Map();
+        this._lastId = 0;
     }
 
-    register({type, method}: { type: string, method: Function }) {
-        this.mapActionHandlers.set(type, method);
+    /**
+     * Метод, регистрирующий новый коллбек в диспетчере.
+     * @param newCallback - функция-коллбек
+     */
+    register(newCallback: objectFunction) {
+        this._callbacks.set(this._lastId++, {callback: newCallback, isPending: false});
     }
 
-    // subscribe(type: string, callback: Function, once = false) {
-    //     const arraySubscribe = !once ? this.mapSubscribers.get(type) : this.mapOnceSubscribers.get(type);
-    //     if (arraySubscribe) {
-    //         arraySubscribe.push(callback);
-    //     } else {
-    //         !once ? this.mapSubscribers.set(type, [callback]) : this.mapOnceSubscribers.set(type, [callback]);
-    //     }
-    // }
-    //
-    // unsubscribe(type: string, func: Function) {
-    //     const arraySubscribe = this.mapSubscribers.get(type);
-    //     if (arraySubscribe) {
-    //         this.mapSubscribers.set(type, arraySubscribe.filter(
-    //             (item) => item.name !== func.name
-    //         ));
-    //     }
-    // }
-
-    // setState(state: { [key: string]: any }) {
-    //     let subscribers;
-    //
-    //     Object.keys(state).forEach((key) => {
-    //         this.state[key] = state;
-    //
-    //         subscribers = this.mapSubscribers.get(key);
-    //         if (subscribers && subscribers.length) {
-    //             subscribers.forEach((subscriber) => subscriber());
-    //         }
-    //
-    //         subscribers = this.mapOnceSubscribers.get(key);
-    //         if (subscribers && subscribers.length) {
-    //             subscribers.forEach((subscriber) => subscriber());
-    //             this.mapOnceSubscribers.delete(key);
-    //         }
-    //     })
-    // }
-
-    getState(name: string) {
-        return Object.hasOwnProperty.call(this.state, name) ? this.state[name] : null;
-    }
-
-    async dispatch(action: { [key: string]: any }) {
-        const storeReducer = this.mapActionHandlers.get(action.type);
-        if (!storeReducer) {
+    /**
+     * Метод, удаляющий регистрацию коллбека.
+     * @param id - идентификатор коллбека
+     */
+    unregister(id: number) {
+        if (this._callbacks.has(id)) {
+            this._callbacks.delete(id);
             return;
         }
+        throw new Error('Dispatcher: не существует запрошенного callback');
+    }
 
-        let state = {};
-
-        if (Object.hasOwnProperty.call(action, 'value')) {
-            state = await storeReducer(action.value);
-        } else {
-            state = await storeReducer();
+    /**
+     * Метод, организующий рассылку.
+     * @param payload - данные для передачи в стор
+     */
+    dispatch(payload: object) {
+        if (this.isDispatching()) {
+            throw new Error('Dispatcher: метод dispatch должен быть запущен при выключенном Dispatcher');
         }
 
-        // if (state) {
-        //     this.setState(state);
-        // }
+        this._startDispatching(payload);
+
+        try {
+            for (const [key, value] of this._callbacks) {
+
+                if (value.isPending) {
+                    continue;
+                }
+                this._invokeCallback(key);
+            }
+        } finally {
+            this._stopDispatching();
+        }
+    }
+
+    /**
+     * Метод, возвращающий статус рассылки: активная или нет
+     * @returns статус активности рассылки диспетчера
+     */
+    isDispatching() {
+        return this._isDispatching;
+    }
+
+    /**
+     * Метод, вызывающий функцию коллбека у id.
+     * @param id - идентификатор коллбека
+     */
+    _invokeCallback(id: number) {
+        this._callbacks.get(id)!.isPending = true;
+        this._callbacks.get(id)!.callback(this._pendingPayload);
+    }
+
+    /**
+     * Метод, инициирующий рассылку действий.
+     * @param payload - данные для передачи в стор
+     */
+    _startDispatching(payload: object) {
+        for (const value of this._callbacks.values()) {
+            value.isPending = false;
+        }
+        this._pendingPayload = payload;
+        this._isDispatching = true;
+    }
+
+    /**
+     * Метод, завершающий рассылку действий.
+     */
+    _stopDispatching() {
+        delete this._pendingPayload;
+        this._isDispatching = false;
     }
 }
-
 export const dispatcher = new Dispatcher();
