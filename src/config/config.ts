@@ -1,6 +1,7 @@
 'use strict';
 
-import {Login} from '@views/login-page/login-page'
+import {loginPage} from '@views/login-page/login-page'
+import {signupPage} from '@views/signup-page/signup-page'
 
 const prefixApi = 'api/v1/';
 
@@ -17,8 +18,8 @@ export const responseStatuses = {
 
 export const routes = [
     // { path: '/', view: mainPage },
-    {path: '/login/', view: Login},
-    // { path: '/signup/', view: signup },
+    {path: '/login', view: loginPage},
+    { path: '/signup', view: signupPage },
 ];
 
 export const privateRoutes = [

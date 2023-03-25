@@ -11,8 +11,12 @@ import {ListItem} from "@uikits/list-item/list-item";
 
 export interface WrapperAccess {
     state: {
-        forms:any,
-        button: any
+        title: string
+        forms: any,
+        button: any,
+        bottomText: string,
+        bottomLink: string,
+        bottomLinkText: string,
     },
 }
 
@@ -20,14 +24,9 @@ export interface WrapperAccess {
  * class implementing component wrapper-access
  */
 export class WrapperAccess extends Component {
-    constructor(context: componentContext) {
+    constructor(context: componentContext, state: any) {
         super(context);
-        this.state = {
-            forms: {
-                fields: config.forms.login.fields,
-            },
-            button: config.forms.login.button
-        };
+        this.state = state;
     }
 
     /**
@@ -36,12 +35,12 @@ export class WrapperAccess extends Component {
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                title: config.forms.login.windowData.title,
+                title: this.state.title,
                 forms: Form.renderTemplate(this.state.forms),
                 button: Button.renderTemplate(this.state.button),
-                bottomText: config.forms.login.windowData.bottomText,
-                bottomLink: config.forms.login.windowData.bottomLink,
-                bottomLinkText: config.forms.login.windowData.bottomLinkText,
+                bottomText: this.state.bottomText,
+                bottomLink: this.state.bottomLink,
+                bottomLinkText: this.state.bottomLinkText,
             }
         ));
     }

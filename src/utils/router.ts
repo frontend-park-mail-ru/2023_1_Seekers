@@ -1,20 +1,28 @@
 import {config, ROOT, routes, privateRoutes} from "@config/config";
-import {Login} from '@views/login-page/login-page'
+import {loginPage} from '@views/login-page/login-page'
+import {signupPage} from '@views/signup-page/signup-page'
 import {hrefRegExp} from "@config/regs";
 
 interface Class extends anyObject {
-    render :Function;
-    purge :Function;
+    render: Function;
+    purge: Function;
 }
+
 interface Router {
     root: Element;
     views: Map<string, Class>;
     privateViews: Map<string, Class>;
+    currentPage: any;
+}
+
+interface stateObject {
+    path: string;
+    props?: string;
 }
 
 class Router {
 
-    constructor(root :Element) {
+    constructor(root: Element) {
         this.root = root;
         this.views = new Map();
         this.privateViews = new Map();
@@ -24,13 +32,13 @@ class Router {
     /**
      * Соопоставляет url и view
      */
-    register({ path, view } :{path :string, view :any}, privatePath = false) {
-        privatePath?
-            this.privateViews.set(path, view):
+    register({path, view}: { path: string, view: any }, privatePath = false) {
+        privatePath ?
+            this.privateViews.set(path, view) :
             this.views.set(path, view);
     }
 
-    matchHref(href :string) {
+    matchHref(href: string) {
         let newHref = href;
         if (newHref !== '/') {
             newHref = href.replace(hrefRegExp.endSlash, '');
@@ -39,26 +47,35 @@ class Router {
     }
 
     onClickEvent = (e: MouseEvent) => {
-        const { target } = e;
+        const {target} = e;
 
         if (target instanceof HTMLElement || target instanceof SVGElement) {
-            console.log(target.dataset.section)
+
             if (target.dataset.section) {
                 const matchedHref = this.matchHref(target.dataset.section);
-                if(!matchedHref) {
+                if (!matchedHref) {
                     return;
                 }
-
-
-                if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
+                if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-
+                    this.nextPage({path: matchedHref});
                 }
             }
         }
     }
 
+    nextPage(stateObject: stateObject) {
+        const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
+            ? window.location.href.replace(hrefRegExp.host, '')
+            : window.location.href.replace(hrefRegExp.localhost, ''));
 
+        this.currentPage.purge();
+
+        this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
+
+        this.currentPage.render();
+
+    }
 
     start() {
 
@@ -71,11 +88,9 @@ class Router {
         }
 
 
-
-
-
-        const currentPage = new Login(ROOT);
-        currentPage.render();
+        this.currentPage = loginPage;
+        console.log(this.currentPage)
+        loginPage.render();
 
         document.addEventListener('click', this.onClickEvent);
     }

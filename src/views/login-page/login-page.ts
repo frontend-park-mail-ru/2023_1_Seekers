@@ -9,13 +9,15 @@ import '@views/login-page/login-page.scss';
 
 import {PromoBox} from "@components/promo-box/promo-box";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
-import {config} from "@config/config";
+import {config, ROOT} from "@config/config";
 import { dispatcher } from '@utils/dispatcher';
 
 import {actionLogin} from "@actions/user";
 import {microEvents} from "@utils/microevents";
+import {Form} from "@uikits/form/form";
+import {Button} from "@uikits/button/button";
 
-export interface Login {
+interface Login {
     state: {
         promoBox: any,
         wrapperAccess: any,
@@ -27,7 +29,7 @@ export interface Login {
 /**
  * class implementing login page
  */
-export class Login extends View {
+class Login extends View {
     /**
      * Private field that contains a form validator
      */
@@ -124,7 +126,15 @@ export class Login extends View {
 
         this.state.wrapperAccess = new WrapperAccess({
             parent: mainContent,
+        }, {
+            title: config.forms.login.windowData.title,
+            forms: config.forms.login,
+            button: config.forms.login.button,
+            bottomText: config.forms.login.windowData.bottomText,
+            bottomLink: config.forms.login.windowData.bottomLink,
+            bottomLinkText: config.forms.login.windowData.bottomLinkText,
         });
+
         this.state.wrapperAccess.render();
 
         this.state.promoBox = new PromoBox({
@@ -156,4 +166,7 @@ export class Login extends View {
         this.render();
     }
 }
+
+
+export const loginPage = new Login(document.getElementById('root')!);
 
