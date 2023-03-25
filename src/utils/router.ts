@@ -13,6 +13,8 @@ interface Router {
     views: Map<string, Class>;
     privateViews: Map<string, Class>;
     currentPage: any;
+
+    prevUrl: string;
 }
 
 interface stateObject {
@@ -58,13 +60,35 @@ class Router {
                 }
                 if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.nextPage({path: matchedHref});
+                    this.nextPage({path: matchedHref}, {pushState: true,  refresh: false});
                 }
             }
         }
     }
 
-    nextPage(stateObject: stateObject) {
+    onPopStateEvent = () => {
+        let matchedHref = [];
+        matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host))
+            ? window.location.href.replace(hrefRegExp.host, '')
+            : window.location.href.replace(hrefRegExp.localhost, ''));
+
+        if (matchedHref[0] !== '/') {
+            matchedHref = this.matchHref(matchedHref[0]);
+        }
+
+        const prevView = this.views.get(this.prevUrl) || this.privateViews.get(this.prevUrl);
+
+        if(prevView &&
+            Object.getOwnPropertyNames(Object.getPrototypeOf(prevView))
+                .includes('componentWillUnmount')) {
+            prevView.componentWillUnmount();
+        }
+
+        this.nextPage({ path: matchedHref[0], props: matchedHref[1] }, { pushState: false, refresh: false });
+        this.prevUrl = matchedHref[0];
+    }
+
+    nextPage(stateObject: stateObject, { pushState, refresh } :{ pushState :boolean, refresh: boolean}) {
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
@@ -74,7 +98,7 @@ class Router {
         this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
 
         this.currentPage.render();
-
+        this.navigate(stateObject, pushState);
     }
 
     start() {
@@ -93,6 +117,26 @@ class Router {
         loginPage.render();
 
         document.addEventListener('click', this.onClickEvent);
+    }
+
+    navigate({ path, props } :stateObject, pushState = false) {
+        const location = this.matchHref(window.location.href);
+
+
+        if (pushState) {
+            if (props) {
+                window.history.pushState(props, "", `${location + path}${props}/`);
+            } else {
+                window.history.pushState(props, "", location + path);
+            }
+        } else {
+            if (props) {
+                window.history.replaceState(props, "", `${location + path}${props}/`);
+            } else {
+                window.history.replaceState(props, "", location + path);
+            }
+        }
+        this.prevUrl = path;
     }
 
 }
