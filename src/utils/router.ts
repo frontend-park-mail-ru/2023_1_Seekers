@@ -66,27 +66,21 @@ class Router {
         }
     }
 
-    // onPopStateEvent = () => {
-    //     let matchedHref = [];
-    //     matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host))
-    //         ? window.location.href.replace(hrefRegExp.host, '')
-    //         : window.location.href.replace(hrefRegExp.localhost, ''));
-    //
-    //     if (matchedHref[0] !== '/') {
-    //         matchedHref = this.matchHref(matchedHref[0]);
-    //     }
-    //
-    //     const prevView = this.views.get(this.prevUrl) || this.privateViews.get(this.prevUrl);
-    //
-    //     if(prevView &&
-    //         Object.getOwnPropertyNames(Object.getPrototypeOf(prevView))
-    //             .includes('componentWillUnmount')) {
-    //         prevView.componentWillUnmount();
-    //     }
-    //
-    //     this.nextPage({ path: matchedHref[0], props: matchedHref[1] }, { pushState: false, refresh: false });
-    //     this.prevUrl = matchedHref[0];
-    // }
+    onPopStateEvent = () => {
+        let matchedHref = [];
+        matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host))
+            ? window.location.href.replace(hrefRegExp.host, '')
+            : window.location.href.replace(hrefRegExp.localhost, ''));
+
+        console.log(window.location.href.match(hrefRegExp.host));
+
+        // if (matchedHref[0] !== '/') {
+        //     matchedHref = this.matchHref(matchedHref[0]);
+        // }
+
+        this.nextPage({ path: '/login'}, { pushState: false, refresh: false }); //TODO: fix it(delete host and send right path)
+        this.prevUrl = matchedHref[0];
+    }
 
     nextPage(stateObject: stateObject, { pushState, refresh } :{ pushState :boolean, refresh: boolean}) {
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
@@ -117,6 +111,7 @@ class Router {
         loginPage.render();
 
         document.addEventListener('click', this.onClickEvent);
+        window.addEventListener('popstate', this.onPopStateEvent);
     }
 
     navigate({ path, props } :stateObject, pushState = false) {
