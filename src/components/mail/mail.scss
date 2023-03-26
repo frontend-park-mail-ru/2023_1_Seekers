@@ -92,6 +92,10 @@
     background-color: var(--mail-text-background-color);
 }
 
+.mail__text_color {
+    color: var(--menu-text-default-color);
+}
+
 .mail__bottom-actions {
     display: flex;
     flex-direction: row;
@@ -109,11 +113,21 @@
     flex-basis: 60px;
 }
 
+.mail__icon {
+    display: flex;
+    fill: var(--menu-icons-default-color);
+}
+
+
 .mail__bottom-actions_color {
     background-color: var(--delimeters-color);
 }
 
-.no-chosen-mail {
+.mail__not-chosen {
     display: flex;
-    fill: var(--menu-icons-default-color);
+    flex: 1;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
 }

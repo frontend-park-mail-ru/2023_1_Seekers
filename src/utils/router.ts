@@ -1,5 +1,8 @@
 import {config, ROOT} from "@config/config";
 import {Login} from '@views/login-page/login-page'
+import {MailBox} from "@views/mailbox-page/mailbox-page";
+import {dispatcher} from "@utils/dispatcher";
+import {actionInitUser} from "@actions/letters";
 
 class Router {
     #pathToPage: Map<string, CustomPages>;
@@ -38,8 +41,11 @@ class Router {
 
         this.#titles.set(config.href.login, 'Вход');
 
-        this.#currentPage = new Login(ROOT);
-        this.#currentPage.render();
+        dispatcher.dispatch(actionInitUser()).then(() => {
+            this.#currentPage = new MailBox(ROOT);
+            this.#currentPage.render();
+        })
+
     }
 
 }

@@ -1,13 +1,12 @@
-import {LetterFrame} from '@uikits/letter-frame/letter-frame';
-import template from '@components/letter-list/letter-list.hbs'
+import {MenuButton} from '@uikits/menu-button/menu-button';
+import template from '@components/menu/menu.hbs'
 import {Component} from "@components/component";
 import {reducerLetters} from "@stores/LettersStore";
-import '@components/letter-list/letter-list.scss';
+import '@components/menu/menu.scss';
 import {dispatcher} from "@utils/dispatcher";
-import {microEvents} from "@utils/microevents";
-import {actionGetLetters, actionGetMail} from "@actions/letters";
+import {actionGetLetters} from "@actions/letters";
 
-export interface LetterList {
+export interface Menu {
     state: {
         element: Element,
         children: Element[],
@@ -17,7 +16,7 @@ export interface LetterList {
 /**
  * class implementing component LetterList
  */
-export class LetterList extends Component {
+export class Menu extends Component {
     /**
      * Constructor that creates a component class menuButton
      * @param {componentContext} context HTML element into which
@@ -29,10 +28,6 @@ export class LetterList extends Component {
             element: document.createElement('div'),
             children: [],
         }
-
-        this.rerender = this.rerender.bind(this);
-
-        microEvents.bind('letterListChanged', this.rerender);
     }
 
     localEventCatcher = async (e: Event) => {
@@ -40,7 +35,7 @@ export class LetterList extends Component {
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
-                dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
+                dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
             }
         }
     }
@@ -50,21 +45,20 @@ export class LetterList extends Component {
      * according to a given template and context
      */
     render() {
-        console.log('render letterList');
-        let letterList: Object[] = [];
+        let menuButtons: Object[] = [];
 
-        reducerLetters._storage.get(reducerLetters._storeNames.letters).forEach((letter: Object) => {
-            letterList.push(LetterFrame.renderTemplate(letter));
+        reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: Object) => {
+            menuButtons.push(MenuButton.renderTemplate(menuButton));
         })
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                letterFrames: letterList,
+                menuButtons: menuButtons,
             }
         ));
 
-        this.state.element = this.parent.getElementsByClassName('letterList')[0];
-        this.state.children = [...this.state.element.getElementsByClassName('letter-frame')];
+        this.state.element = this.parent.getElementsByClassName('menu')[0];
+        this.state.children = [...this.state.element.getElementsByClassName('menu-button')];
         this.registerEventListener();
     }
 
@@ -74,11 +68,6 @@ export class LetterList extends Component {
     purge() {
         this.unregisterEventListener();
         this.state.element.remove();
-    }
-
-    rerender() {
-        this.purge();
-        this.render();
     }
 
     /**

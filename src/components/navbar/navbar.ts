@@ -1,12 +1,9 @@
 import {Component} from "@components/component";
 import {ProfileButton} from "@uikits/profile-button/profile-button";
-import {config} from "@config/config";
 
 import template from '@components/navbar/navbar.hbs';
 
 import '@components/navbar/navbar.scss';
-import {ListItem} from "@uikits/list-item/list-item";
-import {dispatcher} from "@utils/dispatcher";
 
 export interface Navbar {
     state: {

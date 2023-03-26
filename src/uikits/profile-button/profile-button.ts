@@ -1,8 +1,8 @@
 import {UiKit} from "@/uikits/uikit";
 
-import template from '@uikits/profile-button/profile-button.hbs';
-
 import '@uikits/profile-button/profile-button.scss'
+
+import template from '@uikits/profile-button/profile-button.hbs';
 
 /**
  * class implementing component Letter Frame
