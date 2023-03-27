@@ -1,16 +1,16 @@
 import {Component} from "@components/component";
 import {ProfileButton} from "@uikits/profile-button/profile-button";
-import {config} from "@config/config";
 
 import template from '@components/navbar/navbar.hbs';
 
 import '@components/navbar/navbar.scss';
-import {ListItem} from "@uikits/list-item/list-item";
-import {dispatcher} from "@utils/dispatcher";
+import {SidebarLinkButton} from "@uikits/sidebar-linkButton/sidebar-linkButton";
+import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
 
 export interface Navbar {
     state: {
-        profileButton: HTMLElement,
+        element: Element,
+        profileButton: Element,
     },
 }
 
@@ -27,7 +27,11 @@ export class Navbar extends Component {
      */
     eventCatcher = (e: Event) => {
         e.preventDefault();
-        // dispatcher.dispatch();
+        console.log('in navbar clicked');
+        const sidebar = new AccountSidebar({
+            parent: this.parent as HTMLElement,
+        });
+        sidebar.render();
     };
 
     /**
@@ -56,11 +60,9 @@ export class Navbar extends Component {
             }
         ));
 
-        this.element = this.parent.getElementsByClassName('navbar')[0];
+        this.state.element = this.parent.getElementsByClassName('navbar')[0];
 
-        this.state = {
-            profileButton: this.element.getElementsByClassName('profile-button')[0],
-        };
+        this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
 
         this.registerEventListener();
     }
@@ -70,7 +72,7 @@ export class Navbar extends Component {
      */
     purge() {
         this.unregisterEventListener();
-        this.element.remove();
+        this.state.element.remove();
     }
 }
 

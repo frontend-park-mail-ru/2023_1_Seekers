@@ -14,3 +14,8 @@ export const actionSignup = (user :user) => ({
     type: 'signup',
     value: user,
 });
+
+export const actionGetProfile = () => ({
+    type: 'getProfile',
+    value: {},
+})

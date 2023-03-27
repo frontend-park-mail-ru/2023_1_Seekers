@@ -1,0 +1,27 @@
+.main-page {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+.main-page__content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.main-page__vertical-line {
+  width: 0;
+  border: 1px solid var(--delimeters-color);
+  flex: 0;
+  align-self: stretch;
+}

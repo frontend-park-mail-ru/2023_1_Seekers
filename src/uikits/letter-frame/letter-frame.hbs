@@ -1,4 +1,4 @@
-<div id="letter-frame-id-{{message_id}}" class="letter-frame">
+<div id="letter-frame-id-{{message_id}}" class="letter-frame" data-section="{{ message_id }}">
     <div class="letter-read-state-frame"></div>
     <div class="letter-content-frame">
         <div class="letter-content-header-frame">
@@ -6,7 +6,7 @@
                 {{#if img includeZero=true}}
                     <img src={{img}} class="letter-content-image-letter" alt="{{from_user}}">
                 {{else}}
-                    <img src='img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user}}">
+                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user}}">
                 {{/if}}
             </div>
             <div class="letter-content-header-text-frame">
