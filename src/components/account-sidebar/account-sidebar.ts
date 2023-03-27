@@ -11,6 +11,7 @@ export interface AccountSidebar {
     state: {
         element: Element,
         children: Element[],
+        isRendered: boolean,
     },
 }
 
@@ -24,6 +25,7 @@ export class AccountSidebar extends Component{
         this.state = {
             element: document.createElement('div'),
             children: [],
+            isRendered: false,
         }
     }
 
@@ -32,6 +34,7 @@ export class AccountSidebar extends Component{
      * @param {Event} e - event that goes from one of childs of current element
      */
     localEventCatcher = async (e: Event) => {
+        console.log('catched sidebar');
         e.preventDefault();
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
@@ -43,6 +46,7 @@ export class AccountSidebar extends Component{
     }
 
     registerEventListener = () => {
+        console.log('in register');
         document.addEventListener('click', this.onSidebarClick);
 
         this.state.children.forEach((button: Element) => {
@@ -56,6 +60,7 @@ export class AccountSidebar extends Component{
      * method unregister events button submit and input focus
      */
     unregisterEventListener = () => {
+        console.log('in unregister');
         document.removeEventListener('click', this.onSidebarClick);
 
         this.state.children.forEach((button: Element) => {
@@ -69,7 +74,10 @@ export class AccountSidebar extends Component{
      * method insert sidebar to HTML
      */
     render() {
-        console.log(SidebarLinkButton.renderTemplate(config.buttons.sidebarButtons));
+        if (this.state.isRendered){
+            this.removeSidebar();
+            return;
+        }
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 profile: reducerUser._storage.get(reducerUser._storeNames.profile),
@@ -82,15 +90,23 @@ export class AccountSidebar extends Component{
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
 
         this.registerEventListener();
+        this.state.isRendered = true;
     }
 
     onSidebarClick = (e: Event) => {
+        e.preventDefault();
+        console.log('onSidebarClick');
         if(e.target){
-            if (!this.state.element.contains(e.target as HTMLElement)) {
-                this.state.element.classList.add('account-sidebar__delete');
+            if (!(this.state.element.contains(e.target as HTMLElement) ||
+                (this.parent.contains(e.target as HTMLElement)))){
+                this.removeSidebar();
             }
         }
     };
+
+    removeSidebar = () => {
+        this.state.element.classList.add('account-sidebar__delete');
+    }
 
     waitSidebarTransition = () => {
         this.purge();
@@ -104,5 +120,6 @@ export class AccountSidebar extends Component{
         document.querySelectorAll('div.account-sidebar').forEach((e) => {
             e.remove();
         });
+        this.state.isRendered = false;
     }
 }

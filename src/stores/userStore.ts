@@ -63,7 +63,6 @@ class UserStore extends BaseStore {
         }
 
         this._storage.set(this._storeNames.profile, response);
-        console.log(this._storage.get(this._storeNames.profile));
     }
 }
 

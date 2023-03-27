@@ -6,11 +6,13 @@ import template from '@components/navbar/navbar.hbs';
 import '@components/navbar/navbar.scss';
 import {SidebarLinkButton} from "@uikits/sidebar-linkButton/sidebar-linkButton";
 import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
+import {reducerUser} from "@stores/userStore";
 
 export interface Navbar {
     state: {
         element: Element,
         profileButton: Element,
+        sidebar: AccountSidebar,
     },
 }
 
@@ -27,11 +29,7 @@ export class Navbar extends Component {
      */
     eventCatcher = (e: Event) => {
         e.preventDefault();
-        console.log('in navbar clicked');
-        const sidebar = new AccountSidebar({
-            parent: this.parent as HTMLElement,
-        });
-        sidebar.render();
+        this.state.sidebar.render();
     };
 
     /**
@@ -54,15 +52,19 @@ export class Navbar extends Component {
      * @param {Object} ctx - template rendering context
      */
     render() {
-        this.parent.insertAdjacentHTML('afterbegin', template(
+         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                profileButton: ProfileButton.renderTemplate({}),
+                profileButton: ProfileButton.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
             }
         ));
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
 
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
+
+        this.state.sidebar = new AccountSidebar({
+            parent: this.state.element as HTMLElement,
+        });
 
         this.registerEventListener();
     }

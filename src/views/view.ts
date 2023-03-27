@@ -10,9 +10,6 @@ export class View  {
     constructor(parent: Element, template: HandlebarsTemplateDelegate) {
         this.parent = parent;
         this.#template = template;
-
-        console.log( parent)
-
     }
 
     /**

@@ -13,7 +13,6 @@ class LettersStore extends BaseStore {
     };
 
     constructor() {
-        console.log('from lettters');
         super();
         this._storage.set(this._storeNames.letters, []);
         this._storage.set(this._storeNames.mail, {});
@@ -61,7 +60,6 @@ class LettersStore extends BaseStore {
 
         this._storage.set(this._storeNames.menu, menuBtns);
         microEvents.trigger('menuChanged');
-        console.log(this._storage.get(this._storeNames.letters));
     };
 
     getAll = async () => {
