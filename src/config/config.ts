@@ -1,5 +1,6 @@
 'use strict';
 
+import {mainPage} from '@views/mailbox-page/mailbox-page'
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
 
@@ -17,7 +18,7 @@ export const responseStatuses = {
 };
 
 export const routes = [
-    // { path: '/', view: mainPage },
+    { path: '/', view: mainPage },
     {path: '/login', view: loginPage},
     { path: '/signup', view: signupPage },
 ];

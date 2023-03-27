@@ -116,3 +116,4 @@ export class MailBox extends View {
     }
 }
 
+export const mainPage = new MailBox(document.getElementById('root')!);

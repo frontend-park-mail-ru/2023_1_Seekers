@@ -28,6 +28,14 @@ class Router {
         this.root = root;
         this.views = new Map();
         this.privateViews = new Map();
+
+        for (const rout of routes) {
+            this.register(rout);
+        }
+
+        for (const rout of privateRoutes) {
+            this.register(rout, true);
+        }
     }
 
 
@@ -60,7 +68,7 @@ class Router {
                 }
                 if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.nextPage({path: matchedHref}, {pushState: true,  refresh: false});
+                    this.open({path: matchedHref}, {pushState: true, refresh: false});
                 }
             }
         }
@@ -78,16 +86,18 @@ class Router {
         //     matchedHref = this.matchHref(matchedHref[0]);
         // }
 
-        this.nextPage({ path: matchedHref[0]}, { pushState: false, refresh: false });
+        this.open({path: matchedHref[0]}, {pushState: false, refresh: false});
         this.prevUrl = matchedHref[0];
     }
 
-    nextPage(stateObject: stateObject, { pushState, refresh } :{ pushState :boolean, refresh: boolean}) {
+    open(stateObject: stateObject, {pushState, refresh}: { pushState: boolean, refresh: boolean }) {
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
 
-        this.currentPage.purge();
+        if (this.currentPage) {
+            this.currentPage.purge();
+        }
 
         this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
 
@@ -96,25 +106,15 @@ class Router {
     }
 
     start() {
-
-        for (const rout of routes) {
-            this.register(rout);
-        }
-
-        for (const rout of privateRoutes) {
-            this.register(rout, true);
-        }
-
-
-        this.currentPage = loginPage;
-        console.log(this.currentPage)
-        loginPage.render();
-
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
+
+        console.log(window.location.pathname);
+
+        this.open({path: window.location.pathname}, {pushState: true, refresh: false});
     }
 
-    navigate({ path, props } :stateObject, pushState = false) {
+    navigate({path, props}: stateObject, pushState = false) {
         const location = this.matchHref(window.location.href);
 
 
