@@ -1,0 +1,25 @@
+<div class="account-sidebar" id="account-sidebar">
+    <div class="account-sidebar__frame">
+        <div class="accounts">
+            <div class="account-sidebar__item account-sidebar__avatar__active-user">
+                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" href="/profile" aria-label="Сменить аватар">
+                    <img class="account-sidebar__avatar-img" src={{profile.avatar}} alt="{{profile.email}}">
+                </a>
+                <div class="account-sidebar__text">
+                    <div class="account-sidebar__title" >
+                        <div class="account-sidebar__name" aria-label="{{profile.firstName}} {{profile.lastName}}">
+                            {{profile.firstName}} {{profile.lastName}}
+                        </div>
+                    </div>
+                    <div class="account-sidebar__desc" aria-label="{{profile.email}}">
+                        {{profile.email}}
+                    </div>
+                </div>
+            </div>
+            <hr class="account-sidebar__hr" id="account-sidebar__hr">
+
+            {{{buttons}}}
+
+        </div>
+    </div>
+</div>

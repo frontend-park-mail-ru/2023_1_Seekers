@@ -1,0 +1,113 @@
+.account-sidebar {
+    position: absolute;
+    height: 100vh;
+    width: 434px;
+    z-index: 100000;
+    top: 0;
+    bottom: 0;
+    right: -434px;
+    padding-top: 60px;
+    background-color: var(--custom-color-account-sidebar);
+    will-change: right;
+    -webkit-animation: slide 0.5s forwards;
+}
+
+@-webkit-keyframes slide {
+    100% { right: 0; }
+}
+
+.account-sidebar__delete {
+    transition: transform 0.5s 0s;
+    transform: translateX(434px);
+}
+
+
+.account-sidebar__frame {
+    height: 100%;
+    overflow: auto;
+}
+
+.accounts {
+    padding: 0 20px 32px;
+    overflow: auto;
+}
+
+.account-sidebar__item {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: "Roboto Thin", sans-serif;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
+    height: 40px;
+    border-radius: 8px;
+    text-decoration: none;
+    min-height: 44px;
+}
+
+.account-sidebar__avatar__active-user {
+    height: 72px !important;
+}
+
+.account-sidebar__avatar {
+    width: 72px;
+    height: 72px;
+    margin-right: 4px;
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+}
+
+.account-sidebar__avatar__hover-active:hover {
+    background-color: var(--color-transparent--hover);
+}
+
+.account-sidebar__avatar__hover-active:active {
+    background-color: var(--color-transparent--active);
+}
+
+.account-sidebar__avatar-img {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+
+.account-sidebar__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-basis: 0;
+    flex-grow: 1;
+    color: var(--primary-text-color);
+}
+
+.account-sidebar__title {
+    font-size: 17px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-family: "Roboto Thin", sans-serif;
+}
+
+.account-sidebar__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.account-sidebar__desc {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+}
+
+.account-sidebar__hr {
+    border: none;
+    border-top: 1px solid var(--color-separator-primary);
+    margin: 16px 12px;
+}
