@@ -105,18 +105,30 @@ class Router {
         this.navigate(stateObject, pushState);
     }
 
+    refresh(redirect = false) {
+        const matchedHref = window.location.pathname;
+        if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
+            this.open({
+                path: matchedHref,
+            }, { pushState: redirect, refresh: redirect });
+        } else {
+            console.log('NOT FOUND PAGE');
+        }
+    }
+
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
 
         console.log(window.location.pathname);
 
-        this.open({path: window.location.pathname}, {pushState: true, refresh: false});
+        this.refresh();
     }
 
     navigate({path, props}: stateObject, pushState = false) {
-        const location = this.matchHref(window.location.href);
-
+        const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
+            ? window.location.href.match(hrefRegExp.host)![0]
+            : window.location.href.match(hrefRegExp.localhost)![0]);
 
         if (pushState) {
             if (props) {

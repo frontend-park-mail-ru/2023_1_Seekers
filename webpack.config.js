@@ -75,6 +75,7 @@ module.exports = {
         static: path.resolve(__dirname, 'src'),
         host: '0.0.0.0',
         port: 8002,
+        historyApiFallback: true,
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],

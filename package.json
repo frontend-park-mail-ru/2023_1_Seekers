@@ -35,10 +35,15 @@
   "scripts": {
     "test": "----",
     "lint": "eslint --cache --ext .js src --fix",
-    "build": "handlebars -m src/components/*/*.hbs -f ./src/components/templates.js && handlebars -m src/pages/*/*.hbs -f ./src/pages/templates.js && handlebars -m /src/uikit/*/*.hbs -f ./src/uikit/templates.js",
     "stylelint": "stylelint '**/*{.css,.scss}' --allow-empty-input",
     "stylelint:fix": "stylelint '**/*{.css,.scss}' --fix",
-    "start": "webpack-dev-server --mode development"
+    "build": "",
+    "start": "webpack-dev-server --mode development",
+
+    "build2": "npm run build:webpack",
+    "build2:webpack": "webpack --mode=development",
+    "start:webpack": "webpack serve",
+    "build2:dev": "webpack"
   },
   "repository": {
     "type": "git",
