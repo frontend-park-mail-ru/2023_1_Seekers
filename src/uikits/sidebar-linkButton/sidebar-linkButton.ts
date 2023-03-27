@@ -1,5 +1,5 @@
 import {UiKit} from "@uikits/uikit";
-import template from "@uikits/profile-button/profile-button.hbs";
+import template from "@uikits/sidebar-linkButton/sidebar-linkButton.hbs";
 
 /**
  * class implementing component sidebar-linkButton
