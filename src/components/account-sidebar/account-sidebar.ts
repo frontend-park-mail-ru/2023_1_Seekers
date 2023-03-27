@@ -40,6 +40,7 @@ export class AccountSidebar extends Component{
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
                 console.log('to another page');
+                this.removeSidebar();
                 // dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
             }
         }

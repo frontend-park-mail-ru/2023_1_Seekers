@@ -2,6 +2,8 @@ import {config, ROOT, routes, privateRoutes} from "@config/config";
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
 import {hrefRegExp} from "@config/regs";
+import {reducerUser} from "@stores/userStore";
+import {reducerLetters} from "@stores/LettersStore";
 
 interface Class extends anyObject {
     render: Function;
@@ -119,6 +121,9 @@ class Router {
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
+
+        reducerUser.getProfile();
+        reducerLetters.getAll();
 
         console.log(window.location.pathname);
 

@@ -65,7 +65,7 @@ class LettersStore extends BaseStore {
     getAll = async () => {
         await this.getMenu();
         await this.getLetters('inbox');
-        microEvents.trigger('renderMailbox');
+        // microEvents.trigger('renderMailbox');
     };
 }
 
