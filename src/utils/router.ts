@@ -72,13 +72,13 @@ class Router {
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
 
-        console.log(window.location.href.match(hrefRegExp.host));
+        console.log(matchedHref[0]);
 
         // if (matchedHref[0] !== '/') {
         //     matchedHref = this.matchHref(matchedHref[0]);
         // }
 
-        this.nextPage({ path: '/login'}, { pushState: false, refresh: false }); //TODO: fix it(delete host and send right path)
+        this.nextPage({ path: matchedHref[0]}, { pushState: false, refresh: false });
         this.prevUrl = matchedHref[0];
     }
 

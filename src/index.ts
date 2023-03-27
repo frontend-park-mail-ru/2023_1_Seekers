@@ -3,6 +3,7 @@
 import router from '@utils/router';
 import '@/index.scss';
 
+
 router.start();
 
 // if ('serviceWorker' in navigator) {
