@@ -62,27 +62,27 @@ class Profile extends View {
         });
         this.state.navigation.render();
 
-        // const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
-        //
-        // this.state.content = new AccountProfile({
-        //     parent:  document.getElementById('account-content__content')!,
-        // }, {
-        //     firstName: profile.firstName,
-        //     lastName: profile.lastName,
-        //     login: profile.email,
-        //     avatar: profile.avatar,
-        //     forms: config.accountFields.account.profile,
-        //     button: config.accountFields.account.profile.button,
-        // });
-        // this.state.content.render();
+        const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
 
-        this.state.content = new AccountSecurity({
+        this.state.content = new AccountProfile({
             parent:  document.getElementById('account-content__content')!,
         }, {
-            forms: config.accountFields.account.security,
-            button: config.accountFields.account.security.button,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            login: profile.email,
+            avatar: profile.avatar,
+            forms: config.accountFields.account.profile,
+            button: config.accountFields.account.profile.button,
         });
         this.state.content.render();
+
+        // this.state.content = new AccountSecurity({
+        //     parent:  document.getElementById('account-content__content')!,
+        // }, {
+        //     forms: config.accountFields.account.security,
+        //     button: config.accountFields.account.security.button,
+        // });
+        // this.state.content.render();
     };
 }
 

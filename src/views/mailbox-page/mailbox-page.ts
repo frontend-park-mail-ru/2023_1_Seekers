@@ -77,7 +77,7 @@ export class MailBox extends View {
         });
         this.state.navbar.render();
 
-        this.state.content = new AccountNavigation({
+        this.state.content = new MailBoxArea({
             parent: this.state.element
         });
         this.state.content.render();
