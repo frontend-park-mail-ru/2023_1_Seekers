@@ -12,6 +12,7 @@ import {Menu} from "@components/menu/menu";
 import {LetterList} from "@components/letter-list/letter-list";
 import {Mail} from "@components/mail/mail";
 import {MenuButton} from "@uikits/menu-button/menu-button";
+import {SendMail} from "@components/send-mail/send-mail";
 
 export interface MailBox {
     state: {
@@ -50,6 +51,9 @@ export class MailBox extends View {
             letterList: undefined,
             mail: undefined,
         }
+
+        const sendMAil = new SendMail({parent: document.getElementById('root')!})
+        sendMAil.render();
 
         microEvents.bind('renderMailbox', this.render);
     }

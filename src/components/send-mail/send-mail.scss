@@ -1,0 +1,24 @@
+@import "@styles/dark/theme.scss";
+.send-mail {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 10000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,.48);
+}
+
+.send-mail__area {
+  position: absolute;
+  border-radius: 12px;
+  max-width: 880px;
+  max-height: 960px;
+  box-sizing: border-box;
+  background: #2d2d2e;
+  z-index: 10000001;
+
+  width: 880px;
+  height: 960px;
+}
