@@ -19,13 +19,13 @@ export const responseStatuses = {
 };
 
 export const routes = [
-    { path: '/', view: mainPage },
+    {path: '/', view: mainPage},
     {path: '/login', view: loginPage},
-    { path: '/signup', view: signupPage },
+    {path: '/signup', view: signupPage},
 ];
 
 export const privateRoutes = [
-     { path: '/profile', view: profilePage },
+    {path: '/profile', view: profilePage},
 ];
 
 
@@ -140,6 +140,12 @@ export const config = {
                 .5523-.4477 1-1 1s-1-.4477-1-1v-2c0-2.7614-2.2386-5-5-5h-5.58579l2.2929 2.2929c.39052.3905.39052 1.0237
                  0 1.4142-.39053.3905-1.02369.3905-1.41422 0l-4-3.99999c-.39052-.39053-.39052-1.02369 
                  0-1.41422l4-4c.39053-.39052 1.02369-.39052 1.41422 0z" fill-rule="evenodd"/>`
+            },
+        ],
+        newMailButtons: [
+            {
+                href: '/send',
+                text: 'Отправить',
             }
         ]
     },
@@ -267,5 +273,22 @@ export const config = {
                 },
             },
         },
+        newMail: {
+            recipients: {
+                name: 'new-mail-recipients',
+                type: 'text',
+                maxlenght: '50',
+            },
+            topic: {
+                name: 'new-mail-topic',
+                type: 'text',
+                maxlenght: '50',
+            },
+            mailText: {
+                name: 'new-mail-text',
+                maxlenght: '1000',
+            },
+        }
+
     },
 }

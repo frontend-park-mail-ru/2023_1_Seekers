@@ -89,14 +89,40 @@
 .send-mail__content {
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: stretch;
   flex: 1;
   margin: 20px 20px 0;
   overflow: auto;
-  padding: 20px 30px 20px 20px;
+  padding: 10px 20px 10px 10px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   gap: 10px;
+}
+
+.send-mail__textarea {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  padding: 0;
+}
+
+.send-mail__textarea_size {
+  resize: none;
+}
+
+.send-mail__textarea_color,
+.send-mail__textarea_color:hover,
+.send-mail__textarea_color:focus{
+  background-color: var(--mail-text-background-color);
+  border: none;
+  outline: none;
+}
+
+.send-mail__textarea_text-color{
+
+  color: var(--menu-text-default-color);
 }
 
 .send-mail__content_color {
