@@ -44,9 +44,9 @@ export class Mail extends Component {
         if(reducerLetters._storage.get(reducerLetters._storeNames.mail).title === undefined){
             this.parent.insertAdjacentHTML('afterbegin', template({}));
         } else {
-            let actionButtons = '';
+            let actionButtons: Object[] = [];
             config.buttons.mailActionButtons.forEach((button: Object) => {
-                actionButtons += (IconButton.renderTemplate(button));
+                actionButtons.push(IconButton.renderTemplate(button));
             })
             this.parent.insertAdjacentHTML('afterbegin', template(
                 {

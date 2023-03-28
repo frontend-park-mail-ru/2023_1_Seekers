@@ -54,6 +54,49 @@ export const config = {
     },
 
     buttons: {
+        commonMenuButtons: [
+            {
+                img: `
+                  <path d="m3 8 7.8906 5.2604c.6718.4479 1.547.4479 
+                  2.2188 0l7.8906-5.2604m-16 11h14c1.1046
+                  0 2-.8954 2-2v-10c0-1.10457-.8954-2-2-2h-14c-1.10457 0-2 .89543-2 2v10c0 1.1046.89543
+                  2 2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  `,
+                href: '/inbox',
+                text: 'Входящие',
+                count: '10',
+            },
+            {
+                img: `
+                  <path d="m12 19 9 2-9-18-9 18zm0 0v-8" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"/>
+                  `,
+                href: '/outbox',
+                text: 'Исходящие',
+                count: '',
+            },
+
+            {
+                href: 'spam',
+                text: 'Спам',
+                count: '10',
+                img: `<path clip-rule="evenodd" d="m13.4766 14.8907c-.9808.6985-2.1807 1.1093-3.4766 1.1093-3.31371 
+                0-6-2.6863-6-6 0-1.29586.41081-2.49577 1.1093-3.47661zm1.4142-1.4142-8.36726-8.3673c.9808-.69843 
+                2.18066-1.1092 3.47646-1.1092 3.3137 0 6 2.68629 6 6 0 1.2958-.4108 2.4957-1.1092 
+                3.4765zm3.1092-3.4765c0 4.4183-3.5817 8-8 8-4.41828 0-8-3.5817-8-8 0-4.41828 3.58172-8 8-8 
+                4.4183 0 8 3.58172 8 8z" fill="#4b5563" fill-rule="evenodd"/>`
+            },
+
+            {
+                href: 'trash',
+                text: 'Корзина',
+                count: '10',
+                img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457 1.8575-1.9949 1.8575h-8.27556c-1.04928 
+                0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5 4v6m4-6v6m1-10v-3c0-.55228-.4477-1-1-1h-4c-.55228 0-1 
+                .44772-1 1v3m-5 0h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`
+            },
+        ],
+
         sidebarButtons: {
             profile: {
                 href: '/profile',

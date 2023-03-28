@@ -1,6 +1,14 @@
 <a class="menu-button menu-button_color menu-button_size-m" href="{{ href }}" data-section="{{ href }}">
     <div class="menu-button__left-frame">
-        {{{ img }}}
+        <svg class="menu-button__icon menu-button__icon_color menu-button__icon_size-m"
+             width="100%" height="100%" fill="none"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            {{#if this.img includeZero=true}}
+                {{{ img }}}
+            {{else}}
+                <path d="m2 6c0-1.10457.89543-2 2-2h5l2 2h5c1.1046 0 2 .89543 2 2v6c0 1.1046-.8954 2-2 2h-12c-1.10457 0-2-.8954-2-2z"/>
+            {{/if}}
+        </svg>
             <p class="font-caption-0 menu-button__text_color">{{ text }}</p>
     </div>
     <div class="menu-button__right-frame">

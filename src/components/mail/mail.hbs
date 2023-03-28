@@ -24,7 +24,9 @@
             {{{ this.mailContent }}}
         </div>
         <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color">
-            {{{this.actionButtons}}}
+            {{#each this.actionButtons}}
+                {{{this}}}
+            {{/each}}
         </div>
     {{else}}
         <div class="mail__not-chosen">

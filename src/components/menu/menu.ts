@@ -5,6 +5,7 @@ import {reducerLetters} from "@stores/LettersStore";
 import '@components/menu/menu.scss';
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
+import {config} from "@config/config";
 
 export interface Menu {
     state: {
@@ -45,15 +46,21 @@ export class Menu extends Component {
      * according to a given template and context
      */
     render() {
-        let menuButtons: Object[] = [];
+        const commonMenuButtons: Object[] = [];
+        const advancedMenuButtons: Object[] = [];
+
+        config.buttons.commonMenuButtons.forEach((menuButton) => {
+            commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
+        })
 
         reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: Object) => {
-            menuButtons.push(MenuButton.renderTemplate(menuButton));
+            advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
         })
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                menuButtons: menuButtons,
+                commonMenuButtons: commonMenuButtons,
+                advancedMenuButtons: advancedMenuButtons,
             }
         ));
 
