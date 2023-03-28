@@ -8,18 +8,14 @@ import { dispatcher } from '@utils/dispatcher';
 
 import {microEvents} from "@utils/microevents";
 import {Navbar} from "@components/navbar/navbar";
-import {Menu} from "@components/menu/menu";
-import {LetterList} from "@components/letter-list/letter-list";
-import {Mail} from "@components/mail/mail";
-import {MenuButton} from "@uikits/menu-button/menu-button";
+import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
+import {AccountNavigation} from "@components/account-navigation/account-navigation";
 
 export interface MailBox {
     state: {
         element: HTMLElement,
         navbar: any,
-        menu: any,
-        letterList: any,
-        mail: any,
+        content: any,
     }
 }
 
@@ -46,9 +42,7 @@ export class MailBox extends View {
         this.state = {
             element: document.createElement('div'),
             navbar: undefined,
-            menu: undefined,
-            letterList: undefined,
-            mail: undefined,
+            content: undefined,
         }
 
         microEvents.bind('renderMailbox', this.render);
@@ -83,22 +77,10 @@ export class MailBox extends View {
         });
         this.state.navbar.render();
 
-        const content = this.state.element.getElementsByClassName('main-page__content')[0] as HTMLElement;
-
-        this.state.menu = new Menu({
-            parent: content,
+        this.state.content = new AccountNavigation({
+            parent: this.state.element
         });
-        this.state.menu.render();
-
-        this.state.letterList = new LetterList({
-            parent: content,
-        });
-        this.state.letterList.render();
-
-        this.state.mail = new Mail({
-            parent: content,
-        });
-        this.state.mail.render();
+        this.state.content.render();
 
         this.registerEvents();
     };
@@ -107,9 +89,7 @@ export class MailBox extends View {
      * method mailbox page clearing
      */
     purge() {
-        this.state.mail.purge();
-        this.state.letterList.purge();
-        this.state.menu.purge();
+        this.state.content.purge();
         this.state.navbar.purge();
 
         this.state.element.remove();
