@@ -6,11 +6,13 @@ import '@components/menu/menu.scss';
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
 import {config} from "@config/config";
+import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
 
 export interface Menu {
     state: {
         element: Element,
-        children: Element[],
+        menuButtons: Element[],
+        newMailButton: Element,
     },
 }
 
@@ -27,16 +29,27 @@ export class Menu extends Component {
         super(context);
         this.state = {
             element: document.createElement('div'),
-            children: [],
+            menuButtons: [],
+            newMailButton: document.createElement('div'),
         }
     }
 
-    localEventCatcher = async (e: Event) => {
+    menuButtonClicked = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
                 dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
+            }
+        }
+    }
+
+    newMailButtonClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if(currentTarget instanceof HTMLElement){
+            if(currentTarget.dataset.section) {
+                // dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
             }
         }
     }
@@ -59,13 +72,16 @@ export class Menu extends Component {
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
+                newMailButton: NewMailButton.renderTemplate({href: '/new-mail', text: 'Новое письмо'}),
                 commonMenuButtons: commonMenuButtons,
                 advancedMenuButtons: advancedMenuButtons,
             }
         ));
 
         this.state.element = this.parent.getElementsByClassName('menu')[0];
-        this.state.children = [...this.state.element.getElementsByClassName('menu-button')];
+        this.state.menuButtons = [...this.state.element.getElementsByClassName('menu-button')];
+        this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
+
         this.registerEventListener();
     }
 
@@ -82,9 +98,10 @@ export class Menu extends Component {
      * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
-        this.state.children.forEach((child: Element) => {
-            child.addEventListener('click', this.localEventCatcher);
-        })
+        this.state.menuButtons.forEach((child: Element) => {
+            child.addEventListener('click', this.menuButtonClicked);
+        });
+        this.state.newMailButton.addEventListener('click', this.newMailButtonClicked);
     }
 
     /**
@@ -92,8 +109,8 @@ export class Menu extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
-        this.state.children.forEach((child: Element) => {
-            child.removeEventListener('click', this.localEventCatcher);
+        this.state.menuButtons.forEach((child: Element) => {
+            child.removeEventListener('click', this.menuButtonClicked);
         })
     }
 }

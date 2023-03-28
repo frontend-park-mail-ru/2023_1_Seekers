@@ -1,0 +1,45 @@
+.new-mail-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    padding: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    align-self: stretch;
+}
+
+.new-mail-button_size-m {
+    gap: 15px;
+    width: 100%;
+    height: 25px;
+}
+
+.new-mail-button_color {
+    background: var(--delimeters-color);
+    border: 1px solid var(--delimeters-color);
+}
+
+.new-mail-button_color:hover {
+    border: 1px solid var(--menu-buttons-hover-border-color);
+    background: var(--delimeters-color);
+}
+
+.new-mail-button_color:active {
+    background: var(--menu-buttons-active-fill-color);
+    border: 1px solid var(--menu-buttons-active-border-color);
+}
+
+.new-mail-button__text_color {
+    color: var(--menu-text-default-color);
+}
+
+.new-mail-button:hover .new-mail-button__text_color {
+    color: var(--menu-text-hover-color);
+}
+
+.new-mail-button:active .new-mail-button__text_color {
+    color: var(--menu-text-active-color);
+}
