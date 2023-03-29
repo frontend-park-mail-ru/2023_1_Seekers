@@ -30,7 +30,7 @@ export class Connector {
             headers: config.headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options);
+        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
     };
 
 

@@ -9,13 +9,14 @@ import '@views/login-page/login-page.scss';
 
 import {PromoBox} from "@components/promo-box/promo-box";
 import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
-import {config, ROOT} from "@config/config";
-import { dispatcher } from '@utils/dispatcher';
+import {config, responseStatuses, ROOT} from "@config/config";
+import {dispatcher} from '@utils/dispatcher';
 
 import {actionLogin} from "@actions/user";
 import {microEvents} from "@utils/microevents";
 import {Form} from "@uikits/form/form";
 import {Button} from "@uikits/button/button";
+import {Connector} from "@utils/ajax";
 
 interface Login {
     state: {
@@ -70,18 +71,15 @@ class Login extends View {
 
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
-        const login = data.querySelector('input[name=login]') as HTMLInputElement;
-        const password = data.querySelector('input[name=password]') as HTMLInputElement;
+        const login_form = data.querySelector('input[name=login]') as HTMLInputElement;
+        const password_form = data.querySelector('input[name=password]') as HTMLInputElement;
 
         const user = {} as user;
-
-        user.login = login.value;
-        user.password = password.value;
+        user.login = login_form.value;
+        user.password = password_form.value;
 
         if (this.#validator.validateRegFields(user.login, user.password)) {
-            console.log('validateRegFields');
-
-            dispatcher.dispatch(actionLogin(user));
+            await dispatcher.dispatch(actionLogin(user));
         }
     };
     onRedirectHandler = async (e: MouseEvent) => {
@@ -148,7 +146,6 @@ class Login extends View {
             microEvents.bind('fromLogin', this.subscribeLoginStatus);
             this.state.isSubscribed = true;
         }
-
     };
 
     /**\
@@ -161,9 +158,28 @@ class Login extends View {
     }
 
     subscribeLoginStatus() {
-        console.log('hi subscribeLoginStatus')
-        // this.state.statusLogin = dispatcher.getState('statusLogin');
-        this.render();
+        const response = reducerUser._storage.get('response');
+        console.log('hi2')
+        switch (response.status) {
+            case responseStatuses.OK:
+                this.unregisterEvents();
+                this.purge();
+                // dispatcher.dispatch();
+                break;
+            case 401:
+                if (response.body.message === 'invalid login') {
+                    if (document.getElementById('loginError') === null) {
+                        this.#validator.putErrorMessage(document.getElementById('login')!,
+                            'loginError', 'Некорректный логин');
+                    }
+                } else if (document.getElementById('passwordError') === null) {
+                    this.#validator.putErrorMessage(document.getElementById('password')!,
+                        'passwordError', 'Неправильный пароль');
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 

@@ -30,7 +30,7 @@ export const privateRoutes = [
 
 
 export const config = {
-    basePath: 'http://89.208.197.150',
+    basePath: 'http://127.0.0.1',
     basePort: '8001',
     headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const config = {
         notFound: '/notfound'
     },
     api: {
-        login: `${prefixApi}login`,
+        login: `${prefixApi}signin`,
         signup: `${prefixApi}signup`,
         logout: `${prefixApi}logout`,
         getLetters: `${prefixApi}`,

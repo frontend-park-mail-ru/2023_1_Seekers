@@ -3,7 +3,6 @@ import {config, responseStatuses} from "@config/config";
 import {microEvents} from "@utils/microevents";
 import BaseStore from "@stores/BaseStore";
 import {ProfileButton} from "@uikits/profile-button/profile-button";
-import {response} from "express";
 
 
 
@@ -27,9 +26,10 @@ class UserStore extends BaseStore {
         const response = await responsePromise;
         if (response.status === responseStatuses.OK) {
             this._changed = true;
-            this._storage.set(this._storeNames.name, 'auth')
+            this._storage.set(this._storeNames.name, 'auth');
+            this._storage.set('response', response);
+            microEvents.trigger('fromLogin');
         }
-
     }
 
     async signup(user :anyObject) {

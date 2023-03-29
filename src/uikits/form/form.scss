@@ -20,7 +20,6 @@
 }
 
 .input-form__color {
-    backdrop-filter: blur(30px);
     border-radius: 7px;
     color: var(--secondary-text-color);
     background: var(--input-default-fill-color);
@@ -38,7 +37,6 @@
     border-radius: 7px;
     background: #262626;
     border: 1px solid var(--field_border);
-    backdrop-filter: blur(30px);
 }
 
 input:-webkit-autofill,
@@ -51,8 +49,6 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     -webkit-text-fill-color: #E5E5E5;
-    -webkit-box-shadow: 0 0 20px rgb(255 255 255 / 25%);
-    transition: background-color 5000s ease-in-out 0.5s;
 }
 
 .input-form__span {
