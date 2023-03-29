@@ -8,6 +8,7 @@ import {actionGetLetters} from "@actions/letters";
 import {config} from "@config/config";
 import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
 import {SendMail} from "@components/send-mail/send-mail";
+import {actionChangeURL} from "@actions/user";
 
 export interface Menu {
     state: {
@@ -40,14 +41,17 @@ export class Menu extends Component {
     menuButtonClicked = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
-        if(currentTarget instanceof HTMLElement){
-            if(currentTarget.dataset.section){
-                dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section)).then(() => {
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                const data = currentTarget.dataset.section;
+                dispatcher.dispatch(actionGetLetters(data))
+                    .then(() => {
+                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
+
                     this.state.activeButton.classList.remove('menu-button_color-active');
                     this.state.activeButton = currentTarget;
                     this.state.activeButton.classList.add('menu-button_color-active');
-                    }
-                );
+                });
             }
         }
     }
@@ -55,8 +59,8 @@ export class Menu extends Component {
     newMailButtonClicked = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
-        if(currentTarget instanceof HTMLElement){
-            if(currentTarget.dataset.section) {
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
                 const sendMAil = new SendMail({parent: document.getElementById('root')!})
                 sendMAil.render();
             }
@@ -91,12 +95,11 @@ export class Menu extends Component {
         this.state.menuButtons = [...this.state.element.getElementsByClassName('menu-button')];
         this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
 
-        const activeButton = this.state.menuButtons.find((button) =>{
+        const activeButton = this.state.menuButtons.find((button) => {
                 return (button as HTMLElement).dataset.section === config.buttons.commonMenuButtons.inbox.href
-        }
-
+            }
         );
-        if(activeButton !== undefined){
+        if (activeButton !== undefined) {
             this.state.activeButton = activeButton;
             this.state.activeButton.classList.add('menu-button_color-active')
         }

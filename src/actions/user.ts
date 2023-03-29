@@ -30,6 +30,12 @@ export const actionRedirect = (path: {path: string}, pushState: boolean, refresh
 
 });
 
+export const actionChangeURL = (value: any) => ({
+    type: 'changeURL',
+    value: value,
+
+});
+
 export const actionStart = () => ({
     type: 'start',
     value: {},

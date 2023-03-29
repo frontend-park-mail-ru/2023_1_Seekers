@@ -10,6 +10,7 @@ const handlers = [
     {type: 'getProfile', method: reducerUser.getProfile.bind(reducerUser)},
     {type: 'getLetters', method: reducerLetters.getLetters.bind(reducerLetters)},
     {type: 'getMail', method: reducerLetters.getMail.bind(reducerLetters)},
+    {type: 'changeURL', method: router.navigate.bind(router)},
     {type: 'redirect', method: router.open.bind(router)},
     {type: 'start', method: router.start.bind(router)},
 ];

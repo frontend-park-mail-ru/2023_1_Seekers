@@ -2,6 +2,7 @@ import {ROOT, routes, privateRoutes} from "@config/config";
 import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
 import {reducerLetters} from "@stores/LettersStore";
+import * as path from "path";
 
 interface Class extends anyObject {
     render: Function;
@@ -103,7 +104,10 @@ class Router {
         this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
 
         this.currentPage.render();
-        this.navigate(stateObject, pushState);
+        const path = stateObject.path;
+        const props = stateObject.props;
+
+        this.navigate({path, props, pushState});
     }
 
     refresh(redirect = false) {
@@ -129,7 +133,10 @@ class Router {
             });
     }
 
-    navigate({path, props}: stateObject, pushState = false) {
+    navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
+
+        console.log('in navigate' + path);
+
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.match(hrefRegExp.host)![0]
             : window.location.href.match(hrefRegExp.localhost)![0]);
