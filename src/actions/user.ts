@@ -18,4 +18,15 @@ export const actionSignup = (user :user) => ({
 export const actionGetProfile = () => ({
     type: 'getProfile',
     value: {},
-})
+});
+
+export const actionRedirect = (path: {path: string}, pushState: boolean, refresh: boolean) => ({
+    type: 'redirect',
+    value: {
+        path: path,
+        pushState: pushState,
+        refresh: refresh,
+    },
+
+});
+

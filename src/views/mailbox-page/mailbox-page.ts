@@ -79,7 +79,7 @@ export class MailBox extends View {
         });
         this.state.navbar.render();
 
-        this.renderAccountArea();
+        this.renderMailbox();
 
         this.registerEvents();
     };
@@ -117,4 +117,4 @@ export class MailBox extends View {
     }
 }
 
-export const mainPage = new MailBox(document.getElementById('root')!);
+export const mailboxPage = new MailBox(document.getElementById('root')!);

@@ -2,6 +2,7 @@ import {Connector} from '@utils/ajax';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
+import {reducerUser} from "@stores/userStore";
 
 
 class LettersStore extends BaseStore {
@@ -65,6 +66,7 @@ class LettersStore extends BaseStore {
     getAll = async () => {
         await this.getMenu();
         await this.getLetters('inbox');
+        await reducerUser.getProfile();
         // microEvents.trigger('renderMailbox');
     };
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-import {mainPage} from '@views/mailbox-page/mailbox-page'
+import {mailboxPage} from '@views/mailbox-page/mailbox-page'
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
 import {profilePage} from "@views/profile-page/account-page";
@@ -13,6 +13,7 @@ export const responseStatuses = {
     Created: 201,
     NoContent: 204,
     BadRequest: 400,
+    UnauthorizedError: 401,
     Forbidden: 403,
     NotFound: 404,
     InternalServerError: 500,
@@ -24,8 +25,9 @@ export const routes = [
 ];
 
 export const privateRoutes = [
-    {path: '/', view: mainPage},
+    {path: '/', view: mailboxPage},
     {path: '/profile', view: profilePage},
+    {path: '/inbox', view: mailboxPage},
 ];
 
 

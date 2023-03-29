@@ -11,7 +11,9 @@ class UserStore extends BaseStore {
     _storeNames = {
         profile: 'profile',
         name: 'name',
-        password: 'password'
+        password: 'password',
+        status: 'status',
+        body: 'body',
     }
 
     constructor() {
@@ -23,13 +25,14 @@ class UserStore extends BaseStore {
 
     async login(user: anyObject) {
         const responsePromise = Connector.makePostRequest(config.api.login, user)
-        const response = await responsePromise;
-        if (response.status === responseStatuses.OK) {
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
             this._changed = true;
             this._storage.set(this._storeNames.name, 'auth');
-            this._storage.set('response', response);
-            microEvents.trigger('fromLogin');
         }
+        this._storage.set(this._storeNames.body, body)
+        this._storage.set(this._storeNames.status, status)
+        microEvents.trigger('fromLogin');
     }
 
     async signup(user :anyObject) {

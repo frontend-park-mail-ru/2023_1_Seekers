@@ -70,7 +70,7 @@ class Router {
                 }
                 if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.open({path: matchedHref}, {pushState: true, refresh: false});
+                    this.open({path: matchedHref},  true,  false);
                 }
             }
         }
@@ -88,11 +88,12 @@ class Router {
         //     matchedHref = this.matchHref(matchedHref[0]);
         // }
 
-        this.open({path: matchedHref[0]}, {pushState: false, refresh: false});
+        this.open({path: matchedHref[0]}, false, false);
         this.prevUrl = matchedHref[0];
     }
 
-    open(stateObject: stateObject, {pushState, refresh}: { pushState: boolean, refresh: boolean }) {
+    open(stateObject: stateObject, pushState: boolean, refresh :boolean) {
+        console.log('in open: ' + stateObject.path);
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
@@ -112,7 +113,7 @@ class Router {
         if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
             this.open({
                 path: matchedHref,
-            }, { pushState: redirect, refresh: redirect });
+            }, redirect, redirect);
         } else {
             console.log('NOT FOUND PAGE');
         }
@@ -157,4 +158,4 @@ class Router {
 
 }
 
-export default new Router(ROOT);
+export const router = new Router(ROOT);
