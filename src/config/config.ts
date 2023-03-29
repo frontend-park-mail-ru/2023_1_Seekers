@@ -19,12 +19,12 @@ export const responseStatuses = {
 };
 
 export const routes = [
-    {path: '/', view: mainPage},
     {path: '/login', view: loginPage},
     {path: '/signup', view: signupPage},
 ];
 
 export const privateRoutes = [
+    {path: '/', view: mainPage},
     {path: '/profile', view: profilePage},
 ];
 
