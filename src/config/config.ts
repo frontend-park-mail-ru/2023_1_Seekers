@@ -50,9 +50,10 @@ export const config = {
         login: `${prefixApi}signin`,
         signup: `${prefixApi}signup`,
         logout: `${prefixApi}logout`,
-        getLetters: `${prefixApi}`,
-        getMail: `${prefixApi}`,
-        getMenu: `${prefixApi}`
+        getLetters: `${prefixApi}folder`,
+        getMail: `${prefixApi}message/`,
+        getProfile: `${prefixApi}user/info`,
+        getMenu: `${prefixApi}folders`
         // session: `${prefixApi}session`,
     },
 

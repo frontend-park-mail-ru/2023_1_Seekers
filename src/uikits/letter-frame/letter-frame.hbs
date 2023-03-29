@@ -4,21 +4,21 @@
         <div class="letter-content-header-frame">
             <div class="letter-content-header-image-frame">
                 {{#if img includeZero=true}}
-                    <img src={{img}} class="letter-content-image-letter" alt="{{from_user}}">
+                    <img src={{img}} class="letter-content-image-letter" alt="{{from_user_id.email}}">
                 {{else}}
-                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user}}">
+                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user_id.email}}">
                 {{/if}}
             </div>
             <div class="letter-content-header-text-frame">
                 <label class="letter-content-header-name-text font-normal-0">
-                    {{from_user}}
+                    {{from_user_id.email}}
                 </label>
                 <div class="letter-content-header-text-bottom-frame">
                     <label class="letter-content-header-second-text font-caption-0">
                         {{title}}
                     </label>
                     <label class="letter-content-header-second-text font-caption-0 letter-content__text_color" style="text-align: right">
-                        {{creating_date}}
+                        {{created_at}}
                     </label>
                 </div>
             </div>

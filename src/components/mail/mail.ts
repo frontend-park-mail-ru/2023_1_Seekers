@@ -8,6 +8,7 @@ import {config} from "@config/config";
 import {IconButton} from "@uikits/icon-button/icon-button";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
+import {reducerUser} from "@stores/userStore";
 
 
 export interface Mail {
@@ -41,7 +42,7 @@ export class Mail extends Component {
      * method insert mail to HTML
      */
     render() {
-        if(reducerLetters._storage.get(reducerLetters._storeNames.mail).title === undefined){
+        if(reducerLetters._storage.get(reducerLetters._storeNames.mail) === undefined){
             this.parent.insertAdjacentHTML('afterbegin', template({}));
         } else {
             let actionButtons: Object[] = [];
@@ -50,9 +51,7 @@ export class Mail extends Component {
             })
             this.parent.insertAdjacentHTML('afterbegin', template(
                 {
-                    from_user: reducerLetters._storage.get(reducerLetters._storeNames.mail).from_user,
-                    creating_date: reducerLetters._storage.get(reducerLetters._storeNames.mail).creating_date,
-                    recipient: 'ogreba@mailbox.ru',
+                    mail: reducerLetters._storage.get(reducerLetters._storeNames.mail),
                     mailContent: MailContent.renderTemplate(reducerLetters._storage.get(reducerLetters._storeNames.mail)),
                     actionButtons: actionButtons,
                 }
@@ -62,8 +61,6 @@ export class Mail extends Component {
         this.state.element = this.parent.getElementsByClassName('mail')[0];
 
         this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
-        console.log('size: ' + this.state.actionButtons.length);
-        console.log(this.state.actionButtons);
         this.registerEventListener();
     }
 
@@ -73,7 +70,6 @@ export class Mail extends Component {
      */
     registerEventListener() {
         this.state.actionButtons.forEach((button) => {
-            console.log('in cycle');
             button.addEventListener('click', this.letterAction);
         })
     }
@@ -99,7 +95,6 @@ export class Mail extends Component {
     }
 
     rerender() {
-        console.log('in rerender');
         this.purge();
         this.render();
     }

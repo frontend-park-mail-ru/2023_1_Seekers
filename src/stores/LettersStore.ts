@@ -16,48 +16,43 @@ class LettersStore extends BaseStore {
     constructor() {
         super();
         this._storage.set(this._storeNames.letters, []);
-        this._storage.set(this._storeNames.mail, {});
+        this._storage.set(this._storeNames.mail, undefined);
         this._storage.set(this._storeNames.menu, []);
     }
 
     getLetters = async (folderName: string) => {
         console.log('in getLetters: ' + folderName);
-        // const responsePromise = Connector.makeGetRequest(config.api.getLetters + 'inbox');
-        // const response = await responsePromise;
-        // if (response.status === responseStatuses.OK) {
-        //     this._storage.set(this._storeNames.letters, response);
-        //     microEvents.trigger('letterListChanged');
-        //     console.log(this._storage.get(this._storeNames.letters));
-        // }
-        this._storage.set(this._storeNames.letters, letters);
-        this._storage.set(this._storeNames.mail, {});
-        microEvents.trigger('letterListChanged');
-        microEvents.trigger('mailChanged');
+        const responsePromise = Connector.makeGetRequest(config.api.getLetters + folderName);
+
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            if (body.messages !== null) {
+                this._storage.set(this._storeNames.letters, body.messages);
+            } else {
+                this._storage.set(this._storeNames.letters, []);
+            }
+            this._storage.set(this._storeNames.mail, undefined);
+            microEvents.trigger('letterListChanged');
+            microEvents.trigger('mailChanged');
+        }
     };
 
     getMail = async (id: string) => {
-        console.log('in getMail');
-        // const responsePromise = Connector.makeGetRequest(config.api.getMail);
-        // const response = await responsePromise;
-        // if (response.status === responseStatuses.OK) {
-        //     this._storage.set(this._storeNames.mail, response);
-        //     microEvents.trigger('mailChanged');
-        //     console.log(this._storage.get(this._storeNames.letters));
-        // }
-        this._storage.set(this._storeNames.mail, this._storage.get(this._storeNames.letters)[id]);
-        microEvents.trigger('mailChanged');
-        console.log(this._storage.get(this._storeNames.letters));
+        const responsePromise = Connector.makeGetRequest(config.api.getMail + id);
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.mail, body.message);
+            microEvents.trigger('mailChanged');
+        }
     };
 
     getMenu = async () => {
-        console.log('in getMenu');
-        // const responsePromise = Connector.makeGetRequest(config.api.getMenu);
-        // const response = await responsePromise;
-        // if (response.status === responseStatuses.OK) {
-        //     this._storage.set(this._storeNames.menu, response);
-        //     microEvents.trigger('menuChanged');
-        //     console.log(this._storage.get(this._storeNames.letters));
-        // }
+        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
+        const [status, response] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.menu, response.folders);
+            microEvents.trigger('menuChanged');
+        }
 
         this._storage.set(this._storeNames.menu, menuBtns);
         microEvents.trigger('menuChanged');

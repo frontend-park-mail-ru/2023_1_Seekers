@@ -1,21 +1,26 @@
 <div class="mail mail_size mail_color">
-    {{#if this.mailContent includeZero=false}}
+    {{#if this.mail includeZero=false}}
         <div class="mail__header mail__header_size">
 
             <div class="mail__read-state"></div>
             {{#if this.img includeZero=true}}
-                <img src={{this.img}} class="mail__image" alt="{{this.from_user}}">
+                <img src={{this.img}} class="mail__image" alt="{{this.mail.from_user}}">
             {{else}}
-                <img src='../../img/female-avatar.png' class="mail__image" alt="{{this.from_user}}">
+                <img src='../../img/female-avatar.png' class="mail__image" alt="{{this.mail.from_user_id.email}}">
             {{/if}}
 
             <div class="mail__header-details">
                 <div class="mail__author">
-                    <p class="mail__contact font-normal-0 mail__text_color">{{ this.from_user }}</p>
-                    <p class="mail__date font-normal-0 mail__text_color">{{ this.creating_date }}</p>
+                    <p class="mail__contact font-normal-0 mail__text_color">{{ this.mail.from_user_id.email }}</p>
+                    <p class="mail__date font-normal-0 mail__text_color">{{ this.mail.created_at }}</p>
                 </div>
                 <div class="mail__recipients">
-                    <p class="font-normal-0 mail__text_color">to: {{this.recipient}}</p>
+                    <p class="font-normal-0 mail__text_color">
+                        to:
+                        {{#each this.mail.recipients}}
+                            {{{this.email}}}
+                        {{/each}}
+                    </p>
                 </div>
             </div>
 
@@ -30,22 +35,14 @@
         </div>
     {{else}}
         <div class="mail__not-chosen">
-        <svg class="mail__icon" fill="none" height="100px" viewBox="0 0 20 20" width="100px"
-             xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m6 3c0-.55228.44772-1 1-1h.01c.55228 0 1
-             .44772 1 1s-.44772 1-1 1h-.01c-.55228 0-1-.44772-1-1zm2 3c0-.55228-.44772-1-1-1s-1 .44772-1 1v1c-1.10457
-              0-2 .89543-2 2v1c-1.10457 0-2 .8954-2 2v.6833c.36868.1033.72499.2649 1.0547.4847.57243.3816 1.31817.3816
-              1.8906 0 1.24423-.8295 2.86517-.8295 4.1094 0 .57243.3816 1.3182.3816 1.8906 0 1.2442-.8295 2.8652-.8295
-              4.1094 0 .5724.3816 1.3182.3816 1.8906 0
-              .3297-.2198.686-.3814 1.0547-.4847v-.6833c0-1.1046-.8954-2-2-2v-1c0-1.10457-.8954-2-2-2v-1c0-.55228-.4477-1-1-1s-1
-              .44772-1 1v1h-1v-1c0-.55228-.4477-1-1-1-.55228 0-1 .44772-1 1v1h-1zm10
-              8.8679c-1.2367.7935-2.8286.7816-4.0547-.0358-.5724-.3816-1.3182-.3816-1.8906
-              0-1.2442.8295-2.86517.8295-4.1094 0-.57243-.3816-1.31817-.3816-1.8906 0-1.22607.8174-2.81795.8293-4.0547.0358v2.1321c0
-              .5523.44772 1 1 1h14c.5523 0 1-.4477 1-1zm-9-11.8679c0-.55228.44772-1 1-1h.01c.5523 0 1 .44772 1 1s-.4477
-               1-1 1h-.01c-.55228 0-1-.44772-1-1zm3 0c0-.55228.4477-1 1-1h.01c.5523 0 1 .44772 1 1s-.4477 1-1
-               1h-.01c-.5523 0-1-.44772-1-1z" fill-rule="evenodd"/>
-        </svg>
+            <svg class="mail__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="m3 19v-8.9296c0-.66875.3342-1.29322.8906-1.66415l7-4.66666c.6718-.44787 1.547-.44787 2.2188
+                0l7 4.66666c.5564.37093.8906.9954.8906 1.66415v8.9296m-18 0c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
+                2-2m-18 0 6.75-4.5m11.25 4.5-6.75-4.5m-11.25-4.50001 6.75 4.50001m11.25-4.50001-6.75 4.50001m0
+                0-1.1406.7604c-.6718.4479-1.547.4479-2.2188 0l-1.1406-.7604" fill-rule="evenodd" stroke-width="2"/>
+            </svg>
 
-        <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Письмо не выбрано</p>
+            <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Письмо не выбрано</p>
         </div>
     {{/if}}
 

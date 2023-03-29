@@ -114,10 +114,7 @@
     flex-basis: 40px;
 }
 
-.mail__icon {
-    display: flex;
-    fill: var(--menu-icons-default-color);
-}
+
 
 
 .mail__bottom-actions_color {
@@ -131,4 +128,17 @@
     align-self: center;
     justify-content: center;
     align-items: center;
+}
+
+.mail__icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    padding: 0;
+    //flex: 1;
+    stroke: var(--menu-icons-default-color);
 }

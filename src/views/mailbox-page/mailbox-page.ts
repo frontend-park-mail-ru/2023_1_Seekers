@@ -77,6 +77,7 @@ export class MailBox extends View {
         this.state.navbar = new Navbar({
             parent: this.state.element,
         });
+
         this.state.navbar.render();
 
         this.renderMailbox();

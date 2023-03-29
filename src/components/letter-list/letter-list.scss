@@ -6,7 +6,7 @@
 
     gap: 5px;
     position: relative;
-    height: 100%;
+    max-height: 100%;
     flex: 1;
     max-width: 600px;
     min-width: 400px;
@@ -24,4 +24,21 @@
     flex: 0;
     align-self: center;
     width: 97%;
+}
+
+
+.letterList__not-chosen {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.letterList__icon {
+    display: flex;
+    stroke: var(--menu-icons-default-color);
+    height: 100px;
+    width: 100px;
 }

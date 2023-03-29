@@ -2,8 +2,15 @@
     <div class="account-sidebar__frame">
         <div class="accounts">
             <div class="account-sidebar__item account-sidebar__avatar__active-user">
+
                 <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" href="/profile" aria-label="Сменить аватар">
-                    <img class="account-sidebar__avatar-img" src={{profile.avatar}} alt="{{profile.email}}">
+
+                    {{#if profile.avatar includeZero=true}}
+                        <img src={{profile.avatar}} class="account-sidebar__avatar-img" alt="{{profile.email}}">
+                    {{else}}
+                        <img src='../../img/female-avatar.png' class="account-sidebar__avatar-img" alt="{{profile.email}}">
+                    {{/if}}
+
                 </a>
                 <div class="account-sidebar__text">
                     <div class="account-sidebar__title" >

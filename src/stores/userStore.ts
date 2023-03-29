@@ -49,23 +49,16 @@ class UserStore extends BaseStore {
     }
 
     async getProfile() {
+        console.log('getProfile');
         console.log(this._storage.get(this._storeNames.profile));
-        // const responsePromise = Connector.makeGetRequest(config.api.getProfile)
-        //
-        // const response = await responsePromise;
-        // if (response.status === responseStatuses.OK) {
-        //     this._storage.set(this._storeNames.profile, response);
-        //     microEvents.trigger('profileChanged');
-        //     console.log(this._storage.get(this._storeNames.profile));
-        // }
-        const response: Profile = {
-            firstName: 'Ivan',
-            lastName: 'Ivanov',
-            email: 'ivan@mailbox.ru',
-            avatar: 'img/female-avatar.png',
-        }
+        const responsePromise = Connector.makeGetRequest(config.api.getProfile)
 
-        this._storage.set(this._storeNames.profile, response);
+        const [status, body]  = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.profile, body);
+            microEvents.trigger('profileChanged');
+            console.log(this._storage.get(this._storeNames.profile));
+        }
     }
 }
 

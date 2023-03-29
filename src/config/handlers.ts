@@ -9,7 +9,7 @@ const handlers = [
     {type: 'getProfile', method: reducerUser.getProfile.bind(reducerUser)},
     {type: 'getLetters', method: reducerLetters.getLetters.bind(reducerLetters)},
     {type: 'getMail', method: reducerLetters.getMail.bind(reducerLetters)},
-    {type: 'redirect', method: router.open.bind(router)},
+    // {type: 'redirect', method: router.open.bind(router)},
 ];
 
 export {handlers};

@@ -18,6 +18,7 @@ import {Form} from "@uikits/form/form";
 import {Button} from "@uikits/button/button";
 import {Connector} from "@utils/ajax";
 import {actionInitUser} from "@actions/letters";
+import {router} from "@utils/router";
 
 interface Login {
     state: {
@@ -161,7 +162,7 @@ class Login extends View {
                 this.unregisterEvents();
                 this.purge();
                 console.log('dispatching redirect to inbox');
-                dispatcher.dispatch(actionRedirect({path: '/inbox'},false, false));
+                router.open({path: '/inbox'}, false, false);
                 break;
             case 401:
                 if (body.message === 'invalid login') {

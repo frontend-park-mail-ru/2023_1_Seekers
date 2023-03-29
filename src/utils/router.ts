@@ -122,17 +122,13 @@ class Router {
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
-
-        reducerUser.getProfile().then(() => {
-            reducerLetters.getAll().then(()=>{
-                this.refresh();
+        reducerUser.getProfile()
+            .then(() => {
+                reducerLetters.getLetters('/inbox');
             })
-            console.log(window.location.pathname);
-
-
-
-        });
-
+            .then(() => {
+                this.refresh()
+            });
     }
 
     navigate({path, props}: stateObject, pushState = false) {
@@ -158,4 +154,4 @@ class Router {
 
 }
 
-export const router = new Router(ROOT);
+export const router: Router = new Router(ROOT);
