@@ -10,8 +10,7 @@ import {microEvents} from "@utils/microevents";
 import {Navbar} from "@components/navbar/navbar";
 import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
 import {AccountArea} from "@components/account-area/account-area";
-import {AccountNavigation} from "@components/account-navigation/account-navigation";
-import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
+
 
 export interface MailBox {
     state: {

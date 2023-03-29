@@ -1,17 +1,17 @@
 'use strict';
 
-import {router} from '@utils/router';
 import '@/index.scss';
+import {dispatcher} from '@utils/dispatcher';
+import {actionStart} from '@actions/user';
 
-
-router.start();
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then().catch((registrationError) => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
+dispatcher.dispatch(actionStart()).then(() => {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then().catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
+});
 

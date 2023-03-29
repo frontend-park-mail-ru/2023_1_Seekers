@@ -1,16 +1,11 @@
 import template from "@components/account-area/account-area.hbs";
 
 import "@components/account-area/account-area.scss"
-
 import {Component} from "@components/component";
-import {Validation} from "@utils/validation";
-import {Navbar} from "@components/navbar/navbar";
 import {AccountNavigation} from "@components/account-navigation/account-navigation";
 import {AccountProfile} from "@components/account-profile/account-profile";
 import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
-import {AccountSecurity} from "@components/account-security/account-security";
-import {SidebarLinkButton} from "@uikits/sidebar-linkButton/sidebar-linkButton";
 
 export interface AccountArea {
     state: {

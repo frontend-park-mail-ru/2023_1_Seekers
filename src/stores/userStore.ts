@@ -2,9 +2,6 @@ import {Connector} from "@utils/ajax";
 import {config, responseStatuses} from "@config/config";
 import {microEvents} from "@utils/microevents";
 import BaseStore from "@stores/BaseStore";
-import {ProfileButton} from "@uikits/profile-button/profile-button";
-
-
 
 class UserStore extends BaseStore {
 

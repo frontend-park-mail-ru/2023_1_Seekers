@@ -2,7 +2,6 @@ import {View} from '@views/view';
 import {Validation} from '@utils/validation'
 import template from '@views/login-page/login-page.hbs'
 
-import {reducerLetters} from "@stores/LettersStore";
 import {reducerUser} from "@stores/userStore";
 
 import '@views/login-page/login-page.scss';
@@ -14,11 +13,6 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {actionLogin, actionRedirect} from "@actions/user";
 import {microEvents} from "@utils/microevents";
-import {Form} from "@uikits/form/form";
-import {Button} from "@uikits/button/button";
-import {Connector} from "@utils/ajax";
-import {actionInitUser} from "@actions/letters";
-import {router} from "@utils/router";
 
 interface Login {
     state: {
@@ -159,7 +153,7 @@ class Login extends View {
                 this.unregisterEvents();
                 this.purge();
                 console.log('dispatching redirect to inbox');
-                router.open({path: '/inbox'}, false, false);
+                // router.open({path: '/inbox'}, false, false);
                 break;
             case 401:
                 if (body.message === 'invalid login') {

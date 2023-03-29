@@ -13,7 +13,7 @@ import { dispatcher } from '@utils/dispatcher';
 
 import {actionSignup} from "@actions/user";
 import {microEvents} from "@utils/microevents";
-import {router} from "@utils/router";
+// import {router} from "@utils/router";
 
 interface Signup {
     state: {
@@ -159,7 +159,7 @@ class Signup extends View {
                 this.unregisterEvents();
                 this.purge();
                 console.log('dispatching redirect to inbox');
-                router.open({path: '/inbox'}, false, false);
+                // router.open({path: '/inbox'}, false, false);
                 break;
             case responseStatuses.UnauthorizedError:
             case responseStatuses.Forbidden:
