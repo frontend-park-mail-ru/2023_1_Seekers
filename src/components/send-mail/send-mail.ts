@@ -4,15 +4,17 @@ import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
 
 import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
+import {dispatcher} from "@utils/dispatcher";
+
 // import {config} from "@config/config";
 
 
 export interface SendMail {
-    // state: {
-    //     element: Element,
-    //     children: Element[],
-    //     isRendered: boolean,
-    // },
+    state: {
+        element: Element,
+        area: Element,
+        buttons: Element[],
+    },
 }
 
 /**
@@ -22,66 +24,62 @@ export class SendMail extends Component {
 
     constructor(context: componentContext) {
         super(context);
-        // this.state = {
-        //     element: document.createElement('div'),
-        //     children: [],
-        //     isRendered: false,
-        // }
+        this.state = {
+            element: document.createElement('div'),
+            area: document.createElement('div'),
+            buttons: [],
+        }
     }
 
-    // /**
-    //  * method handle click on navbar
-    //  * @param {Event} e - event that goes from one of childs of current element
-    //  */
-    // localEventCatcher = async (e: Event) => {
-    //     console.log('catched sidebar');
-    //     e.preventDefault();
-    //     const {currentTarget} = e;
-    //     if (currentTarget instanceof HTMLElement) {
-    //         if (currentTarget.dataset.section) {
-    //             console.log('to another page');
-    //             this.removeSidebar();
-    //             // dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
-    //         }
-    //     }
-    // }
+    /**
+     * method handle click on navbar
+     * @param {Event} e - event that goes from one of childs of current element
+     */
+    bottomButtonsClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement &&
+            currentTarget.dataset.section) {
+            switch (currentTarget.dataset.section) {
+                case config.buttons.newMailButtons.send.href:
+                    // dispatcher.dispatch()
+                    break;
 
-    // registerEventListener = () => {
-    //     console.log('in register');
-    //     document.addEventListener('click', this.onSidebarClick);
-    //
-    //     this.state.children.forEach((button: Element) => {
-    //         button.addEventListener('click', this.localEventCatcher);
-    //     });
-    //
-    //     this.state.element.addEventListener('transitionend', this.waitSidebarTransition);
-    // };
+                case config.buttons.newMailButtons.cancel.href:
+                    this.purge();
+                    break;
+            }
+        }
+    }
 
-    // /**
-    //  * method unregister events button submit and input focus
-    //  */
-    // unregisterEventListener = () => {
-    //     console.log('in unregister');
-    //     document.removeEventListener('click', this.onSidebarClick);
-    //
-    //     this.state.children.forEach((button: Element) => {
-    //         button.removeEventListener('click', this.localEventCatcher);
-    //     });
-    //
-    //     this.state.element.removeEventListener('transitionend', this.waitSidebarTransition);
-    // };
+    registerEventListener = () => {
+        console.log('in register');
+        document.addEventListener('click', this.onSidebarClick);
+
+        this.state.buttons.forEach((button: Element) => {
+            button.addEventListener('click', this.bottomButtonsClicked);
+        });
+    };
+
+    /**
+     * method unregister events button submit and input focus
+     */
+    unregisterEventListener = () => {
+        console.log('in unregister');
+        document.removeEventListener('click', this.onSidebarClick);
+
+        this.state.buttons.forEach((button: Element) => {
+            button.removeEventListener('click', this.bottomButtonsClicked);
+        });
+    };
 
     /**
      * method insert sidebar to HTML
      */
     render() {
-        // if (this.state.isRendered) {
-        //     this.removeSidebar();
-        //     return;
-        // }
         const actionButtons: Object[] = [];
         console.log(config);
-        config.buttons.newMailButtons.forEach((button) => {
+        Object.values(config.buttons.newMailButtons).forEach((button) => {
             actionButtons.push(NewMailButton.renderTemplate(button));
         })
 
@@ -90,37 +88,31 @@ export class SendMail extends Component {
             inputs: config.forms.newMail,
             actionButtons: actionButtons,
         }));
+
+        this.state.element = this.parent.getElementsByClassName('send-mail')[0];
+        this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
+        this.state.buttons = [...this.state.element.getElementsByClassName('new-mail-button')];
+
+        this.registerEventListener();
     }
 
-    // onSidebarClick = (e: Event) => {
-    //     e.preventDefault();
-    //     console.log('onSidebarClick');
-    //     if (e.target) {
-    //         if (!(this.state.element.contains(e.target as HTMLElement) ||
-    //             (this.parent.contains(e.target as HTMLElement)))) {
-    //             this.removeSidebar();
-    //         }
-    //     }
-    // };
-    //
-    // removeSidebar = () => {
-    //     this.state.element.classList.add('account-sidebar__delete');
-    // }
-    //
-    // waitSidebarTransition = () => {
-    //     this.purge();
-    // };
-    //
-    // /**
-    //  * method sidebar clearing from page
-    //  */
-    // purge() {
-    //     this.unregisterEventListener();
-    //     document.querySelectorAll('div.account-sidebar').forEach((e) => {
-    //         e.remove();
-    //     });
-    //     this.state.isRendered = false;
-    // }
+    onSidebarClick = (e: Event) => {
+        e.preventDefault();
+        console.log('onSidebarClick');
+        if (e.target) {
+            if (this.state.element === e.target as HTMLElement) {
+                this.purge();
+            }
+        }
+    };
+
+    /**
+     * method sidebar clearing from page
+     */
+    purge() {
+        this.unregisterEventListener();
+        this.state.element.remove();
+    }
 }
 
 const config = {
@@ -227,12 +219,16 @@ const config = {
                  0-1.41422l4-4c.39053-.39052 1.02369-.39052 1.41422 0z" fill-rule="evenodd"/>`
             },
         ],
-        newMailButtons: [
-            {
+        newMailButtons: {
+            send: {
                 href: '/send',
                 text: 'Отправить',
-            }
-        ]
+            },
+            cancel: {
+                href: '/cancel',
+                text: 'Отменить',
+            },
+        },
     },
 
     forms: {

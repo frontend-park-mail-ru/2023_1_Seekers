@@ -7,12 +7,14 @@ import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
 import {config} from "@config/config";
 import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
+import {SendMail} from "@components/send-mail/send-mail";
 
 export interface Menu {
     state: {
         element: Element,
         menuButtons: Element[],
         newMailButton: Element,
+        activeButton: Element,
     },
 }
 
@@ -31,6 +33,7 @@ export class Menu extends Component {
             element: document.createElement('div'),
             menuButtons: [],
             newMailButton: document.createElement('div'),
+            activeButton: document.createElement('div'),
         }
     }
 
@@ -39,7 +42,12 @@ export class Menu extends Component {
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
-                dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
+                dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section)).then(() => {
+                    this.state.activeButton.classList.remove('menu__button_active');
+                    this.state.activeButton = currentTarget;
+                    this.state.activeButton.classList.add('menu__button_active');
+                    }
+                );
             }
         }
     }
@@ -49,7 +57,8 @@ export class Menu extends Component {
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section) {
-                // dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
+                const sendMAil = new SendMail({parent: document.getElementById('root')!})
+                sendMAil.render();
             }
         }
     }

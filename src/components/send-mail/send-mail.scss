@@ -7,7 +7,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,.48);
+  background: rgba(0,0,0,.58);
+  flex: 1;
 }
 
 .send-mail__area {
@@ -25,6 +26,10 @@
 .send-mail__area_size {
   width: 90%;
   height: 90%;
+
+  min-width: 200px;
+  min-height: 200px;
+
   max-width: 900px;
   max-height: 900px;
 }
@@ -93,7 +98,7 @@
   flex: 1;
   margin: 20px 20px 0;
   overflow: auto;
-  padding: 10px 20px 10px 10px;
+  padding: 10px 10px 0 10px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   gap: 10px;
@@ -110,6 +115,15 @@
 
 .send-mail__textarea_size {
   resize: none;
+  margin: 0px 0px  0px 0px  ;
+}
+
+.send-mail__bottom-button {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  position: relative;
+  max-width: 90px
 }
 
 .send-mail__textarea_color,
@@ -144,7 +158,7 @@
 }
 
 .send-mail__bottom-actions_size {
-  padding: 10px 20px 10px 20px;
+  padding: 10px 10px 10px 10px;
   gap: 20px;
   flex-shrink: 0;
   margin: 0 20px 20px;

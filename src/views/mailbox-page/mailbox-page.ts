@@ -52,9 +52,6 @@ export class MailBox extends View {
             mail: undefined,
         }
 
-        const sendMAil = new SendMail({parent: document.getElementById('root')!})
-        sendMAil.render();
-
         microEvents.bind('renderMailbox', this.render);
     }
 

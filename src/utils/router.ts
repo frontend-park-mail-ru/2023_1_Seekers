@@ -122,12 +122,16 @@ class Router {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
 
-        reducerUser.getProfile();
-        reducerLetters.getAll();
+        reducerUser.getProfile().then(() => {
+            reducerLetters.getAll().then(()=>{
+                this.refresh();
+            })
+            console.log(window.location.pathname);
 
-        console.log(window.location.pathname);
 
-        this.refresh();
+
+        });
+
     }
 
     navigate({path, props}: stateObject, pushState = false) {
