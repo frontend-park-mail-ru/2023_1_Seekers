@@ -1,6 +1,4 @@
-import {config, ROOT, routes, privateRoutes} from "@config/config";
-import {loginPage} from '@views/login-page/login-page'
-import {signupPage} from '@views/signup-page/signup-page'
+import {ROOT, routes, privateRoutes} from "@config/config";
 import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
 import {reducerLetters} from "@stores/LettersStore";
@@ -70,7 +68,7 @@ class Router {
                 }
                 if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.open({path: matchedHref},  true,  false);
+                    this.open({path: matchedHref}, true, false);
                 }
             }
         }
@@ -92,7 +90,7 @@ class Router {
         this.prevUrl = matchedHref[0];
     }
 
-    open(stateObject: stateObject, pushState: boolean, refresh :boolean) {
+    open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
         console.log('in open: ' + stateObject.path);
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')

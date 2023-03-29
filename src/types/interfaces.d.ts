@@ -26,7 +26,7 @@ interface user extends anyObject {
     avatar?: string,
     login: string,
     password: string,
-    repeatPassword?: string,
+    repeatPw?: string,
     firstName?: string,
     lastName?: string,
 }

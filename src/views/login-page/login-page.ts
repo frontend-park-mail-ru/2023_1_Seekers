@@ -68,9 +68,6 @@ class Login extends View {
     onSubmitHandler = async (e: SubmitEvent) => {
         e.preventDefault();
 
-        console.log(reducerUser._storage.get('name'));
-        console.log(reducerLetters._storage.get('letters'));
-
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
         const login_form = data.querySelector('input[name=login]') as HTMLInputElement;
