@@ -43,9 +43,9 @@ export class Menu extends Component {
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
                 dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section)).then(() => {
-                    this.state.activeButton.classList.remove('menu__button_active');
+                    this.state.activeButton.classList.remove('menu-button_color-active');
                     this.state.activeButton = currentTarget;
-                    this.state.activeButton.classList.add('menu__button_active');
+                    this.state.activeButton.classList.add('menu-button_color-active');
                     }
                 );
             }
@@ -71,7 +71,7 @@ export class Menu extends Component {
         const commonMenuButtons: Object[] = [];
         const advancedMenuButtons: Object[] = [];
 
-        config.buttons.commonMenuButtons.forEach((menuButton) => {
+        Object.values(config.buttons.commonMenuButtons).forEach((menuButton) => {
             commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
         })
 
@@ -90,6 +90,16 @@ export class Menu extends Component {
         this.state.element = this.parent.getElementsByClassName('menu')[0];
         this.state.menuButtons = [...this.state.element.getElementsByClassName('menu-button')];
         this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
+
+        const activeButton = this.state.menuButtons.find((button) =>{
+                return (button as HTMLElement).dataset.section === config.buttons.commonMenuButtons.inbox.href
+        }
+
+        );
+        if(activeButton !== undefined){
+            this.state.activeButton = activeButton;
+            this.state.activeButton.classList.add('menu-button_color-active')
+        }
 
         this.registerEventListener();
     }

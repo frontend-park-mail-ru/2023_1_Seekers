@@ -9,7 +9,9 @@ import { dispatcher } from '@utils/dispatcher';
 import {microEvents} from "@utils/microevents";
 import {Navbar} from "@components/navbar/navbar";
 import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
+import {AccountArea} from "@components/account-area/account-area";
 import {AccountNavigation} from "@components/account-navigation/account-navigation";
+import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
 
 export interface MailBox {
     state: {
@@ -77,12 +79,29 @@ export class MailBox extends View {
         });
         this.state.navbar.render();
 
+        this.renderAccountArea();
+
+        this.registerEvents();
+    };
+
+    renderAccountArea = () => {
+        if (this.state.content){
+            this.state.content.purge();
+        }
+        this.state.content = new AccountArea({
+            parent: this.state.element
+        });
+        this.state.content.render();
+    };
+
+    renderMailbox = () => {
+        if (this.state.content){
+            this.state.content.purge();
+        }
         this.state.content = new MailBoxArea({
             parent: this.state.element
         });
         this.state.content.render();
-
-        this.registerEvents();
     };
 
     /**\
@@ -90,7 +109,9 @@ export class MailBox extends View {
      */
     purge() {
         this.state.content.purge();
+        this.state.content = undefined;
         this.state.navbar.purge();
+        this.state.navbar = undefined;
 
         this.state.element.remove();
     }

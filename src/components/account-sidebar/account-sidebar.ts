@@ -99,7 +99,8 @@ export class AccountSidebar extends Component{
         console.log('onSidebarClick');
         if(e.target){
             if (!(this.state.element.contains(e.target as HTMLElement) ||
-                (this.parent.contains(e.target as HTMLElement)))){
+                (this.parent.contains(e.target as HTMLElement))) ||
+                (this.parent === (e.target as HTMLElement))){
                 this.removeSidebar();
             }
         }

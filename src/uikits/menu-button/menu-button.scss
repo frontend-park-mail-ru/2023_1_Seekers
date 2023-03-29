@@ -55,13 +55,13 @@
 }
 
 .menu-button_color:hover {
-    border: 1px solid var(--menu-buttons-hover-border-color);
-    background: var(--menu-buttons-hover-fill-color);
+    background: var(--delimeters-color);
+    border: 1px solid var(--delimeters-color);
 }
 
 .menu-button_color:active {
-    background: var(--menu-buttons-active-fill-color);
-    border: 1px solid var(--menu-buttons-active-border-color);
+    background: var(--delimeters-color);
+    border: 1px solid var(--delimeters-color);
 }
 
 .menu-button__icon_color {
@@ -86,4 +86,17 @@
 
 .menu-button:active .menu-button__text_color {
     color: var(--menu-text-active-color);
+}
+
+.menu-button_color-active,
+.menu-button_color-active:hover,
+.menu-button_color-active:active {
+    background: var(--delimeters-color);
+    border: 1px solid var(--delimeters-color);
+}
+
+.menu-button_color-active .menu-button__icon_color,
+.menu-button_color-active:hover .menu-button__icon_color,
+.menu-button_color-active:active .menu-button__icon_color {
+    stroke: var(--menu-icons-active-color);
 }

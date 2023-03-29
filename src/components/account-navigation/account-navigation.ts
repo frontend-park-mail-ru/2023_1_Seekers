@@ -27,7 +27,7 @@ export class AccountNavigation extends Component {
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                buttons: SidebarLinkButton.renderTemplate(config.buttons.sidebarButtons),
+                buttons: SidebarLinkButton.renderTemplate(config.buttons.accountButtons),
             }
         ));
     }

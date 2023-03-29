@@ -10,7 +10,8 @@ import {actionGetLetters, actionGetMail} from "@actions/letters";
 export interface LetterList {
     state: {
         element: Element,
-        children: Element[],
+        letters: Element[],
+        activeLetter: Element,
     },
 }
 
@@ -27,7 +28,8 @@ export class LetterList extends Component {
         super(context);
         this.state = {
             element: document.createElement('div'),
-            children: [],
+            letters: [],
+            activeLetter: document.createElement('div'),
         }
 
         this.rerender = this.rerender.bind(this);
@@ -41,6 +43,9 @@ export class LetterList extends Component {
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
                 dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
+                this.state.activeLetter.classList.remove('letter-frame_color-active');
+                this.state.activeLetter = currentTarget;
+                this.state.activeLetter.classList.add('letter-frame_color-active');
             }
         }
     }
@@ -64,7 +69,7 @@ export class LetterList extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
-        this.state.children = [...this.state.element.getElementsByClassName('letter-frame')];
+        this.state.letters = [...this.state.element.getElementsByClassName('letter-frame')];
         this.registerEventListener();
     }
 
@@ -86,7 +91,7 @@ export class LetterList extends Component {
      * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
-        this.state.children.forEach((child: Element) => {
+        this.state.letters.forEach((child: Element) => {
             child.addEventListener('click', this.localEventCatcher);
         })
     }
@@ -96,7 +101,7 @@ export class LetterList extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
-        this.state.children.forEach((child: Element) => {
+        this.state.letters.forEach((child: Element) => {
             child.removeEventListener('click', this.localEventCatcher);
         })
     }

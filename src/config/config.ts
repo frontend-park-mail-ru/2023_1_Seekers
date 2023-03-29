@@ -55,8 +55,8 @@ export const config = {
     },
 
     buttons: {
-        commonMenuButtons: [
-            {
+        commonMenuButtons: {
+            inbox: {
                 img: `
                   <path d="m3 8 7.8906 5.2604c.6718.4479 1.547.4479 
                   2.2188 0l7.8906-5.2604m-16 11h14c1.1046
@@ -67,7 +67,7 @@ export const config = {
                 text: 'Входящие',
                 count: '10',
             },
-            {
+            outbox: {
                 img: `
                   <path d="m12 19 9 2-9-18-9 18zm0 0v-8" stroke-linecap="round"
                   stroke-linejoin="round" stroke-width="2"/>
@@ -77,8 +77,8 @@ export const config = {
                 count: '',
             },
 
-            {
-                href: 'spam',
+            spam: {
+                href: '/spam',
                 text: 'Спам',
                 count: '10',
                 img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324 
@@ -87,17 +87,54 @@ export const config = {
                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`
             },
 
-            {
-                href: 'trash',
+            trash: {
+                href: '/trash',
                 text: 'Корзина',
                 count: '10',
                 img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457 1.8575-1.9949 1.8575h-8.27556c-1.04928 
                 0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5 4v6m4-6v6m1-10v-3c0-.55228-.4477-1-1-1h-4c-.55228 0-1 
                 .44772-1 1v3m-5 0h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`
             },
-        ],
+        },
+
+        accountButtons: {
+            profile: {
+                href: '/profile',
+                text: 'Личные данные',
+                img: `<path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
+                 0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+            },
+            security: {
+                href: '/security',
+                text: 'Пароль и безопасность',
+                img: `
+                 <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
+                 0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                 `,
+            },
+            logout: {
+                href: '/logout',
+                text: 'Выйти',
+                img: `
+                 <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
+                 0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                 `,
+            },
+        },
 
         sidebarButtons: {
+            mailbox: {
+                href: '/inbox',
+                text: 'Почта',
+                img: `
+                 <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
+                 0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                 `,
+            },
             profile: {
                 href: '/profile',
                 text: 'Личные данные',
