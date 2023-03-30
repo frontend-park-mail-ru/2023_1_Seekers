@@ -135,7 +135,7 @@ class Router {
     }
 
     navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
-
+        pushState = true;
         console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))

@@ -29,6 +29,9 @@ export const privateRoutes = [
     {path: '/', view: mailboxPage},
     {path: '/profile', view: profilePage},
     {path: '/inbox', view: mailboxPage},
+    {path: '/outbox', view: mailboxPage},
+    {path: '/spam', view: mailboxPage},
+    {path: '/trash', view: mailboxPage},
 ];
 
 

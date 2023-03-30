@@ -96,7 +96,8 @@ export class Menu extends Component {
         this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
 
         const activeButton = this.state.menuButtons.find((button) => {
-                return (button as HTMLElement).dataset.section === config.buttons.commonMenuButtons.inbox.href
+                return (button as HTMLElement).dataset.section ===
+                    reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
             }
         );
         if (activeButton !== undefined) {

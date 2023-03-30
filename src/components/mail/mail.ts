@@ -36,12 +36,14 @@ export class Mail extends Component {
 
         this.rerender = this.rerender.bind(this);
         microEvents.bind('mailChanged', this.rerender);
+        console.log('hello');
     }
 
     /**
      * method insert mail to HTML
      */
     render() {
+        console.log('render mail');
         if(reducerLetters._storage.get(reducerLetters._storeNames.mail) === undefined){
             this.parent.insertAdjacentHTML('afterbegin', template({}));
         } else {

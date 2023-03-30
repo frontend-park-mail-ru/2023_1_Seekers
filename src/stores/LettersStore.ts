@@ -11,13 +11,15 @@ class LettersStore extends BaseStore {
         letters: 'letters',
         mail: 'mail',
         menu: 'menu',
+        currentLetters: 'currentLetters',
     };
 
     constructor() {
         super();
-        this._storage.set(this._storeNames.letters, []);
+        this._storage.set(this._storeNames.letters, new Map());
         this._storage.set(this._storeNames.mail, undefined);
         this._storage.set(this._storeNames.menu, []);
+        this._storage.set(this._storeNames.currentLetters, '/inbox');
     }
 
     getLetters = async (folderName: string) => {
@@ -27,10 +29,13 @@ class LettersStore extends BaseStore {
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             if (body.messages !== null) {
-                this._storage.set(this._storeNames.letters, body.messages);
+                this._storage.get(this._storeNames.letters).set(folderName, body.messages);
             } else {
-                this._storage.set(this._storeNames.letters, []);
+                this._storage.get(this._storeNames.letters).set(folderName, []);
             }
+            this._storage.set(this._storeNames.currentLetters, folderName);
+            console.log(folderName);
+            console.log(this._storage.get(this._storeNames.letters).get(this._storage.get(this._storeNames.currentLetters)));
             this._storage.set(this._storeNames.mail, undefined);
             microEvents.trigger('letterListChanged');
             microEvents.trigger('mailChanged');
@@ -41,6 +46,7 @@ class LettersStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.getMail + id);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
+
             this._storage.set(this._storeNames.mail, body.message);
             microEvents.trigger('mailChanged');
         }

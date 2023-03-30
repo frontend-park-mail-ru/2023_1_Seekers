@@ -40,8 +40,8 @@ export class LetterList extends Component {
     localEventCatcher = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
-        if(currentTarget instanceof HTMLElement){
-            if(currentTarget.dataset.section){
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
                 dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
                 this.state.activeLetter.classList.remove('letter-frame_color-active');
                 this.state.activeLetter = currentTarget;
@@ -57,10 +57,16 @@ export class LetterList extends Component {
     render() {
         console.log('render letterList');
         let letterList: Object[] = [];
+        const letterObjs = reducerLetters._storage
+            .get(reducerLetters._storeNames.letters)
+            .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
 
-        reducerLetters._storage.get(reducerLetters._storeNames.letters).forEach((letter: Object) => {
-            letterList.push(LetterFrame.renderTemplate(letter));
-        })
+        if (letterObjs) {
+            letterObjs.forEach((letter: Object) => {
+                letterList.push(LetterFrame.renderTemplate(letter));
+            })
+        }
+
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
@@ -70,6 +76,7 @@ export class LetterList extends Component {
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
         this.state.letters = [...this.state.element.getElementsByClassName('letter-frame')];
+
         this.registerEventListener();
     }
 
