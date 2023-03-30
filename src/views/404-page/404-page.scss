@@ -1,0 +1,29 @@
+.page {
+  display: flex;
+  padding: 0;
+}
+
+.main-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex: none;
+  order: 1;
+  flex-grow: 1;
+  background: var(--primary-background-color);
+}
+
+.not-found-label {
+  font-family: "Roboto Thin", sans-serif;
+  font-style: normal;
+  font-size: 20px;
+  letter-spacing: 0.03em;
+  color: var(--text-main-color);
+  padding-bottom: 20px;
+}
+
+#arena {
+  border: var(--primary-background-color);
+}

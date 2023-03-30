@@ -2,7 +2,8 @@ import {ROOT, routes, privateRoutes} from "@config/config";
 import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
 import {reducerLetters} from "@stores/LettersStore";
-import * as path from "path";
+import {Page404} from "@views/404-page/404-page";
+
 
 interface Class extends anyObject {
     render: Function;
@@ -117,6 +118,8 @@ class Router {
                 path: matchedHref,
             }, redirect, redirect);
         } else {
+            Page404.start();
+
             console.log('NOT FOUND PAGE');
         }
     }
