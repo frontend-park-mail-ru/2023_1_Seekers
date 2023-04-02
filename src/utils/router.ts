@@ -3,7 +3,7 @@ import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
 import {reducerLetters} from "@stores/LettersStore";
 import {page404} from "@views/404-page/404-page";
-import {actionChangeURL, actionGetMailboxPage, actionGetProfilePage} from "@actions/user";
+import {actionGetMailboxPage, actionGetProfilePage} from "@actions/user";
 import {dispatcher} from "@utils/dispatcher";
 
 
@@ -90,7 +90,8 @@ class Router {
                 }
                 if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.open({path: matchedHref}, true, false);
+
+                    this.navigate({path: matchedHref, props: '', pushState: true});
                 }
             }
         }
@@ -113,11 +114,6 @@ class Router {
     }
 
     open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
-        console.log('in open: ' + stateObject.path);
-        const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
-            ? window.location.href.replace(hrefRegExp.host, '')
-            : window.location.href.replace(hrefRegExp.localhost, ''));
-
         if (this.currentPage) {
             this.currentPage.purge();
         }

@@ -11,7 +11,7 @@ import {
     actionGetLetters,
     actionGetMail
 } from "@actions/letters";
-import {actionChangeURL} from "@actions/user";
+// import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
     state: {
@@ -54,7 +54,7 @@ export class LetterList extends Component {
                 const path = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
 
                 await dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
-                await dispatcher.dispatch(actionChangeURL({path: path, props: '/' + currentTarget.dataset.section}));
+                // await dispatcher.dispatch(actionChangeURL({path: path, props: '/' + currentTarget.dataset.section}));
 
                 this.state.activeLetter.classList.remove('letter-frame_color-active');
                 this.state.activeLetter = currentTarget;
@@ -104,8 +104,6 @@ export class LetterList extends Component {
 
         if (letterObjs) {
             letterObjs.forEach((letter: any) => {
-                console.log(letter);
-                // letter.seen = true;
                 letterList.push(LetterFrame.renderTemplate(letter));
             })
         }

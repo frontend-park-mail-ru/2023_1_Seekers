@@ -100,3 +100,10 @@
 .menu-button_color-active:active .menu-button__icon_color {
     stroke: var(--menu-icons-active-color);
 }
+
+.menu_button__out {
+    width: 100%;
+    height: 25px;
+    position: absolute;
+    cursor: pointer;
+}
