@@ -3,6 +3,7 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from "@stores/userStore";
+import {actionChangeLetterStateToRead} from "@actions/letters";
 
 
 class LettersStore extends BaseStore {
@@ -82,6 +83,26 @@ class LettersStore extends BaseStore {
         await reducerUser.getProfile();
         microEvents.trigger('renderProfilePage');
     };
+
+    changeLetterStateToRead = async (letterId: string) => {
+        console.log(config.api.getMail + letterId + '/read');
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read', {});
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            console.log('state changed to read');
+            // microEvents.trigger('letterStateChanged');
+        }
+    }
+
+    changeLetterStateToUnread = async (letterId: string) => {
+        console.log(config.api.getMail + letterId + '/unread');
+        const responsePromise = Connector.makePostRequest(config.api.getMail+ letterId + '/unread', {});
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            console.log('state changed to unread');
+            // microEvents.trigger('letterStateChanged');
+        }
+    }
 }
 
 

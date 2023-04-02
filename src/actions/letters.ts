@@ -18,3 +18,13 @@ export const actionInitUser = () => ({
     type: 'initUser',
     value: {},
 });
+
+export const actionChangeLetterStateToUnread = (letterId: string) => ({
+    type: 'changeLetterStateToUnread',
+    value: letterId,
+});
+
+export const actionChangeLetterStateToRead = (letterId: string) => ({
+    type: 'changeLetterStateToRead',
+    value: letterId,
+});

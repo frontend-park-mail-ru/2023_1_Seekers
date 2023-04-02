@@ -5,13 +5,21 @@ import {reducerLetters} from "@stores/LettersStore";
 import '@components/letter-list/letter-list.scss';
 import {dispatcher} from "@utils/dispatcher";
 import {microEvents} from "@utils/microevents";
-import {actionGetLetters, actionGetMail} from "@actions/letters";
+import {
+    actionChangeLetterStateToRead,
+    actionChangeLetterStateToUnread,
+    actionGetLetters,
+    actionGetMail
+} from "@actions/letters";
 import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
     state: {
         element: Element,
-        letters: Element[],
+        letters: {
+            letterElement: Element,
+            stateElement: Element,
+        }[],
         activeLetter: Element,
     },
 }
@@ -38,7 +46,7 @@ export class LetterList extends Component {
         microEvents.bind('letterListChanged', this.rerender);
     }
 
-    localEventCatcher = async (e: Event) => {
+    selectLetter = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
@@ -51,8 +59,36 @@ export class LetterList extends Component {
                 this.state.activeLetter.classList.remove('letter-frame_color-active');
                 this.state.activeLetter = currentTarget;
                 this.state.activeLetter.classList.add('letter-frame_color-active');
+
+                const letterState = currentTarget.getElementsByClassName('letter-read-state-frame')[0] as HTMLElement;
+
+                if(letterState.classList.contains('letter-is-unread')){
+                    dispatcher.dispatch(actionChangeLetterStateToRead(letterState.dataset.section!));
+                    letterState.classList.remove('letter-is-unread');
+                    letterState.classList.add('letter-is-read');
+                }
             }
         }
+    }
+
+    changeState = async (e: Event) => {
+        console.log('changing state...');
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                if (currentTarget.classList.contains('letter-is-unread')) {
+                    dispatcher.dispatch(actionChangeLetterStateToRead(currentTarget.dataset.section));
+                    currentTarget.classList.remove('letter-is-unread');
+                    currentTarget.classList.add('letter-is-read');
+                } else if (currentTarget.classList.contains('letter-is-read')) {
+                    dispatcher.dispatch(actionChangeLetterStateToUnread(currentTarget.dataset.section));
+                    currentTarget.classList.remove('letter-is-read');
+                    currentTarget.classList.add('letter-is-unread');
+                }
+            }
+        }
+        e.stopPropagation();
     }
 
     /**
@@ -67,11 +103,12 @@ export class LetterList extends Component {
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
 
         if (letterObjs) {
-            letterObjs.forEach((letter: Object) => {
+            letterObjs.forEach((letter: any) => {
+                console.log(letter);
+                // letter.seen = true;
                 letterList.push(LetterFrame.renderTemplate(letter));
             })
         }
-
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
@@ -80,7 +117,9 @@ export class LetterList extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
-        this.state.letters = [...this.state.element.getElementsByClassName('letter-frame')];
+        [...this.state.element.getElementsByClassName('letter-frame')].forEach(letterFrame => {
+            this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-read-state-frame')[0]});
+        });
 
         this.registerEventListener();
     }
@@ -103,9 +142,10 @@ export class LetterList extends Component {
      * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
-        this.state.letters.forEach((child: Element) => {
-            child.addEventListener('click', this.localEventCatcher);
-        })
+        this.state.letters.forEach((letter) => {
+            letter.letterElement.addEventListener('click', this.selectLetter);
+            letter.stateElement.addEventListener('click', this.changeState);
+        });
     }
 
     /**
@@ -113,8 +153,9 @@ export class LetterList extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
-        this.state.letters.forEach((child: Element) => {
-            child.removeEventListener('click', this.localEventCatcher);
-        })
+        this.state.letters.forEach((letter) => {
+            letter.letterElement.removeEventListener('click', this.selectLetter);
+            letter.stateElement.removeEventListener('click', this.changeState);
+        });
     }
 }

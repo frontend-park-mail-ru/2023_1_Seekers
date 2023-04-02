@@ -1,5 +1,7 @@
 <a id="letter-frame-id-{{message_id}}" href="{{message_id}}" class="letter-frame" data-section="{{ message_id }}">
-    <div class="letter-read-state-frame"></div>
+    <div class="letter-read-state-frame {{#if seen}} letter-is-read {{else}} letter-is-unread {{/if}}" data-section="{{ message_id }}">
+
+    </div>
     <div class="letter-content-frame">
         <div class="letter-content-header-frame">
             <div class="letter-content-header-image-frame">
