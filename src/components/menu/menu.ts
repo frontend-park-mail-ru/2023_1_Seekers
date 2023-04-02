@@ -105,7 +105,7 @@ export class Menu extends Component {
             this.state.activeButton.classList.add('menu-button_color-active')
         }
 
-        this.registerEventListener();
+        // this.registerEventListener();
     }
 
     /**

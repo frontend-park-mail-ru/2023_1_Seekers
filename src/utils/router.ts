@@ -1,8 +1,10 @@
-import {ROOT, routes, privateRoutes} from "@config/config";
+import {ROOT, routes, privateRoutes, privateActions} from "@config/config";
 import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
 import {reducerLetters} from "@stores/LettersStore";
 import {page404} from "@views/404-page/404-page";
+import {actionChangeURL, actionGetMailboxPage, actionGetProfilePage} from "@actions/user";
+import {dispatcher} from "@utils/dispatcher";
 
 
 interface Class extends anyObject {
@@ -14,6 +16,10 @@ interface Router {
     root: Element;
     views: Map<string, Class>;
     privateViews: Map<string, Class>;
+
+    actions: Map<string, any>;
+    privateActions: Map<string, any>;
+
     currentPage: any;
 
     prevUrl: string;
@@ -30,13 +36,18 @@ class Router {
         this.root = root;
         this.views = new Map();
         this.privateViews = new Map();
+        this.privateActions = new Map();
 
         for (const rout of routes) {
-            this.register(rout);
+            this.registerView(rout);
         }
 
         for (const rout of privateRoutes) {
-            this.register(rout, true);
+            this.registerView(rout, true);
+        }
+
+        for (const action of privateActions) {
+            this.registerActions(action, true);
         }
     }
 
@@ -44,10 +55,16 @@ class Router {
     /**
      * Соопоставляет url и view
      */
-    register({path, view}: { path: string, view: any }, privatePath = false) {
+    registerView({path, view}: { path: string, view: any }, privatePath = false) {
         privatePath ?
             this.privateViews.set(path, view) :
             this.views.set(path, view);
+    }
+
+    registerActions({path, action}: { path: string, action: any }, privateAction = false) {
+        privateAction ?
+            this.privateActions.set(path, action) :
+            this.actions.set(path, action);
     }
 
     matchHref(href: string) {
@@ -61,9 +78,15 @@ class Router {
     onClickEvent = (e: MouseEvent) => {
         const {target} = e;
 
+        e.preventDefault();
+
+
         if (target instanceof HTMLElement || target instanceof SVGElement) {
+            console.log(target);
+            console.log(e.currentTarget);
 
             if (target.dataset.section) {
+                console.log(target.dataset.section);
                 const matchedHref = this.matchHref(target.dataset.section);
                 if (!matchedHref) {
                     return;
@@ -108,6 +131,10 @@ class Router {
         const path = stateObject.path;
         const props = stateObject.props;
 
+
+        dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
+
+
         this.navigate({path, props, pushState});
     }
 
@@ -125,13 +152,15 @@ class Router {
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
-        reducerUser.getProfile()
-            .then(() => {
-                reducerLetters.getLetters('/inbox');
-            })
-            .then(() => {
-                this.refresh()
-            });
+
+
+        // reducerUser.getProfile()
+        //     .then(() => {
+        //         reducerLetters.getLetters('/inbox');
+        //     })
+        //     .then(() => {
+        this.refresh()
+        //     });
     }
 
     navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {

@@ -6,7 +6,7 @@ import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetMail} from "@actions/letters";
-import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {actionChangeURL, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
 
 export interface AccountSidebar {
     state: {
@@ -39,18 +39,22 @@ export class AccountSidebar extends Component{
         console.log('catched sidebar');
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
-            if(currentTarget.dataset.section){
-                console.log('to another page: ' + currentTarget.dataset.section);
-                switch (currentTarget.dataset.section) {
+            const data = currentTarget.dataset.section
+            if(data){
+                console.log('to another page: ' + data);
+                switch (data) {
                     case config.buttons.sidebarButtons.profile.href:
                         console.log('to profile');
                         await dispatcher.dispatch(actionGetProfilePage());
+                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
                         break;
                     case config.buttons.sidebarButtons.mailbox.href:
-                        await dispatcher.dispatch(actionGetMailboxPage());
+                        await dispatcher.dispatch(actionGetMailboxPage(data));
+                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
                         break;
                     case config.buttons.sidebarButtons.security.href:
                         await dispatcher.dispatch(actionGetSecurityPage());
+                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
                         break;
                 }
                 this.removeSidebar();

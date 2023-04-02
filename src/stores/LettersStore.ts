@@ -64,9 +64,10 @@ class LettersStore extends BaseStore {
         microEvents.trigger('menuChanged');
     };
 
-    getMailboxPage = async () => {
+    getMailboxPage = async (path: string) => {
+        console.log('getMailboxPage');
         await this.getMenu();
-        await this.getLetters('inbox');
+        await this.getLetters(path);
         await reducerUser.getProfile();
         microEvents.trigger('renderMailboxPage');
     };

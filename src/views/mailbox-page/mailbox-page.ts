@@ -4,7 +4,7 @@ import template from '@views/mailbox-page/mailbox-page.hbs'
 import '@views/mailbox-page/mailbox-page.scss';
 
 import {config} from "@config/config";
-import { dispatcher } from '@utils/dispatcher';
+import {dispatcher} from '@utils/dispatcher';
 
 import {microEvents} from "@utils/microevents";
 import {Navbar} from "@components/navbar/navbar";
@@ -78,16 +78,17 @@ export class MailBox extends View {
         this.state.navbar = new Navbar({
             parent: this.state.element,
         });
-
         this.state.navbar.render();
-
-        this.renderMailbox();
-
+        // this.renderMailbox();
         this.registerEvents();
     };
 
     renderAccountArea = () => {
-        if (this.state.content){
+        console.log('in account area render');
+        if (this.state.element.hidden) {
+            this.render();
+        }
+        if (this.state.content) {
             this.state.content.purge();
         }
         this.state.content = new AccountArea({
@@ -97,7 +98,10 @@ export class MailBox extends View {
     };
 
     renderMailbox = () => {
-        if (this.state.content){
+        if (this.state.element.hidden) {
+            this.render();
+        }
+        if (this.state.content) {
             this.state.content.purge();
         }
         this.state.content = new MailBoxArea({

@@ -46,9 +46,9 @@ export const actionGetProfilePage = () => ({
     value: {},
 });
 
-export const actionGetMailboxPage = () => ({
+export const actionGetMailboxPage = (path: string) => ({
     type: 'getMailboxPage',
-    value: {},
+    value: path,
 });
 
 export const actionGetSecurityPage = () => ({
