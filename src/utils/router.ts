@@ -67,28 +67,16 @@ class Router {
             this.actions.set(path, action);
     }
 
-    matchHref(href :string) {
+    matchHref(href: string) {
         let newHref = href;
         if (newHref !== '/') {
             newHref = href.replace(hrefRegExp.endSlash, '');
         }
-        let reg = new RegExp('^\\/\\w+\\/\\w*\\d+');
-
-        console.log(href);
-
-        let matchHref = newHref.match(reg);
-        console.log(matchHref);
-        if (matchHref) {
-
-        }
-        return matchHref;
+        return newHref;
     }
 
     onClickEvent = (e: MouseEvent) => {
         const {target} = e;
-
-        e.preventDefault();
-
 
         if (target instanceof HTMLElement || target instanceof SVGElement) {
             console.log(target);
@@ -100,9 +88,9 @@ class Router {
                 if (!matchedHref) {
                     return;
                 }
-                if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
+                if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
                     e.preventDefault();
-                    this.open({path: matchedHref[0]}, true, false);
+                    this.open({path: matchedHref}, true, false);
                 }
             }
         }
@@ -126,9 +114,6 @@ class Router {
 
     open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
         console.log('in open: ' + stateObject.path);
-
-        this.matchHref(stateObject.path);
-
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
@@ -143,9 +128,9 @@ class Router {
         const path = stateObject.path;
         const props = stateObject.props;
 
-
-        dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
-
+        if(stateObject.path !== '/login' && stateObject.path !== '/signup'){
+            dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
+        }
 
         this.navigate({path, props, pushState});
     }
@@ -155,14 +140,14 @@ class Router {
         if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
             this.open({
                 path: matchedHref,
-            }, redirect, redirect);
+            }, !redirect, !redirect);
         } else {
             page404.render();
         }
     }
 
     start() {
-        // document.addEventListener('click', this.onClickEvent);
+        document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
 
 
@@ -176,7 +161,6 @@ class Router {
     }
 
     navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
-
         console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
