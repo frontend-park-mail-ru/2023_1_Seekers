@@ -32,20 +32,6 @@
     overflow: auto;
 }
 
-.account-sidebar__item {
-    font-size: 16px;
-    line-height: 20px;
-    font-family: "Roboto Thin", sans-serif;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    padding-right: 12px;
-    height: 40px;
-    border-radius: 8px;
-    text-decoration: none;
-    min-height: 44px;
-}
-
 .account-sidebar__avatar__active-user {
     height: 72px !important;
 }

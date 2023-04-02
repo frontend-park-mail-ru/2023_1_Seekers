@@ -5,6 +5,28 @@
     margin-right: 12px;
 }
 
+.account-sidebar__item {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: "Roboto Thin", sans-serif;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-radius: 8px;
+    text-decoration: none;
+    min-height: 44px;
+}
+
+.account-sidebar__item__out {
+    height: 40px;
+    min-height: 44px;
+    width: 100%;
+    align-self: center;
+    position: absolute;
+    cursor: pointer;
+}
+
 .account-sidebar__svg {
     stroke: var(--navbar-icons-default-color);
     pointer-events: none;
