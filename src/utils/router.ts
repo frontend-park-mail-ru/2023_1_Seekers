@@ -67,12 +67,21 @@ class Router {
             this.actions.set(path, action);
     }
 
-    matchHref(href: string) {
+    matchHref(href :string) {
         let newHref = href;
         if (newHref !== '/') {
             newHref = href.replace(hrefRegExp.endSlash, '');
         }
-        return newHref;
+        let reg = new RegExp('^\\/\\w+\\/\\w*\\d+');
+
+        console.log(href);
+
+        let matchHref = newHref.match(reg);
+        console.log(matchHref);
+        if (matchHref) {
+
+        }
+        return matchHref;
     }
 
     onClickEvent = (e: MouseEvent) => {
@@ -91,9 +100,9 @@ class Router {
                 if (!matchedHref) {
                     return;
                 }
-                if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
+                if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
                     e.preventDefault();
-                    this.open({path: matchedHref}, true, false);
+                    this.open({path: matchedHref[0]}, true, false);
                 }
             }
         }
@@ -117,6 +126,9 @@ class Router {
 
     open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
         console.log('in open: ' + stateObject.path);
+
+        this.matchHref(stateObject.path);
+
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
@@ -150,7 +162,7 @@ class Router {
     }
 
     start() {
-        document.addEventListener('click', this.onClickEvent);
+        // document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
 
 
@@ -164,7 +176,7 @@ class Router {
     }
 
     navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
-        pushState = true;
+
         console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
@@ -173,13 +185,13 @@ class Router {
 
         if (pushState) {
             if (props) {
-                window.history.pushState(props, "", `${location + path}${props}/`);
+                window.history.pushState(props, "", `${location + path}${props}`);
             } else {
                 window.history.pushState(props, "", location + path);
             }
         } else {
             if (props) {
-                window.history.replaceState(props, "", `${location + path}${props}/`);
+                window.history.replaceState(props, "", `${location + path}${props}`);
             } else {
                 window.history.replaceState(props, "", location + path);
             }

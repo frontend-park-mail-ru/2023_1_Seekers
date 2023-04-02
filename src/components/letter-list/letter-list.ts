@@ -6,6 +6,7 @@ import '@components/letter-list/letter-list.scss';
 import {dispatcher} from "@utils/dispatcher";
 import {microEvents} from "@utils/microevents";
 import {actionGetLetters, actionGetMail} from "@actions/letters";
+import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
     state: {
@@ -42,7 +43,11 @@ export class LetterList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
+                const path = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
+
+                await dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
+                await dispatcher.dispatch(actionChangeURL({path: path, props: '/' + currentTarget.dataset.section}));
+
                 this.state.activeLetter.classList.remove('letter-frame_color-active');
                 this.state.activeLetter = currentTarget;
                 this.state.activeLetter.classList.add('letter-frame_color-active');

@@ -46,15 +46,15 @@ export class AccountSidebar extends Component{
                     case config.buttons.sidebarButtons.profile.href:
                         console.log('to profile');
                         await dispatcher.dispatch(actionGetProfilePage());
-                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
+                        dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                     case config.buttons.sidebarButtons.mailbox.href:
                         await dispatcher.dispatch(actionGetMailboxPage(data));
-                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
+                        dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                     case config.buttons.sidebarButtons.security.href:
                         await dispatcher.dispatch(actionGetSecurityPage());
-                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
+                        dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                 }
                 this.removeSidebar();

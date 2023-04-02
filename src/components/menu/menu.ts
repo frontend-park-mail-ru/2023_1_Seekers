@@ -8,7 +8,7 @@ import {actionGetLetters} from "@actions/letters";
 import {config} from "@config/config";
 import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
 import {SendMail} from "@components/send-mail/send-mail";
-import {actionChangeURL} from "@actions/user";
+import {actionChangeURL, actionRedirect} from "@actions/user";
 
 export interface Menu {
     state: {
@@ -46,7 +46,7 @@ export class Menu extends Component {
                 const data = currentTarget.dataset.section;
                 dispatcher.dispatch(actionGetLetters(data))
                     .then(() => {
-                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
+                        dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
 
                     this.state.activeButton.classList.remove('menu-button_color-active');
                     this.state.activeButton = currentTarget;
@@ -105,7 +105,7 @@ export class Menu extends Component {
             this.state.activeButton.classList.add('menu-button_color-active')
         }
 
-        // this.registerEventListener();
+        this.registerEventListener();
     }
 
     /**
