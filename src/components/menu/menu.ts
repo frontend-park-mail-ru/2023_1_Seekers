@@ -38,23 +38,17 @@ export class Menu extends Component {
         }
     }
 
-    menuButtonClicked = async (e: Event) => {
-        e.preventDefault();
-        const {currentTarget} = e;
-        if (currentTarget instanceof HTMLElement) {
-            if (currentTarget.dataset.section) {
-                const data = currentTarget.dataset.section;
-                dispatcher.dispatch(actionGetLetters(data))
-                    .then(() => {
-                        dispatcher.dispatch(actionChangeURL({path: data, props: ''}));
-
-                    this.state.activeButton.classList.remove('menu-button_color-active');
-                    this.state.activeButton = currentTarget;
-                    this.state.activeButton.classList.add('menu-button_color-active');
-                });
-            }
-        }
-    }
+    // menuButtonClicked = async (e: Event) => {
+    //     e.preventDefault();
+    //     const {currentTarget} = e;
+    //     if (currentTarget instanceof HTMLElement) {
+    //
+    //         this.state.activeButton.classList.remove('menu-button_color-active');
+    //         this.state.activeButton = currentTarget;
+    //         this.state.activeButton.classList.add('menu-button_color-active');
+    //
+    //     }
+    // }
 
     newMailButtonClicked = async (e: Event) => {
         e.preventDefault();

@@ -50,6 +50,8 @@ class UserStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.getProfile)
 
         const [status, body]  = await responsePromise;
+        console.log(status)
+        console.log(body)
         if (status === responseStatuses.OK) {
             this._storage.set(this._storeNames.profile, body);
             microEvents.trigger('profileChanged');

@@ -20,14 +20,13 @@ export const actionGetProfile = () => ({
     value: {},
 });
 
-export const actionRedirect = (path: {path: string}, pushState: boolean, refresh: boolean) => ({
+export const actionRedirect = (path:  string, pushState: boolean, refresh: boolean) => ({
     type: 'redirect',
     value: {
         path: path,
         pushState: pushState,
         refresh: refresh,
     },
-
 });
 
 export const actionChangeURL = (value: any) => ({

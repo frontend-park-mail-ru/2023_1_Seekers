@@ -78,13 +78,7 @@ class Router {
     onClickEvent = (e: MouseEvent) => {
         const {target} = e;
 
-        e.preventDefault();
-
-
         if (target instanceof HTMLElement || target instanceof SVGElement) {
-            console.log(target);
-            console.log(e.currentTarget);
-
             if (target.dataset.section) {
                 console.log(target.dataset.section);
                 const matchedHref = this.matchHref(target.dataset.section);
@@ -131,9 +125,9 @@ class Router {
         const path = stateObject.path;
         const props = stateObject.props;
 
-
-        dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
-
+        if(stateObject.path !== '/login' && stateObject.path !== '/signup'){
+            dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
+        }
 
         this.navigate({path, props, pushState});
     }
@@ -143,7 +137,7 @@ class Router {
         if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
             this.open({
                 path: matchedHref,
-            }, redirect, redirect);
+            }, !redirect, !redirect);
         } else {
             page404.render();
         }
@@ -164,7 +158,6 @@ class Router {
     }
 
     navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
-        pushState = true;
         console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
@@ -184,6 +177,8 @@ class Router {
                 window.history.replaceState(props, "", location + path);
             }
         }
+
+        console.log(window.history)
         this.prevUrl = path;
     }
 
