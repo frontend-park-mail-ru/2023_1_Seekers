@@ -47,6 +47,8 @@ export class MailBox extends View {
         }
 
         microEvents.bind('renderMailbox', this.render);
+        microEvents.bind('renderMailboxPage', this.renderMailbox);
+        microEvents.bind('renderProfilePage', this.renderAccountArea);
     }
 
 

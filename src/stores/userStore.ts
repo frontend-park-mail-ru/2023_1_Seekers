@@ -47,14 +47,12 @@ class UserStore extends BaseStore {
 
     async getProfile() {
         console.log('getProfile');
-        console.log(this._storage.get(this._storeNames.profile));
         const responsePromise = Connector.makeGetRequest(config.api.getProfile)
 
         const [status, body]  = await responsePromise;
         if (status === responseStatuses.OK) {
             this._storage.set(this._storeNames.profile, body);
             microEvents.trigger('profileChanged');
-            console.log(this._storage.get(this._storeNames.profile));
         }
     }
 }

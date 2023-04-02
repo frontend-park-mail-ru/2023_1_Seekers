@@ -41,3 +41,18 @@ export const actionStart = () => ({
     value: {},
 });
 
+export const actionGetProfilePage = () => ({
+    type: 'getProfilePage',
+    value: {},
+});
+
+export const actionGetMailboxPage = () => ({
+    type: 'getMailboxPage',
+    value: {},
+});
+
+export const actionGetSecurityPage = () => ({
+    type: 'getSecurityPage',
+    value: {},
+});
+

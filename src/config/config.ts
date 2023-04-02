@@ -3,7 +3,6 @@
 import {mailboxPage} from '@views/mailbox-page/mailbox-page'
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
-import {profilePage} from "@views/profile-page/account-page";
 
 const prefixApi = 'api/v1/';
 
@@ -27,7 +26,6 @@ export const routes = [
 
 export const privateRoutes = [
     {path: '/', view: mailboxPage},
-    {path: '/profile', view: profilePage},
     {path: '/inbox', view: mailboxPage},
     {path: '/outbox', view: mailboxPage},
     {path: '/spam', view: mailboxPage},

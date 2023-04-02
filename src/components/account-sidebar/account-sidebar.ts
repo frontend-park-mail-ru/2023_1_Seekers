@@ -6,6 +6,7 @@ import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetMail} from "@actions/letters";
+import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
 
 export interface AccountSidebar {
     state: {
@@ -34,14 +35,25 @@ export class AccountSidebar extends Component{
      * @param {Event} e - event that goes from one of childs of current element
      */
     localEventCatcher = async (e: Event) => {
-        console.log('catched sidebar');
         e.preventDefault();
+        console.log('catched sidebar');
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
-                console.log('to another page');
+                console.log('to another page: ' + currentTarget.dataset.section);
+                switch (currentTarget.dataset.section) {
+                    case config.buttons.sidebarButtons.profile.href:
+                        console.log('to profile');
+                        await dispatcher.dispatch(actionGetProfilePage());
+                        break;
+                    case config.buttons.sidebarButtons.mailbox.href:
+                        await dispatcher.dispatch(actionGetMailboxPage());
+                        break;
+                    case config.buttons.sidebarButtons.security.href:
+                        await dispatcher.dispatch(actionGetSecurityPage());
+                        break;
+                }
                 this.removeSidebar();
-                // dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
             }
         }
     }

@@ -8,6 +8,7 @@ import {Component} from "@components/component";
 
 export interface AccountProfile {
     state: {
+        element: Element,
         firstName: string,
         lastName: string,
         login: string,
@@ -40,5 +41,10 @@ export class AccountProfile extends Component {
                 button: Button.renderTemplate(this.state.button),
             }
         ));
+        this.state.element = this.parent.getElementsByClassName('account-profile')[0];
+    }
+
+    purge() {
+        this.state.element.remove();
     }
 }

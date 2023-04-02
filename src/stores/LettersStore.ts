@@ -53,70 +53,36 @@ class LettersStore extends BaseStore {
     };
 
     getMenu = async () => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
-        const [status, response] = await responsePromise;
-        if (status === responseStatuses.OK) {
-            this._storage.set(this._storeNames.menu, response.folders);
-            microEvents.trigger('menuChanged');
-        }
+        // const responsePromise = Connector.makeGetRequest(config.api.getMenu);
+        // const [status, response] = await responsePromise;
+        // if (status === responseStatuses.OK) {
+        //     this._storage.set(this._storeNames.menu, response.folders);
+        //     microEvents.trigger('menuChanged');
+        // }
 
         this._storage.set(this._storeNames.menu, menuBtns);
         microEvents.trigger('menuChanged');
     };
 
-    getAll = async () => {
+    getMailboxPage = async () => {
         await this.getMenu();
         await this.getLetters('inbox');
         await reducerUser.getProfile();
-        // microEvents.trigger('renderMailbox');
+        microEvents.trigger('renderMailboxPage');
+    };
+
+    getProfilePage = async () => {
+        console.log('in get profile page');
+        await reducerUser.getProfile();
+        microEvents.trigger('renderProfilePage');
+    };
+
+    getSecurityPage = async () => {
+        await reducerUser.getProfile();
+        microEvents.trigger('renderProfilePage');
     };
 }
 
-const letters = [
-    {
-        message_id: '1',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!1',
-        text: 'lorem1',
-        creating_date: '13.11.2020',
-    },
-
-    {
-        message_id: '2',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!2',
-        text: 'lorem2',
-        creating_date: '13.11.2020',
-    },
-    {
-        message_id: '3',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!3',
-        text: 'lorem30',
-        creating_date: '13.11.2020',
-    },
-    {
-        message_id: '4',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!4',
-        text: 'lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 lorem40 ',
-        creating_date: '13.11.2020',
-    },
-    {
-        message_id: '5',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!4',
-        text: 'lorem40',
-        creating_date: '13.11.2020',
-    },
-    {
-        message_id: '6',
-        from_user: 'sasa@mailbox.ru',
-        title: 'Hello, world!4',
-        text: 'lorem40',
-        creating_date: '13.11.2020',
-    },
-];
 
 const menuBtns = [
     {

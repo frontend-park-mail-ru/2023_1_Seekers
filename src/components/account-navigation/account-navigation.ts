@@ -8,6 +8,7 @@ import '@components/account-navigation/account-navigation.scss';
 
 export interface AccountNavigation {
     state: {
+        element: Element;
         buttons: any,
     },
 }
@@ -30,5 +31,11 @@ export class AccountNavigation extends Component {
                 buttons: SidebarLinkButton.renderTemplate(config.buttons.accountButtons),
             }
         ));
+
+        this.state.element = this.parent.getElementsByClassName('account-navigation')[0];
+    }
+
+    purge() {
+
     }
 }

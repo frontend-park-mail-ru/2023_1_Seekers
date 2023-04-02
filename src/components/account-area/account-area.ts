@@ -9,7 +9,7 @@ import {reducerUser} from "@stores/userStore";
 
 export interface AccountArea {
     state: {
-        navbar: any,
+        element: Element,
         navigation: any,
         content: any;
     }
@@ -41,6 +41,7 @@ export class AccountArea extends Component {
     render = () => {
         this.parent.insertAdjacentHTML('afterbegin', template({}));
 
+        this.state.element = this.parent.getElementsByClassName('account-area')[0];
         this.state.navigation = new AccountNavigation({
             parent:  document.getElementById('account-area-content__navigation')!,
         });
@@ -67,5 +68,11 @@ export class AccountArea extends Component {
         //     button: config.accountFields.account.security.button,
         // });
         // this.state.content.render();
+
+        }
+    purge = () => {
+        this.state.navigation.purge();
+        this.state.content.purge();
+        this.state.element.remove();
     };
 }
