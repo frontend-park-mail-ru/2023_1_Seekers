@@ -2,9 +2,10 @@
     <div class="account-profile__area">
         <div class="account-profile__avatar-area">
             <div class="account-sidebar__item account-sidebar__avatar__active-user">
-                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" href="/profile" aria-label="Сменить аватар">
+                <input class="account-sidebar__avatar-picker" type="file" accept="image/*" id="avatar-picker">
+                <div class="account-sidebar__avatar account-sidebar__avatar__hover-active" aria-label="Сменить аватар">
                     <img class="account-sidebar__avatar-img" src={{this.avatar}} alt="{{this.login}}">
-                </a>
+                </div>
                 <div class="account-sidebar__text">
                     <div class="account-sidebar__title" >
                         <div class="account-sidebar__name" aria-label="{{this.firstName}} {{this.lastName}}">

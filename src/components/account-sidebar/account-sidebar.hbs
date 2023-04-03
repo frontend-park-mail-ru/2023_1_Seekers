@@ -3,7 +3,7 @@
         <div class="accounts">
             <div class="account-sidebar__item account-sidebar__avatar__active-user">
 
-                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" href="/profile" aria-label="Сменить аватар">
+                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" data-section="/profile" aria-label="Сменить аватар">
 
                     {{#if profile.avatar includeZero=true}}
                         <img src={{profile.avatar}} class="account-sidebar__avatar-img" alt="{{profile.email}}">

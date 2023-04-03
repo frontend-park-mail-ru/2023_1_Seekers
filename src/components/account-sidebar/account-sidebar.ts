@@ -108,6 +108,8 @@ export class AccountSidebar extends Component{
         this.state.element = this.parent.getElementsByClassName('account-sidebar')[0]
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
 
+        this.state.children.push(this.state.element.getElementsByClassName('account-sidebar__avatar')[0]);
+
         this.registerEventListener();
         this.state.isRendered = true;
     }

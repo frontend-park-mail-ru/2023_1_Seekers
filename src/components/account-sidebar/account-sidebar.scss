@@ -45,6 +45,15 @@
     position: relative;
 }
 
+.account-sidebar__avatar-picker {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    position: absolute;
+    visibility: hidden;
+    cursor: pointer;
+}
+
 .account-sidebar__avatar__hover-active:hover {
     background-color: var(--color-transparent--hover);
 }
