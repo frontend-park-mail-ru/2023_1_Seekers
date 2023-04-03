@@ -35,6 +35,9 @@ export class AccountSidebar extends Component{
      * @param {Event} e - event that goes from one of childs of current element
      */
     localEventCatcher = async (e: Event) => {
+        if (!e.isTrusted){
+            return;
+        }
         e.preventDefault();
         console.log('catched sidebar');
         const {currentTarget} = e;
@@ -61,6 +64,8 @@ export class AccountSidebar extends Component{
                         // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                 }
+                e.stopPropagation();
+                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                 this.removeSidebar();
             }
         }

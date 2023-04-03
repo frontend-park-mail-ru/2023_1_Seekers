@@ -36,8 +36,6 @@ export class Mail extends Component {
         }
 
         this.rerender = this.rerender.bind(this);
-        microEvents.bind('mailChanged', this.rerender);
-        console.log('hello');
     }
 
     /**
@@ -72,6 +70,7 @@ export class Mail extends Component {
      * will unregister listeners for each button in mail
      */
     registerEventListener() {
+        microEvents.bind('mailChanged', this.rerender);
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
         })
@@ -82,6 +81,7 @@ export class Mail extends Component {
      * will register listeners for each button in mail
      */
     unregisterEventListener() {
+        microEvents.unbind('mailChanged', this.rerender);
         this.state.actionButtons.forEach((button) => {
             button.removeEventListener('click', this.letterAction);
         })

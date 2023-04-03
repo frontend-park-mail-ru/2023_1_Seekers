@@ -43,7 +43,7 @@ export class LetterList extends Component {
 
         this.rerender = this.rerender.bind(this);
 
-        microEvents.bind('letterListChanged', this.rerender);
+
     }
 
     selectLetter = async (e: Event) => {
@@ -102,14 +102,18 @@ export class LetterList extends Component {
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
 
+        const currentLetters = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
+
         if (letterObjs) {
             letterObjs.forEach((letter: any) => {
+
                 letterList.push(LetterFrame.renderTemplate(letter));
             })
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
+                currentLetters: currentLetters,
                 letterFrames: letterList,
             }
         ));
@@ -144,6 +148,7 @@ export class LetterList extends Component {
             letter.letterElement.addEventListener('click', this.selectLetter);
             letter.stateElement.addEventListener('click', this.changeState);
         });
+        microEvents.bind('letterListChanged', this.rerender);
     }
 
     /**
@@ -151,6 +156,7 @@ export class LetterList extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
+        microEvents.unbind('letterListChanged', this.rerender);
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.selectLetter);
             letter.stateElement.removeEventListener('click', this.changeState);

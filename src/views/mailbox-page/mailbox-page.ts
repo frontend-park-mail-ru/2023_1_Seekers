@@ -45,10 +45,6 @@ export class MailBox extends View {
             navbar: undefined,
             content: undefined,
         }
-
-        microEvents.bind('renderMailbox', this.render);
-        microEvents.bind('renderMailboxPage', this.renderMailbox);
-        microEvents.bind('renderProfilePage', this.renderAccountArea);
     }
 
 
@@ -56,14 +52,18 @@ export class MailBox extends View {
      * method register events button submit/input focus/redirect link
      */
     registerEvents = () => {
-
+        microEvents.bind('renderMailbox', this.render);
+        microEvents.bind('renderMailboxPage', this.renderMailbox);
+        microEvents.bind('renderProfilePage', this.renderAccountArea);
     };
 
     /**
      * method unregister events button submit/input focus/redirect link
      */
     unregisterEvents = () => {
-
+        microEvents.unbind('renderMailbox', this.render);
+        microEvents.unbind('renderMailboxPage', this.renderMailbox);
+        microEvents.unbind('renderProfilePage', this.renderAccountArea);
     };
 
     /**
@@ -114,6 +114,8 @@ export class MailBox extends View {
      * method mailbox page clearing
      */
     purge() {
+        this.unregisterEvents();
+
         this.state.content.purge();
         this.state.content = undefined;
         this.state.navbar.purge();
