@@ -48,7 +48,8 @@ export class MailBox extends View {
 
         microEvents.bind('renderMailbox', this.render);
         microEvents.bind('renderMailboxPage', this.renderMailbox);
-        microEvents.bind('renderProfilePage', this.renderAccountArea);
+
+        microEvents.bind('renderAccountPage', this.renderAccountArea);
     }
 
 
@@ -84,7 +85,6 @@ export class MailBox extends View {
     };
 
     renderAccountArea = () => {
-        console.log('in account area render');
         if (this.state.element.hidden) {
             this.render();
         }

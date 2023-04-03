@@ -57,6 +57,17 @@ class UserStore extends BaseStore {
             microEvents.trigger('profileChanged');
         }
     }
+
+    async changeName(user :user) {
+        const responsePromise = Connector.makePostRequest(config.api.getProfile, user)
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._changed = true;
+        }
+        this._storage.set(this._storeNames.body, body)
+        this._storage.set(this._storeNames.status, status)
+        microEvents.trigger('fromProfile');
+    }
 }
 
 export const reducerUser = new UserStore();

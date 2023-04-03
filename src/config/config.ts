@@ -4,7 +4,7 @@ import {mailboxPage} from '@views/mailbox-page/mailbox-page'
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
 import {reducerLetters} from "@stores/LettersStore";
-import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
 
 const prefixApi = 'api/v1/';
 
@@ -42,8 +42,8 @@ export const privateActions = [
     {path: '/outbox', action: actionGetMailboxPage},
     {path: '/spam', action: actionGetMailboxPage},
     {path: '/trash', action: actionGetMailboxPage},
-    {path: '/profile', action: actionGetProfilePage},
-    {path: '/security', action: actionGetSecurityPage},
+    {path: '/profile', action: actionGetAccountPage},
+    {path: '/security', action: actionGetAccountPage},
 ];
 
 
@@ -69,7 +69,8 @@ export const config = {
         getLetters: `${prefixApi}folder`,
         getMail: `${prefixApi}message/`,
         getProfile: `${prefixApi}user/info`,
-        getMenu: `${prefixApi}folders`
+        getMenu: `${prefixApi}folders`,
+        password: `${prefixApi}user/pw`,
         // session: `${prefixApi}session`,
     },
 
@@ -404,12 +405,6 @@ export const config = {
                         title: 'Фамилия',
                         type: 'text',
                         name: 'last-name',
-                        maxlenght: '30',
-                    },
-                    login: {
-                        title: 'Логин',
-                        type: 'text',
-                        name: 'login',
                         maxlenght: '30',
                     },
                 },

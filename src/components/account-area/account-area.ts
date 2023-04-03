@@ -6,6 +6,8 @@ import {AccountNavigation} from "@components/account-navigation/account-navigati
 import {AccountProfile} from "@components/account-profile/account-profile";
 import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
+import {AccountSecurity} from "@components/account-security/account-security";
+import {microEvents} from "@utils/microevents";
 
 export interface AccountArea {
     state: {
@@ -33,6 +35,8 @@ export class AccountArea extends Component {
         //     navigation: undefined,
         //     content: undefined,
         // }
+        microEvents.bind('renderProfilePage', this.renderProfile);
+        microEvents.bind('renderSecurityPage', this.renderSecurity);
     }
 
     /**
@@ -43,14 +47,17 @@ export class AccountArea extends Component {
 
         this.state.element = this.parent.getElementsByClassName('account-area')[0];
         this.state.navigation = new AccountNavigation({
-            parent:  document.getElementById('account-area-content__navigation')!,
+            parent: document.getElementById('account-area-content__navigation')!,
         });
         this.state.navigation.render();
+    }
 
+    renderProfile = () => {
+        console.log('help me pls')
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
 
         this.state.content = new AccountProfile({
-            parent:  document.getElementById('account-area-content__content')!,
+            parent: document.getElementById('account-area-content__content')!,
         }, {
             firstName: profile.firstName,
             lastName: profile.lastName,
@@ -60,16 +67,18 @@ export class AccountArea extends Component {
             button: config.accountFields.account.profile.button,
         });
         this.state.content.render();
+    }
 
-        // this.state.content = new AccountSecurity({
-        //     parent:  document.getElementById('account-content__content')!,
-        // }, {
-        //     forms: config.accountFields.account.security,
-        //     button: config.accountFields.account.security.button,
-        // });
-        // this.state.content.render();
+    renderSecurity = () => {
+        this.state.content = new AccountSecurity({
+            parent:  document.getElementById('account-content__content')!,
+        }, {
+            forms: config.accountFields.account.security,
+            button: config.accountFields.account.security.button,
+        });
+        this.state.content.render();
+    }
 
-        }
     purge = () => {
         this.state.navigation.purge();
         this.state.content.purge();

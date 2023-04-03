@@ -13,11 +13,14 @@ const handlers = [
     {type: 'redirect', method: router.open.bind(router)},
     {type: 'start', method: router.start.bind(router)},
 
+    {type: 'getAccountPage', method: reducerLetters.getAccountPage.bind(reducerLetters)},
     {type: 'getProfilePage', method: reducerLetters.getProfilePage.bind(reducerLetters)},
     {type: 'getSecurityPage', method: reducerLetters.getSecurityPage.bind(reducerLetters)},
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
     {type: 'changeLetterStateToUnread', method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},
     {type: 'changeLetterStateToRead', method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
+
+    {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
 ];
 
 
