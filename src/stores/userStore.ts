@@ -93,7 +93,7 @@ class UserStore extends BaseStore {
     }
 
     async putAvatar(formDataAvatar: FormData)  {
-        console.log(formDataAvatar)
+        console.log(...formDataAvatar)
         console.log('-------------------------')
         const responsePromise = Connector.makePutRequest(config.api.avatar, formDataAvatar)
         const [status, body] = await responsePromise;

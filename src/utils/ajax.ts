@@ -40,6 +40,7 @@ export class Connector {
      * @return request promise
      */
     static makePutRequest = async (url: string, data: object) => {
+        console.log(data)
         const options = {
             method: 'put',
             mode: 'cors',
