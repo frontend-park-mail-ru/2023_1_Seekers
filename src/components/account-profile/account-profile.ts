@@ -75,11 +75,10 @@ export class AccountProfile extends Component {
         const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
         //const avatar2 = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
         //console.log(avatar2.value)
-        console.log(...avatar_form)
-        const formData = new FormData(avatar_form);
-        console.log(...formData)
-        dispatcher.dispatch(actionPutAvatar(formData));
 
+        const formData = new FormData(avatar_form);
+
+        dispatcher.dispatch(actionPutAvatar(formData));
         const reader = new FileReader();
         reader.addEventListener('load', () => {
             const avatar = document.querySelector('.account-sidebar__avatar-img') as HTMLImageElement;

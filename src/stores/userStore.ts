@@ -32,7 +32,7 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromLogin');
     }
 
-    async signup(user :user) {
+    async signup(user: user) {
         const responsePromise = Connector.makePostRequest(config.api.signup, user)
         console.log('signup')
         const [status, body] = await responsePromise;
@@ -49,7 +49,7 @@ class UserStore extends BaseStore {
         console.log('getProfile');
         const responsePromise = Connector.makeGetRequest(config.api.getProfile)
 
-        const [status, body]  = await responsePromise;
+        const [status, body] = await responsePromise;
         console.log(status)
         console.log(body)
         if (status === responseStatuses.OK) {
@@ -62,15 +62,15 @@ class UserStore extends BaseStore {
         console.log('logout');
         const responsePromise = Connector.makeGetRequest(config.api.logout);
 
-        const [status, body]  = await responsePromise;
+        const [status, body] = await responsePromise;
         console.log(status);
         // if (status === responseStatuses.OK) {
-            console.log('success logout');
-            microEvents.trigger('loggedOut');
+        console.log('success logout');
+        microEvents.trigger('loggedOut');
         // }
     }
 
-    async changeName(user :user) {
+    async changeName(user: user) {
         const responsePromise = Connector.makePostRequest(config.api.getProfile, user)
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
@@ -81,7 +81,7 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromProfile');
     }
 
-    async changePw(userPwForm :userPwForm) {
+    async changePw(userPwForm: userPwForm) {
         const responsePromise = Connector.makePostRequest(config.api.password, userPwForm)
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
@@ -92,10 +92,8 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromSecurity');
     }
 
-    async putAvatar(formDataAvatar: FormData)  {
-        console.log(...formDataAvatar)
-        console.log('-------------------------')
-        const responsePromise = Connector.makePutRequest(config.api.avatar, formDataAvatar)
+    async putAvatar(formDataAvatar: FormData) {
+        const responsePromise = Connector.makePutRequest({url: config.api.avatar, data: formDataAvatar}, true)
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;

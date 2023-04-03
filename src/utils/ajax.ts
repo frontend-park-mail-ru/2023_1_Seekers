@@ -37,16 +37,24 @@ export class Connector {
      * method implementing request post
      * @param  url - path url
      * @param  data - body of ajax request
+     * @param uploadFile
      * @return request promise
      */
-    static makePutRequest = async (url: string, data: object) => {
-        console.log(data)
+    static makePutRequest = async ({ url, data } :{ url:string, data: object }, uploadFile = false) => {
+        let body;
+        if (uploadFile){
+            body = data
+            console.log('1')
+        }else {
+            body = JSON.stringify(data)
+            console.log('2')
+        }
         const options = {
             method: 'put',
             mode: 'cors',
             credentials: 'include',
             headers: config.headers,
-            body: JSON.stringify(data),
+            body: body,
         };
         return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
     };
