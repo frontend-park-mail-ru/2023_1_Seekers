@@ -7,7 +7,7 @@ import template from '@components/account-navigation/account-navigation.hbs';
 import '@components/account-navigation/account-navigation.scss';
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
-import {actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {actionGetProfilePage, actionGetSecurityPage, actionLogout} from "@actions/user";
 
 export interface AccountNavigation {
     state: {
@@ -37,20 +37,21 @@ export class AccountNavigation extends Component {
         // e.target = currentTarget;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
+                e.stopPropagation();
                 const data = currentTarget.dataset.section;
                 switch (data) {
                     case config.buttons.accountButtons.profile.href:
                         dispatcher.dispatch(actionGetProfilePage());
+                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
                     case config.buttons.accountButtons.security.href:
                         dispatcher.dispatch(actionGetSecurityPage());
+                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
                     case config.buttons.accountButtons.logout.href:
-
+                        dispatcher.dispatch(actionLogout());
                         break;
                 }
-                e.stopPropagation();
-                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
             }
         }
     }

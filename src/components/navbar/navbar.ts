@@ -74,6 +74,7 @@ export class Navbar extends Component {
      */
     purge() {
         this.unregisterEventListener();
+        this.state.sidebar.purge();
         this.state.element.remove();
     }
 }

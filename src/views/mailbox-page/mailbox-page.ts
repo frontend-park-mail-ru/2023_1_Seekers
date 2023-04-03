@@ -10,6 +10,7 @@ import {microEvents} from "@utils/microevents";
 import {Navbar} from "@components/navbar/navbar";
 import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
 import {AccountArea} from "@components/account-area/account-area";
+import {actionRedirect} from "@actions/user";
 
 
 export interface MailBox {
@@ -55,6 +56,7 @@ export class MailBox extends View {
         microEvents.bind('renderMailbox', this.render);
         microEvents.bind('renderMailboxPage', this.renderMailbox);
         microEvents.bind('renderAccountPage', this.renderAccountArea);
+        microEvents.bind('loggedOut', this.closePage);
     }
 
 
@@ -65,6 +67,7 @@ export class MailBox extends View {
         microEvents.unbind('renderMailbox', this.render);
         microEvents.unbind('renderMailboxPage', this.renderMailbox);
         microEvents.unbind('renderAccountPage', this.renderAccountArea);
+        microEvents.unbind('loggedOut', this.closePage);
     };
 
     /**
@@ -109,6 +112,11 @@ export class MailBox extends View {
         });
         this.state.content.render();
     };
+
+    closePage = () => {
+        console.log('close page');
+        dispatcher.dispatch(actionRedirect('/login', false, false));
+    }
 
     /**\
      * method mailbox page clearing

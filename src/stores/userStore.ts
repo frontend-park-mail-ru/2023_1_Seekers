@@ -63,12 +63,11 @@ class UserStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.logout);
 
         const [status, body]  = await responsePromise;
-        console.log(status)
-        console.log(body)
-        if (status === responseStatuses.OK) {
-            this._storage.set(this._storeNames.profile, body);
-            microEvents.trigger('logged out');
-        }
+        console.log(status);
+        // if (status === responseStatuses.OK) {
+            console.log('success logout');
+            microEvents.trigger('loggedOut');
+        // }
     }
 
     async changeName(user :user) {
@@ -77,8 +76,8 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
-        this._storage.set(this._storeNames.body, body)
-        this._storage.set(this._storeNames.status, status)
+        this._storage.set(this._storeNames.body, body);
+        this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromProfile');
     }
 
