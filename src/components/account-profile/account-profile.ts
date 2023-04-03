@@ -73,15 +73,20 @@ export class AccountProfile extends Component {
     onLoadAvatar = (e: any) => {
         e.preventDefault();
         const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
-        const avatar = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
-
+        //const avatar2 = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
+        //console.log(avatar2.value)
+        console.log(avatar_form)
         const formData = new FormData(avatar_form);
+        console.log(formData)
         dispatcher.dispatch(actionPutAvatar(formData));
 
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-            const upload_image = reader.result as string;
+            const avatar = document.querySelector('.account-sidebar__avatar-img') as HTMLImageElement;
+            avatar.src = reader.result as string;
         });
+
+
         const blobUrl = formData.get('avatar') as Blob;
         reader.readAsDataURL(blobUrl);
     }
