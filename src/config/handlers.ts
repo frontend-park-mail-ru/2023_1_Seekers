@@ -1,7 +1,7 @@
 import {reducerUser} from '@stores/userStore';
 import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
-import {reducerNewMail} from "@stores/NewMailStore";
+import {reducerNewMail} from '@stores/NewMailStore';
 
 
 const handlers = [

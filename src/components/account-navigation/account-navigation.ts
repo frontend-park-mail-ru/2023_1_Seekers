@@ -29,6 +29,9 @@ export class AccountNavigation extends Component {
     }
 
     navButtonClicked = async (e: Event) => {
+        if(!e.isTrusted){
+            return;
+        }
         e.preventDefault();
         const {currentTarget} = e;
         // e.target = currentTarget;
@@ -46,6 +49,8 @@ export class AccountNavigation extends Component {
 
                         break;
                 }
+                e.stopPropagation();
+                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
             }
         }
     }
