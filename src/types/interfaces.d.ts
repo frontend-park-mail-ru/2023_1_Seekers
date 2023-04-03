@@ -36,3 +36,8 @@ interface userPwForm extends anyObject {
     password: string,
     repeatPw: string,
 }
+
+interface stateObject {
+    path: string;
+    props?: string;
+}

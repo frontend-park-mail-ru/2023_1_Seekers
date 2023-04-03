@@ -74,7 +74,7 @@ export class SendMail extends Component {
             title: this.state.topic.value,
             recipients: this.state.recipients.value.split(' '),
             text: this.state.text.value,
-        } as mailToSend;
+        } as MailToSend;
 
         console.log(mail);
 

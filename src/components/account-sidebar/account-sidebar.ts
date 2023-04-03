@@ -45,29 +45,31 @@ export class AccountSidebar extends Component{
             const data = currentTarget.dataset.section
             if(data){
                 console.log('to another page: ' + data);
+                e.stopPropagation();
                 switch (data) {
                     case config.buttons.sidebarButtons.profile.href:
                         console.log('to profile');
-                        await dispatcher.dispatch(actionGetAccountPage());
+                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
                         await dispatcher.dispatch(actionGetProfilePage());
-                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
+                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
+
                     case config.buttons.sidebarButtons.mailbox.href:
-                        await dispatcher.dispatch(actionGetMailboxPage(data));
-                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
+                        await dispatcher.dispatch(actionGetMailboxPage({path: data}));
+                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
+
                     case config.buttons.sidebarButtons.security.href:
-                        await dispatcher.dispatch(actionGetAccountPage());
+                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
                         await dispatcher.dispatch(actionGetSecurityPage());
-                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
+                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                        // this.purge();
+                        // return;
                         break;
                     case config.buttons.sidebarButtons.logout.href:
                         await dispatcher.dispatch(actionLogout());
-                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                 }
-                e.stopPropagation();
-                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                 this.removeSidebar();
             }
         }
@@ -148,9 +150,7 @@ export class AccountSidebar extends Component{
      */
     purge() {
         this.unregisterEventListener();
-        document.querySelectorAll('div.account-sidebar').forEach((e) => {
-            e.remove();
-        });
+        this.state.element.remove();
         this.state.isRendered = false;
     }
 }

@@ -7,6 +7,7 @@ import '@components/navbar/navbar.scss';
 import {SidebarLinkButton} from "@uikits/sidebar-linkButton/sidebar-linkButton";
 import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
 import {reducerUser} from "@stores/userStore";
+import {microEvents} from "@utils/microevents";
 
 export interface Navbar {
     state: {
@@ -23,6 +24,7 @@ export class Navbar extends Component {
     constructor(context: componentContext) {
         super(context);
     }
+
     /**
      * method handle click on navbar
      * @param {Event} e - event that goes from one of childs of current element
@@ -37,6 +39,7 @@ export class Navbar extends Component {
      * unregister listeners for each button in letter-list
      */
     registerEventListener() {
+        microEvents.bind('profileChanged', this.rerenderProfileButton);
         this.state.profileButton.addEventListener('click', this.eventCatcher);
     }
 
@@ -44,6 +47,7 @@ export class Navbar extends Component {
      * method unregisterEventListener unregister events click on navbar
      */
     unregisterEventListener() {
+        microEvents.unbind('profileChanged', this.rerenderProfileButton);
         this.state.profileButton.removeEventListener('click', this.eventCatcher);
     }
 
@@ -52,7 +56,7 @@ export class Navbar extends Component {
      * @param {Object} ctx - template rendering context
      */
     render() {
-         this.parent.insertAdjacentHTML('afterbegin', template(
+        this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 profileButton: ProfileButton.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
             }
@@ -69,11 +73,23 @@ export class Navbar extends Component {
         this.registerEventListener();
     }
 
+    rerenderProfileButton = () => {
+        this.state.profileButton.removeEventListener('click', this.eventCatcher);
+        this.state.profileButton.remove();
+        this.state.element.getElementsByClassName('navbar__frame-right')[0].insertAdjacentHTML(
+            'afterbegin',
+            ProfileButton.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
+        );
+        this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
+        this.state.profileButton.addEventListener('click', this.eventCatcher);
+    }
+
     /**
      * method navbar page clearing
      */
     purge() {
         this.unregisterEventListener();
+        this.state.sidebar.purge();
         this.state.element.remove();
     }
 }

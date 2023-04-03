@@ -35,9 +35,9 @@ export const actionStart = () => ({
 });
 
 
-export const actionGetAccountPage = () => ({
+export const actionGetAccountPage = (obj: stateObject) => ({
     type: 'getAccountPage',
-    value: {},
+    value: obj,
 });
 
 export const actionGetProfilePage = () => ({
@@ -45,9 +45,9 @@ export const actionGetProfilePage = () => ({
     value: {},
 });
 
-export const actionGetMailboxPage = (path: string) => ({
+export const actionGetMailboxPage = (obj: stateObject) => ({
     type: 'getMailboxPage',
-    value: path,
+    value: obj,
 });
 
 export const actionGetSecurityPage = () => ({
