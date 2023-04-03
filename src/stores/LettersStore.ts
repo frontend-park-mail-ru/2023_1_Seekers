@@ -4,6 +4,7 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from "@stores/userStore";
 import {actionChangeLetterStateToRead} from "@actions/letters";
+import {LetterFrame} from "@uikits/letter-frame/letter-frame";
 
 
 class LettersStore extends BaseStore {
@@ -13,6 +14,7 @@ class LettersStore extends BaseStore {
         mail: 'mail',
         menu: 'menu',
         currentLetters: 'currentLetters',
+        currentAccountPage: 'currentAccountPage',
     };
 
     constructor() {
@@ -29,11 +31,22 @@ class LettersStore extends BaseStore {
 
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
-            if (body.messages !== null) {
-                this._storage.get(this._storeNames.letters).set(folderName, body.messages);
-            } else {
-                this._storage.get(this._storeNames.letters).set(folderName, []);
-            }
+            this._storage.get(this._storeNames.letters).set(folderName, []);
+
+            body.messages?.forEach((message: any) => {
+                const letterFrame: LetterFrameData = {
+                    message_id: message.message_id,
+                    seen: message.seen,
+                    from_user_email: message.from_user_id.email,
+                    title: message.title,
+                    text: message.text,
+                    created_at: message.created_at,
+                    href: folderName + '/' + message.message_id,
+                }
+
+                this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
+            })
+
             this._storage.set(this._storeNames.currentLetters, folderName);
             console.log(folderName);
             console.log(this._storage.get(this._storeNames.letters).get(this._storage.get(this._storeNames.currentLetters)));
@@ -43,8 +56,8 @@ class LettersStore extends BaseStore {
         }
     };
 
-    getMail = async (id: string) => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMail + id);
+    getMail = async (href: string) => {
+        const responsePromise = Connector.makeGetRequest(config.api.getMail + href.split('/').pop());
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
 
@@ -65,16 +78,21 @@ class LettersStore extends BaseStore {
         microEvents.trigger('menuChanged');
     };
 
-    getMailboxPage = async (path: string) => {
+    getMailboxPage = async (obj: stateObject) => {
+        console.log(obj);
         console.log('getMailboxPage');
         await this.getMenu();
-        await this.getLetters(path);
+        await this.getLetters(obj.path);
+
+        obj.props? await this.getMail(obj.props) : null;
         await reducerUser.getProfile();
         microEvents.trigger('renderMailboxPage');
     };
 
-    getAccountPage = async () => {
+    getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
+        console.log(obj.path);
+        this._storage.set(this._storeNames.currentAccountPage, obj.path);
         microEvents.trigger('renderAccountPage');
     };
 
@@ -98,7 +116,7 @@ class LettersStore extends BaseStore {
 
     changeLetterStateToUnread = async (letterId: string) => {
         console.log(config.api.getMail + letterId + '/unread');
-        const responsePromise = Connector.makePostRequest(config.api.getMail+ letterId + '/unread', {});
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             console.log('state changed to unread');

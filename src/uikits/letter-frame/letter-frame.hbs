@@ -1,4 +1,4 @@
-<a id="letter-frame-id-{{message_id}}" href="{{message_id}}" class="letter-frame" data-section="{{ message_id }}">
+<a id="letter-frame-id-{{message_id}}" href="{{message_id}}" class="letter-frame" data-section="{{ href }}">
     <div class="letter-read-state-frame {{#if seen}} letter-is-read {{else}} letter-is-unread {{/if}}" data-section="{{ message_id }}">
 
     </div>
@@ -6,14 +6,14 @@
         <div class="letter-content-header-frame">
             <div class="letter-content-header-image-frame">
                 {{#if img includeZero=true}}
-                    <img src={{img}} class="letter-content-image-letter" alt="{{from_user_id.email}}">
+                    <img src={{img}} class="letter-content-image-letter" alt="{{from_user_email}}">
                 {{else}}
-                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user_id.email}}">
+                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user_email}}">
                 {{/if}}
             </div>
             <div class="letter-content-header-text-frame">
                 <label class="letter-content-header-name-text font-normal-0">
-                    {{from_user_id.email}}
+                    {{from_user_email}}
                 </label>
                 <div class="letter-content-header-text-bottom-frame">
                     <label class="letter-content-header-second-text font-caption-0">

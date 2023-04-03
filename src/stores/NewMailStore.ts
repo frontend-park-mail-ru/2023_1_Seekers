@@ -57,7 +57,7 @@ class NewMailStore extends BaseStore {
         microEvents.trigger('createNewMail');
     }
 
-    sendMail = async (mail: mailToSend) => {
+    sendMail = async (mail: MailToSend) => {
         console.log('sendMail');
         const responsePromise = Connector.makePostRequest(config.api.sendMail, mail);
         const [status, body] = await responsePromise;

@@ -47,6 +47,9 @@ export class LetterList extends Component {
     }
 
     selectLetter = async (e: Event) => {
+        if(!e.isTrusted){
+            return;
+        }
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
@@ -54,7 +57,8 @@ export class LetterList extends Component {
                 const path = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
 
                 await dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
-                // await dispatcher.dispatch(actionChangeURL({path: path, props: '/' + currentTarget.dataset.section}));
+                e.stopPropagation();
+                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
                 this.state.activeLetter.classList.remove('letter-frame_color-active');
                 this.state.activeLetter = currentTarget;

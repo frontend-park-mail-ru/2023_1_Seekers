@@ -1,5 +1,5 @@
 
-export const actionSendMail = (mail: mailToSend) => ({
+export const actionSendMail = (mail: MailToSend) => ({
     type: 'sendMail',
     value: mail,
 });

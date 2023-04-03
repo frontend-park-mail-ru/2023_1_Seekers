@@ -25,11 +25,6 @@ interface Router {
     prevUrl: string;
 }
 
-interface stateObject {
-    path: string;
-    props?: string;
-}
-
 class Router {
 
     constructor(root: Element) {
@@ -68,27 +63,30 @@ class Router {
     }
 
     matchHref(href: string) {
-        let newHref = href;
-        if (newHref !== '/') {
-            newHref = href.replace(hrefRegExp.endSlash, '');
-        }
+        const parts = href.split('/');
+        const newHref: string[] = [];
+        parts.forEach((part) => {
+            if (part !== '') {
+                newHref.push('/' + part);
+            }
+        })
+
         return newHref;
     }
 
     onClickEvent = (e: MouseEvent) => {
+        // e.preventDefault();
         const {target} = e;
 
         if (target instanceof HTMLElement || target instanceof SVGElement) {
             if (target.dataset.section) {
-                console.log(target.dataset.section);
+
                 const matchedHref = this.matchHref(target.dataset.section);
-                if (!matchedHref) {
-                    return;
-                }
-                if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
+
+                if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
                     e.preventDefault();
 
-                    this.navigate({path: matchedHref, props: '', pushState: true});
+                    this.navigate({path: target.dataset.section, props: '', pushState: true});
                 }
             }
         }
@@ -100,11 +98,13 @@ class Router {
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
 
+        matchedHref = this.matchHref(matchedHref[0]);
+
         // if (matchedHref[0] !== '/') {
         //     matchedHref = this.matchHref(matchedHref[0]);
         // }
-
-        this.open({path: matchedHref[0]}, false, false);
+        console.log(matchedHref);
+        this.open({path: matchedHref[0], props: matchedHref[1]}, false, false);
         this.prevUrl = matchedHref[0];
     }
 
@@ -119,8 +119,8 @@ class Router {
         const path = stateObject.path;
         const props = stateObject.props;
 
-        if(stateObject.path !== '/login' && stateObject.path !== '/signup'){
-            dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject.path));
+        if (stateObject.path !== '/login' && stateObject.path !== '/signup') {
+            dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject));
         }
 
         this.navigate({path, props, pushState});
@@ -151,7 +151,7 @@ class Router {
         //     });
     }
 
-    navigate({path, props, pushState}: {path: string, props: string | undefined, pushState: boolean}) {
+    navigate({path, props, pushState}: { path: string, props: string | undefined, pushState: boolean }) {
         console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))

@@ -14,10 +14,20 @@ type Profile = {
     avatar: string | Blob,
 };
 
-type mailToSend = {
+type MailToSend = {
     recipients: string[],
     "title": string,
     "text": string,
+}
+
+type LetterFrameData = {
+    message_id: number,
+    seen: bool,
+    from_user_email: string,
+    title: string,
+    text: string,
+    created_at: string,
+    href: string,
 }
 
 type CustomPages = LoginPage;

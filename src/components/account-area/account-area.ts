@@ -8,6 +8,7 @@ import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
 import {AccountSecurity} from "@components/account-security/account-security";
 import {microEvents} from "@utils/microevents";
+import {reducerLetters} from "@stores/LettersStore";
 
 export interface AccountArea {
     state: {
@@ -48,6 +49,16 @@ export class AccountArea extends Component {
             parent: document.getElementById('account-area-content__navigation')!,
         });
         this.state.navigation.render();
+        if(!this.state.content) {
+            switch (reducerLetters._storage.get(reducerLetters._storeNames.currentAccountPage)){
+                case '/profile':
+                    this.renderProfile();
+                    break;
+                case '/security':
+                    this.renderSecurity();
+                    break;
+            }
+        }
         this.registerEventListener();
     }
 

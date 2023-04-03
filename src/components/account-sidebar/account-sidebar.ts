@@ -49,18 +49,18 @@ export class AccountSidebar extends Component{
                 switch (data) {
                     case config.buttons.sidebarButtons.profile.href:
                         console.log('to profile');
-                        await dispatcher.dispatch(actionGetAccountPage());
+                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
                         await dispatcher.dispatch(actionGetProfilePage());
                         currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
 
                     case config.buttons.sidebarButtons.mailbox.href:
-                        await dispatcher.dispatch(actionGetMailboxPage(data));
+                        await dispatcher.dispatch(actionGetMailboxPage({path: data}));
                         currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         break;
 
                     case config.buttons.sidebarButtons.security.href:
-                        await dispatcher.dispatch(actionGetAccountPage());
+                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
                         await dispatcher.dispatch(actionGetSecurityPage());
                         currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
                         // this.purge();
