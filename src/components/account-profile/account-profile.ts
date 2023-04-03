@@ -77,7 +77,7 @@ export class AccountProfile extends Component {
             const upload_image = reader.result as string;
             console.log('upload_image');
         });
-        reader.readAsDataURL(avatar.files![0]);
+        // reader.readAsDataURL(avatar.files![0]);
     }
 
 
