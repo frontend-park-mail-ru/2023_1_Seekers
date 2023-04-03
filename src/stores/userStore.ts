@@ -91,6 +91,17 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.status, status)
         microEvents.trigger('fromSecurity');
     }
+
+    async putAvatar(formDataAvatar: FormData)  {
+        const responsePromise = Connector.makePutRequest(config.api.avatar, formDataAvatar)
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._changed = true;
+        }
+        this._storage.set(this._storeNames.body, body)
+        this._storage.set(this._storeNames.status, status)
+        microEvents.trigger('fromAvatar');
+    }
 }
 
 export const reducerUser = new UserStore();

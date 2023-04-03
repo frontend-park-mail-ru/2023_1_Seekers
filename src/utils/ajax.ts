@@ -33,6 +33,23 @@ export class Connector {
         return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
     };
 
+    /**
+     * method implementing request post
+     * @param  url - path url
+     * @param  data - body of ajax request
+     * @return request promise
+     */
+    static makePutRequest = async (url: string, data: object) => {
+        const options = {
+            method: 'put',
+            mode: 'cors',
+            credentials: 'include',
+            headers: config.headers,
+            body: JSON.stringify(data),
+        };
+        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
+    };
+
 
     /**
      * method implementing request get

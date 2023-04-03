@@ -28,6 +28,7 @@ const handlers = [
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},
+    {type: 'putAvatar', method: reducerUser.putAvatar.bind(reducerUser)},
 ];
 
 

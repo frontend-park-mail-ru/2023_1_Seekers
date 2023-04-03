@@ -7,7 +7,7 @@ import "@components/account-profile/account-profile.scss"
 import {Component} from "@components/component";
 import {Validation} from "@utils/validation";
 import {dispatcher} from "@utils/dispatcher";
-import {actionPostProfile} from "@actions/user";
+import {actionPostProfile, actionPutAvatar} from "@actions/user";
 import {reducerUser} from "@stores/userStore";
 import {responseStatuses} from "@config/config";
 import {microEvents} from "@utils/microevents";
@@ -38,6 +38,9 @@ export class AccountProfile extends Component {
 
         this.subscribeProfileStatus = this.subscribeProfileStatus.bind(this);
         microEvents.bind('fromProfile', this.subscribeProfileStatus);
+
+        this.subscribeAvatarStatus = this.subscribeAvatarStatus.bind(this);
+        microEvents.bind('fromAvatar', this.subscribeAvatarStatus);
     }
 
     /**
@@ -72,12 +75,15 @@ export class AccountProfile extends Component {
         const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
         const avatar = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
 
+        const formData = new FormData(avatar_form);
+        dispatcher.dispatch(actionPutAvatar(formData));
+
         const reader = new FileReader();
         reader.addEventListener('load', () => {
             const upload_image = reader.result as string;
-            console.log('upload_image');
         });
-        // reader.readAsDataURL(avatar.files![0]);
+        const blobUrl = formData.get('avatar') as Blob;
+        reader.readAsDataURL(blobUrl);
     }
 
 
@@ -157,5 +163,9 @@ export class AccountProfile extends Component {
             default:
                 break;
         }
+    }
+
+    subscribeAvatarStatus() {
+        console.log('subscribeAvatarStatus')
     }
 }

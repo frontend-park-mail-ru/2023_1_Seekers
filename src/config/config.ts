@@ -72,6 +72,7 @@ export const config = {
         getMenu: `${prefixApi}folders`,
         password: `${prefixApi}user/pw`,
         sendMail: `${prefixApi}message/send`,
+        avatar: `${prefixApi}user/avatar`,
         // session: `${prefixApi}session`,
     },
 

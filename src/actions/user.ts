@@ -10,7 +10,7 @@ export const actionLogin = (user: user) => ({
     value: user,
 });
 
-export const actionSignup = (user :user) => ({
+export const actionSignup = (user: user) => ({
     type: 'signup',
     value: user,
 });
@@ -20,7 +20,7 @@ export const actionGetProfile = () => ({
     value: {},
 });
 
-export const actionRedirect = (path:  string, pushState: boolean, refresh: boolean) => ({
+export const actionRedirect = (path: string, pushState: boolean, refresh: boolean) => ({
     type: 'redirect',
     value: {
         path: path,
@@ -60,13 +60,18 @@ export const actionLogout = () => ({
     value: {},
 });
 
-export const actionPostProfile = (user :user) => ({
+export const actionPostProfile = (user: user) => ({
     type: 'changeName',
     value: user,
 });
 
-export const actionPostSecurity = (userPwForm :userPwForm) => ({
+export const actionPostSecurity = (userPwForm: userPwForm) => ({
     type: 'changePw',
     value: userPwForm,
+});
+
+export const actionPutAvatar = (formDataAvatar: FormData) => ({
+    type: 'putAvatar',
+    value: formDataAvatar,
 });
 
