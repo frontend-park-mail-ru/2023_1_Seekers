@@ -20,7 +20,7 @@ export interface LetterList {
             letterElement: Element,
             stateElement: Element,
         }[],
-        activeLetter: Element,
+        activeLetter: Element | undefined,
     },
 }
 
@@ -60,10 +60,6 @@ export class LetterList extends Component {
                 e.stopPropagation();
                 currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
-                this.state.activeLetter.classList.remove('letter-frame_color-active');
-                this.state.activeLetter = currentTarget;
-                this.state.activeLetter.classList.add('letter-frame_color-active');
-
                 const letterState = currentTarget.getElementsByClassName('letter-read-state-frame')[0] as HTMLElement;
 
                 if(letterState.classList.contains('letter-is-unread')){
@@ -93,6 +89,18 @@ export class LetterList extends Component {
             }
         }
         e.stopPropagation();
+    }
+
+    changeLetterToActive = () => {
+        console.log('finding letters..');
+        const mail = reducerLetters._storage.get(reducerLetters._storeNames.mail)
+        if (mail) {
+            this.state.activeLetter?.classList.remove('letter-frame_color-active');
+            this.state.activeLetter = this.state.letters.find((letter) => {
+                return letter.letterElement.id === 'letter-frame-id-' + mail.message_id
+            })?.letterElement;
+            this.state.activeLetter?.classList.add('letter-frame_color-active');
+        }
     }
 
     /**
@@ -127,6 +135,8 @@ export class LetterList extends Component {
             this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-read-state-frame')[0]});
         });
 
+        this.changeLetterToActive();
+
         this.registerEventListener();
     }
 
@@ -153,6 +163,7 @@ export class LetterList extends Component {
             letter.stateElement.addEventListener('click', this.changeState);
         });
         microEvents.bind('letterListChanged', this.rerender);
+        microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     /**
@@ -161,6 +172,7 @@ export class LetterList extends Component {
      */
     unregisterEventListener() {
         microEvents.unbind('letterListChanged', this.rerender);
+        microEvents.unbind('mailChanged', this.changeLetterToActive);
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.selectLetter);
             letter.stateElement.removeEventListener('click', this.changeState);

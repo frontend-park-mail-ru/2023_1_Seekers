@@ -84,7 +84,9 @@ class LettersStore extends BaseStore {
         await this.getMenu();
         await this.getLetters(obj.path);
 
-        obj.props? await this.getMail(obj.props) : null;
+        if(obj.props) {
+            await this.getMail(obj.props);
+        }
         await reducerUser.getProfile();
         microEvents.trigger('renderMailboxPage');
     };

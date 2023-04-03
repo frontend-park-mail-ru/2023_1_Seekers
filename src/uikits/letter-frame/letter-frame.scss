@@ -60,10 +60,9 @@
     align-items: center;
     padding: 10px 0;
     gap: 10px;
-    flex: available;
+    flex: 1;
     order: 1;
     align-self: stretch;
-    flex-grow: 1;
 }
 
 .letter-content-header-frame {
@@ -76,7 +75,6 @@
     flex: none;
     order: 0;
     align-self: stretch;
-    flex-grow: 0;
 }
 
 .letter-content-text-frame{
@@ -87,9 +85,8 @@
     gap: 10px;
     width: 100%;
     height: 100%;
-    flex: available;
+    flex: 1;
     align-self: auto;
-    flex-grow: 1;
 }
 
 .letter-content-text {
@@ -98,14 +95,14 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     color: var(--letterlist-content-text-color);
-    flex: available;
+    flex: 1;
     align-self: stretch;
-    flex-grow: 1;
+
 }
 
 .letter-content-header-name-text {
     color: var(--letterlist-name-text-color);
-    flex: none;
+    flex: available;
     align-self: stretch;
     flex-grow: 1;
 }
