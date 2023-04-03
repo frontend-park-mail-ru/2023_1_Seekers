@@ -14,4 +14,10 @@ type Profile = {
     avatar: string | Blob,
 };
 
+type mailToSend = {
+    recipients: string[],
+    "title": string,
+    "text": string,
+}
+
 type CustomPages = LoginPage;

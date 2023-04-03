@@ -9,6 +9,7 @@ import {IconButton} from "@uikits/icon-button/icon-button";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
 import {reducerUser} from "@stores/userStore";
+import {actionForwardMail, actionReplyToMail} from "@actions/newMail";
 
 
 export interface Mail {
@@ -48,7 +49,7 @@ export class Mail extends Component {
             this.parent.insertAdjacentHTML('afterbegin', template({}));
         } else {
             let actionButtons: Object[] = [];
-            config.buttons.mailActionButtons.forEach((button: Object) => {
+            Object.values(config.buttons.mailActionButtons).forEach((button: Object) => {
                 actionButtons.push(IconButton.renderTemplate(button));
             })
             this.parent.insertAdjacentHTML('afterbegin', template(
@@ -106,6 +107,15 @@ export class Mail extends Component {
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             if(currentTarget.dataset.section){
+                switch (currentTarget.dataset.section) {
+                    case config.buttons.mailActionButtons.forward.href:
+                        dispatcher.dispatch(actionForwardMail());
+                        break;
+
+                    case config.buttons.mailActionButtons.reply.href:
+                        dispatcher.dispatch(actionReplyToMail());
+                        break;
+                }
                 console.log('dispatching mail action...');
                 // dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
             }

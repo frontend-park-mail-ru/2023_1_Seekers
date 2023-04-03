@@ -9,6 +9,7 @@ import {microEvents} from "@utils/microevents";
 import {Menu} from "@components/menu/menu";
 import {LetterList} from "@components/letter-list/letter-list";
 import {Mail} from "@components/mail/mail";
+import {SendMail} from "@components/send-mail/send-mail";
 
 
 export interface MailBoxArea {
@@ -28,7 +29,6 @@ export class MailBoxArea extends Component {
      * Private field that contains a form validator
      */
     context: any;
-
 
     /**
      *
@@ -50,15 +50,20 @@ export class MailBoxArea extends Component {
      * method register events button submit/input focus/redirect link
      */
     registerEvents = () => {
-
+        microEvents.bind('createNewMail', this.renderNewMail);
     };
 
     /**
      * method unregister events button submit/input focus/redirect link
      */
     unregisterEvents = () => {
-
+        microEvents.unbind('createNewMail', this.renderNewMail);
     };
+
+    renderNewMail = () => {
+        const sendMail = new SendMail({parent: document.getElementById('root')!})
+        sendMail.render();
+    }
 
     /**
      * method insert login to HTML
@@ -90,6 +95,7 @@ export class MailBoxArea extends Component {
      * method mailbox page clearing
      */
     purge() {
+        this.unregisterEvents();
         this.state.mail.purge();
         this.state.letterList.purge();
         this.state.menu.purge();

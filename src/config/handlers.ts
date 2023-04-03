@@ -1,6 +1,7 @@
 import {reducerUser} from '@stores/userStore';
 import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
+import {reducerNewMail} from "@stores/NewMailStore";
 
 
 const handlers = [
@@ -18,6 +19,11 @@ const handlers = [
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
     {type: 'changeLetterStateToUnread', method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},
     {type: 'changeLetterStateToRead', method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
+    {type: 'logout', method: reducerUser.logout.bind(reducerUser)},
+
+    {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
+    {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
+    {type: 'forwardMail', method: reducerNewMail.forwardMail.bind(reducerNewMail)},
 ];
 
 

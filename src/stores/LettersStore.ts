@@ -103,6 +103,7 @@ class LettersStore extends BaseStore {
             // microEvents.trigger('letterStateChanged');
         }
     }
+
 }
 
 

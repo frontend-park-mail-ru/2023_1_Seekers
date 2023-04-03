@@ -49,3 +49,8 @@ export const actionGetSecurityPage = () => ({
     value: {},
 });
 
+export const actionLogout = () => ({
+    type: 'logout',
+    value: {},
+});
+

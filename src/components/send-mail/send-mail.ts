@@ -8,6 +8,10 @@ import {dispatcher} from "@utils/dispatcher";
 
 import {config} from "@config/config";
 import {IconButton} from "@uikits/icon-button/icon-button";
+import {actionLogin} from "@actions/user";
+import {actionSendMail} from "@actions/newMail";
+import {microEvents} from "@utils/microevents";
+import {reducerNewMail} from "@stores/NewMailStore";
 
 
 export interface SendMail {
@@ -16,6 +20,10 @@ export interface SendMail {
         area: Element,
         footerButtons: Element[],
         iconButton: Element,
+
+        topic: HTMLInputElement,
+        recipients: HTMLInputElement,
+        text: HTMLTextAreaElement,
     },
 }
 
@@ -31,7 +39,12 @@ export class SendMail extends Component {
             area: document.createElement('div'),
             footerButtons: [],
             iconButton: document.createElement('div'),
+
+            topic: document.createElement('input') as HTMLInputElement,
+            recipients: document.createElement('input') as HTMLInputElement,
+            text: document.createElement('textarea') as HTMLTextAreaElement,
         }
+
     }
 
     /**
@@ -45,7 +58,7 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
                 case config.buttons.newMailButtons.footerButtons.send.href:
-                    // dispatcher.dispatch()
+                    await this.sendMail();
                     break;
 
                 case config.buttons.newMailButtons.footerButtons.cancel.href:
@@ -53,6 +66,23 @@ export class SendMail extends Component {
                     break;
             }
         }
+    }
+
+    sendMail = async () => {
+
+        const mail = {
+            title: this.state.topic.value,
+            recipients: this.state.recipients.value.split(' '),
+            text: this.state.text.value,
+        } as mailToSend;
+
+        console.log(mail);
+
+        await dispatcher.dispatch(actionSendMail(mail));
+    };
+
+    getResponse = () => {
+
     }
 
     closeButtonClicked = async (e: Event) => {
@@ -77,6 +107,7 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
+        microEvents.bind('mailSent', this.getResponse);
     };
 
     /**
@@ -91,7 +122,15 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
+        microEvents.unbind('mailSent', this.getResponse);
     };
+
+    setInputsState = () => {
+        this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
+        this.state.recipients.value = reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
+        this.state.text.value = reducerNewMail._storage.get(reducerNewMail._storeNames.text);
+    }
+
 
     /**
      * method insert sidebar to HTML
@@ -114,6 +153,13 @@ export class SendMail extends Component {
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
         this.state.footerButtons = [...this.state.element.getElementsByClassName('new-mail-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
+
+        this.state.topic = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
+        this.state.recipients = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.recipients.name)!;
+
+        this.state.text = this.state.element.getElementsByTagName('textarea')[0];
+
+        this.setInputsState();
 
         this.registerEventListener();
     }

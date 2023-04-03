@@ -57,6 +57,19 @@ class UserStore extends BaseStore {
             microEvents.trigger('profileChanged');
         }
     }
+
+    async logout() {
+        console.log('logout');
+        const responsePromise = Connector.makeGetRequest(config.api.logout);
+
+        const [status, body]  = await responsePromise;
+        console.log(status)
+        console.log(body)
+        if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.profile, body);
+            microEvents.trigger('logged out');
+        }
+    }
 }
 
 export const reducerUser = new UserStore();

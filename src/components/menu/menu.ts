@@ -8,6 +8,7 @@ import {actionGetLetters} from "@actions/letters";
 import {config} from "@config/config";
 import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
 import {SendMail} from "@components/send-mail/send-mail";
+import {actionCreateNewMail} from "@actions/newMail";
 // import {actionRedirect} from "@actions/user";
 
 export interface Menu {
@@ -45,11 +46,7 @@ export class Menu extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 const data = currentTarget.dataset.section;
-                dispatcher.dispatch(actionGetLetters(data))
-                    .then(() => {
-                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
-
-                    });
+                dispatcher.dispatch(actionGetLetters(data));
                 this.state.activeButton.classList.remove('menu-button_color-active');
                 this.state.activeButton = currentTarget;
                 this.state.activeButton.classList.add('menu-button_color-active');
@@ -63,8 +60,7 @@ export class Menu extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                const sendMAil = new SendMail({parent: document.getElementById('root')!})
-                sendMAil.render();
+                dispatcher.dispatch(actionCreateNewMail());
             }
         }
     }

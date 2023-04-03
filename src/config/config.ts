@@ -69,7 +69,8 @@ export const config = {
         getLetters: `${prefixApi}folder`,
         getMail: `${prefixApi}message/`,
         getProfile: `${prefixApi}user/info`,
-        getMenu: `${prefixApi}folders`
+        getMenu: `${prefixApi}folders`,
+        sendMail: `${prefixApi}message/send`,
         // session: `${prefixApi}session`,
     },
 
@@ -181,15 +182,15 @@ export const config = {
             },
         },
 
-        mailActionButtons: [
-            {
+        mailActionButtons: {
+            forward: {
                 href: '/forward',
                 img: `<path clip-rule="evenodd" d="m10.2929 3.29289c.3905-.39052 1.0237-.39052 1.4142 
                 0l6 6c.3905.39053.3905 1.02371 0 1.41421l-6 6c-.3905.3905-1.0237.3905-1.4142 0-.39053-.3905-.39053-1.0237 
                 0-1.4142l4.2929-4.2929h-11.5858c-.55228 0-1-.4477-1-1 0-.55228.44772-1 
                 1-1h11.5858l-4.2929-4.29289c-.39053-.39053-.39053-1.02369 0-1.41422z" fill-rule="evenodd"/>`
             },
-            {
+            reply: {
                 href: '/reply',
                 img: `<path clip-rule="evenodd" d="m7.70711 3.29289c.39052.39053.39052 1.02369 0 1.41422l-2.2929 
                 2.29289h5.58579c3.866 0 7 3.134 7 7v2c0 
@@ -197,7 +198,7 @@ export const config = {
                  0 1.4142-.39053.3905-1.02369.3905-1.41422 0l-4-3.99999c-.39052-.39053-.39052-1.02369 
                  0-1.41422l4-4c.39053-.39052 1.02369-.39052 1.41422 0z" fill-rule="evenodd"/>`
             },
-        ],
+        },
         newMailButtons: {
             footerButtons: {
                 send: {

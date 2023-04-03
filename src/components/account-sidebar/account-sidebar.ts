@@ -6,7 +6,7 @@ import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetMail} from "@actions/letters";
-import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionLogout} from "@actions/user";
 
 export interface AccountSidebar {
     state: {
@@ -54,6 +54,10 @@ export class AccountSidebar extends Component{
                         break;
                     case config.buttons.sidebarButtons.security.href:
                         await dispatcher.dispatch(actionGetSecurityPage());
+                        // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
+                        break;
+                    case config.buttons.sidebarButtons.logout.href:
+                        await dispatcher.dispatch(actionLogout());
                         // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                 }
