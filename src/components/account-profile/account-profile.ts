@@ -57,9 +57,29 @@ export class AccountProfile extends Component {
 
         if ((this.#validator.validateText(user.firstName).status)
             && (this.#validator.validateText(user.lastName).status)) {
-             await dispatcher.dispatch(actionPostProfile(user));
+            await dispatcher.dispatch(actionPostProfile(user));
         }
     };
+
+    onClickAvatar = (e: MouseEvent) => {
+        e.preventDefault();
+        const input = document.getElementById('avatar-picker')!;
+        input.click();
+    }
+
+    onLoadAvatar = (e: any) => {
+        e.preventDefault();
+        const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
+        const avatar = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
+
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            const upload_image = reader.result as string;
+            console.log('upload_image');
+        });
+        reader.readAsDataURL(avatar.files![0]);
+    }
+
 
     /**
      * method register events button submit/input focus/redirect link
@@ -69,6 +89,13 @@ export class AccountProfile extends Component {
 
         form?.addEventListener('submit', this.onSubmitHandler);
         form?.addEventListener('focusout', this.#validator.focusValidator);
+
+
+        const avatar = document.getElementById('account-sidebar__avatar');
+        avatar?.addEventListener('click', this.onClickAvatar);
+
+        const avatar_form = document.getElementById('account-profile__avatar__form');
+        avatar_form?.addEventListener('change', this.onLoadAvatar);
     };
 
     /**
@@ -78,6 +105,12 @@ export class AccountProfile extends Component {
         const form = document.getElementById('account-profile__form');
         form?.removeEventListener('submit', this.onSubmitHandler);
         form?.removeEventListener('focusout', this.#validator.focusValidator);
+
+        const avatar = document.getElementById('account-sidebar__avatar');
+        avatar?.removeEventListener('click', this.onClickAvatar);
+
+        const avatar_form = document.getElementById('account-profile__avatar__form');
+        avatar_form?.removeEventListener('change', this.onLoadAvatar);
     };
 
 
