@@ -14,6 +14,7 @@ const handlers = [
     {type: 'redirect', method: router.open.bind(router)},
     {type: 'start', method: router.start.bind(router)},
 
+    {type: 'getAccountPage', method: reducerLetters.getAccountPage.bind(reducerLetters)},
     {type: 'getProfilePage', method: reducerLetters.getProfilePage.bind(reducerLetters)},
     {type: 'getSecurityPage', method: reducerLetters.getSecurityPage.bind(reducerLetters)},
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
@@ -24,6 +25,9 @@ const handlers = [
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
     {type: 'forwardMail', method: reducerNewMail.forwardMail.bind(reducerNewMail)},
+
+    {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
+    {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},
 ];
 
 

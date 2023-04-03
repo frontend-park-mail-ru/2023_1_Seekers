@@ -79,9 +79,6 @@ class Router {
         const {target} = e;
 
         if (target instanceof HTMLElement || target instanceof SVGElement) {
-            console.log(target);
-            console.log(e.currentTarget);
-
             if (target.dataset.section) {
                 console.log(target.dataset.section);
                 const matchedHref = this.matchHref(target.dataset.section);
@@ -102,8 +99,6 @@ class Router {
         matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.replace(hrefRegExp.host, '')
             : window.location.href.replace(hrefRegExp.localhost, ''));
-
-        console.log(matchedHref[0]);
 
         // if (matchedHref[0] !== '/') {
         //     matchedHref = this.matchHref(matchedHref[0]);

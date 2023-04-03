@@ -4,7 +4,7 @@ import {mailboxPage} from '@views/mailbox-page/mailbox-page'
 import {loginPage} from '@views/login-page/login-page'
 import {signupPage} from '@views/signup-page/signup-page'
 import {reducerLetters} from "@stores/LettersStore";
-import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
 
 const prefixApi = 'api/v1/';
 
@@ -42,8 +42,8 @@ export const privateActions = [
     {path: '/outbox', action: actionGetMailboxPage},
     {path: '/spam', action: actionGetMailboxPage},
     {path: '/trash', action: actionGetMailboxPage},
-    {path: '/profile', action: actionGetProfilePage},
-    {path: '/security', action: actionGetSecurityPage},
+    {path: '/profile', action: actionGetAccountPage},
+    {path: '/security', action: actionGetAccountPage},
 ];
 
 
@@ -70,6 +70,7 @@ export const config = {
         getMail: `${prefixApi}message/`,
         getProfile: `${prefixApi}user/info`,
         getMenu: `${prefixApi}folders`,
+        password: `${prefixApi}user/pw`,
         sendMail: `${prefixApi}message/send`,
         // session: `${prefixApi}session`,
     },
@@ -407,12 +408,6 @@ export const config = {
                         name: 'last-name',
                         maxlenght: '30',
                     },
-                    login: {
-                        title: 'Логин',
-                        type: 'text',
-                        name: 'login',
-                        maxlenght: '30',
-                    },
                 },
                 button: {
                     buttonText: 'Сохранить',
@@ -423,19 +418,19 @@ export const config = {
                     passwordOld: {
                         title: 'Старый пароль',
                         type: 'text',
-                        name: 'passwordOld',
+                        name: 'password_old',
                         maxlenght: '30',
                     },
                     passwordNew: {
                         title: 'Новый пароль',
                         type: 'text',
-                        name: 'passwordNew',
+                        name: 'password',
                         maxlenght: '30',
                     },
                     passwordRepeat: {
                         title: 'Повторите пароль',
                         type: 'text',
-                        name: 'passwordRepeat',
+                        name: 'repeat_password',
                         maxlenght: '30',
                     },
                 },

@@ -54,8 +54,9 @@ export class MailBox extends View {
     registerEvents = () => {
         microEvents.bind('renderMailbox', this.render);
         microEvents.bind('renderMailboxPage', this.renderMailbox);
-        microEvents.bind('renderProfilePage', this.renderAccountArea);
-    };
+        microEvents.bind('renderAccountPage', this.renderAccountArea);
+    }
+
 
     /**
      * method unregister events button submit/input focus/redirect link
@@ -63,7 +64,7 @@ export class MailBox extends View {
     unregisterEvents = () => {
         microEvents.unbind('renderMailbox', this.render);
         microEvents.unbind('renderMailboxPage', this.renderMailbox);
-        microEvents.unbind('renderProfilePage', this.renderAccountArea);
+        microEvents.unbind('renderAccountPage', this.renderAccountArea);
     };
 
     /**
@@ -84,7 +85,6 @@ export class MailBox extends View {
     };
 
     renderAccountArea = () => {
-        console.log('in account area render');
         if (this.state.element.hidden) {
             this.render();
         }

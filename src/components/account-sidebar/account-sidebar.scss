@@ -32,20 +32,6 @@
     overflow: auto;
 }
 
-.account-sidebar__item {
-    font-size: 16px;
-    line-height: 20px;
-    font-family: "Roboto Thin", sans-serif;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    padding-right: 12px;
-    height: 40px;
-    border-radius: 8px;
-    text-decoration: none;
-    min-height: 44px;
-}
-
 .account-sidebar__avatar__active-user {
     height: 72px !important;
 }
@@ -57,6 +43,15 @@
     border-radius: 8px;
     padding: 12px;
     position: relative;
+}
+
+.account-sidebar__avatar-picker {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    position: absolute;
+    visibility: hidden;
+    cursor: pointer;
 }
 
 .account-sidebar__avatar__hover-active:hover {

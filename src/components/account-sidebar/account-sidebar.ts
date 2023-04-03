@@ -6,7 +6,7 @@ import {config} from "@config/config";
 import {reducerUser} from "@stores/userStore";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetMail} from "@actions/letters";
-import {actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionLogout} from "@actions/user";
+import {actionLogout, actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
 
 export interface AccountSidebar {
     state: {
@@ -48,6 +48,7 @@ export class AccountSidebar extends Component{
                 switch (data) {
                     case config.buttons.sidebarButtons.profile.href:
                         console.log('to profile');
+                        await dispatcher.dispatch(actionGetAccountPage());
                         await dispatcher.dispatch(actionGetProfilePage());
                         // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
@@ -56,6 +57,7 @@ export class AccountSidebar extends Component{
                         // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
                     case config.buttons.sidebarButtons.security.href:
+                        await dispatcher.dispatch(actionGetAccountPage());
                         await dispatcher.dispatch(actionGetSecurityPage());
                         // dispatcher.dispatch(actionChangeURL({path: data, props: '', pushState: true}));
                         break;
@@ -114,6 +116,8 @@ export class AccountSidebar extends Component{
 
         this.state.element = this.parent.getElementsByClassName('account-sidebar')[0]
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
+
+        this.state.children.push(this.state.element.getElementsByClassName('account-sidebar__avatar')[0]);
 
         this.registerEventListener();
         this.state.isRendered = true;

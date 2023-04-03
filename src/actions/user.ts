@@ -34,6 +34,12 @@ export const actionStart = () => ({
     value: {},
 });
 
+
+export const actionGetAccountPage = () => ({
+    type: 'getAccountPage',
+    value: {},
+});
+
 export const actionGetProfilePage = () => ({
     type: 'getProfilePage',
     value: {},
@@ -52,5 +58,15 @@ export const actionGetSecurityPage = () => ({
 export const actionLogout = () => ({
     type: 'logout',
     value: {},
+});
+
+export const actionPostProfile = (user :user) => ({
+    type: 'changeName',
+    value: user,
+});
+
+export const actionPostSecurity = (userPwForm :userPwForm) => ({
+    type: 'changePw',
+    value: userPwForm,
 });
 

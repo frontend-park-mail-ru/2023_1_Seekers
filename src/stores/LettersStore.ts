@@ -73,15 +73,17 @@ class LettersStore extends BaseStore {
         microEvents.trigger('renderMailboxPage');
     };
 
-    getProfilePage = async () => {
-        console.log('in get profile page');
+    getAccountPage = async () => {
         await reducerUser.getProfile();
+        microEvents.trigger('renderAccountPage');
+    };
+
+    getProfilePage = async () => {
         microEvents.trigger('renderProfilePage');
     };
 
     getSecurityPage = async () => {
-        await reducerUser.getProfile();
-        microEvents.trigger('renderProfilePage');
+        microEvents.trigger('renderSecurityPage');
     };
 
     changeLetterStateToRead = async (letterId: string) => {
