@@ -68,6 +68,17 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.status, status)
         microEvents.trigger('fromProfile');
     }
+
+    async changePw(userPwForm :userPwForm) {
+        const responsePromise = Connector.makePostRequest(config.api.password, userPwForm)
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._changed = true;
+        }
+        this._storage.set(this._storeNames.body, body)
+        this._storage.set(this._storeNames.status, status)
+        microEvents.trigger('fromSecurity');
+    }
 }
 
 export const reducerUser = new UserStore();

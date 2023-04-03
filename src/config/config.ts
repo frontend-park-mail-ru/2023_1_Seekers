@@ -417,19 +417,19 @@ export const config = {
                     passwordOld: {
                         title: 'Старый пароль',
                         type: 'text',
-                        name: 'passwordOld',
+                        name: 'password_old',
                         maxlenght: '30',
                     },
                     passwordNew: {
                         title: 'Новый пароль',
                         type: 'text',
-                        name: 'passwordNew',
+                        name: 'password',
                         maxlenght: '30',
                     },
                     passwordRepeat: {
                         title: 'Повторите пароль',
                         type: 'text',
-                        name: 'passwordRepeat',
+                        name: 'repeat_password',
                         maxlenght: '30',
                     },
                 },

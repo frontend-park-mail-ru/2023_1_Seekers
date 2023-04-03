@@ -28,7 +28,6 @@ export interface AccountProfile {
  * class implementing component account-profile
  */
 export class AccountProfile extends Component {
-
     #validator;
 
     constructor(context: componentContext, state: any) {
@@ -52,13 +51,12 @@ export class AccountProfile extends Component {
         const first_name = data.querySelector('input[name=first-name]') as HTMLInputElement;
         const last_name = data.querySelector('input[name=last-name]') as HTMLInputElement;
 
-        console.log(first_name.value)
-
         const user = {} as user;
         user.firstName = first_name.value;
         user.lastName = last_name.value;
 
-        if (this.#validator.validateRegFields(user.firstName, user.lastName)) {
+        if ((this.#validator.validateText(user.firstName).status)
+            && (this.#validator.validateText(user.lastName).status)) {
              await dispatcher.dispatch(actionPostProfile(user));
         }
     };

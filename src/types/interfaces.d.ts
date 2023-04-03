@@ -30,3 +30,9 @@ interface user extends anyObject {
     firstName?: string,
     lastName?: string,
 }
+
+interface userPwForm extends anyObject {
+    passwordOld: string,
+    password: string,
+    repeatPw: string,
+}

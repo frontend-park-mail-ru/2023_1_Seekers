@@ -21,6 +21,7 @@ const handlers = [
     {type: 'changeLetterStateToRead', method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
+    {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},
 ];
 
 

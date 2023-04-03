@@ -60,3 +60,8 @@ export const actionPostProfile = (user :user) => ({
     value: user,
 });
 
+export const actionPostSecurity = (userPwForm :userPwForm) => ({
+    type: 'changePw',
+    value: userPwForm,
+});
+

@@ -112,6 +112,7 @@ export class Validation {
             case 'login':
                 check = this.validateLogin(e.target.value);
                 break;
+            case 'password_old':
             case 'password':
                 check = this.validatePassword(e.target.value);
                 break;
