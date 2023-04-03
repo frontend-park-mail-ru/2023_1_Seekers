@@ -10,6 +10,7 @@ export interface AccountSecurity {
     state: {
         forms: any,
         button: any,
+        element: Element,
     },
 }
 
@@ -32,5 +33,11 @@ export class AccountSecurity extends Component {
                 button: Button.renderTemplate(this.state.button),
             }
         ));
+
+        this.state.element = this.parent.getElementsByClassName('account-security')[0];
+    }
+
+    purge() {
+        this.state.element.remove();
     }
 }

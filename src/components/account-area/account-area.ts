@@ -35,8 +35,6 @@ export class AccountArea extends Component {
         //     navigation: undefined,
         //     content: undefined,
         // }
-        microEvents.bind('renderProfilePage', this.renderProfile);
-        microEvents.bind('renderSecurityPage', this.renderSecurity);
     }
 
     /**
@@ -50,9 +48,17 @@ export class AccountArea extends Component {
             parent: document.getElementById('account-area-content__navigation')!,
         });
         this.state.navigation.render();
+        this.registerEventListener();
     }
 
     renderProfile = () => {
+        if(!this.state.element) {
+            this.render();
+        }
+        console.log('renderProfile');
+        if (this.state.content) {
+            this.state.content.purge();
+        }
         console.log('help me pls')
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
 
@@ -70,8 +76,14 @@ export class AccountArea extends Component {
     }
 
     renderSecurity = () => {
+        if(!this.state.element) {
+            this.render();
+        }
+        if (this.state.content) {
+            this.state.content.purge();
+        }
         this.state.content = new AccountSecurity({
-            parent:  document.getElementById('account-content__content')!,
+            parent:  document.getElementById('account-area-content__content')!,
         }, {
             forms: config.accountFields.account.security,
             button: config.accountFields.account.security.button,
@@ -79,7 +91,22 @@ export class AccountArea extends Component {
         this.state.content.render();
     }
 
+    registerEventListener() {
+        microEvents.bind('renderProfilePage', this.renderProfile);
+        microEvents.bind('renderSecurityPage', this.renderSecurity);
+    }
+
+    /**
+     * method unregister NOT IMPLEMENTED
+     * will unregister listeners for each letter-frame in letter-list
+     */
+    unregisterEventListener() {
+        microEvents.unbind('renderProfilePage', this.renderProfile);
+        microEvents.unbind('renderSecurityPage', this.renderSecurity);
+    }
+
     purge = () => {
+        this.unregisterEventListener();
         this.state.navigation.purge();
         this.state.content.purge();
         this.state.element.remove();
