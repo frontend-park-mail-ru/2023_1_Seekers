@@ -127,10 +127,12 @@ class Router {
     }
 
     refresh(redirect = false) {
-        const matchedHref = window.location.pathname;
-        if (this.views.get(matchedHref) || this.privateViews.get(matchedHref)) {
+        const href = window.location.pathname;
+        const matchedHref = this.matchHref(href);
+        if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
             this.open({
-                path: matchedHref,
+                path: matchedHref[0],
+                props: matchedHref[1],
             }, !redirect, !redirect);
         } else {
             page404.render();
