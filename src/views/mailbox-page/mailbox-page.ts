@@ -11,6 +11,7 @@ import {Navbar} from "@components/navbar/navbar";
 import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
 import {AccountArea} from "@components/account-area/account-area";
 import {actionRedirect} from "@actions/user";
+import {showNotification} from "@components/notification/notification";
 
 
 export interface MailBox {
@@ -85,6 +86,8 @@ export class MailBox extends View {
         this.state.navbar.render();
         // this.renderMailbox();
         this.registerEvents();
+
+        showNotification();
     };
 
     renderAccountArea = () => {
