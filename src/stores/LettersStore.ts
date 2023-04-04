@@ -27,43 +27,47 @@ class LettersStore extends BaseStore {
 
     getLetters = async (folderName: string) => {
         console.log('in getLetters: ' + folderName);
-        const responsePromise = Connector.makeGetRequest(config.api.getLetters + folderName);
+        Connector.makeGetRequest(config.api.getLetters + folderName)
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
+                    this._storage.get(this._storeNames.letters).set(folderName, []);
 
-        const [status, body] = await responsePromise;
-        if (status === responseStatuses.OK) {
-            this._storage.get(this._storeNames.letters).set(folderName, []);
+                    body.messages?.forEach((message: any) => {
+                        const letterFrame: LetterFrameData = {
+                            message_id: message.message_id,
+                            seen: message.seen,
+                            from_user_email: message.from_user_id.email,
+                            title: message.title,
+                            text: message.text,
+                            created_at: message.created_at,
+                            href: folderName + '/' + message.message_id,
+                        }
 
-            body.messages?.forEach((message: any) => {
-                const letterFrame: LetterFrameData = {
-                    message_id: message.message_id,
-                    seen: message.seen,
-                    from_user_email: message.from_user_id.email,
-                    title: message.title,
-                    text: message.text,
-                    created_at: message.created_at,
-                    href: folderName + '/' + message.message_id,
+                        this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
+                    })
+
+                    this._storage.set(this._storeNames.currentLetters, folderName);
+                    console.log(folderName);
+                    console.log(this._storage.get(this._storeNames.letters).get(this._storage.get(this._storeNames.currentLetters)));
+                    this._storage.set(this._storeNames.mail, undefined);
+                    microEvents.trigger('letterListChanged');
+                    microEvents.trigger('mailChanged');
                 }
-
-                this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
-            })
-
-            this._storage.set(this._storeNames.currentLetters, folderName);
-            console.log(folderName);
-            console.log(this._storage.get(this._storeNames.letters).get(this._storage.get(this._storeNames.currentLetters)));
-            this._storage.set(this._storeNames.mail, undefined);
-            microEvents.trigger('letterListChanged');
-            microEvents.trigger('mailChanged');
-        }
+            });
+        this._storage.set(this._storeNames.currentLetters, undefined);
+        microEvents.trigger('letterListChanged');
     };
 
     getMail = async (href: string) => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMail + href.split('/').pop());
-        const [status, body] = await responsePromise;
-        if (status === responseStatuses.OK) {
+        const responsePromise = Connector.makeGetRequest(config.api.getMail + href.split('/').pop())
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
 
-            this._storage.set(this._storeNames.mail, body.message);
-            microEvents.trigger('mailChanged');
-        }
+                    this._storage.set(this._storeNames.mail, body.message);
+                    microEvents.trigger('mailChanged');
+                }
+            })
+
     };
 
     getMenu = async () => {
@@ -81,14 +85,15 @@ class LettersStore extends BaseStore {
     getMailboxPage = async (obj: stateObject) => {
         console.log(obj);
         console.log('getMailboxPage');
-        await this.getMenu();
-        await this.getLetters(obj.path);
-
-        if(obj.props) {
-            await this.getMail(obj.props);
-        }
-        await reducerUser.getProfile();
-        microEvents.trigger('renderMailboxPage');
+        this.getMenu().then(() => {
+            this.getLetters(obj.path).then(() => {
+                if (obj.props) {
+                    this.getMail(obj.props);
+                }
+                reducerUser.getProfile();
+                microEvents.trigger('renderMailboxPage');
+            })
+        })
     };
 
     getAccountPage = async (obj: stateObject) => {
