@@ -39,6 +39,10 @@
     animation: progress 3s .25s linear forwards;
 }
 
+.notification-area__deletion {
+    animation: fadeDel 0.5s linear forwards;
+}
+
 @keyframes fade {
     5% {
         opacity: 1;
@@ -46,8 +50,17 @@
         transform: translateY(0);
     }
 
-    90% {
+    100% {
         opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDel {
+    5% {
+        opacity: 1;
+        visibility: visible;
         transform: translateY(0);
     }
 

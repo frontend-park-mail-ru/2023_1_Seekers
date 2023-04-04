@@ -86,8 +86,6 @@ export class MailBox extends View {
         this.state.navbar.render();
         // this.renderMailbox();
         this.registerEvents();
-
-        showNotification();
     };
 
     renderAccountArea = () => {

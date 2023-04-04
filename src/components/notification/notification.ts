@@ -6,5 +6,8 @@ export function showNotification(text = 'Упс, что-то пошло не т�
     ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
 
     const content = document.getElementById('error-label');
-    setTimeout(() => content?.remove(), duration);
+    setTimeout(() => {
+        content!.classList.add('notification-area__deletion');
+         setTimeout(() =>content?.remove(), 1000 );
+    }, duration);
 }
