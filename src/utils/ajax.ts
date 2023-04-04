@@ -88,6 +88,7 @@ export class Connector {
             credentials: 'include',
             headers: config.headers,
         };
-        return this.makeRequest(`$${config.basePath}:${config.basePort}/${url}`, options);
+        console.log(`${config.basePath}:${config.basePort}/${url}`);
+        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
     };
 }

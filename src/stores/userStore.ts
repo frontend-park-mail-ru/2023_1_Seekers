@@ -60,7 +60,7 @@ class UserStore extends BaseStore {
 
     async logout() {
         console.log('logout');
-        const responsePromise = Connector.makeGetRequest(config.api.logout);
+        const responsePromise = Connector.makeDeleteRequest(config.api.logout);
 
         const [status, body] = await responsePromise;
         console.log(status);
@@ -71,7 +71,7 @@ class UserStore extends BaseStore {
     }
 
     async changeName(user: user) {
-        const responsePromise = Connector.makePostRequest(config.api.getProfile, user)
+        const responsePromise = Connector.makePutRequest({url: config.api.getProfile, data: user})
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
@@ -82,7 +82,7 @@ class UserStore extends BaseStore {
     }
 
     async changePw(userPwForm: userPwForm) {
-        const responsePromise = Connector.makePostRequest(config.api.password, userPwForm)
+        const responsePromise = Connector.makePutRequest({url: config.api.password, data: userPwForm})
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
