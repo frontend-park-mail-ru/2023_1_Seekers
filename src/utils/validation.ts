@@ -109,6 +109,7 @@ export class Validation {
             case 'last-name':
                 check = this.validateText(e.target.value);
                 break;
+            case 'new-mail-recipients':
             case 'login':
                 check = this.validateLogin(e.target.value);
                 break;

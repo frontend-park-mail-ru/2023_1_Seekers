@@ -12,6 +12,7 @@ import {actionLogin} from "@actions/user";
 import {actionSendMail} from "@actions/newMail";
 import {microEvents} from "@utils/microevents";
 import {reducerNewMail} from "@stores/NewMailStore";
+import {Validation} from "@utils/validation";
 
 
 export interface SendMail {
@@ -32,6 +33,8 @@ export interface SendMail {
  */
 export class SendMail extends Component {
 
+    #validator;
+
     constructor(context: componentContext) {
         super(context);
         this.state = {
@@ -45,6 +48,7 @@ export class SendMail extends Component {
             text: document.createElement('textarea') as HTMLTextAreaElement,
         }
 
+        this.#validator = new Validation();
     }
 
     /**
@@ -108,6 +112,9 @@ export class SendMail extends Component {
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
         microEvents.bind('mailSent', this.getResponse);
+
+        const input = document.getElementById(config.forms.newMail.recipients.name);
+        input?.addEventListener('focusout', this.#validator.focusValidator);
     };
 
     /**
@@ -123,6 +130,9 @@ export class SendMail extends Component {
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
         microEvents.unbind('mailSent', this.getResponse);
+
+        const input = document.getElementById(config.forms.newMail.recipients.name);
+        input?.removeEventListener('focusout', this.#validator.focusValidator);
     };
 
     setInputsState = () => {

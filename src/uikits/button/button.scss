@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     position: relative;
-}
-
-.button-classic__label {
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    color: var(--text-main-color);
+    
+    &__label {
+        font-family: "Roboto Thin", sans-serif;
+        font-style: normal;
+        font-size: 15px;
+        letter-spacing: 0.03em;
+        color: var(--text-main-color);
+    }
 }
 
 .button-classic_indent {
