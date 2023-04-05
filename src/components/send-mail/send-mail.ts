@@ -13,6 +13,7 @@ import {actionSendMail} from "@actions/newMail";
 import {microEvents} from "@utils/microevents";
 import {reducerNewMail} from "@stores/NewMailStore";
 import {Validation} from "@utils/validation";
+import {RecipientForm} from "@uikits/recipient-form/recipient-form";
 
 
 export interface SendMail {
@@ -170,6 +171,11 @@ export class SendMail extends Component {
         this.state.text = this.state.element.getElementsByTagName('textarea')[0];
 
         this.setInputsState();
+
+        const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
+        recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
+            text: 'blabla',
+        }))
 
         this.registerEventListener();
     }
