@@ -102,6 +102,15 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.status, status)
         microEvents.trigger('fromAvatar');
     }
+
+    async ckeckAuth() {
+        console.log('ckeckAuth');
+        const responsePromise = Connector.makeGetRequest(config.api.auth)
+
+        const [status] = await responsePromise;
+        console.log(status)
+        this._storage.set(this._storeNames.status, status)
+    }
 }
 
 export const reducerUser = new UserStore();

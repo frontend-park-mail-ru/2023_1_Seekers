@@ -73,6 +73,7 @@ export const config = {
         password: `${prefixApi}user/pw`,
         sendMail: `${prefixApi}message/send`,
         avatar: `${prefixApi}user/avatar`,
+        auth: `${prefixApi}auth`,
         // session: `${prefixApi}session`,
     },
 

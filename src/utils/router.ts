@@ -1,10 +1,9 @@
-import {ROOT, routes, privateRoutes, privateActions} from "@config/config";
+import {ROOT, routes, privateRoutes, privateActions, responseStatuses} from "@config/config";
 import {hrefRegExp} from "@config/regs";
 import {reducerUser} from "@stores/userStore";
-import {reducerLetters} from "@stores/LettersStore";
 import {page404} from "@views/404-page/404-page";
-import {actionGetMailboxPage, actionGetProfilePage} from "@actions/user";
 import {dispatcher} from "@utils/dispatcher";
+import {microEvents} from "@utils/microevents";
 
 
 interface Class extends anyObject {
@@ -126,9 +125,24 @@ class Router {
         this.navigate({path, props, pushState});
     }
 
+    redirectHandle(href: string){
+        reducerUser.ckeckAuth();
+        console.log(reducerUser._storage.get(reducerUser._storeNames.status))
+        if(href === '/'){
+            if(reducerUser._storage.get(reducerUser._storeNames.status) === responseStatuses.OK) {
+                return '/inbox';
+            }else{
+                return  '/login';
+            }
+        }
+        return href;
+    }
+
     refresh(redirect = false) {
-        const href = window.location.pathname;
+        const href = this.redirectHandle(window.location.pathname);
         const matchedHref = this.matchHref(href);
+        console.log(href)
+        console.log(matchedHref)
         if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
             this.open({
                 path: matchedHref[0],
@@ -175,7 +189,6 @@ class Router {
         }
         this.prevUrl = path;
     }
-
 }
 
 export const router: Router = new Router(ROOT);
