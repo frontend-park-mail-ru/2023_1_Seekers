@@ -34,7 +34,6 @@ export interface SendMail {
  */
 export class SendMail extends Component {
 
-    #validator;
 
     constructor(context: componentContext) {
         super(context);
@@ -48,8 +47,6 @@ export class SendMail extends Component {
             recipients: document.createElement('input') as HTMLInputElement,
             text: document.createElement('textarea') as HTMLTextAreaElement,
         }
-
-        this.#validator = new Validation();
     }
 
     /**
@@ -103,6 +100,12 @@ export class SendMail extends Component {
         }
     }
 
+    // closeButtonRecipientFormClicked = async (e: Event) => {
+    //     e.preventDefault();
+    //     const form = document.getElementsByClassName('recipient-form')[0];
+    //     form.remove();
+    // }
+
     registerEventListener = () => {
         console.log('in register');
         document.addEventListener('click', this.onSidebarClick);
@@ -113,9 +116,6 @@ export class SendMail extends Component {
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
         microEvents.bind('mailSent', this.getResponse);
-
-        const input = document.getElementById(config.forms.newMail.recipients.name);
-        input?.addEventListener('focusout', this.#validator.focusValidator);
     };
 
     /**
@@ -131,9 +131,6 @@ export class SendMail extends Component {
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
         microEvents.unbind('mailSent', this.getResponse);
-
-        const input = document.getElementById(config.forms.newMail.recipients.name);
-        input?.removeEventListener('focusout', this.#validator.focusValidator);
     };
 
     setInputsState = () => {
@@ -172,10 +169,11 @@ export class SendMail extends Component {
 
         this.setInputsState();
 
-        const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
-        recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
-            text: 'blabla',
-        }))
+        // const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
+        // recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
+        //     text: 'email@mb.ru',
+        //     closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
+        // }))
 
         this.registerEventListener();
     }
