@@ -22,6 +22,8 @@ interface Router {
     currentPage: any;
 
     prevUrl: string;
+
+    redirectUrl: string | undefined;
 }
 
 class Router {
@@ -126,16 +128,28 @@ class Router {
     }
 
     redirectHandle(href: string){
-        reducerUser.ckeckAuth();
-        console.log(reducerUser._storage.get(reducerUser._storeNames.status))
+        reducerUser.checkAuth();
+        const isAuth = reducerUser._storage.get(reducerUser._storeNames.status) === responseStatuses.OK;
         if(href === '/'){
-            if(reducerUser._storage.get(reducerUser._storeNames.status) === responseStatuses.OK) {
+            if(isAuth) {
                 return '/inbox';
             }else{
                 return  '/login';
             }
+        }else{
+            if(!isAuth) {
+                this.redirectUrl = href;
+                console.log(this.redirectUrl)
+                return  '/login';
+            }else {
+                if(this.redirectUrl) {
+                    console.log(this.redirectUrl)
+                    href = this.redirectUrl;
+                    this.redirectUrl = undefined;
+                }
+                return href;
+            }
         }
-        return href;
     }
 
     refresh(redirect = false) {

@@ -103,13 +103,16 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromAvatar');
     }
 
-    async ckeckAuth() {
-        console.log('ckeckAuth');
-        const responsePromise = Connector.makeGetRequest(config.api.auth)
-
-        const [status] = await responsePromise;
-        console.log(status)
-        this._storage.set(this._storeNames.status, status)
+    checkAuth() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${config.basePath}:${config.basePort}/${config.api.auth}`, false);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('accept', 'application/json');
+        xhr.withCredentials = true;
+        xhr.onload = (e) => {
+            this._storage.set(this._storeNames.status, xhr.status)
+        }
+        xhr.send(`null`)
     }
 }
 
