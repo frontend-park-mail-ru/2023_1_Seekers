@@ -85,15 +85,16 @@ class LettersStore extends BaseStore {
     };
 
     getMenu = async () => {
-        // const responsePromise = Connector.makeGetRequest(config.api.getMenu);
-        // const [status, response] = await responsePromise;
-        // if (status === responseStatuses.OK) {
-        //     this._storage.set(this._storeNames.menu, response.folders);
-        //     microEvents.trigger('menuChanged');
-        // }
-
-        this._storage.set(this._storeNames.menu, menuBtns);
-        microEvents.trigger('menuChanged');
+        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
+        const [status, response] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.menu, response.folders);
+            microEvents.trigger('menuChanged');
+        }
+        console.log(Object.values(config.buttons.commonMenuButtons));
+        console.log(this._storage.get(this._storeNames.menu));
+        // this._storage.set(this._storeNames.menu, menuBtns);
+        // microEvents.trigger('menuChanged');
     };
 
     getMailboxPage = async (obj: stateObject) => {

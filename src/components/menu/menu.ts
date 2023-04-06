@@ -91,7 +91,7 @@ export class Menu extends Component {
             {
                 newMailButton: NewMailButton.renderTemplate({href: '/new-mail', text: 'Новое письмо'}),
                 commonMenuButtons: commonMenuButtons,
-                advancedMenuButtons: advancedMenuButtons,
+                // advancedMenuButtons: advancedMenuButtons,
             }
         ));
 

@@ -68,6 +68,9 @@ export class LetterList extends Component {
                     letterState.classList.remove('letter-is-unread');
                     letterState.classList.add('letter-is-read');
                 }
+                this.state.activeLetter?.classList.remove('letter-frame_color-active');
+                this.state.activeLetter = currentTarget;
+                this.state.activeLetter?.classList.add('letter-frame_color-active');
             }
         }
     }
@@ -97,10 +100,14 @@ export class LetterList extends Component {
         const mail = reducerLetters.getCurrentMail();
         if (mail) {
             this.state.activeLetter?.classList.remove('letter-frame_color-active');
+            const element = this.state.letters[0]?.letterElement;
+            console.log(element)
             this.state.activeLetter = this.state.letters.find((letter) => {
                 return letter.letterElement.id === 'letter-frame-id-' + mail.message_id
             })?.letterElement;
+            console.log(this.state.activeLetter?.classList);
             this.state.activeLetter?.classList.add('letter-frame_color-active');
+            console.log(this.state.activeLetter);
         }
     }
 
@@ -141,7 +148,7 @@ export class LetterList extends Component {
                 letterFrames: letterList,
             }
         ));
-
+        this.state.letters = [];
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
         [...this.state.element.getElementsByClassName('letter-frame')].forEach(letterFrame => {
             this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-read-state-frame')[0]});
