@@ -11,6 +11,7 @@ import {
     actionGetLetters,
     actionGetMail
 } from "@actions/letters";
+import {LetterFrameLoader} from "@uikits/letter-frame-loader/letter-frame-loader";
 // import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
@@ -93,7 +94,7 @@ export class LetterList extends Component {
 
     changeLetterToActive = () => {
         console.log('finding letters..');
-        const mail = reducerLetters._storage.get(reducerLetters._storeNames.mail)
+        const mail = reducerLetters.getCurrentMail();
         if (mail) {
             this.state.activeLetter?.classList.remove('letter-frame_color-active');
             this.state.activeLetter = this.state.letters.find((letter) => {
@@ -109,23 +110,34 @@ export class LetterList extends Component {
      */
     render() {
         console.log('render letterList');
+
+        const letterObjs = reducerLetters._storage
+            .get(reducerLetters._storeNames.letters)
+            .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+
+        if(letterObjs) {
+            this.renderLetterFrames();
+        } else {
+            this.renderLoader();
+        }
+    }
+
+    renderLetterFrames() {
         let letterList: Object[] = [];
         const letterObjs = reducerLetters._storage
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
 
-        const currentLetters = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
 
         if (letterObjs) {
             letterObjs.forEach((letter: any) => {
-
                 letterList.push(LetterFrame.renderTemplate(letter));
             })
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                currentLetters: currentLetters,
+                currentLetters: reducerLetters._storage.get(reducerLetters._storeNames.currentLetters),
                 letterFrames: letterList,
             }
         ));
@@ -139,6 +151,27 @@ export class LetterList extends Component {
 
         this.registerEventListener();
     }
+
+
+    renderLoader() {
+        const loaderList = [];
+
+        for (let i = 0; i < 10; i++) { // выведет 0, затем 1, затем 2
+            loaderList.push(LetterFrameLoader.renderTemplate({}));;
+        }
+
+        this.parent.insertAdjacentHTML('afterbegin', template(
+            {
+                letterFrames: loaderList,
+            }
+        ));
+
+        this.state.element = this.parent.getElementsByClassName('letterList')[0];
+
+        this.registerEventListener();
+    }
+
+
 
     /**
      * method letterList page clearing
@@ -154,7 +187,7 @@ export class LetterList extends Component {
     }
 
     /**
-     * method register NOT IMPLEMENTED
+     * method register
      * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
@@ -167,7 +200,7 @@ export class LetterList extends Component {
     }
 
     /**
-     * method unregister NOT IMPLEMENTED
+     * method unregister
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {

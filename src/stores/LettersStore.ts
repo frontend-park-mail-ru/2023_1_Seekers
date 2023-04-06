@@ -14,13 +14,15 @@ class LettersStore extends BaseStore {
         mail: 'mail',
         menu: 'menu',
         currentLetters: 'currentLetters',
+        currentMail: 'currentMail',
         currentAccountPage: 'currentAccountPage',
     };
 
     constructor() {
         super();
         this._storage.set(this._storeNames.letters, new Map());
-        this._storage.set(this._storeNames.mail, undefined);
+        this._storage.set(this._storeNames.mail, new Map());
+        this._storage.set(this._storeNames.currentMail, undefined);
         this._storage.set(this._storeNames.menu, []);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
     }
@@ -46,28 +48,40 @@ class LettersStore extends BaseStore {
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
                     })
 
-                    this._storage.set(this._storeNames.currentLetters, folderName);
-                    console.log(folderName);
-                    console.log(this._storage.get(this._storeNames.letters).get(this._storage.get(this._storeNames.currentLetters)));
-                    this._storage.set(this._storeNames.mail, undefined);
-                    microEvents.trigger('letterListChanged');
-                    microEvents.trigger('mailChanged');
+                    if (folderName === this._storage.get(this._storeNames.currentLetters)) {
+                        // this._storage.set(this._storeNames.currentMail, undefined);
+                        microEvents.trigger('letterListChanged');
+                        microEvents.trigger('mailChanged');
+                    }
+
                 }
             });
-        this._storage.set(this._storeNames.currentLetters, undefined);
+        this._storage.set(this._storeNames.currentLetters, folderName);
+        this._storage.set(this._storeNames.currentMail, undefined);
         microEvents.trigger('letterListChanged');
+        microEvents.trigger('mailChanged');
     };
 
     getMail = async (href: string) => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMail + href.split('/').pop())
-            .then(([status, body]) => {
-                if (status === responseStatuses.OK) {
+        const mailId = href.split('/').pop();
+        if (!this._storage.get(this._storeNames.mail).get(mailId)) {
+            console.log(mailId);
+            Connector.makeGetRequest(config.api.getMail + mailId)
+                .then(([status, body]) => {
+                    if (status === responseStatuses.OK) {
+                        this._storage.get(this._storeNames.mail).set(mailId, body.message);
 
-                    this._storage.set(this._storeNames.mail, body.message);
-                    microEvents.trigger('mailChanged');
-                }
-            })
+                        if (this._storage.get(this._storeNames.currentMail) === mailId) {
+                            microEvents.trigger('mailChanged');
+                        }
+                    }
+                });
 
+            this._storage.get(this._storeNames.mail).set(mailId, {});
+        }
+        this._storage.set(this._storeNames.currentMail, mailId);
+        console.log('in get mail');
+        microEvents.trigger('mailChanged');
     };
 
     getMenu = async () => {
@@ -129,6 +143,11 @@ class LettersStore extends BaseStore {
             console.log('state changed to unread');
             // microEvents.trigger('letterStateChanged');
         }
+    }
+
+
+    getCurrentMail() {
+        return this._storage.get(this._storeNames.mail).get(this._storage.get(this._storeNames.currentMail))
     }
 
 }

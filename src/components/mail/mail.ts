@@ -42,26 +42,27 @@ export class Mail extends Component {
      * method insert mail to HTML
      */
     render() {
-        console.log('render mail');
-        if(reducerLetters._storage.get(reducerLetters._storeNames.mail) === undefined){
+        if(reducerLetters._storage.get(reducerLetters._storeNames.currentMail) === undefined){
             this.parent.insertAdjacentHTML('afterbegin', template({}));
-        } else {
+            this.state.element = this.parent.getElementsByClassName('mail')[0];
+        } else if (reducerLetters.getCurrentMail() !== undefined){
+
             let actionButtons: Object[] = [];
             Object.values(config.buttons.mailActionButtons).forEach((button: Object) => {
                 actionButtons.push(IconButton.renderTemplate(button));
             })
             this.parent.insertAdjacentHTML('afterbegin', template(
                 {
-                    mail: reducerLetters._storage.get(reducerLetters._storeNames.mail),
-                    mailContent: MailContent.renderTemplate(reducerLetters._storage.get(reducerLetters._storeNames.mail)),
+                    mail: reducerLetters.getCurrentMail(),
+                    mailContent: MailContent.renderTemplate(reducerLetters.getCurrentMail()),
                     actionButtons: actionButtons,
                 }
             ));
+
+            this.state.element = this.parent.getElementsByClassName('mail')[0];
+
+            this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
         }
-
-        this.state.element = this.parent.getElementsByClassName('mail')[0];
-
-        this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
         this.registerEventListener();
     }
 

@@ -31,6 +31,7 @@
 .mail__header_size {
     padding: 20px 20px 0 20px;
     height: 80px;
+
 }
 
 .mail__header-details {
@@ -41,6 +42,7 @@
     flex: 1;
     justify-content: stretch;
     gap: 5px;
+    border-radius: 7px;
 }
 
 .mail__author {
@@ -62,8 +64,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 100%;
-    border-radius: 6px;
+    height: 60px;
+    width: 60px;
+    border-radius: 90%;
 }
 
 .mail__read-state {
@@ -111,7 +114,7 @@
     gap: 20px;
     flex-shrink: 0;
     margin: 0 20px 20px;
-    flex-basis: 40px;
+    flex-basis: 45px;
 }
 
 
@@ -141,4 +144,15 @@
     padding: 0;
     //flex: 1;
     stroke: var(--menu-icons-default-color);
+}
+
+
+
+.mail__loader-content-text {
+    display: flex;
+    flex: 1;
+    position: relative;
+    min-height: 100px;
+    max-height: 100px;
+    border-radius: 7px;
 }
