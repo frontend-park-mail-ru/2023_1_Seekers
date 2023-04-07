@@ -1,0 +1,28 @@
+.loader-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+.loader-page__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  height: 100px;
+  max-height: 100px;
+  width: 100px;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 10px;
+  border-radius: 7px;
+}
