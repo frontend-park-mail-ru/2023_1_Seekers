@@ -102,6 +102,18 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.status, status)
         microEvents.trigger('fromAvatar');
     }
+
+    checkAuth() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${config.basePath}:${config.basePort}/${config.api.auth}`, false);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('accept', 'application/json');
+        xhr.withCredentials = true;
+        xhr.onload = (e) => {
+            this._storage.set(this._storeNames.status, xhr.status)
+        }
+        xhr.send(`null`)
+    }
 }
 
 export const reducerUser = new UserStore();
