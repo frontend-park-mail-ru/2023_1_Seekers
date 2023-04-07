@@ -28,7 +28,11 @@ body {
     background-color: var(--background-color);
     flex: 1;
     height: 100%;
+    scrollbar-color: var(--delimeters-color) var(--background-color);
+    scrollbar-width: thin;
 }
+
+
 
 ::-webkit-scrollbar {
     width: 5px;
@@ -56,4 +60,23 @@ body {
 :hover::-webkit-scrollbar-thumb {
     background: var(--delimeters-color);
     border-radius: 2px;
+}
+
+.skeleton__block {
+    background: linear-gradient(
+                    -75deg,
+                    transparent 40%,
+                    #747476,
+                    transparent 60%
+    ) 0 0 / 200% 100%,
+
+    var(--delimeters-color);
+    animation: load 2s infinite linear;
+    background-attachment: fixed;
+}
+
+@keyframes load {
+    to {
+        background-position: 200% 0;
+    }
 }

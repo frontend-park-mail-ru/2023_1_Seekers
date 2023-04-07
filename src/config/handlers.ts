@@ -25,6 +25,7 @@ const handlers = [
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
     {type: 'forwardMail', method: reducerNewMail.forwardMail.bind(reducerNewMail)},
+    {type: 'sendMail', method: reducerNewMail.sendMail.bind(reducerNewMail)},
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},

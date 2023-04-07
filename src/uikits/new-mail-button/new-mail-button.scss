@@ -24,7 +24,6 @@
 
 .new-mail-button_color:hover {
     border: 1px solid var(--menu-buttons-hover-border-color);
-    background: var(--delimeters-color);
 }
 
 .new-mail-button_color:active {
@@ -42,4 +41,10 @@
 
 .new-mail-button:active .new-mail-button__text_color {
     color: var(--menu-text-active-color);
+}
+
+.new-mail-button_disabled {
+    cursor: default;
+    pointer-events: none;
+    border: 1px solid #747476;
 }
