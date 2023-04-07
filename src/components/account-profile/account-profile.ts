@@ -9,7 +9,7 @@ import {Validation} from "@utils/validation";
 import {dispatcher} from "@utils/dispatcher";
 import {actionPostProfile, actionPutAvatar} from "@actions/user";
 import {reducerUser} from "@stores/userStore";
-import {responseStatuses} from "@config/config";
+import {config, responseStatuses} from "@config/config";
 import {microEvents} from "@utils/microevents";
 
 export interface AccountProfile {
@@ -133,7 +133,7 @@ export class AccountProfile extends Component {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 login: this.state.login,
-                avatar: this.state.avatar,
+                avatar: `${config.basePath}/${config.api.avatar}?email=${this.state.login}`,
                 forms: Form.renderTemplate(this.state.forms),
                 button: Button.renderTemplate(this.state.button),
             }

@@ -1,4 +1,4 @@
-import { config } from '@config/config'
+import {config} from '@config/config'
 
 /**
  * class implementing request work
@@ -30,7 +30,7 @@ export class Connector {
             headers: config.headers,
             body: JSON.stringify(data),
         };
-        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
+        return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 
     /**
@@ -40,23 +40,27 @@ export class Connector {
      * @param uploadFile
      * @return request promise
      */
-    static makePutRequest = async ({ url, data } :{ url:string, data: object }, uploadFile = false) => {
-        let body;
-        if (uploadFile){
-            body = data
-            console.log('1')
-        }else {
-            body = JSON.stringify(data)
-            console.log('2')
+    static makePutRequest = async ({url, data}: { url: string, data: any }, uploadFile = false) => {
+        if (uploadFile) {
+            const options = {
+                method: 'put',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {},
+                body: data,
+            };
+            return this.makeRequest(`${config.basePath}/${url}`, options) as any;
+        } else {
+            let body = JSON.stringify(data)
+            const options = {
+                method: 'put',
+                mode: 'cors',
+                credentials: 'include',
+                headers: config.headers,
+                body,
+            };
+            return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         }
-        const options = {
-            method: 'put',
-            mode: 'cors',
-            credentials: 'include',
-            headers: config.headers,
-            body: body,
-        };
-        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
     };
 
 
@@ -72,7 +76,7 @@ export class Connector {
             credentials: 'include',
             headers: config.headers,
         };
-        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
+        return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 
 
@@ -88,7 +92,7 @@ export class Connector {
             credentials: 'include',
             headers: config.headers,
         };
-        console.log(`${config.basePath}:${config.basePort}/${url}`);
-        return this.makeRequest(`${config.basePath}:${config.basePort}/${url}`, options) as any;
+        console.log(`${config.basePath}/${url}`);
+        return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 }
