@@ -32,10 +32,10 @@ class NewMailStore extends BaseStore {
 
     forwardMail = async () => {
         this._storage.set(
-            this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail).title
+            this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title
         );
         this._storage.set(
-            this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail).text
+            this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).text
         );
         this._storage.set(this._storeNames.recipients, '');
 
@@ -44,14 +44,16 @@ class NewMailStore extends BaseStore {
 
     replyToMail = async () => {
         this._storage.set(
-            this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail).title
+            this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title
         );
         this._storage.set(
             this._storeNames.text, ''
         );
 
         this._storage.set(
-            this._storeNames.recipients, reducerLetters._storage.get(reducerLetters._storeNames.mail).from_user_id.email
+            this._storeNames.recipients, reducerLetters._storage
+                .get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail))
+                .from_user_id.email
         );
 
         microEvents.trigger('createNewMail');

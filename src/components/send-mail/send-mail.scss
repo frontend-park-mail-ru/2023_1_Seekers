@@ -50,7 +50,7 @@
 
 .send-mail__header_size {
   padding: 20px 20px 0 20px;
-  height: 100px;
+  //height: 100px;
 }
 
 .send-mail__header-details {
@@ -66,19 +66,22 @@
 .send-mail__author {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
 }
 
 .send-mail__to {
   width: 60px;
+  padding-top: 5px;
 }
 
 .send-mail__image {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 100%;
+  align-self: start;
+  height: 80px;
+  width: 80px;
   border-radius: 6px;
 }
 
@@ -175,7 +178,11 @@
   text-align: left;
   position: relative;
   min-width: 180px;
+  gap: 5px;
   flex: 1;
+  overflow: hidden;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .send-mail__input-form_indent {
@@ -183,11 +190,13 @@
 }
 
 .send-mail__input-form_size-l {
+  display: flex;
+  flex: 1;
   box-sizing: border-box;
   outline: none;
   padding-left: 15px;
   min-height: 27px;
-  min-width: 80%;
+  //width: 80%;
 }
 
 .send-mail__input-form_color {

@@ -14,6 +14,7 @@ import {microEvents} from "@utils/microevents";
 import {reducerNewMail} from "@stores/NewMailStore";
 import {Validation} from "@utils/validation";
 import {RecipientForm} from "@uikits/recipient-form/recipient-form";
+import {text} from "express";
 
 
 export interface SendMail {
@@ -24,8 +25,11 @@ export interface SendMail {
         iconButton: Element,
 
         topic: HTMLInputElement,
-        recipients: HTMLInputElement,
+        recipientsInput: HTMLInputElement,
+        recipients: Map<string, HTMLElement>,
         text: HTMLTextAreaElement,
+
+
     },
 }
 
@@ -44,8 +48,9 @@ export class SendMail extends Component {
             iconButton: document.createElement('div'),
 
             topic: document.createElement('input') as HTMLInputElement,
-            recipients: document.createElement('input') as HTMLInputElement,
+            recipientsInput: document.createElement('input') as HTMLInputElement,
             text: document.createElement('textarea') as HTMLTextAreaElement,
+            recipients: new Map(),
         }
     }
 
@@ -71,10 +76,9 @@ export class SendMail extends Component {
     }
 
     sendMail = async () => {
-
         const mail = {
             title: this.state.topic.value,
-            recipients: this.state.recipients.value.split(' '),
+            recipients: this.state.recipientsInput.value.split(' '),
             text: this.state.text.value,
         } as MailToSend;
 
@@ -100,11 +104,53 @@ export class SendMail extends Component {
         }
     }
 
-    // closeButtonRecipientFormClicked = async (e: Event) => {
-    //     e.preventDefault();
-    //     const form = document.getElementsByClassName('recipient-form')[0];
-    //     form.remove();
-    // }
+    onRemoveRecipientClicked = async (e: Event) => {
+        if (e.currentTarget) {
+            let element: any = undefined;
+                this.state.recipients.forEach((recipient, key) => {
+                if (recipient.contains(e.currentTarget as HTMLElement)) {
+                    element = recipient;
+                }
+            })
+
+            if (element) {
+                e.currentTarget.removeEventListener('click', this.onRemoveRecipientClicked);
+                this.state.recipients.delete(element.dataset.section);
+                element.remove();
+            }
+        }
+
+    }
+
+    addRecipient = async (e: Event) => {
+        if (e.target instanceof HTMLInputElement) {
+            if (e.target.value.includes(' ')) {
+                if (e.target.value.length === 1) {
+                    e.target.value = '';
+                    return;
+                }
+
+                const newRecipients = e.target.value.split(' ');
+                e.target.value = '';
+                const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
+                newRecipients.forEach((recipient) => {
+                    if (recipient !== '' && !this.state.recipients.has(recipient)){
+                        recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
+                            text: recipient,
+                            closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
+                        }));
+
+                        const foundElement = [...recipientInput.getElementsByClassName('recipient-form')].find(element => {
+                            return (element as HTMLElement).dataset.section === recipient;
+                        })!
+
+                        foundElement.getElementsByClassName('icon-button')[0].addEventListener('click', this.onRemoveRecipientClicked);
+                        this.state.recipients.set(recipient, foundElement as HTMLElement);
+                    }
+                })
+            }
+        }
+    }
 
     registerEventListener = () => {
         console.log('in register');
@@ -116,6 +162,8 @@ export class SendMail extends Component {
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
         microEvents.bind('mailSent', this.getResponse);
+
+        this.state.recipientsInput.addEventListener('input', this.addRecipient);
     };
 
     /**
@@ -131,11 +179,18 @@ export class SendMail extends Component {
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
         microEvents.unbind('mailSent', this.getResponse);
+
+        this.state.recipientsInput.removeEventListener('input', this.addRecipient);
+
+        this.state.recipients.forEach((element, key) => {
+            element.getElementsByClassName('icon-button')[0]
+                .removeEventListener('click', this.onRemoveRecipientClicked);
+        })
     };
 
     setInputsState = () => {
         this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
-        this.state.recipients.value = reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
+        this.state.recipientsInput.value = reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
         this.state.text.value = reducerNewMail._storage.get(reducerNewMail._storeNames.text);
     }
 
@@ -163,19 +218,13 @@ export class SendMail extends Component {
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 
         this.state.topic = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
-        this.state.recipients = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.recipients.name)!;
+        this.state.recipientsInput = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.recipients.name)!;
 
         this.state.text = this.state.element.getElementsByTagName('textarea')[0];
 
-        this.setInputsState();
-
-        // const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
-        // recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
-        //     text: 'email@mb.ru',
-        //     closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
-        // }))
-
         this.registerEventListener();
+
+        this.setInputsState();
     }
 
     onSidebarClick = (e: Event) => {
