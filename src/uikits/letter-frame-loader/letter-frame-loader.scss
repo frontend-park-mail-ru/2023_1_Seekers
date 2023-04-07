@@ -66,22 +66,3 @@
     align-self: stretch;
     border-radius: 7px
 }
-
-.skeleton__block {
-    background: linear-gradient(
-                    -75deg,
-                    transparent 40%,
-                    #747476,
-                    transparent 60%
-    ) 0 0 / 200% 100%,
-
-    var(--delimeters-color);
-    animation: load 2s infinite linear;
-    background-attachment: fixed;
-}
-
-@keyframes load {
-    to {
-        background-position: 200% 0;
-    }
-}

@@ -6,7 +6,7 @@ import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
 import {dispatcher} from "@utils/dispatcher";
 
-import {config} from "@config/config";
+import {config, responseStatuses} from "@config/config";
 import {IconButton} from "@uikits/icon-button/icon-button";
 import {actionLogin} from "@actions/user";
 import {actionSendMail} from "@actions/newMail";
@@ -15,6 +15,7 @@ import {reducerNewMail} from "@stores/NewMailStore";
 import {Validation} from "@utils/validation";
 import {RecipientForm} from "@uikits/recipient-form/recipient-form";
 import {text} from "express";
+import {showNotification} from "@components/notification/notification";
 
 
 export interface SendMail {
@@ -84,11 +85,40 @@ export class SendMail extends Component {
 
         console.log(mail);
 
+        const sendButton = this.state.footerButtons.find((button) => {
+            return (button as HTMLElement).dataset.section === config.buttons.newMailButtons.footerButtons.send.href;
+        });
+
+        sendButton?.classList.add('skeleton__block');
+        sendButton?.classList.add('new-mail-button_disabled');
+
         await dispatcher.dispatch(actionSendMail(mail));
     };
 
     getResponse = () => {
+        const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
+        const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
+        switch (answerStatus) {
+            case responseStatuses.OK:
+                showNotification('Письмо отправлено успешно!');
+                this.purge();
+                return;
+            case responseStatuses.BadRequest:
+                showNotification('В списке получателей нет ни одного существующего!')
+                break;
+            case responseStatuses.Forbidden:
+                showNotification('Заполните поля!');
+                break;
+            default:
+                showNotification(answerBody.message);
+        }
+        const sendButton = this.state.footerButtons.find((button) => {
+            return (button as HTMLElement).dataset.section === config.buttons.newMailButtons.footerButtons.send.href;
+        });
+
+        sendButton?.classList.remove('skeleton__block');
+        sendButton?.classList.remove('new-mail-button_disabled');
     }
 
     closeButtonClicked = async (e: Event) => {
@@ -128,6 +158,11 @@ export class SendMail extends Component {
             const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
                 if (recipient !== '' && !this.state.recipients.has(recipient)) {
+
+                    if (!recipient.includes('@')) {
+                        recipient += '@mailbox.ru';
+                    }
+
                     recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
                         text: recipient,
                         closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
@@ -136,6 +171,11 @@ export class SendMail extends Component {
                     const foundElement = [...recipientInput.getElementsByClassName('recipient-form')].find(element => {
                         return (element as HTMLElement).dataset.section === recipient;
                     })!
+
+                    const validator = new Validation;
+                    if(validator.validateLogin(recipient).status === false){
+                        foundElement.classList.add('input-form__error__border');
+                    }
 
                     foundElement.getElementsByClassName('icon-button')[0].addEventListener('click', this.onRemoveRecipientClicked);
                     this.state.recipients.set(recipient, foundElement as HTMLElement);

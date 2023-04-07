@@ -13,19 +13,20 @@ class NewMailStore extends BaseStore {
         title: 'title',
         text: 'text',
         recipients: 'recipients',
+        answerStatus: 'answerStatus',
+        answerBody: 'answerBody',
     };
 
     constructor() {
         super();
-        this._storage.set(this._storeNames.title, '');
-        this._storage.set(this._storeNames.text, '');
-        this._storage.set(this._storeNames.recipients, '');
     }
 
     createNewMail = async () => {
         this._storage.set(this._storeNames.title, '');
         this._storage.set(this._storeNames.text, '');
         this._storage.set(this._storeNames.recipients, '');
+        this._storage.set(this._storeNames.answerBody, '');
+        this._storage.set(this._storeNames.answerStatus, '');
 
         microEvents.trigger('createNewMail');
     }
@@ -61,13 +62,15 @@ class NewMailStore extends BaseStore {
 
     sendMail = async (mail: MailToSend) => {
         console.log('sendMail');
-        const responsePromise = Connector.makePostRequest(config.api.sendMail, mail);
-        const [status, body] = await responsePromise;
-        console.log(status)
-        console.log(body)
-        if (status === responseStatuses.OK) {
+        Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
+
+            this._storage.set(this._storeNames.answerBody, body);
+            this._storage.set(this._storeNames.answerStatus, status);
+
+            console.log(status)
+            console.log(body)
             microEvents.trigger('mailSent');
-        }
+        });
     }
 }
 
