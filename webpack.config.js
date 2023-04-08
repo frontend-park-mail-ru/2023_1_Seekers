@@ -76,6 +76,7 @@ module.exports = {
         host: '0.0.0.0',
         port: 8002,
         historyApiFallback: true,
+        disableHostCheck: true,
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],
