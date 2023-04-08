@@ -138,6 +138,9 @@ class Router {
             }
         }else{
             if(!isAuth) {
+                if (href === '/signup') {
+                    return href;
+                }
                 this.redirectUrl = href;
                 console.log(this.redirectUrl)
                 return  '/login';
