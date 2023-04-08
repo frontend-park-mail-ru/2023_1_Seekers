@@ -43,6 +43,7 @@ class LettersStore extends BaseStore {
                             text: message.text,
                             created_at: message.created_at,
                             href: folderName + '/' + message.message_id,
+                            avatar: `${config.basePath}/${config.api.avatar}?email=${message.from_user_id.email}`
                         }
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
@@ -69,7 +70,11 @@ class LettersStore extends BaseStore {
             Connector.makeGetRequest(config.api.getMail + mailId)
                 .then(([status, body]) => {
                     if (status === responseStatuses.OK) {
-                        this._storage.get(this._storeNames.mail).set(mailId, body.message);
+                        const mailData: MailData = body.message;
+                        mailData.from_user_id.avatar
+                            = `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
+
+                        this._storage.get(this._storeNames.mail).set(mailId, mailData);
 
                         if (this._storage.get(this._storeNames.currentMail) === mailId) {
                             microEvents.trigger('mailChanged');

@@ -3,11 +3,8 @@
         {{#if this.mail.text includeZero=false}}
             <div class="mail__header mail__header_size">
 
-                {{#if this.img includeZero=true}}
-                    <img src={{this.img}} class="mail__image" alt="{{this.mail.from_user}}">
-                {{else}}
-                    <img src='../../img/female-avatar.png' class="mail__image" alt="{{this.mail.from_user_id.email}}">
-                {{/if}}
+
+                    <img src='{{this.mail.from_user_id.avatar}}' class="mail__image" alt="{{this.mail.from_user_id.email}}">
 
                 <div class="mail__header-details">
                     <div class="mail__author">

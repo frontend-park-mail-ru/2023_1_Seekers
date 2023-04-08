@@ -133,7 +133,7 @@ export class AccountProfile extends Component {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 login: this.state.login,
-                avatar: `${config.basePath}/${config.api.avatar}?email=${this.state.login}`,
+                avatar: this.state.avatar,
                 forms: Form.renderTemplate(this.state.forms),
                 button: Button.renderTemplate(this.state.button),
             }

@@ -43,7 +43,7 @@ export const privateActions = [
     {path: '/outbox', action: actionGetMailboxPage},
     {path: '/spam', action: actionGetMailboxPage},
     {path: '/trash', action: actionGetMailboxPage},
-    {path: '/drafts', action: actionGetAccountPage},
+    {path: '/drafts', action: actionGetMailboxPage},
     {path: '/profile', action: actionGetAccountPage},
     {path: '/security', action: actionGetAccountPage},
 ];

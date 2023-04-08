@@ -1,10 +1,6 @@
 <a class="profile-button profile-button_color profile-button_size" href="/sidebar">
     <div class="profile-button__left-frame">
-        {{#if img includeZero=true}}
-            <img class="profile-button__img profile-button__img_size" src={{img}} alt="">
-        {{else}}
-            <img class="profile-button__img profile-button__img_size" src='../../img/female-avatar.png' alt="">
-        {{/if}}
+            <img class="profile-button__img profile-button__img_size skeleton__block" src='{{avatar}}' alt="">
             <p class="font-caption-0 profile-button__text_color">{{ email }}</p>
     </div>
     <div class="profile-button__right-frame">

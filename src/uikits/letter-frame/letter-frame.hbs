@@ -5,11 +5,7 @@
     <div class="letter-content-frame">
         <div class="letter-content-header-frame">
             <div class="letter-content-header-image-frame">
-                {{#if img includeZero=true}}
-                    <img src={{img}} class="letter-content-image-letter" alt="{{from_user_email}}">
-                {{else}}
-                    <img src='../../img/female-avatar.png' class="letter-content-image-letter" alt="{{from_user_email}}">
-                {{/if}}
+                    <img src='{{avatar}}' class="letter-content-image-letter" alt="{{from_user_email}}">
             </div>
             <div class="letter-content-header-text-frame">
                 <label class="letter-content-header-name-text font-normal-0">

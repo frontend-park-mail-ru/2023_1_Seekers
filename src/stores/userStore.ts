@@ -47,13 +47,19 @@ class UserStore extends BaseStore {
 
     async getProfile() {
         console.log('getProfile');
-        const responsePromise = Connector.makeGetRequest(config.api.getProfile)
+        const responsePromise = Connector.makeGetRequest(config.api.getProfile);
 
         const [status, body] = await responsePromise;
-        console.log(status)
-        console.log(body)
+        console.log(status);
+        console.log(body);
         if (status === responseStatuses.OK) {
-            this._storage.set(this._storeNames.profile, body);
+            this._storage.set(this._storeNames.profile,
+                {
+                    email: body.email,
+                    firstName: body.firstName,
+                    lastName: body.lastName,
+                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}`
+                });
             microEvents.trigger('profileChanged');
         }
     }
@@ -76,6 +82,7 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
+        await this.getProfile();
         this._storage.set(this._storeNames.body, body);
         this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromProfile');
@@ -98,6 +105,7 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
+        await this.getProfile();
         this._storage.set(this._storeNames.body, body)
         this._storage.set(this._storeNames.status, status)
         microEvents.trigger('fromAvatar');

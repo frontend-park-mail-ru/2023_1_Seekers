@@ -28,6 +28,28 @@ type LetterFrameData = {
     text: string,
     created_at: string,
     href: string,
+    avatar: string,
+}
+
+type ProfileData = {
+    email: string,
+    firstName: string,
+    lastName: string,
+    avatar: string,
+}
+
+type MailData = {
+    created_at: string,
+    deleted: string,
+    favorite: string,
+    from_user_id: any,
+    message_id: number,
+    recipients: any[],
+    length: number,
+    reply_to: any,
+    seen: boolean,
+    text: string,
+    title: string,
 }
 
 type CustomPages = LoginPage;

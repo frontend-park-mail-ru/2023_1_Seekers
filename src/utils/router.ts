@@ -4,6 +4,7 @@ import {reducerUser} from "@stores/userStore";
 import {page404} from "@views/404-page/404-page";
 import {dispatcher} from "@utils/dispatcher";
 import {microEvents} from "@utils/microevents";
+import {loaderPage} from "@views/loader-page/loader-page";
 
 
 interface Class extends anyObject {
@@ -174,7 +175,8 @@ class Router {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
 
-
+        this.currentPage = loaderPage;
+        this.currentPage.render();
         // reducerUser.getProfile()
         //     .then(() => {
         //         reducerLetters.getLetters('/inbox');

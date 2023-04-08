@@ -3,11 +3,8 @@
         <div class="send-mail__header send-mail__header_size">
 
             <div class="send-mail__read-state"></div>
-            {{#if this.img includeZero=true}}
-                <img src={{this.profile.avatar}} class="send-mail__image" alt="{{this.profile.email}}">
-            {{else}}
-                <img src='../../img/female-avatar.png' class="send-mail__image" alt="{{this.profile.email}}">
-            {{/if}}
+
+                <img src='{{this.profile.avatar}}' class="send-mail__image skeleton__block" alt="">
 
             <div class="send-mail__header-details">
                 <div class="send-mail__author">

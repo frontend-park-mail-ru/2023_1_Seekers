@@ -154,6 +154,14 @@
     flex: available;
     align-self: stretch;
     flex-grow: 0;
+
+    width: 35px;
+
+    height: 35px;
+    overflow: hidden;
+    border-radius: 90%;
+
+
 }
 
 .letter-content__text_color {
