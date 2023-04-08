@@ -58,7 +58,7 @@ class UserStore extends BaseStore {
                     email: body.email,
                     firstName: body.firstName,
                     lastName: body.lastName,
-                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}`
+                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}&t=${new Date().getTime()}`
                 });
             microEvents.trigger('profileChanged');
         }
@@ -82,9 +82,9 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
-        await this.getProfile();
         this._storage.set(this._storeNames.body, body);
         this._storage.set(this._storeNames.status, status);
+        await this.getProfile();
         microEvents.trigger('fromProfile');
     }
 
@@ -105,9 +105,9 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
-        await this.getProfile();
         this._storage.set(this._storeNames.body, body)
         this._storage.set(this._storeNames.status, status)
+        await this.getProfile();
         microEvents.trigger('fromAvatar');
     }
 
