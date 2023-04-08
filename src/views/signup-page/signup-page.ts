@@ -11,7 +11,7 @@ import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
 import {config, responseStatuses, ROOT} from "@config/config";
 import { dispatcher } from '@utils/dispatcher';
 
-import {actionSignup, actionToLogin, actionToSignUp} from "@actions/user";
+import {actionRedirect, actionSignup, actionToLogin, actionToSignUp} from "@actions/user";
 import {microEvents} from "@utils/microevents";
 // import {router} from "@utils/router";
 
@@ -162,8 +162,7 @@ class Signup extends View {
             case responseStatuses.OK:
                 this.unregisterEvents();
                 this.purge();
-                console.log('dispatching redirect to inbox');
-                // router.open({path: '/inbox'}, false, false);
+                dispatcher.dispatch(actionRedirect( '/inbox', true, false));
                 break;
             case responseStatuses.UnauthorizedError:
             case responseStatuses.Forbidden:
