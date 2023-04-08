@@ -192,7 +192,7 @@ class Router {
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.match(hrefRegExp.host)![0]
             : window.location.href.match(hrefRegExp.localhost)![0]);
-
+        console.log(location)
         if (pushState) {
             if (props) {
                 window.history.pushState(props, "", `${location + path}${props}`);
