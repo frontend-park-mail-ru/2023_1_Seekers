@@ -11,7 +11,7 @@ import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
 import {config, responseStatuses, ROOT} from "@config/config";
 import { dispatcher } from '@utils/dispatcher';
 
-import {actionSignup} from "@actions/user";
+import {actionSignup, actionToLogin, actionToSignUp} from "@actions/user";
 import {microEvents} from "@utils/microevents";
 // import {router} from "@utils/router";
 
@@ -54,6 +54,9 @@ class Signup extends View {
 
         this.subscribeSignupStatus = this.subscribeSignupStatus.bind(this);
         microEvents.bind('fromSignup', this.subscribeSignupStatus);
+
+        this.subscribeRenderSignUp = this.subscribeRenderSignUp.bind(this);
+        microEvents.bind('renderSignup', this.subscribeRenderSignUp);
     }
 
     /**
@@ -86,6 +89,7 @@ class Signup extends View {
     };
     onRedirectHandler = async (e: MouseEvent) => {
         e.preventDefault();
+        await dispatcher.dispatch(actionToLogin());
     };
 
     /**
@@ -182,6 +186,11 @@ class Signup extends View {
             default:
                 break;
         }
+    }
+
+    subscribeRenderSignUp = () => {
+        this.purge();
+        this.render();
     }
 }
 export const signupPage = new Signup(document.getElementById('root')!);

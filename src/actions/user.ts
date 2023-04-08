@@ -75,3 +75,12 @@ export const actionPutAvatar = (formDataAvatar: FormData) => ({
     value: formDataAvatar,
 });
 
+export const actionToSignUp = () => ({
+    type: 'toSignup',
+    value: {},
+});
+
+export const actionToLogin = () => ({
+    type: 'toLogin',
+    value: {},
+});

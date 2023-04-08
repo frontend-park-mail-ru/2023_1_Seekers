@@ -114,6 +114,14 @@ class UserStore extends BaseStore {
         }
         xhr.send(`null`)
     }
+
+    getSignupPage = async () => {
+        microEvents.trigger('renderSignup');
+    };
+
+    getLoginPage = async () => {
+        microEvents.trigger('renderLogin');
+    };
 }
 
 export const reducerUser = new UserStore();

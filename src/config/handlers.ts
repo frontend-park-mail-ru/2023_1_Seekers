@@ -30,6 +30,9 @@ const handlers = [
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},
     {type: 'putAvatar', method: reducerUser.putAvatar.bind(reducerUser)},
+
+    {type: 'toSignup', method: reducerUser.getSignupPage.bind(reducerUser)},
+    {type: 'toLogin', method: reducerUser.getLoginPage.bind(reducerUser)},
 ];
 
 

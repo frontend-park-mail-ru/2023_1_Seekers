@@ -6,8 +6,6 @@ import template from '@components/wrapper-access/wrapper-access.hbs';
 import '@components/wrapper-access/wrapper-access.scss';
 
 import {Component} from "@components/component";
-import {config} from "@config/config";
-import {ListItem} from "@uikits/list-item/list-item";
 
 export interface WrapperAccess {
     state: {
