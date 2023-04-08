@@ -49,7 +49,6 @@
         position: absolute;
         pointer-events: none;
         text-transform: uppercase;
-        font-family: "Roboto Thin", sans-serif;
         font-style: normal;
         font-size: 12px;
         letter-spacing: 0.03em;
@@ -71,8 +70,6 @@
             color: var(--helpers-text-color) !important;
 
         }
-
-
     }
 }
 
@@ -98,7 +95,6 @@ select:-webkit-autofill:focus {
     bottom: -6px;
     padding-left: 10px;
     color: var(--error-input);
-    font-family: "Roboto Thin", sans-serif;
     font-style: normal;
     font-size: 12px;
     letter-spacing: 0.03em;
