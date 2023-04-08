@@ -5,11 +5,9 @@
 
                 <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" data-section="/profile" aria-label="Сменить аватар">
 
-                    {{#if profile.avatar includeZero=true}}
-                        <img src={{profile.avatar}} class="account-sidebar__avatar-img" alt="{{profile.email}}">
-                    {{else}}
-                        <img src='../../img/female-avatar.png' class="account-sidebar__avatar-img" alt="{{profile.email}}">
-                    {{/if}}
+
+                        <img src={{profile.avatar}} class="account-sidebar__avatar-img skeleton__block" alt="">
+
 
                 </a>
                 <div class="account-sidebar__text">
