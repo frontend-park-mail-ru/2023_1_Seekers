@@ -5,5 +5,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+
+#    command: tail -f /dev/null
     ports:
       - "8002:8002"
+    networks:
+      my_network:
+        ipv4_address: 172.28.0.10
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
