@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
-#    command: tail -f /dev/null
     ports:
       - "8002:8002"
     networks:

@@ -7,4 +7,4 @@ RUN npm run build
 
 EXPOSE 8002
 
-CMD webpack-dev-server --mode development
+CMD npm start
