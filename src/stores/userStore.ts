@@ -105,7 +105,7 @@ class UserStore extends BaseStore {
 
     checkAuth() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${config.basePath}:${config.basePort}/${config.api.auth}`, false);
+        xhr.open('GET', `${config.basePath}/${config.api.auth}`, false);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('accept', 'application/json');
         xhr.withCredentials = true;

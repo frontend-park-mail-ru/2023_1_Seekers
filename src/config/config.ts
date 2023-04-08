@@ -50,8 +50,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'http://127.0.0.1',
-    basePort: '8001',
+    basePath: 'http://127.0.0.1:8001',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
