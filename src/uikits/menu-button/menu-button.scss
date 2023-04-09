@@ -73,14 +73,14 @@
         padding: 0;
         flex: none;
 
-        &__icon_color {
+        &_color {
             stroke: var(--menu-icons-default-color);
         }
-    }
 
-    &__icon_size-m {
-        width: 22px;
-        height: 18px;
+        &_size {
+            width: 22px;
+            height: 18px;
+        }
     }
 
     &__text_color {
