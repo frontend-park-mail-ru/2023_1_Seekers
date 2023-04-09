@@ -34,7 +34,6 @@ class UserStore extends BaseStore {
 
     async signup(user: user) {
         const responsePromise = Connector.makePostRequest(config.api.signup, user)
-        console.log('signup')
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
@@ -46,12 +45,9 @@ class UserStore extends BaseStore {
     }
 
     async getProfile() {
-        console.log('getProfile');
         const responsePromise = Connector.makeGetRequest(config.api.getProfile);
 
         const [status, body] = await responsePromise;
-        console.log(status);
-        console.log(body);
         if (status === responseStatuses.OK) {
             this._storage.set(this._storeNames.profile,
                 {
@@ -65,13 +61,9 @@ class UserStore extends BaseStore {
     }
 
     async logout() {
-        console.log('logout');
         const responsePromise = Connector.makeDeleteRequest(config.api.logout);
 
         const [status, body] = await responsePromise;
-        console.log(status);
-        // if (status === responseStatuses.OK) {
-        console.log('success logout');
         microEvents.trigger('loggedOut');
         // }
     }

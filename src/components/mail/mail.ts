@@ -117,8 +117,6 @@ export class Mail extends Component {
                         dispatcher.dispatch(actionReplyToMail());
                         break;
                 }
-                console.log('dispatching mail action...');
-                // dispatcher.dispatch(actionGetLetters(currentTarget.dataset.section));
             }
         }
     }

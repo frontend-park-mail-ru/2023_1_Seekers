@@ -39,16 +39,13 @@ export class AccountSidebar extends Component{
             return;
         }
         e.preventDefault();
-        console.log('catched sidebar');
         const {currentTarget} = e;
         if(currentTarget instanceof HTMLElement){
             const data = currentTarget.dataset.section
             if(data){
-                console.log('to another page: ' + data);
                 e.stopPropagation();
                 switch (data) {
                     case config.buttons.sidebarButtons.profile.href:
-                        console.log('to profile');
                         await dispatcher.dispatch(actionGetAccountPage({path: data}));
                         await dispatcher.dispatch(actionGetProfilePage());
                         currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
@@ -76,7 +73,6 @@ export class AccountSidebar extends Component{
     }
 
     registerEventListener = () => {
-        console.log('in register');
         document.addEventListener('click', this.onSidebarClick);
 
         this.state.children.forEach((button: Element) => {
@@ -90,7 +86,6 @@ export class AccountSidebar extends Component{
      * method unregister events button submit and input focus
      */
     unregisterEventListener = () => {
-        console.log('in unregister');
         document.removeEventListener('click', this.onSidebarClick);
 
         this.state.children.forEach((button: Element) => {
@@ -114,7 +109,6 @@ export class AccountSidebar extends Component{
                 buttons: SidebarLinkButton.renderTemplate(config.buttons.sidebarButtons),
             }
         ));
-        console.log('in render sidebar');
 
         this.state.element = this.parent.getElementsByClassName('account-sidebar')[0]
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
@@ -127,7 +121,6 @@ export class AccountSidebar extends Component{
 
     onSidebarClick = (e: Event) => {
         e.preventDefault();
-        console.log('onSidebarClick');
         if(e.target){
             if (!(this.state.element.contains(e.target as HTMLElement) ||
                 (this.parent.contains(e.target as HTMLElement))) ||

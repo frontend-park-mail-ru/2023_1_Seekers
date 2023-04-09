@@ -105,7 +105,6 @@ class Router {
         // if (matchedHref[0] !== '/') {
         //     matchedHref = this.matchHref(matchedHref[0]);
         // }
-        console.log(matchedHref);
         this.open({path: matchedHref[0], props: matchedHref[1]}, false, false);
         this.prevUrl = matchedHref[0];
     }
@@ -143,11 +142,9 @@ class Router {
                     return href;
                 }
                 this.redirectUrl = href;
-                console.log(this.redirectUrl)
                 return  '/login';
             }else {
                 if(this.redirectUrl) {
-                    console.log(this.redirectUrl)
                     href = this.redirectUrl;
                     this.redirectUrl = undefined;
                 }
@@ -159,8 +156,6 @@ class Router {
     refresh(redirect = false) {
         const href = this.redirectHandle(window.location.pathname);
         const matchedHref = this.matchHref(href);
-        console.log(href)
-        console.log(matchedHref)
         if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
             this.open({
                 path: matchedHref[0],
@@ -187,7 +182,6 @@ class Router {
     }
 
     navigate({path, props, pushState}: { path: string, props: string | undefined, pushState: boolean }) {
-        console.log('in navigate' + path);
 
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
             ? window.location.href.match(hrefRegExp.host)![0]

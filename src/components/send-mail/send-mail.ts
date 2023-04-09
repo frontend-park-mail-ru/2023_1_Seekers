@@ -83,8 +83,6 @@ export class SendMail extends Component {
             text: this.state.text.value,
         } as MailToSend;
 
-        console.log(mail);
-
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section === config.buttons.newMailButtons.footerButtons.send.href;
         });
@@ -197,7 +195,6 @@ export class SendMail extends Component {
     }
 
     registerEventListener = () => {
-        console.log('in register');
         document.addEventListener('click', this.onSidebarClick);
 
         this.state.footerButtons.forEach((button: Element) => {
@@ -215,7 +212,6 @@ export class SendMail extends Component {
      * method unregister events button submit and input focus
      */
     unregisterEventListener = () => {
-        console.log('in unregister');
         document.removeEventListener('click', this.onSidebarClick);
 
         this.state.footerButtons.forEach((button: Element) => {
@@ -246,7 +242,6 @@ export class SendMail extends Component {
      */
     render() {
         const actionButtons: Object[] = [];
-        console.log(config);
         Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
             actionButtons.push(NewMailButton.renderTemplate(button));
         })
@@ -276,7 +271,6 @@ export class SendMail extends Component {
 
     onSidebarClick = (e: Event) => {
         e.preventDefault();
-        console.log('onSidebarClick');
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
                 this.purge();
