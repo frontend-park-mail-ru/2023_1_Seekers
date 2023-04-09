@@ -1,28 +1,26 @@
 .account-area {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 5px;
-  flex: 1;
-  overflow-x: auto;
-  padding: 10px;
-  order: 1;
-  justify-content: center;
-}
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5px;
+    flex: 1;
+    overflow-x: auto;
+    padding: 10px;
+    order: 1;
+    justify-content: center;
 
+    &__content-area {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      padding: 16px;
+    }
 
+    &__navigation {
+      width: 280px;
+    }
 
-.account-area-content-area {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  padding: 16px;
-}
-
-.account-area-content__navigation {
-  width: 280px;
-}
-
-.account-area-content__content {
-  width: 560px;
+    &__content {
+      width: 560px;
+    }
 }
