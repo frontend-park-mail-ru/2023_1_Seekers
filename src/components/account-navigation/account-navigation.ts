@@ -6,7 +6,6 @@ import template from '@components/account-navigation/account-navigation.hbs';
 
 import '@components/account-navigation/account-navigation.scss';
 import {dispatcher} from '@utils/dispatcher';
-import {actionGetLetters} from '@actions/letters';
 import {actionGetProfilePage, actionGetSecurityPage, actionLogout} from '@actions/user';
 
 export interface AccountNavigation {
@@ -17,17 +16,21 @@ export interface AccountNavigation {
 }
 
 /**
- * class implementing uikit account-sidebar
+ * class implementing component account-navigation
  */
 export class AccountNavigation extends Component {
     /**
-     *
-     * @param context
+     * constructor
+     * @param context - contains parent element
      */
     constructor(context: componentContext) {
         super(context);
     }
 
+    /**
+     * function that handles button clicks
+     * @param e - event object
+     */
     navButtonClicked = async (e: Event) => {
         if (!e.isTrusted) {
             return;
@@ -42,11 +45,13 @@ export class AccountNavigation extends Component {
                 switch (data) {
                 case config.buttons.accountButtons.profile.href:
                     dispatcher.dispatch(actionGetProfilePage());
-                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
                     break;
                 case config.buttons.accountButtons.security.href:
                     dispatcher.dispatch(actionGetSecurityPage());
-                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
                     break;
                 case config.buttons.accountButtons.logout.href:
                     dispatcher.dispatch(actionLogout());
@@ -56,6 +61,9 @@ export class AccountNavigation extends Component {
         }
     };
 
+    /**
+     * method that insert account navigation into HTML
+     */
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
@@ -68,6 +76,10 @@ export class AccountNavigation extends Component {
         this.registerEventListener();
     }
 
+    /**
+     * method registerEventListener
+     * register listeners for current object
+     */
     registerEventListener() {
         this.state.navButtons.forEach((child: Element) => {
             child.addEventListener('click', this.navButtonClicked);
@@ -75,8 +87,8 @@ export class AccountNavigation extends Component {
     }
 
     /**
-     * method unregister NOT IMPLEMENTED
-     * will unregister listeners for each letter-frame in letter-list
+     * method unregisterEventListener
+     * unregister listeners for current object
      */
     unregisterEventListener() {
         this.state.navButtons.forEach((child: Element) => {
@@ -84,6 +96,11 @@ export class AccountNavigation extends Component {
         });
     }
 
+    /**
+     * method purge
+     * account navigation clearing
+     * will purge account navigation
+     */
     purge() {
         this.unregisterEventListener();
         this.state.element.remove();

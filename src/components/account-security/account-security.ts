@@ -8,9 +8,10 @@ import {Component} from '@components/component';
 import {Validation} from '@utils/validation';
 import {microEvents} from '@utils/microevents';
 import {dispatcher} from '@utils/dispatcher';
-import {actionPostProfile, actionPostSecurity} from '@actions/user';
+import {actionPostSecurity} from '@actions/user';
 import {reducerUser} from '@stores/userStore';
 import {responseStatuses} from '@config/config';
+import {showNotification} from "@components/notification/notification";
 
 export interface AccountSecurity {
     state: {
@@ -26,6 +27,11 @@ export interface AccountSecurity {
 export class AccountSecurity extends Component {
     #validator;
 
+    /**
+     * constructor
+     * @param context - contains parent element
+     * @param state - initialize start state for current object
+     */
     constructor(context: componentContext, state: any) {
         super(context);
         this.state = state;
@@ -44,14 +50,17 @@ export class AccountSecurity extends Component {
         e.preventDefault();
         const data = document.getElementById('account-security__form') as HTMLElement;
 
-        const password_old = data.querySelector('input[name=password_old]') as HTMLInputElement;
-        const password_form = data.querySelector('input[name=password]') as HTMLInputElement;
-        const repeat_password_form = data.querySelector('input[name=repeat_password]') as HTMLInputElement;
+        const passwordOld =
+            data.querySelector('input[name=password_old]') as HTMLInputElement;
+        const passwordForm =
+            data.querySelector('input[name=password]') as HTMLInputElement;
+        const repeatPasswordForm =
+            data.querySelector('input[name=repeat_password]') as HTMLInputElement;
 
         const userPwForm = {} as userPwForm;
-        userPwForm.passwordOld = password_old.value;
-        userPwForm.password = password_form.value;
-        userPwForm.repeatPw = repeat_password_form.value;
+        userPwForm.passwordOld = passwordOld.value;
+        userPwForm.password = passwordForm.value;
+        userPwForm.repeatPw = repeatPasswordForm.value;
 
         if ((this.#validator.validatePassword(userPwForm.passwordOld).status) &&
             (this.#validator.validateRePassword(userPwForm.password, userPwForm.repeatPw).status)) {
@@ -94,20 +103,29 @@ export class AccountSecurity extends Component {
         this.registerEvents();
     }
 
+    /**
+     * method purge
+     * account security clearing
+     * will purge all the content in account security
+     */
     purge() {
         this.unregisterEvents();
         this.state.element.remove();
     }
 
+    /**
+     * method subscribeProfileStatus
+     * show notification when answer to change password received
+     */
     subscribeProfileStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
         case responseStatuses.OK:
-
+            showNotification('Пароль успешно изменён');
             break;
         default:
-            break;
+            showNotification(body);
         }
     }
 }

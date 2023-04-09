@@ -100,14 +100,18 @@ export class AccountArea extends Component {
         this.state.content.render();
     };
 
+    /**
+     * method registerEventListener
+     * register listeners for pages rendering
+     */
     registerEventListener() {
         microEvents.bind('renderProfilePage', this.renderProfile);
         microEvents.bind('renderSecurityPage', this.renderSecurity);
     }
 
     /**
-     * method unregister NOT IMPLEMENTED
-     * will unregister listeners for each letter-frame in letter-list
+     * method unregisterEventListener
+     * unregister listeners for pages rendering
      */
     unregisterEventListener() {
         microEvents.unbind('renderProfilePage', this.renderProfile);

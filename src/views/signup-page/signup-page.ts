@@ -8,12 +8,11 @@ import '@views/signup-page/signup-page.scss';
 
 import {PromoBox} from '@components/promo-box/promo-box';
 import {WrapperAccess} from '@components/wrapper-access/wrapper-access';
-import {config, responseStatuses, ROOT} from '@config/config';
+import {config, responseStatuses} from '@config/config';
 import {dispatcher} from '@utils/dispatcher';
 
-import {actionRedirect, actionSignup, actionToLogin, actionToSignUp} from '@actions/user';
+import {actionRedirect, actionSignup, actionToLogin} from '@actions/user';
 import {microEvents} from '@utils/microevents';
-// import {router} from "@utils/router";
 
 interface Signup {
     state: {
@@ -68,21 +67,26 @@ class Signup extends View {
 
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
-        const first_name = data.querySelector('input[name=first-name]') as HTMLInputElement;
-        const last_name = data.querySelector('input[name=last-name]') as HTMLInputElement;
-        const login_form = data.querySelector('input[name=login]') as HTMLInputElement;
-        const password_form = data.querySelector('input[name=password]') as HTMLInputElement;
-        const repeat_password_form = data.querySelector('input[name=repeat_password]') as HTMLInputElement;
+        const firstName = data.querySelector('input[name=first-name]') as HTMLInputElement;
+        const lastName = data.querySelector('input[name=last-name]') as HTMLInputElement;
+        const loginForm = data.querySelector('input[name=login]') as HTMLInputElement;
+        const passwordForm = data.querySelector('input[name=password]') as HTMLInputElement;
+        const repeatPasswordForm = data
+            .querySelector('input[name=repeat_password]') as HTMLInputElement;
 
         const user = {} as user;
-        user.firstName = first_name.value;
-        user.lastName = last_name.value;
-        user.login = login_form.value;
-        user.password = password_form.value;
-        user.repeatPw = repeat_password_form.value;
+        user.firstName = firstName.value;
+        user.lastName = lastName.value;
+        user.login = loginForm.value;
+        user.password = passwordForm.value;
+        user.repeatPw = repeatPasswordForm.value;
 
-        if (this.#validator.validateRegFields(user.login, user.password, user.repeatPw, user.firstName, user.lastName)) {
-            console.log('hi');
+        if (this.#validator.validateRegFields(
+            user.login,
+            user.password,
+            user.repeatPw,
+            user.firstName,
+            user.lastName)) {
             await dispatcher.dispatch(actionSignup(user));
         }
     };
@@ -147,12 +151,18 @@ class Signup extends View {
         this.registerEvents();
     };
 
+    /**
+     * method remove element from page
+     */
     purge() {
         document.querySelectorAll('div.page').forEach((e) => {
             e.remove();
         });
     }
 
+    /**
+     * method calls when signup event end
+     */
     subscribeSignupStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);

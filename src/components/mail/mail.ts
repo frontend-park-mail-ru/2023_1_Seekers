@@ -23,6 +23,7 @@ export interface Mail {
  * class implementing component Mail
  */
 export class Mail extends Component {
+
     /**
      * Constructor that creates a component class Mail
      * @param {componentContext} context HTML-element for including content
@@ -65,8 +66,8 @@ export class Mail extends Component {
     }
 
     /**
-     * method register NOT IMPLEMENTED
-     * will unregister listeners for each button in mail
+     * method registerEventListener
+     * register listeners for current object
      */
     registerEventListener() {
         microEvents.bind('mailChanged', this.rerender);
@@ -76,8 +77,8 @@ export class Mail extends Component {
     }
 
     /**
-     * method unregister NOT IMPLEMENTED
-     * will register listeners for each button in mail
+     * method unregisterEventListener
+     * unregister listeners for current object
      */
     unregisterEventListener() {
         microEvents.unbind('mailChanged', this.rerender);
@@ -87,7 +88,7 @@ export class Mail extends Component {
     }
 
     /**
-     * method purge NOT IMPLEMENTED
+     * method purge
      * mail page clearing
      * will purge all the content in mail
      */

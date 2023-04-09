@@ -1,3 +1,6 @@
+/**
+ *  basic class for all views
+ */
 export class View {
     parent: Element;
     readonly #template;
