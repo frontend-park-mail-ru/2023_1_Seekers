@@ -1,15 +1,15 @@
-import {Component} from "@components/component";
-import template from '@components/mailbox-area/mailbox-area.hbs'
+import {Component} from '@components/component';
+import template from '@components/mailbox-area/mailbox-area.hbs';
 import '@components/mailbox-area/mailbox-area.scss';
 
-import {config} from "@config/config";
-import { dispatcher } from '@utils/dispatcher';
+import {config} from '@config/config';
+import {dispatcher} from '@utils/dispatcher';
 
-import {microEvents} from "@utils/microevents";
-import {Menu} from "@components/menu/menu";
-import {LetterList} from "@components/letter-list/letter-list";
-import {Mail} from "@components/mail/mail";
-import {SendMail} from "@components/send-mail/send-mail";
+import {microEvents} from '@utils/microevents';
+import {Menu} from '@components/menu/menu';
+import {LetterList} from '@components/letter-list/letter-list';
+import {Mail} from '@components/mail/mail';
+import {SendMail} from '@components/send-mail/send-mail';
 
 
 export interface MailBoxArea {
@@ -42,7 +42,7 @@ export class MailBoxArea extends Component {
             menu: undefined,
             letterList: undefined,
             mail: undefined,
-        }
+        };
     }
 
 
@@ -61,9 +61,9 @@ export class MailBoxArea extends Component {
     };
 
     renderNewMail = () => {
-        const sendMail = new SendMail({parent: document.getElementById('root')!})
+        const sendMail = new SendMail({parent: document.getElementById('root')!});
         sendMail.render();
-    }
+    };
 
     /**
      * method insert login to HTML
@@ -91,7 +91,7 @@ export class MailBoxArea extends Component {
         this.registerEvents();
     };
 
-    /**\
+    /** \
      * method mailbox page clearing
      */
     purge() {

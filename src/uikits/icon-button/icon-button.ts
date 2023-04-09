@@ -1,8 +1,8 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
 import template from '@uikits/icon-button/icon-button.hbs';
 
-import '@uikits/icon-button/icon-button.scss'
+import '@uikits/icon-button/icon-button.scss';
 
 /**
  * class implementing component input form

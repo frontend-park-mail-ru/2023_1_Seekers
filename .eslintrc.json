@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "google"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 13,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "indent": ["error", 4],
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+    "no-duplicate-imports": "error",
+    "linebreak-style": "off",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "tsdoc/syntax": "warn",
+    "valid-jsdoc": "off",
+    "max-len": ["error", { "code": 105 }]
+  }
+}

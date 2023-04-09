@@ -1,16 +1,16 @@
 import {Form} from '@uikits/form/form';
 import {Button} from '@uikits/button/button';
 
-import template from "@components/account-security/account-security.hbs";
-import "@components/account-security/account-security.scss"
+import template from '@components/account-security/account-security.hbs';
+import '@components/account-security/account-security.scss';
 
-import {Component} from "@components/component";
-import {Validation} from "@utils/validation";
-import {microEvents} from "@utils/microevents";
-import {dispatcher} from "@utils/dispatcher";
-import {actionPostProfile, actionPostSecurity} from "@actions/user";
-import {reducerUser} from "@stores/userStore";
-import {responseStatuses} from "@config/config";
+import {Component} from '@components/component';
+import {Validation} from '@utils/validation';
+import {microEvents} from '@utils/microevents';
+import {dispatcher} from '@utils/dispatcher';
+import {actionPostProfile, actionPostSecurity} from '@actions/user';
+import {reducerUser} from '@stores/userStore';
+import {responseStatuses} from '@config/config';
 
 export interface AccountSecurity {
     state: {
@@ -53,8 +53,8 @@ export class AccountSecurity extends Component {
         userPwForm.password = password_form.value;
         userPwForm.repeatPw = repeat_password_form.value;
 
-        if ((this.#validator.validatePassword(userPwForm.passwordOld).status)
-            && (this.#validator.validateRePassword(userPwForm.password, userPwForm.repeatPw).status)) {
+        if ((this.#validator.validatePassword(userPwForm.passwordOld).status) &&
+            (this.#validator.validateRePassword(userPwForm.password, userPwForm.repeatPw).status)) {
             await dispatcher.dispatch(actionPostSecurity(userPwForm));
         }
     };
@@ -86,7 +86,7 @@ export class AccountSecurity extends Component {
             {
                 forms: Form.renderTemplate(this.state.forms),
                 button: Button.renderTemplate(this.state.button),
-            }
+            },
         ));
 
         this.state.element = this.parent.getElementsByClassName('account-security')[0];
@@ -103,11 +103,11 @@ export class AccountSecurity extends Component {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
+        case responseStatuses.OK:
 
-                break;
-            default:
-                break;
+            break;
+        default:
+            break;
         }
     }
 }

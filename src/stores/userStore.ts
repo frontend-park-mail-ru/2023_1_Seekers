@@ -1,46 +1,45 @@
-import {Connector} from "@utils/ajax";
-import {config, responseStatuses} from "@config/config";
-import {microEvents} from "@utils/microevents";
-import BaseStore from "@stores/BaseStore";
+import {Connector} from '@utils/ajax';
+import {config, responseStatuses} from '@config/config';
+import {microEvents} from '@utils/microevents';
+import BaseStore from '@stores/BaseStore';
 
 class UserStore extends BaseStore {
-
     _storeNames = {
         profile: 'profile',
         name: 'name',
         password: 'password',
         status: 'status',
         body: 'body',
-    }
+    };
 
     constructor() {
         super();
-        this._storage.set(this._storeNames.name, undefined)
-        this._storage.set(this._storeNames.password, undefined)
-        this._storage.set(this._storeNames.profile, undefined)
+        this._storage.set(this._storeNames.name, undefined);
+        this._storage.set(this._storeNames.password, undefined);
+        this._storage.set(this._storeNames.profile, undefined);
     }
 
     async login(user: user) {
-        const responsePromise = Connector.makePostRequest(config.api.login, user)
+        const responsePromise = Connector.makePostRequest(config.api.login, user);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
             this._storage.set(this._storeNames.name, 'auth');
         }
-        this._storage.set(this._storeNames.body, body)
-        this._storage.set(this._storeNames.status, status)
+        this._storage.set(this._storeNames.body, body);
+        this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromLogin');
     }
 
     async signup(user: user) {
-        const responsePromise = Connector.makePostRequest(config.api.signup, user)
+        const responsePromise = Connector.makePostRequest(config.api.signup, user);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
             this._storage.set(this._storeNames.name, 'auth');
         }
-        this._storage.set(this._storeNames.body, body)
-        this._storage.set(this._storeNames.status, status)
+        this._storage.set(this._storeNames.body, body);
+        this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromSignup');
     }
 
@@ -54,7 +53,7 @@ class UserStore extends BaseStore {
                     email: body.email,
                     firstName: body.firstName,
                     lastName: body.lastName,
-                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}&t=${new Date().getTime()}`
+                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}&t=${new Date().getTime()}`,
                 });
             microEvents.trigger('profileChanged');
         }
@@ -69,7 +68,7 @@ class UserStore extends BaseStore {
     }
 
     async changeName(user: user) {
-        const responsePromise = Connector.makePutRequest({url: config.api.getProfile, data: user})
+        const responsePromise = Connector.makePutRequest({url: config.api.getProfile, data: user});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
@@ -81,24 +80,24 @@ class UserStore extends BaseStore {
     }
 
     async changePw(userPwForm: userPwForm) {
-        const responsePromise = Connector.makePutRequest({url: config.api.password, data: userPwForm})
+        const responsePromise = Connector.makePutRequest({url: config.api.password, data: userPwForm});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
-        this._storage.set(this._storeNames.body, body)
-        this._storage.set(this._storeNames.status, status)
+        this._storage.set(this._storeNames.body, body);
+        this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromSecurity');
     }
 
     async putAvatar(formDataAvatar: FormData) {
-        const responsePromise = Connector.makePutRequest({url: config.api.avatar, data: formDataAvatar}, true)
+        const responsePromise = Connector.makePutRequest({url: config.api.avatar, data: formDataAvatar}, true);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
-        this._storage.set(this._storeNames.body, body)
-        this._storage.set(this._storeNames.status, status)
+        this._storage.set(this._storeNames.body, body);
+        this._storage.set(this._storeNames.status, status);
         await this.getProfile();
         microEvents.trigger('fromAvatar');
     }
@@ -110,9 +109,9 @@ class UserStore extends BaseStore {
         xhr.setRequestHeader('accept', 'application/json');
         xhr.withCredentials = true;
         xhr.onload = (e) => {
-            this._storage.set(this._storeNames.status, xhr.status)
-        }
-        xhr.send(`null`)
+            this._storage.set(this._storeNames.status, xhr.status);
+        };
+        xhr.send('null');
     }
 
     getSignupPage = async () => {

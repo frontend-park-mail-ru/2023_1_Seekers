@@ -1,10 +1,10 @@
-import {ROOT, routes, privateRoutes, privateActions, responseStatuses} from "@config/config";
-import {hrefRegExp} from "@config/regs";
-import {reducerUser} from "@stores/userStore";
-import {page404} from "@views/404-page/404-page";
-import {dispatcher} from "@utils/dispatcher";
-import {microEvents} from "@utils/microevents";
-import {loaderPage} from "@views/loader-page/loader-page";
+import {ROOT, routes, privateRoutes, privateActions, responseStatuses} from '@config/config';
+import {hrefRegExp} from '@config/regs';
+import {reducerUser} from '@stores/userStore';
+import {page404} from '@views/404-page/404-page';
+import {dispatcher} from '@utils/dispatcher';
+import {microEvents} from '@utils/microevents';
+import {loaderPage} from '@views/loader-page/loader-page';
 
 
 interface Class extends anyObject {
@@ -28,7 +28,6 @@ interface Router {
 }
 
 class Router {
-
     constructor(root: Element) {
         this.root = root;
         this.views = new Map();
@@ -71,7 +70,7 @@ class Router {
             if (part !== '') {
                 newHref.push('/' + part);
             }
-        })
+        });
 
         return newHref;
     }
@@ -82,7 +81,6 @@ class Router {
 
         if (target instanceof HTMLElement || target instanceof SVGElement) {
             if (target.dataset.section) {
-
                 const matchedHref = this.matchHref(target.dataset.section);
 
                 if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
@@ -92,13 +90,13 @@ class Router {
                 }
             }
         }
-    }
+    };
 
     onPopStateEvent = () => {
         let matchedHref = [];
-        matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host))
-            ? window.location.href.replace(hrefRegExp.host, '')
-            : window.location.href.replace(hrefRegExp.localhost, ''));
+        matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host)) ?
+            window.location.href.replace(hrefRegExp.host, '') :
+            window.location.href.replace(hrefRegExp.localhost, ''));
 
         matchedHref = this.matchHref(matchedHref[0]);
 
@@ -107,7 +105,7 @@ class Router {
         // }
         this.open({path: matchedHref[0], props: matchedHref[1]}, false, false);
         this.prevUrl = matchedHref[0];
-    }
+    };
 
     open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
         if (this.currentPage) {
@@ -127,24 +125,24 @@ class Router {
         this.navigate({path, props, pushState});
     }
 
-    redirectHandle(href: string){
+    redirectHandle(href: string) {
         reducerUser.checkAuth();
         const isAuth = reducerUser._storage.get(reducerUser._storeNames.status) === responseStatuses.OK;
-        if(href === '/'){
-            if(isAuth) {
+        if (href === '/') {
+            if (isAuth) {
                 return '/inbox';
-            }else{
-                return  '/login';
+            } else {
+                return '/login';
             }
-        }else{
-            if(!isAuth) {
+        } else {
+            if (!isAuth) {
                 if (href === '/signup') {
                     return href;
                 }
                 this.redirectUrl = href;
-                return  '/login';
-            }else {
-                if(this.redirectUrl) {
+                return '/login';
+            } else {
+                if (this.redirectUrl) {
                     href = this.redirectUrl;
                     this.redirectUrl = undefined;
                 }
@@ -177,27 +175,26 @@ class Router {
         //         reducerLetters.getLetters('/inbox');
         //     })
         //     .then(() => {
-        this.refresh()
+        this.refresh();
         //     });
     }
 
     navigate({path, props, pushState}: { path: string, props: string | undefined, pushState: boolean }) {
-
-        const location = decodeURIComponent((window.location.href.match(hrefRegExp.host))
-            ? window.location.href.match(hrefRegExp.host)![0]
-            : window.location.href.match(hrefRegExp.localhost)![0]);
+        const location = decodeURIComponent((window.location.href.match(hrefRegExp.host)) ?
+            window.location.href.match(hrefRegExp.host)![0] :
+            window.location.href.match(hrefRegExp.localhost)![0]);
 
         if (pushState) {
             if (props) {
-                window.history.pushState(props, "", `${location + path}${props}`);
+                window.history.pushState(props, '', `${location + path}${props}`);
             } else {
-                window.history.pushState(props, "", location + path);
+                window.history.pushState(props, '', location + path);
             }
         } else {
             if (props) {
-                window.history.replaceState(props, "", `${location + path}${props}`);
+                window.history.replaceState(props, '', `${location + path}${props}`);
             } else {
-                window.history.replaceState(props, "", location + path);
+                window.history.replaceState(props, '', location + path);
             }
         }
         this.prevUrl = path;

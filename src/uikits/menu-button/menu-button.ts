@@ -1,8 +1,8 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
 import template from '@uikits/menu-button/menu-button.hbs';
 
-import '@uikits/menu-button/menu-button.scss'
+import '@uikits/menu-button/menu-button.scss';
 
 /**
  * class implementing component Menu Button

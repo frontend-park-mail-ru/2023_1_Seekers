@@ -2,7 +2,7 @@ import {UiKit} from '@/uikits/uikit';
 
 import template from '@uikits/mail-content/mail-content.hbs';
 
-import '@uikits/mail-content/mail-content.scss'
+import '@uikits/mail-content/mail-content.scss';
 
 /**
  * class implementing component Letter Frame

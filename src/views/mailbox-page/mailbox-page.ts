@@ -1,17 +1,17 @@
 import {View} from '@views/view';
-import template from '@views/mailbox-page/mailbox-page.hbs'
+import template from '@views/mailbox-page/mailbox-page.hbs';
 
 import '@views/mailbox-page/mailbox-page.scss';
 
-import {config} from "@config/config";
+import {config} from '@config/config';
 import {dispatcher} from '@utils/dispatcher';
 
-import {microEvents} from "@utils/microevents";
-import {Navbar} from "@components/navbar/navbar";
-import {MailBoxArea} from "@components/mailbox-area/mailbox-area";
-import {AccountArea} from "@components/account-area/account-area";
-import {actionRedirect} from "@actions/user";
-import {showNotification} from "@components/notification/notification";
+import {microEvents} from '@utils/microevents';
+import {Navbar} from '@components/navbar/navbar';
+import {MailBoxArea} from '@components/mailbox-area/mailbox-area';
+import {AccountArea} from '@components/account-area/account-area';
+import {actionRedirect} from '@actions/user';
+import {showNotification} from '@components/notification/notification';
 
 
 export interface MailBox {
@@ -46,7 +46,7 @@ export class MailBox extends View {
             element: document.createElement('div'),
             navbar: undefined,
             content: undefined,
-        }
+        };
     }
 
 
@@ -58,7 +58,7 @@ export class MailBox extends View {
         microEvents.bind('renderMailboxPage', this.renderMailbox);
         microEvents.bind('renderAccountPage', this.renderAccountArea);
         microEvents.bind('loggedOut', this.closePage);
-    }
+    };
 
 
     /**
@@ -75,7 +75,6 @@ export class MailBox extends View {
      * method insert login to HTML
      */
     override render = () => {
-
         super.render({});
 
         this.state.element = this.parent.getElementsByClassName('main-page')[0] as HTMLElement;
@@ -96,7 +95,7 @@ export class MailBox extends View {
             this.state.content.purge();
         }
         this.state.content = new AccountArea({
-            parent: this.state.element
+            parent: this.state.element,
         });
         this.state.content.render();
     };
@@ -109,7 +108,7 @@ export class MailBox extends View {
             this.state.content.purge();
         }
         this.state.content = new MailBoxArea({
-            parent: this.state.element
+            parent: this.state.element,
         });
         this.state.content.render();
     };
@@ -117,9 +116,9 @@ export class MailBox extends View {
     closePage = () => {
         console.log('close page');
         dispatcher.dispatch(actionRedirect('/login', false, false));
-    }
+    };
 
-    /**\
+    /** \
      * method mailbox page clearing
      */
     purge() {

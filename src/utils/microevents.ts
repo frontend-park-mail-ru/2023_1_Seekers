@@ -15,9 +15,8 @@ interface MicroEvent {
 
 // eslint-disable-next-line require-jsdoc
 class MicroEvent {
-
     constructor() {
-        this._events = {}
+        this._events = {};
     }
 
     bind(event: string, fct: Function) {

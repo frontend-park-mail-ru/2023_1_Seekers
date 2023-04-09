@@ -1,8 +1,8 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
 import template from '@uikits/letter-frame/letter-frame.hbs';
 
-import '@uikits/letter-frame/letter-frame.scss'
+import '@uikits/letter-frame/letter-frame.scss';
 
 /**
  * class implementing component Letter Frame

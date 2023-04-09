@@ -1,13 +1,13 @@
 import {SidebarLinkButton} from '@uikits/sidebar-linkButton/sidebar-linkButton';
-import {Component} from "@components/component";
-import {config} from "@config/config";
+import {Component} from '@components/component';
+import {config} from '@config/config';
 
 import template from '@components/account-navigation/account-navigation.hbs';
 
 import '@components/account-navigation/account-navigation.scss';
-import {dispatcher} from "@utils/dispatcher";
-import {actionGetLetters} from "@actions/letters";
-import {actionGetProfilePage, actionGetSecurityPage, actionLogout} from "@actions/user";
+import {dispatcher} from '@utils/dispatcher';
+import {actionGetLetters} from '@actions/letters';
+import {actionGetProfilePage, actionGetSecurityPage, actionLogout} from '@actions/user';
 
 export interface AccountNavigation {
     state: {
@@ -29,7 +29,7 @@ export class AccountNavigation extends Component {
     }
 
     navButtonClicked = async (e: Event) => {
-        if(!e.isTrusted){
+        if (!e.isTrusted) {
             return;
         }
         e.preventDefault();
@@ -40,31 +40,31 @@ export class AccountNavigation extends Component {
                 e.stopPropagation();
                 const data = currentTarget.dataset.section;
                 switch (data) {
-                    case config.buttons.accountButtons.profile.href:
-                        dispatcher.dispatch(actionGetProfilePage());
-                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
-                    case config.buttons.accountButtons.security.href:
-                        dispatcher.dispatch(actionGetSecurityPage());
-                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
-                    case config.buttons.accountButtons.logout.href:
-                        dispatcher.dispatch(actionLogout());
-                        break;
+                case config.buttons.accountButtons.profile.href:
+                    dispatcher.dispatch(actionGetProfilePage());
+                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+                case config.buttons.accountButtons.security.href:
+                    dispatcher.dispatch(actionGetSecurityPage());
+                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+                case config.buttons.accountButtons.logout.href:
+                    dispatcher.dispatch(actionLogout());
+                    break;
                 }
             }
         }
-    }
+    };
 
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 buttons: SidebarLinkButton.renderTemplate(config.buttons.accountButtons),
-            }
+            },
         ));
 
         this.state.element = this.parent.getElementsByClassName('account-navigation')[0];
-        this.state.navButtons = [...this.state.element.getElementsByClassName('account-sidebar__item')]
+        this.state.navButtons = [...this.state.element.getElementsByClassName('account-sidebar__item')];
         this.registerEventListener();
     }
 
@@ -81,7 +81,7 @@ export class AccountNavigation extends Component {
     unregisterEventListener() {
         this.state.navButtons.forEach((child: Element) => {
             child.removeEventListener('click', this.navButtonClicked);
-        })
+        });
     }
 
     purge() {

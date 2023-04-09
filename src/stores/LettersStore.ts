@@ -2,13 +2,12 @@ import {Connector} from '@utils/ajax';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
-import {reducerUser} from "@stores/userStore";
-import {actionChangeLetterStateToRead} from "@actions/letters";
-import {LetterFrame} from "@uikits/letter-frame/letter-frame";
+import {reducerUser} from '@stores/userStore';
+import {actionChangeLetterStateToRead} from '@actions/letters';
+import {LetterFrame} from '@uikits/letter-frame/letter-frame';
 
 
 class LettersStore extends BaseStore {
-
     _storeNames = {
         letters: 'letters',
         mail: 'mail',
@@ -42,17 +41,16 @@ class LettersStore extends BaseStore {
                             text: message.text,
                             created_at: message.created_at,
                             href: folderName + '/' + message.message_id,
-                            avatar: `${config.basePath}/${config.api.avatar}?email=${message.from_user_id.email}`
-                        }
+                            avatar: `${config.basePath}/${config.api.avatar}?email=${message.from_user_id.email}`,
+                        };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
-                    })
+                    });
 
                     if (folderName === this._storage.get(this._storeNames.currentLetters)) {
                         microEvents.trigger('letterListChanged');
                         microEvents.trigger('mailChanged');
                     }
-
                 }
             });
         this._storage.set(this._storeNames.currentLetters, folderName);
@@ -68,8 +66,8 @@ class LettersStore extends BaseStore {
                 .then(([status, body]) => {
                     if (status === responseStatuses.OK) {
                         const mailData: MailData = body.message;
-                        mailData.from_user_id.avatar
-                            = `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
+                        mailData.from_user_id.avatar =
+                            `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
 
                         this._storage.get(this._storeNames.mail).set(mailId, mailData);
 
@@ -102,8 +100,8 @@ class LettersStore extends BaseStore {
                 }
                 reducerUser.getProfile();
                 microEvents.trigger('renderMailboxPage');
-            })
-        })
+            });
+        });
     };
 
     getAccountPage = async (obj: stateObject) => {
@@ -126,7 +124,7 @@ class LettersStore extends BaseStore {
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
         }
-    }
+    };
 
     changeLetterStateToUnread = async (letterId: string) => {
         const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
@@ -134,13 +132,12 @@ class LettersStore extends BaseStore {
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
         }
-    }
+    };
 
 
     getCurrentMail() {
-        return this._storage.get(this._storeNames.mail).get(this._storage.get(this._storeNames.currentMail))
+        return this._storage.get(this._storeNames.mail).get(this._storage.get(this._storeNames.currentMail));
     }
-
 }
 
 

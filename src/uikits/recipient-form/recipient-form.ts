@@ -1,6 +1,6 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
-import '@uikits/recipient-form/recipient-form.scss'
+import '@uikits/recipient-form/recipient-form.scss';
 
 import template from '@uikits/recipient-form/recipient-form.hbs';
 

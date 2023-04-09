@@ -1,4 +1,4 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
 import template from '@uikits/list-item/list-item.hbs';
 

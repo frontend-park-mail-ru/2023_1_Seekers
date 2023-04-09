@@ -1,17 +1,17 @@
 import {LetterFrame} from '@uikits/letter-frame/letter-frame';
-import template from '@components/letter-list/letter-list.hbs'
-import {Component} from "@components/component";
-import {reducerLetters} from "@stores/LettersStore";
+import template from '@components/letter-list/letter-list.hbs';
+import {Component} from '@components/component';
+import {reducerLetters} from '@stores/LettersStore';
 import '@components/letter-list/letter-list.scss';
-import {dispatcher} from "@utils/dispatcher";
-import {microEvents} from "@utils/microevents";
+import {dispatcher} from '@utils/dispatcher';
+import {microEvents} from '@utils/microevents';
 import {
     actionChangeLetterStateToRead,
     actionChangeLetterStateToUnread,
     actionGetLetters,
-    actionGetMail
-} from "@actions/letters";
-import {LetterFrameLoader} from "@uikits/letter-frame-loader/letter-frame-loader";
+    actionGetMail,
+} from '@actions/letters';
+import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
 // import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
@@ -40,15 +40,13 @@ export class LetterList extends Component {
             element: document.createElement('div'),
             letters: [],
             activeLetter: document.createElement('div'),
-        }
+        };
 
         this.rerender = this.rerender.bind(this);
-
-
     }
 
     selectLetter = async (e: Event) => {
-        if(!e.isTrusted){
+        if (!e.isTrusted) {
             return;
         }
         e.preventDefault();
@@ -63,7 +61,7 @@ export class LetterList extends Component {
 
                 const letterState = currentTarget.getElementsByClassName('letter-frame__read-state')[0] as HTMLElement;
 
-                if(letterState.classList.contains('letter-is-unread')){
+                if (letterState.classList.contains('letter-is-unread')) {
                     dispatcher.dispatch(actionChangeLetterStateToRead(letterState.dataset.section!));
                     letterState.classList.remove('letter-is-unread');
                     letterState.classList.add('letter-is-read');
@@ -73,7 +71,7 @@ export class LetterList extends Component {
                 this.state.activeLetter?.classList.add('letter-frame_color-active');
             }
         }
-    }
+    };
 
     changeState = async (e: Event) => {
         e.preventDefault();
@@ -92,7 +90,7 @@ export class LetterList extends Component {
             }
         }
         e.stopPropagation();
-    }
+    };
 
     changeLetterToActive = () => {
         const mail = reducerLetters.getCurrentMail();
@@ -100,11 +98,11 @@ export class LetterList extends Component {
             this.state.activeLetter?.classList.remove('letter-frame_color-active');
             const element = this.state.letters[0]?.letterElement;
             this.state.activeLetter = this.state.letters.find((letter) => {
-                return letter.letterElement.id === 'letter-frame-id-' + mail.message_id
+                return letter.letterElement.id === 'letter-frame-id-' + mail.message_id;
             })?.letterElement;
             this.state.activeLetter?.classList.add('letter-frame_color-active');
         }
-    }
+    };
 
     /**
      * A method that draws a component into a parent HTML element
@@ -115,7 +113,7 @@ export class LetterList extends Component {
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
 
-        if(letterObjs) {
+        if (letterObjs) {
             this.renderLetterFrames();
         } else {
             this.renderLoader();
@@ -123,7 +121,7 @@ export class LetterList extends Component {
     }
 
     renderLetterFrames() {
-        let letterList: Object[] = [];
+        const letterList: Object[] = [];
         const letterObjs = reducerLetters._storage
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
@@ -132,18 +130,18 @@ export class LetterList extends Component {
         if (letterObjs) {
             letterObjs.forEach((letter: any) => {
                 letterList.push(LetterFrame.renderTemplate(letter));
-            })
+            });
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 currentLetters: reducerLetters._storage.get(reducerLetters._storeNames.currentLetters),
                 letterFrames: letterList,
-            }
+            },
         ));
         this.state.letters = [];
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
-        [...this.state.element.getElementsByClassName('letter-frame')].forEach(letterFrame => {
+        [...this.state.element.getElementsByClassName('letter-frame')].forEach((letterFrame) => {
             this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0]});
         });
 
@@ -157,20 +155,19 @@ export class LetterList extends Component {
         const loaderList = [];
 
         for (let i = 0; i < 10; i++) { // выведет 0, затем 1, затем 2
-            loaderList.push(LetterFrameLoader.renderTemplate({}));;
+            loaderList.push(LetterFrameLoader.renderTemplate({}));
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 letterFrames: loaderList,
-            }
+            },
         ));
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
 
         this.registerEventListener();
     }
-
 
 
     /**

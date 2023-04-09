@@ -1,13 +1,13 @@
-import {Component} from "@components/component";
-import {ProfileButton} from "@uikits/profile-button/profile-button";
+import {Component} from '@components/component';
+import {ProfileButton} from '@uikits/profile-button/profile-button';
 
 import template from '@components/navbar/navbar.hbs';
 
 import '@components/navbar/navbar.scss';
-import {SidebarLinkButton} from "@uikits/sidebar-linkButton/sidebar-linkButton";
-import {AccountSidebar} from "@components/account-sidebar/account-sidebar";
-import {reducerUser} from "@stores/userStore";
-import {microEvents} from "@utils/microevents";
+import {SidebarLinkButton} from '@uikits/sidebar-linkButton/sidebar-linkButton';
+import {AccountSidebar} from '@components/account-sidebar/account-sidebar';
+import {reducerUser} from '@stores/userStore';
+import {microEvents} from '@utils/microevents';
 
 export interface Navbar {
     state: {
@@ -59,7 +59,7 @@ export class Navbar extends Component {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 profileButton: ProfileButton.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
-            }
+            },
         ));
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
@@ -82,7 +82,7 @@ export class Navbar extends Component {
         );
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
         this.state.profileButton.addEventListener('click', this.eventCatcher);
-    }
+    };
 
     /**
      * method navbar page clearing

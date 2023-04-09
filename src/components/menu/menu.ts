@@ -1,14 +1,14 @@
 import {MenuButton} from '@uikits/menu-button/menu-button';
-import template from '@components/menu/menu.hbs'
-import {Component} from "@components/component";
-import {reducerLetters} from "@stores/LettersStore";
+import template from '@components/menu/menu.hbs';
+import {Component} from '@components/component';
+import {reducerLetters} from '@stores/LettersStore';
 import '@components/menu/menu.scss';
-import {dispatcher} from "@utils/dispatcher";
-import {actionGetLetters} from "@actions/letters";
-import {config} from "@config/config";
-import {NewMailButton} from "@uikits/new-mail-button/new-mail-button";
-import {SendMail} from "@components/send-mail/send-mail";
-import {actionCreateNewMail} from "@actions/newMail";
+import {dispatcher} from '@utils/dispatcher';
+import {actionGetLetters} from '@actions/letters';
+import {config} from '@config/config';
+import {NewMailButton} from '@uikits/new-mail-button/new-mail-button';
+import {SendMail} from '@components/send-mail/send-mail';
+import {actionCreateNewMail} from '@actions/newMail';
 
 // import {actionRedirect} from "@actions/user";
 
@@ -37,7 +37,7 @@ export class Menu extends Component {
             menuButtons: [],
             newMailButton: document.createElement('div'),
             activeButton: document.createElement('div'),
-        }
+        };
     }
 
     menuButtonClicked = async (e: Event) => {
@@ -59,7 +59,7 @@ export class Menu extends Component {
                 this.state.activeButton.classList.add('menu-button_color-active');
             }
         }
-    }
+    };
 
     newMailButtonClicked = async (e: Event) => {
         e.preventDefault();
@@ -69,7 +69,7 @@ export class Menu extends Component {
                 dispatcher.dispatch(actionCreateNewMail());
             }
         }
-    }
+    };
 
     /**
      * A method that draws a component into a parent HTML element
@@ -81,18 +81,18 @@ export class Menu extends Component {
 
         Object.values(config.buttons.commonMenuButtons).forEach((menuButton) => {
             commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
-        })
+        });
 
         reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: Object) => {
             advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
-        })
+        });
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 newMailButton: NewMailButton.renderTemplate({href: '/new-mail', text: 'Новое письмо'}),
                 commonMenuButtons: commonMenuButtons,
                 // advancedMenuButtons: advancedMenuButtons,
-            }
+            },
         ));
 
         this.state.element = this.parent.getElementsByClassName('menu')[0];
@@ -100,13 +100,13 @@ export class Menu extends Component {
         this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
 
         const activeButton = this.state.menuButtons.find((button) => {
-                return (button as HTMLElement).dataset.section ===
+            return (button as HTMLElement).dataset.section ===
                     reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
-            }
+        },
         );
         if (activeButton !== undefined) {
             this.state.activeButton = activeButton;
-            this.state.activeButton.classList.add('menu-button_color-active')
+            this.state.activeButton.classList.add('menu-button_color-active');
         }
 
         this.registerEventListener();
@@ -138,6 +138,6 @@ export class Menu extends Component {
     unregisterEventListener() {
         this.state.menuButtons.forEach((child: Element) => {
             child.removeEventListener('click', this.menuButtonClicked);
-        })
+        });
     }
 }

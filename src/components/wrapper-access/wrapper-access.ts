@@ -5,7 +5,7 @@ import {Button} from '@uikits/button/button';
 import template from '@components/wrapper-access/wrapper-access.hbs';
 import '@components/wrapper-access/wrapper-access.scss';
 
-import {Component} from "@components/component";
+import {Component} from '@components/component';
 
 export interface WrapperAccess {
     state: {
@@ -39,7 +39,7 @@ export class WrapperAccess extends Component {
                 bottomText: this.state.bottomText,
                 bottomLink: this.state.bottomLink,
                 bottomLinkText: this.state.bottomLinkText,
-            }
+            },
         ));
     }
 }

@@ -34,16 +34,18 @@
   },
   "scripts": {
     "test": "----",
-    "lint": "eslint --cache --ext .js src --fix",
+    "lint": "npx eslint . --ext .ts",
+    "lint:fix": "npx eslint . --ext .ts --fix",
     "stylelint": "stylelint '**/*{.css,.scss}' --allow-empty-input",
     "stylelint:fix": "stylelint '**/*{.css,.scss}' --fix",
-    "build": "",
-    "start": "webpack-dev-server --mode development",
-
-    "build2": "npm run build:webpack",
-    "build2:webpack": "webpack --mode=development",
+    "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",
+    "css:fix": "npx stylelint '**/*.{css,scss}' --fix --config stylelint.config.js",
+    "build": "npm run build:webpack",
     "start:webpack": "webpack serve",
-    "build2:dev": "webpack"
+    "build:webpack": "webpack --mode=production",
+    "build:dev": "webpack",
+
+    "start2": "webpack-dev-server --mode development",
   },
   "repository": {
     "type": "git",
@@ -71,6 +73,12 @@
     "sass-loader": "^13.2.1",
     "style-loader": "^3.3.2",
     "webpack": "^5.76.2",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "eslint": "^8.29.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "typescript": "^4.9.3",
+    "@typescript-eslint/eslint-plugin": "^5.57.1"
   }
 }

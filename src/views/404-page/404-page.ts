@@ -1,10 +1,10 @@
 import '@views/404-page/404-page.scss';
 
-import template from '@views/404-page/404-page.hbs'
-import {View} from "@views/view";
+import template from '@views/404-page/404-page.hbs';
+import {View} from '@views/view';
 
 
-export default class Page404 extends View  {
+export default class Page404 extends View {
     constructor(parent: Element) {
         super(
             parent,

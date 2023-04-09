@@ -1,4 +1,4 @@
-import {config} from '@config/config'
+import {config} from '@config/config';
 
 /**
  * class implementing request work
@@ -51,7 +51,7 @@ export class Connector {
             };
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
-            let body = JSON.stringify(data)
+            const body = JSON.stringify(data);
             const options = {
                 method: 'put',
                 mode: 'cors',

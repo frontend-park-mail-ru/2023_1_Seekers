@@ -12,9 +12,9 @@ export const actionReplyToMail = () => ({
 export const actionForwardMail = () => ({
     type: 'forwardMail',
     value: {},
-})
+});
 
 export const actionCreateNewMail = () => ({
     type: 'createNewMail',
     value: {},
-})
+});

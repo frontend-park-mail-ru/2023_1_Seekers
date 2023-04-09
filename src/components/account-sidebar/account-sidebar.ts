@@ -1,12 +1,12 @@
-import template from '@components/account-sidebar/account-sidebar.hbs'
-import '@components/account-sidebar/account-sidebar.scss'
+import template from '@components/account-sidebar/account-sidebar.hbs';
+import '@components/account-sidebar/account-sidebar.scss';
 import {SidebarLinkButton} from '@uikits/sidebar-linkButton/sidebar-linkButton';
-import {Component} from "@components/component";
-import {config} from "@config/config";
-import {reducerUser} from "@stores/userStore";
-import {dispatcher} from "@utils/dispatcher";
-import {actionGetMail} from "@actions/letters";
-import {actionLogout, actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from "@actions/user";
+import {Component} from '@components/component';
+import {config} from '@config/config';
+import {reducerUser} from '@stores/userStore';
+import {dispatcher} from '@utils/dispatcher';
+import {actionGetMail} from '@actions/letters';
+import {actionLogout, actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
 
 export interface AccountSidebar {
     state: {
@@ -19,15 +19,14 @@ export interface AccountSidebar {
 /**
  * class implementing uikit account-sidebar
  */
-export class AccountSidebar extends Component{
-
+export class AccountSidebar extends Component {
     constructor(context: componentContext) {
         super(context);
         this.state = {
             element: document.createElement('div'),
             children: [],
             isRendered: false,
-        }
+        };
     }
 
     /**
@@ -35,42 +34,42 @@ export class AccountSidebar extends Component{
      * @param {Event} e - event that goes from one of childs of current element
      */
     localEventCatcher = async (e: Event) => {
-        if (!e.isTrusted){
+        if (!e.isTrusted) {
             return;
         }
         e.preventDefault();
         const {currentTarget} = e;
-        if(currentTarget instanceof HTMLElement){
-            const data = currentTarget.dataset.section
-            if(data){
+        if (currentTarget instanceof HTMLElement) {
+            const data = currentTarget.dataset.section;
+            if (data) {
                 e.stopPropagation();
                 switch (data) {
-                    case config.buttons.sidebarButtons.profile.href:
-                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
-                        await dispatcher.dispatch(actionGetProfilePage());
-                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
+                case config.buttons.sidebarButtons.profile.href:
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetProfilePage());
+                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
 
-                    case config.buttons.sidebarButtons.mailbox.href:
-                        await dispatcher.dispatch(actionGetMailboxPage({path: data}));
-                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
+                case config.buttons.sidebarButtons.mailbox.href:
+                    await dispatcher.dispatch(actionGetMailboxPage({path: data}));
+                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
 
-                    case config.buttons.sidebarButtons.security.href:
-                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
-                        await dispatcher.dispatch(actionGetSecurityPage());
-                        currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        // this.purge();
-                        // return;
-                        break;
-                    case config.buttons.sidebarButtons.logout.href:
-                        await dispatcher.dispatch(actionLogout());
-                        break;
+                case config.buttons.sidebarButtons.security.href:
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetSecurityPage());
+                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    // this.purge();
+                    // return;
+                    break;
+                case config.buttons.sidebarButtons.logout.href:
+                    await dispatcher.dispatch(actionLogout());
+                    break;
                 }
                 this.removeSidebar();
             }
         }
-    }
+    };
 
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);
@@ -99,7 +98,7 @@ export class AccountSidebar extends Component{
      * method insert sidebar to HTML
      */
     render() {
-        if (this.state.isRendered){
+        if (this.state.isRendered) {
             this.removeSidebar();
             return;
         }
@@ -107,10 +106,10 @@ export class AccountSidebar extends Component{
             {
                 profile: reducerUser._storage.get(reducerUser._storeNames.profile),
                 buttons: SidebarLinkButton.renderTemplate(config.buttons.sidebarButtons),
-            }
+            },
         ));
 
-        this.state.element = this.parent.getElementsByClassName('account-sidebar')[0]
+        this.state.element = this.parent.getElementsByClassName('account-sidebar')[0];
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
 
         this.state.children.push(this.state.element.getElementsByClassName('account-sidebar__avatar')[0]);
@@ -121,10 +120,10 @@ export class AccountSidebar extends Component{
 
     onSidebarClick = (e: Event) => {
         e.preventDefault();
-        if(e.target){
+        if (e.target) {
             if (!(this.state.element.contains(e.target as HTMLElement) ||
                 (this.parent.contains(e.target as HTMLElement))) ||
-                (this.parent === (e.target as HTMLElement))){
+                (this.parent === (e.target as HTMLElement))) {
                 this.removeSidebar();
             }
         }
@@ -132,7 +131,7 @@ export class AccountSidebar extends Component{
 
     removeSidebar = () => {
         this.state.element.classList.add('account-sidebar__delete');
-    }
+    };
 
     waitSidebarTransition = () => {
         this.purge();

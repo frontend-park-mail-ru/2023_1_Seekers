@@ -1,5 +1,5 @@
 import {View} from '@views/view';
-import template from '@views/loader-page/loader-page.hbs'
+import template from '@views/loader-page/loader-page.hbs';
 
 import '@views/loader-page/loader-page.scss';
 
@@ -26,14 +26,14 @@ export class LoaderPage extends View {
 
         this.state = {
             element: document.createElement('div'),
-        }
+        };
     }
 
     /**
      * method register events button submit/input focus/redirect link
      */
     registerEvents = () => {
-    }
+    };
 
 
     /**
@@ -52,7 +52,7 @@ export class LoaderPage extends View {
         this.registerEvents();
     };
 
-    /**\
+    /** \
      * method mailbox page clearing
      */
     purge() {

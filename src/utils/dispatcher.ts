@@ -1,4 +1,4 @@
-import {handlers} from '@config/handlers'
+import {handlers} from '@config/handlers';
 
 interface Dispatcher {
     state: { [key: string]: any };
@@ -25,7 +25,7 @@ class Dispatcher {
             return;
         }
 
-        let state = {};
+        const state = {};
 
         if (Object.hasOwnProperty.call(action, 'value')) {
             await storeReducer(action.value);

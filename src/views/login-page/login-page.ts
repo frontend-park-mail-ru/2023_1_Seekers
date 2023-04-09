@@ -1,18 +1,18 @@
 import {View} from '@views/view';
-import {Validation} from '@utils/validation'
-import template from '@views/login-page/login-page.hbs'
+import {Validation} from '@utils/validation';
+import template from '@views/login-page/login-page.hbs';
 
-import {reducerUser} from "@stores/userStore";
+import {reducerUser} from '@stores/userStore';
 
 import '@views/login-page/login-page.scss';
 
-import {PromoBox} from "@components/promo-box/promo-box";
-import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
-import {config, responseStatuses, ROOT} from "@config/config";
+import {PromoBox} from '@components/promo-box/promo-box';
+import {WrapperAccess} from '@components/wrapper-access/wrapper-access';
+import {config, responseStatuses, ROOT} from '@config/config';
 import {dispatcher} from '@utils/dispatcher';
 
-import {actionLogin, actionRedirect, actionToSignUp} from "@actions/user";
-import {microEvents} from "@utils/microevents";
+import {actionLogin, actionRedirect, actionToSignUp} from '@actions/user';
+import {microEvents} from '@utils/microevents';
 
 interface Login {
     state: {
@@ -50,7 +50,7 @@ class Login extends View {
             wrapperAccess: null,
             statusLogin: 0,
             isSubscribed: false,
-        }
+        };
         this.subscribeLoginStatus = this.subscribeLoginStatus.bind(this);
         microEvents.bind('fromLogin', this.subscribeLoginStatus);
 
@@ -111,7 +111,6 @@ class Login extends View {
      * method insert login to HTML
      */
     override render = () => {
-
         this.context = config;
         const context = this.context.forms.login;
         super.render(context);
@@ -139,7 +138,7 @@ class Login extends View {
         this.registerEvents();
     };
 
-    /**\
+    /** \
      * method login page clearing
      */
     purge() {
@@ -152,32 +151,32 @@ class Login extends View {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
-                this.unregisterEvents();
-                this.purge();
-                console.log('dispatching redirect to inbox');
-                dispatcher.dispatch(actionRedirect( '/inbox', true, false));
-                break;
-            case 401:
-                if (body.message === 'invalid login') {
-                    if (document.getElementById('loginError') === null) {
-                        this.#validator.putErrorMessage(document.getElementById('login')!,
-                            'loginError', 'Некорректный логин');
-                    }
-                } else if (document.getElementById('passwordError') === null) {
-                    this.#validator.putErrorMessage(document.getElementById('password')!,
-                        'passwordError', 'Неправильный пароль');
+        case responseStatuses.OK:
+            this.unregisterEvents();
+            this.purge();
+            console.log('dispatching redirect to inbox');
+            dispatcher.dispatch(actionRedirect( '/inbox', true, false));
+            break;
+        case 401:
+            if (body.message === 'invalid login') {
+                if (document.getElementById('loginError') === null) {
+                    this.#validator.putErrorMessage(document.getElementById('login')!,
+                        'loginError', 'Некорректный логин');
                 }
-                break;
-            default:
-                break;
+            } else if (document.getElementById('passwordError') === null) {
+                this.#validator.putErrorMessage(document.getElementById('password')!,
+                    'passwordError', 'Неправильный пароль');
+            }
+            break;
+        default:
+            break;
         }
     }
 
     subscribeRenderLogin = () => {
         this.purge();
         this.render();
-    }
+    };
 }
 
 

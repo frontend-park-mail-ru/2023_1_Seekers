@@ -1,16 +1,16 @@
 import {Form} from '@uikits/form/form';
 import {Button} from '@uikits/button/button';
 
-import template from "@components/account-profile/account-profile.hbs";
-import "@components/account-profile/account-profile.scss"
+import template from '@components/account-profile/account-profile.hbs';
+import '@components/account-profile/account-profile.scss';
 
-import {Component} from "@components/component";
-import {Validation} from "@utils/validation";
-import {dispatcher} from "@utils/dispatcher";
-import {actionPostProfile, actionPutAvatar} from "@actions/user";
-import {reducerUser} from "@stores/userStore";
-import {config, responseStatuses} from "@config/config";
-import {microEvents} from "@utils/microevents";
+import {Component} from '@components/component';
+import {Validation} from '@utils/validation';
+import {dispatcher} from '@utils/dispatcher';
+import {actionPostProfile, actionPutAvatar} from '@actions/user';
+import {reducerUser} from '@stores/userStore';
+import {config, responseStatuses} from '@config/config';
+import {microEvents} from '@utils/microevents';
 
 export interface AccountProfile {
     state: {
@@ -58,8 +58,8 @@ export class AccountProfile extends Component {
         user.firstName = first_name.value;
         user.lastName = last_name.value;
 
-        if ((this.#validator.validateText(user.firstName).status)
-            && (this.#validator.validateText(user.lastName).status)) {
+        if ((this.#validator.validateText(user.firstName).status) &&
+            (this.#validator.validateText(user.lastName).status)) {
             await dispatcher.dispatch(actionPostProfile(user));
         }
     };
@@ -68,11 +68,11 @@ export class AccountProfile extends Component {
         e.preventDefault();
         const input = document.getElementById('avatar-picker')!;
         input.click();
-    }
+    };
 
     onLoadAvatar = (e: any) => {
         e.preventDefault();
-        const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
+        const avatar_form = document.getElementById('account-profile__avatar__form') as HTMLFormElement;
 
         const formData = new FormData(avatar_form);
 
@@ -86,7 +86,7 @@ export class AccountProfile extends Component {
 
         const blobUrl = formData.get('avatar') as Blob;
         reader.readAsDataURL(blobUrl);
-    }
+    };
 
 
     /**
@@ -134,7 +134,7 @@ export class AccountProfile extends Component {
                 avatar: this.state.avatar,
                 forms: Form.renderTemplate(this.state.forms),
                 button: Button.renderTemplate(this.state.button),
-            }
+            },
         ));
         this.state.element = this.parent.getElementsByClassName('account-profile')[0];
 
@@ -158,11 +158,11 @@ export class AccountProfile extends Component {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
+        case responseStatuses.OK:
 
-                break;
-            default:
-                break;
+            break;
+        default:
+            break;
         }
     }
 

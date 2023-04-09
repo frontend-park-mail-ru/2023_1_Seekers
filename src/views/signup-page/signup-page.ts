@@ -1,18 +1,18 @@
 import {View} from '@views/view';
-import {Validation} from '@utils/validation'
-import template from '@views/signup-page/signup-page.hbs'
+import {Validation} from '@utils/validation';
+import template from '@views/signup-page/signup-page.hbs';
 
-import {reducerUser} from "@stores/userStore";
+import {reducerUser} from '@stores/userStore';
 
 import '@views/signup-page/signup-page.scss';
 
-import {PromoBox} from "@components/promo-box/promo-box";
-import {WrapperAccess} from "@components/wrapper-access/wrapper-access";
-import {config, responseStatuses, ROOT} from "@config/config";
-import { dispatcher } from '@utils/dispatcher';
+import {PromoBox} from '@components/promo-box/promo-box';
+import {WrapperAccess} from '@components/wrapper-access/wrapper-access';
+import {config, responseStatuses, ROOT} from '@config/config';
+import {dispatcher} from '@utils/dispatcher';
 
-import {actionRedirect, actionSignup, actionToLogin, actionToSignUp} from "@actions/user";
-import {microEvents} from "@utils/microevents";
+import {actionRedirect, actionSignup, actionToLogin, actionToSignUp} from '@actions/user';
+import {microEvents} from '@utils/microevents';
 // import {router} from "@utils/router";
 
 interface Signup {
@@ -50,7 +50,7 @@ class Signup extends View {
             wrapperAccess: null,
             statusLogin: 0,
             isSubscribed: false,
-        }
+        };
 
         this.subscribeSignupStatus = this.subscribeSignupStatus.bind(this);
         microEvents.bind('fromSignup', this.subscribeSignupStatus);
@@ -64,7 +64,6 @@ class Signup extends View {
      * @param  e - event click on button submit
      */
     onSubmitHandler = async (e: SubmitEvent) => {
-
         e.preventDefault();
 
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
@@ -83,7 +82,7 @@ class Signup extends View {
         user.repeatPw = repeat_password_form.value;
 
         if (this.#validator.validateRegFields(user.login, user.password, user.repeatPw, user.firstName, user.lastName)) {
-            console.log('hi')
+            console.log('hi');
             await dispatcher.dispatch(actionSignup(user));
         }
     };
@@ -121,7 +120,6 @@ class Signup extends View {
      * method insert signup to HTML
      */
     override render = () => {
-
         this.context = config;
         const context = this.context.forms.signup;
         super.render(context);
@@ -159,37 +157,37 @@ class Signup extends View {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
-                this.unregisterEvents();
-                this.purge();
-                dispatcher.dispatch(actionRedirect( '/inbox', true, false));
-                break;
-            case responseStatuses.UnauthorizedError:
-            case responseStatuses.Forbidden:
-                if (body.message === 'invalid login') {
-                    if (document.getElementById('loginError') === null) {
-                        this.#validator.putErrorMessage(document.getElementById('login')!,
-                            'loginError', 'Некорректный логин');
-                    }
-                } else if (document.getElementById('passwordError') === null) {
-                    this.#validator.putErrorMessage(document.getElementById('password')!,
-                        'passwordError', 'Неправильный пароль');
-                }
-                break;
-            case responseStatuses.Conflict:
+        case responseStatuses.OK:
+            this.unregisterEvents();
+            this.purge();
+            dispatcher.dispatch(actionRedirect( '/inbox', true, false));
+            break;
+        case responseStatuses.UnauthorizedError:
+        case responseStatuses.Forbidden:
+            if (body.message === 'invalid login') {
                 if (document.getElementById('loginError') === null) {
                     this.#validator.putErrorMessage(document.getElementById('login')!,
-                        'loginError', 'Пользователь уже существует');
+                        'loginError', 'Некорректный логин');
                 }
-                break;
-            default:
-                break;
+            } else if (document.getElementById('passwordError') === null) {
+                this.#validator.putErrorMessage(document.getElementById('password')!,
+                    'passwordError', 'Неправильный пароль');
+            }
+            break;
+        case responseStatuses.Conflict:
+            if (document.getElementById('loginError') === null) {
+                this.#validator.putErrorMessage(document.getElementById('login')!,
+                    'loginError', 'Пользователь уже существует');
+            }
+            break;
+        default:
+            break;
         }
     }
 
     subscribeRenderSignUp = () => {
         this.purge();
         this.render();
-    }
+    };
 }
 export const signupPage = new Signup(document.getElementById('root')!);

@@ -92,7 +92,7 @@ export class Validation {
      * @param surname
      * @return status
      */
-    validateRegFields = (login: string, password: string, anotherPassword: string = password, name: string = ' ', surname: string = ' ') => {
+    validateRegFields = (login: string, password: string, anotherPassword: string = password, name = ' ', surname = ' ') => {
         return ((password === anotherPassword) && (this.validateLogin(login).status) &&
             (this.validatePassword(password).status) && (this.validateText(name).status) &&
             (this.validateText(surname).status));
@@ -105,24 +105,24 @@ export class Validation {
     focusValidator = async (e: any) => {
         let check;
         switch (e.target?.name) {
-            case 'first-name':
-            case 'last-name':
-                check = this.validateText(e.target.value);
-                break;
-            case 'new-mail-recipients':
-            case 'login':
-                check = this.validateLogin(e.target.value);
-                break;
-            case 'password_old':
-            case 'password':
-                check = this.validatePassword(e.target.value);
-                break;
-            case 'repeat_password':
-                check = this.validateRePassword((document.getElementById('password') as any ).value,
-                    e.target.value);
-                break;
-            default:
-                return;
+        case 'first-name':
+        case 'last-name':
+            check = this.validateText(e.target.value);
+            break;
+        case 'new-mail-recipients':
+        case 'login':
+            check = this.validateLogin(e.target.value);
+            break;
+        case 'password_old':
+        case 'password':
+            check = this.validatePassword(e.target.value);
+            break;
+        case 'repeat_password':
+            check = this.validateRePassword((document.getElementById('password') as any ).value,
+                e.target.value);
+            break;
+        default:
+            return;
         }
         if (!check.status) {
             if (document.getElementById(e.target.name + 'Error') === null) {

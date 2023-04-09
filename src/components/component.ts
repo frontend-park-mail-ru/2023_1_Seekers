@@ -1,4 +1,4 @@
-import { ROOT } from '@config/config';
+import {ROOT} from '@config/config';
 
 export interface Component extends anyObject {
     context: componentContext;
@@ -6,7 +6,7 @@ export interface Component extends anyObject {
 }
 
 export class Component {
-    constructor(context = { parent: ROOT } as componentContext) {
+    constructor(context = {parent: ROOT} as componentContext) {
         this.state = {};
         this.context = context;
         if (Object.hasOwnProperty.call(context, 'parent')) {

@@ -1,14 +1,14 @@
-import template from "@components/account-area/account-area.hbs";
+import template from '@components/account-area/account-area.hbs';
 
-import "@components/account-area/account-area.scss"
-import {Component} from "@components/component";
-import {AccountNavigation} from "@components/account-navigation/account-navigation";
-import {AccountProfile} from "@components/account-profile/account-profile";
-import {config} from "@config/config";
-import {reducerUser} from "@stores/userStore";
-import {AccountSecurity} from "@components/account-security/account-security";
-import {microEvents} from "@utils/microevents";
-import {reducerLetters} from "@stores/LettersStore";
+import '@components/account-area/account-area.scss';
+import {Component} from '@components/component';
+import {AccountNavigation} from '@components/account-navigation/account-navigation';
+import {AccountProfile} from '@components/account-profile/account-profile';
+import {config} from '@config/config';
+import {reducerUser} from '@stores/userStore';
+import {AccountSecurity} from '@components/account-security/account-security';
+import {microEvents} from '@utils/microevents';
+import {reducerLetters} from '@stores/LettersStore';
 
 export interface AccountArea {
     state: {
@@ -22,7 +22,6 @@ export interface AccountArea {
  * class implementing account
  */
 export class AccountArea extends Component {
-
     /**
      *
      * @param {componentContext} context HTML-element for including content
@@ -49,28 +48,28 @@ export class AccountArea extends Component {
             parent: document.getElementById('account-area__navigation')!,
         });
         this.state.navigation.render();
-        if(!this.state.content) {
-            switch (reducerLetters._storage.get(reducerLetters._storeNames.currentAccountPage)){
-                case '/profile':
-                    this.renderProfile();
-                    break;
-                case '/security':
-                    this.renderSecurity();
-                    break;
+        if (!this.state.content) {
+            switch (reducerLetters._storage.get(reducerLetters._storeNames.currentAccountPage)) {
+            case '/profile':
+                this.renderProfile();
+                break;
+            case '/security':
+                this.renderSecurity();
+                break;
             }
         }
         this.registerEventListener();
-    }
+    };
 
     renderProfile = () => {
-        if(!this.state.element) {
+        if (!this.state.element) {
             this.render();
         }
         if (this.state.content) {
             this.state.content.purge();
         }
-        console.log('help me pls')
-        const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
+        console.log('help me pls');
+        const profile = reducerUser._storage.get(reducerUser._storeNames.profile);
 
         this.state.content = new AccountProfile({
             parent: document.getElementById('account-area__content')!,
@@ -83,23 +82,23 @@ export class AccountArea extends Component {
             button: config.accountFields.account.profile.button,
         });
         this.state.content.render();
-    }
+    };
 
     renderSecurity = () => {
-        if(!this.state.element) {
+        if (!this.state.element) {
             this.render();
         }
         if (this.state.content) {
             this.state.content.purge();
         }
         this.state.content = new AccountSecurity({
-            parent:  document.getElementById('account-area__content')!,
+            parent: document.getElementById('account-area__content')!,
         }, {
             forms: config.accountFields.account.security,
             button: config.accountFields.account.security.button,
         });
         this.state.content.render();
-    }
+    };
 
     registerEventListener() {
         microEvents.bind('renderProfilePage', this.renderProfile);

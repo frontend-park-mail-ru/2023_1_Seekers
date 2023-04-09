@@ -1,6 +1,6 @@
-import {UiKit} from "@/uikits/uikit";
+import {UiKit} from '@/uikits/uikit';
 
-import '@uikits/profile-button/profile-button.scss'
+import '@uikits/profile-button/profile-button.scss';
 
 import template from '@uikits/profile-button/profile-button.hbs';
 

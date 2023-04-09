@@ -1,4 +1,4 @@
-declare module "*.hbs" {
+declare module '*.hbs' {
     const _: Function;
     export default _;
 }
@@ -16,8 +16,8 @@ type Profile = {
 
 type MailToSend = {
     recipients: string[],
-    "title": string,
-    "text": string,
+    'title': string,
+    'text': string,
 }
 
 type LetterFrameData = {

@@ -1,15 +1,15 @@
 import {Component} from '@components/component';
-import '@components/mail/mail.scss'
-import template from '@components/mail/mail.hbs'
-import {reducerLetters} from "@stores/LettersStore";
+import '@components/mail/mail.scss';
+import template from '@components/mail/mail.hbs';
+import {reducerLetters} from '@stores/LettersStore';
 import {MailContent} from '@uikits/mail-content/mail-content';
-import {microEvents} from "@utils/microevents";
-import {config} from "@config/config";
-import {IconButton} from "@uikits/icon-button/icon-button";
-import {dispatcher} from "@utils/dispatcher";
-import {actionGetLetters} from "@actions/letters";
-import {reducerUser} from "@stores/userStore";
-import {actionForwardMail, actionReplyToMail} from "@actions/newMail";
+import {microEvents} from '@utils/microevents';
+import {config} from '@config/config';
+import {IconButton} from '@uikits/icon-button/icon-button';
+import {dispatcher} from '@utils/dispatcher';
+import {actionGetLetters} from '@actions/letters';
+import {reducerUser} from '@stores/userStore';
+import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
 
 
 export interface Mail {
@@ -23,7 +23,6 @@ export interface Mail {
  * class implementing component Mail
  */
 export class Mail extends Component {
-
     /**
      * Constructor that creates a component class Mail
      * @param {componentContext} context HTML-element for including content
@@ -33,7 +32,7 @@ export class Mail extends Component {
         this.state = {
             element: document.createElement('div'),
             actionButtons: [],
-        }
+        };
 
         this.rerender = this.rerender.bind(this);
     }
@@ -42,21 +41,20 @@ export class Mail extends Component {
      * method insert mail to HTML
      */
     render() {
-        if(reducerLetters._storage.get(reducerLetters._storeNames.currentMail) === undefined){
+        if (reducerLetters._storage.get(reducerLetters._storeNames.currentMail) === undefined) {
             this.parent.insertAdjacentHTML('afterbegin', template({}));
             this.state.element = this.parent.getElementsByClassName('mail')[0];
-        } else if (reducerLetters.getCurrentMail() !== undefined){
-
-            let actionButtons: Object[] = [];
+        } else if (reducerLetters.getCurrentMail() !== undefined) {
+            const actionButtons: Object[] = [];
             Object.values(config.buttons.mailActionButtons).forEach((button: Object) => {
                 actionButtons.push(IconButton.renderTemplate(button));
-            })
+            });
             this.parent.insertAdjacentHTML('afterbegin', template(
                 {
                     mail: reducerLetters.getCurrentMail(),
                     mailContent: MailContent.renderTemplate(reducerLetters.getCurrentMail()),
                     actionButtons: actionButtons,
-                }
+                },
             ));
 
             this.state.element = this.parent.getElementsByClassName('mail')[0];
@@ -74,7 +72,7 @@ export class Mail extends Component {
         microEvents.bind('mailChanged', this.rerender);
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
-        })
+        });
     }
 
     /**
@@ -85,7 +83,7 @@ export class Mail extends Component {
         microEvents.unbind('mailChanged', this.rerender);
         this.state.actionButtons.forEach((button) => {
             button.removeEventListener('click', this.letterAction);
-        })
+        });
     }
 
     /**
@@ -106,16 +104,16 @@ export class Mail extends Component {
     letterAction(e: Event) {
         e.preventDefault();
         const {currentTarget} = e;
-        if(currentTarget instanceof HTMLElement){
-            if(currentTarget.dataset.section){
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
                 switch (currentTarget.dataset.section) {
-                    case config.buttons.mailActionButtons.forward.href:
-                        dispatcher.dispatch(actionForwardMail());
-                        break;
+                case config.buttons.mailActionButtons.forward.href:
+                    dispatcher.dispatch(actionForwardMail());
+                    break;
 
-                    case config.buttons.mailActionButtons.reply.href:
-                        dispatcher.dispatch(actionReplyToMail());
-                        break;
+                case config.buttons.mailActionButtons.reply.href:
+                    dispatcher.dispatch(actionReplyToMail());
+                    break;
                 }
             }
         }

@@ -8,6 +8,6 @@ export function showNotification(text = 'Упс, что-то пошло не т�
     const content = document.getElementById('error-label');
     setTimeout(() => {
         content!.classList.add('notification-area__deletion');
-         setTimeout(() =>content?.remove(), 1000 );
+        setTimeout(() =>content?.remove(), 1000 );
     }, duration);
 }
