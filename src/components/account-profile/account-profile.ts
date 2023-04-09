@@ -9,10 +9,9 @@ import {Validation} from '@utils/validation';
 import {dispatcher} from '@utils/dispatcher';
 import {actionPostProfile, actionPutAvatar} from '@actions/user';
 import {reducerUser} from '@stores/userStore';
-import {config, responseStatuses} from '@config/config';
+import {responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import {showNotification} from '@components/notification/notification';
-import {reducerNewMail} from '@stores/NewMailStore';
 
 export interface AccountProfile {
     state: {
@@ -32,6 +31,11 @@ export interface AccountProfile {
 export class AccountProfile extends Component {
     #validator;
 
+    /**
+     * constructor
+     * @param context - contains parent element
+     * @param state - initialize start state for current object
+     */
     constructor(context: componentContext, state: any) {
         super(context);
         this.state = state;
@@ -53,12 +57,12 @@ export class AccountProfile extends Component {
         e.preventDefault();
         const data = document.getElementById('account-profile__form') as HTMLElement;
 
-        const first_name = data.querySelector('input[name=first-name]') as HTMLInputElement;
-        const last_name = data.querySelector('input[name=last-name]') as HTMLInputElement;
+        const firstName = data.querySelector('input[name=first-name]') as HTMLInputElement;
+        const lastName = data.querySelector('input[name=last-name]') as HTMLInputElement;
 
         const user = {} as user;
-        user.firstName = first_name.value;
-        user.lastName = last_name.value;
+        user.firstName = firstName.value;
+        user.lastName = lastName.value;
 
         if ((this.#validator.validateText(user.firstName).status) &&
             (this.#validator.validateText(user.lastName).status)) {
@@ -74,9 +78,9 @@ export class AccountProfile extends Component {
 
     onLoadAvatar = (e: any) => {
         e.preventDefault();
-        const avatar_form = document.getElementById('account-profile__avatar__form') as HTMLFormElement;
+        const avatarForm = document.getElementById('account-profile__avatar__form') as HTMLFormElement;
 
-        const formData = new FormData(avatar_form);
+        const formData = new FormData(avatarForm);
 
         dispatcher.dispatch(actionPutAvatar(formData));
         const reader = new FileReader();
@@ -104,8 +108,8 @@ export class AccountProfile extends Component {
         const avatar = document.getElementById('account-sidebar__avatar');
         avatar?.addEventListener('click', this.onClickAvatar);
 
-        const avatar_form = document.getElementById('account-profile__avatar__form');
-        avatar_form?.addEventListener('change', this.onLoadAvatar);
+        const avatarForm = document.getElementById('account-profile__avatar__form');
+        avatarForm?.addEventListener('change', this.onLoadAvatar);
 
         microEvents.bind('profileChanged', this.rerenderCreds);
     };
@@ -146,32 +150,45 @@ export class AccountProfile extends Component {
 
         const data = document.getElementById('account-profile__form') as HTMLElement;
 
-        const first_name = data.querySelector('input[name=first-name]') as HTMLInputElement;
-        const last_name = data.querySelector('input[name=last-name]') as HTMLInputElement;
+        const firstName = data.querySelector('input[name=first-name]') as HTMLInputElement;
+        const lastName = data.querySelector('input[name=last-name]') as HTMLInputElement;
 
-        first_name.value = reducerUser._storage.get('profile').firstName;
-        last_name.value = reducerUser._storage.get('profile').lastName;
+        firstName.value = reducerUser._storage.get('profile').firstName;
+        lastName.value = reducerUser._storage.get('profile').lastName;
 
         this.registerEvents();
     }
 
+    /**
+     * method purge
+     * account profile clearing
+     * will purge all the content in account profile
+     */
     purge() {
         this.unregisterEvents();
         this.state.element.remove();
     }
 
+    /**
+     * method subscribeProfileStatus
+     * show notification when answer to change name received
+     */
     subscribeProfileStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
-                showNotification('Информация успешна изменена');
-                break;
-            default:
-                showNotification(body);
+        case responseStatuses.OK:
+            showNotification('Информация успешна изменена');
+            break;
+        default:
+            showNotification(body);
         }
     }
 
+    /**
+     * rerenderCreds
+     * rerender credentials data when profile changed
+     */
     rerenderCreds = () => {
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile);
         const avatar = document.querySelector('.account-sidebar__avatar-img') as HTMLImageElement;
@@ -181,6 +198,10 @@ export class AccountProfile extends Component {
         creds.innerHTML = profile.firstName + ' ' + profile.lastName;
     };
 
+    /**
+     * method subscribeAvatarStatus
+     * show notification when answer to change avatar received
+     */
     subscribeAvatarStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);

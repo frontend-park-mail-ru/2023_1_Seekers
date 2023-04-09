@@ -5,8 +5,8 @@ import {Component} from '@components/component';
 import {config} from '@config/config';
 import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
-import {actionGetMail} from '@actions/letters';
-import {actionLogout, actionGetAccountPage, actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
+import {actionLogout, actionGetAccountPage,
+    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
 
 export interface AccountSidebar {
     state: {
@@ -20,6 +20,11 @@ export interface AccountSidebar {
  * class implementing uikit account-sidebar
  */
 export class AccountSidebar extends Component {
+
+    /**
+     * Constructor that creates a component class Mail
+     * @param context - HTML-element for including content
+     */
     constructor(context: componentContext) {
         super(context);
         this.state = {
@@ -31,7 +36,7 @@ export class AccountSidebar extends Component {
 
     /**
      * method handle click on navbar
-     * @param {Event} e - event that goes from one of childs of current element
+     * @param e - event that goes from one of children of current element
      */
     localEventCatcher = async (e: Event) => {
         if (!e.isTrusted) {
@@ -47,18 +52,21 @@ export class AccountSidebar extends Component {
                 case config.buttons.sidebarButtons.profile.href:
                     await dispatcher.dispatch(actionGetAccountPage({path: data}));
                     await dispatcher.dispatch(actionGetProfilePage());
-                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
                     break;
 
                 case config.buttons.sidebarButtons.mailbox.href:
                     await dispatcher.dispatch(actionGetMailboxPage({path: data}));
-                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
                     break;
 
                 case config.buttons.sidebarButtons.security.href:
                     await dispatcher.dispatch(actionGetAccountPage({path: data}));
                     await dispatcher.dispatch(actionGetSecurityPage());
-                    currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
                     // this.purge();
                     // return;
                     break;
@@ -112,7 +120,8 @@ export class AccountSidebar extends Component {
         this.state.element = this.parent.getElementsByClassName('account-sidebar')[0];
         this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
 
-        this.state.children.push(this.state.element.getElementsByClassName('account-sidebar__avatar')[0]);
+        this.state.children.push(
+            this.state.element.getElementsByClassName('account-sidebar__avatar')[0]);
 
         this.registerEventListener();
         this.state.isRendered = true;
