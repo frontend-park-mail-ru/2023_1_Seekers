@@ -4,38 +4,38 @@
     border-radius: 6px;
     flex: none;
     cursor: pointer;
-}
 
-.icon-button_size {
-    width: 25px;
-    height: 25px;
-}
+    &_size {
+        width: 25px;
+        height: 25px;
+    }
 
-.icon-button_color {
-    background: var(--mail-text-background-color);
-    border: 1px solid var(--mail-text-background-color);
-}
+    &_color {
+        background: var(--mail-text-background-color);
+        border: 1px solid var(--mail-text-background-color);
 
-.icon-button_color:Hover {
-    background: var(--mail-text-background-color);
-    border: 1px solid var(--navbar-buttons-hover-border-color);
-}
+        &:hover {
+            background: var(--mail-text-background-color);
+            border: 1px solid var(--navbar-buttons-hover-border-color);
+        }
 
-.icon-button_color:Active {
-    background: var(--navbar-buttons-active-fill-color);
-    border: 1px solid var(--navbar-buttons-active-border-color);
-}
+        &:active {
+            background: var(--navbar-buttons-active-fill-color);
+            border: 1px solid var(--navbar-buttons-active-border-color);
+        }
+    }
 
-.icon-button__icon {
-    display: flex;
-    fill: var(--navbar-icons-default-color);
-    flex: 1;
-}
+    &__icon {
+        display: flex;
+        fill: var(--navbar-icons-default-color);
+        flex: 1;
 
-.icon-button:hover .icon-button__icon {
-    fill: var(--navbar-icons-hover-color);
-}
+        &:hover .icon-button__icon {
+            fill: var(--navbar-icons-hover-color);
+        }
 
-.icon-button:active .icon-button__icon {
-    fill: var(--navbar-icons-active-color);
+        &:active .icon-button__icon {
+            fill: var(--navbar-icons-active-color);
+        }
+    }
 }

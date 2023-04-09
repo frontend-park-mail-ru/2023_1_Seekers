@@ -3,28 +3,31 @@
     right: 0;
     top: 10%;
     z-index: calc(10000000);
-}
 
-.notification-area__notification {
-    position: relative;
-    display: inline-block;
-    max-width: 300px;
-    padding: 20px 15px;
-    border-radius: 7px;
-    background-color: var(--secondary-background-color);
-    box-shadow: 0 1px 10px rgb(0 0 0 / 10%);
-    transform: translateY(30px);
-    opacity: 0;
-    visibility: hidden;
-    animation: fade 4s linear forwards;
-}
+    &__notification {
+        position: relative;
+        display: inline-block;
+        max-width: 300px;
+        padding: 20px 15px;
+        border-radius: 7px;
+        background-color: var(--secondary-background-color);
+        box-shadow: 0 1px 10px rgb(0 0 0 / 10%);
+        transform: translateY(30px);
+        opacity: 0;
+        visibility: hidden;
+        animation: fade 4s linear forwards;
+    }
 
-.notification-area__notificationText {
-    font-family: "Roboto Thin", sans-serif;
-    font-style: normal;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    color: var(--text-main-color);
+    &__notificationText {
+        font-style: normal;
+        font-size: 15px;
+        letter-spacing: 0.03em;
+        color: var(--text-main-color);
+    }
+
+    &__deletion {
+        animation: fadeDel 0.5s linear forwards;
+    }
 }
 
 .progress {
@@ -37,10 +40,6 @@
     var(--button-default-color), var(--button-active-color));
     border-radius: 7px;
     animation: progress 3s .25s linear forwards;
-}
-
-.notification-area__deletion {
-    animation: fadeDel 0.5s linear forwards;
 }
 
 @keyframes fade {

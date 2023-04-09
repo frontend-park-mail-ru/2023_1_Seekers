@@ -6,8 +6,8 @@
     position: relative;
     gap: 20px;
     padding: 0;
-}
 
-.mail-content__text_color {
-    color: var(--menu-text-default-color);
+    &__text_color {
+        color: var(--menu-text-default-color);
+    }
 }

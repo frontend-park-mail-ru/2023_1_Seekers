@@ -14,11 +14,11 @@
     flex: none;
     cursor: pointer;
     text-decoration: none;
-}
 
-.letter-frame:Hover {
-    background: var(--delimeters-color);
-    border: 1px solid var(--delimeters-color);
+    &:hover {
+        background: var(--delimeters-color);
+        border: 1px solid var(--delimeters-color);
+    }
 }
 
 //.letter-frame:Active {
