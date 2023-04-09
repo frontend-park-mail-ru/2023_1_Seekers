@@ -11,6 +11,8 @@ import {actionPostProfile, actionPutAvatar} from '@actions/user';
 import {reducerUser} from '@stores/userStore';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
+import {showNotification} from "@components/notification/notification";
+import {reducerNewMail} from "@stores/NewMailStore";
 
 export interface AccountProfile {
     state: {
@@ -180,5 +182,15 @@ export class AccountProfile extends Component {
     }
 
     subscribeAvatarStatus() {
+        const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
+        const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
+
+        switch (answerStatus) {
+            case responseStatuses.OK:
+                showNotification('Аватарка успешно загружена');
+                break;
+            default:
+                showNotification(answerBody.message);
+        }
     }
 }
