@@ -83,7 +83,6 @@ module.exports = {
         allowedHosts: "all",
         hot: false,
         liveReload: false,
-        https: true
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],
