@@ -30,7 +30,8 @@
     "ts-loader": "^9.4.2",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "webpack-bundle-analyzer": "^4.8.0",
-    "webpack-dev-server": "^4.13.1"
+    "webpack-dev-server": "^4.13.1",
+    "serve" : "^14.2.0"
   },
   "scripts": {
     "test": "----",
@@ -44,7 +45,7 @@
     "prod": "cross-env NODE_ENV=production cross-env DOMAIN_DEPLOY=mailbx.ru webpack --mode production",
     "stand": "npm run dev",
     "deploy": "npm run prod",
-    "start": "webpack serve --mode production"
+    "start": " serve -l 8002 ./dist"
   },
   "repository": {
     "type": "git",
