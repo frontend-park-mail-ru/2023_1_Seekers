@@ -83,6 +83,13 @@ module.exports = {
         allowedHosts: "all",
         hot: false,
         liveReload: false,
+
+        proxy: {
+            '/websocket': {
+                target: '',
+                ws: false
+            },
+        }
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],
