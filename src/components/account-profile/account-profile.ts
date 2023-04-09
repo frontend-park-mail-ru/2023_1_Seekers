@@ -105,7 +105,7 @@ export class AccountProfile extends Component {
         const avatar_form = document.getElementById('account-profile__avatar__form');
         avatar_form?.addEventListener('change', this.onLoadAvatar);
 
-        microEvents.bind('profileChanged', this.rerenderAvatar);
+        microEvents.bind('profileChanged', this.rerenderCreds);
     };
 
     /**
@@ -122,7 +122,7 @@ export class AccountProfile extends Component {
         const avatar_form = document.getElementById('account-profile__avatar__form');
         avatar_form?.removeEventListener('change', this.onLoadAvatar);
 
-        microEvents.unbind('profileChanged', this.rerenderAvatar);
+        microEvents.unbind('profileChanged', this.rerenderCreds);
     };
 
 
@@ -170,10 +170,13 @@ export class AccountProfile extends Component {
         }
     }
 
-    rerenderAvatar = () => {
+    rerenderCreds = () => {
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile);
         const avatar = document.querySelector('.account-sidebar__avatar-img') as HTMLImageElement;
         avatar.src = profile.avatar;
+        const creds = document.querySelector('.account-profile__name') as HTMLDivElement;
+        creds.ariaLabel = profile.firstName + ' ' + profile.lastName;
+        creds.innerHTML = profile.firstName + ' ' + profile.lastName;
     }
 
     subscribeAvatarStatus() {
