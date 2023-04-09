@@ -3,7 +3,6 @@ import {hrefRegExp} from '@config/regs';
 import {reducerUser} from '@stores/userStore';
 import {page404} from '@views/404-page/404-page';
 import {dispatcher} from '@utils/dispatcher';
-import {microEvents} from '@utils/microevents';
 import {loaderPage} from '@views/loader-page/loader-page';
 
 
