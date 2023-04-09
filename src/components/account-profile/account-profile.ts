@@ -73,8 +73,6 @@ export class AccountProfile extends Component {
     onLoadAvatar = (e: any) => {
         e.preventDefault();
         const avatar_form = document.getElementById('account-profile__avatar__form') as  HTMLFormElement;
-        //const avatar2 = avatar_form.querySelector('input[name=avatar]') as HTMLInputElement;
-        //console.log(avatar2.value)
 
         const formData = new FormData(avatar_form);
 
@@ -159,7 +157,6 @@ export class AccountProfile extends Component {
     subscribeProfileStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
-        console.log(status, body)
         switch (status) {
             case responseStatuses.OK:
 
@@ -170,6 +167,5 @@ export class AccountProfile extends Component {
     }
 
     subscribeAvatarStatus() {
-        console.log('subscribeAvatarStatus')
     }
 }

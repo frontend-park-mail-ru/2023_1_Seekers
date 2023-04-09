@@ -76,7 +76,6 @@ export class LetterList extends Component {
     }
 
     changeState = async (e: Event) => {
-        console.log('changing state...');
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
@@ -96,18 +95,14 @@ export class LetterList extends Component {
     }
 
     changeLetterToActive = () => {
-        console.log('finding letters..');
         const mail = reducerLetters.getCurrentMail();
         if (mail) {
             this.state.activeLetter?.classList.remove('letter-frame_color-active');
             const element = this.state.letters[0]?.letterElement;
-            console.log(element)
             this.state.activeLetter = this.state.letters.find((letter) => {
                 return letter.letterElement.id === 'letter-frame-id-' + mail.message_id
             })?.letterElement;
-            console.log(this.state.activeLetter?.classList);
             this.state.activeLetter?.classList.add('letter-frame_color-active');
-            console.log(this.state.activeLetter);
         }
     }
 
@@ -116,8 +111,6 @@ export class LetterList extends Component {
      * according to a given template and context
      */
     render() {
-        console.log('render letterList');
-
         const letterObjs = reducerLetters._storage
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));

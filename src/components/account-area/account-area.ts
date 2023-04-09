@@ -46,7 +46,7 @@ export class AccountArea extends Component {
 
         this.state.element = this.parent.getElementsByClassName('account-area')[0];
         this.state.navigation = new AccountNavigation({
-            parent: document.getElementById('account-area-content__navigation')!,
+            parent: document.getElementById('account-area__navigation')!,
         });
         this.state.navigation.render();
         if(!this.state.content) {
@@ -66,7 +66,6 @@ export class AccountArea extends Component {
         if(!this.state.element) {
             this.render();
         }
-        console.log('renderProfile');
         if (this.state.content) {
             this.state.content.purge();
         }
@@ -74,7 +73,7 @@ export class AccountArea extends Component {
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile)
 
         this.state.content = new AccountProfile({
-            parent: document.getElementById('account-area-content__content')!,
+            parent: document.getElementById('account-area__content')!,
         }, {
             firstName: profile.firstName,
             lastName: profile.lastName,
@@ -94,7 +93,7 @@ export class AccountArea extends Component {
             this.state.content.purge();
         }
         this.state.content = new AccountSecurity({
-            parent:  document.getElementById('account-area-content__content')!,
+            parent:  document.getElementById('account-area__content')!,
         }, {
             forms: config.accountFields.account.security,
             button: config.accountFields.account.security.button,

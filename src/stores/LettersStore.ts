@@ -28,7 +28,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetters = async (folderName: string) => {
-        console.log('in getLetters: ' + folderName);
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
@@ -50,7 +49,6 @@ class LettersStore extends BaseStore {
                     })
 
                     if (folderName === this._storage.get(this._storeNames.currentLetters)) {
-                        // this._storage.set(this._storeNames.currentMail, undefined);
                         microEvents.trigger('letterListChanged');
                         microEvents.trigger('mailChanged');
                     }
@@ -66,7 +64,6 @@ class LettersStore extends BaseStore {
     getMail = async (href: string) => {
         const mailId = href.split('/').pop();
         if (!this._storage.get(this._storeNames.mail).get(mailId)) {
-            console.log(mailId);
             Connector.makeGetRequest(config.api.getMail + mailId)
                 .then(([status, body]) => {
                     if (status === responseStatuses.OK) {
@@ -85,7 +82,6 @@ class LettersStore extends BaseStore {
             this._storage.get(this._storeNames.mail).set(mailId, {});
         }
         this._storage.set(this._storeNames.currentMail, mailId);
-        console.log('in get mail');
         microEvents.trigger('mailChanged');
     };
 
@@ -96,15 +92,9 @@ class LettersStore extends BaseStore {
             this._storage.set(this._storeNames.menu, response.folders);
             microEvents.trigger('menuChanged');
         }
-        console.log(Object.values(config.buttons.commonMenuButtons));
-        console.log(this._storage.get(this._storeNames.menu));
-        // this._storage.set(this._storeNames.menu, menuBtns);
-        // microEvents.trigger('menuChanged');
     };
 
     getMailboxPage = async (obj: stateObject) => {
-        console.log(obj);
-        console.log('getMailboxPage');
         this.getMenu().then(() => {
             this.getLetters(obj.path).then(() => {
                 if (obj.props) {
@@ -118,7 +108,6 @@ class LettersStore extends BaseStore {
 
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
-        console.log(obj.path);
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
         microEvents.trigger('renderAccountPage');
     };
@@ -132,21 +121,17 @@ class LettersStore extends BaseStore {
     };
 
     changeLetterStateToRead = async (letterId: string) => {
-        console.log(config.api.getMail + letterId + '/read');
         const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read', {});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
-            console.log('state changed to read');
             // microEvents.trigger('letterStateChanged');
         }
     }
 
     changeLetterStateToUnread = async (letterId: string) => {
-        console.log(config.api.getMail + letterId + '/unread');
         const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
-            console.log('state changed to unread');
             // microEvents.trigger('letterStateChanged');
         }
     }

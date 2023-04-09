@@ -102,7 +102,6 @@ export class AccountSecurity extends Component {
     subscribeProfileStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
-        console.log(status, body)
         switch (status) {
             case responseStatuses.OK:
 

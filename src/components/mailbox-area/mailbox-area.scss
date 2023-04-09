@@ -7,11 +7,11 @@
   overflow-x: auto;
   padding: 10px;
   order: 1;
-}
 
-.mailbox-area__vertical-line {
-  width: 0;
-  border: 1px solid var(--background-color);
-  flex: 0;
-  align-self: stretch;
+  &__vertical-line {
+    width: 0;
+    border: 1px solid var(--background-color);
+    flex: 0;
+    align-self: stretch;
+  }
 }

@@ -61,14 +61,10 @@ class NewMailStore extends BaseStore {
     }
 
     sendMail = async (mail: MailToSend) => {
-        console.log('sendMail');
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
 
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
-
-            console.log(status)
-            console.log(body)
             microEvents.trigger('mailSent');
         });
     }
