@@ -61,7 +61,7 @@ export class LetterList extends Component {
                 e.stopPropagation();
                 currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
-                const letterState = currentTarget.getElementsByClassName('letter-read-state-frame')[0] as HTMLElement;
+                const letterState = currentTarget.getElementsByClassName('letter-frame__read-state')[0] as HTMLElement;
 
                 if(letterState.classList.contains('letter-is-unread')){
                     dispatcher.dispatch(actionChangeLetterStateToRead(letterState.dataset.section!));
@@ -144,7 +144,7 @@ export class LetterList extends Component {
         this.state.letters = [];
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
         [...this.state.element.getElementsByClassName('letter-frame')].forEach(letterFrame => {
-            this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-read-state-frame')[0]});
+            this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0]});
         });
 
         this.changeLetterToActive();
