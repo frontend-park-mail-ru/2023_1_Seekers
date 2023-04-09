@@ -35,7 +35,8 @@ class LettersStore extends BaseStore {
 
 
                     body.messages?.forEach((message: any) => {
-                        const time = message.created_at.substring(0, 10).replace('-', '.');
+                        const time = message.created_at.substring(0, 10)
+                            .replace('-', '.').replace('-', '.');
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
@@ -69,7 +70,8 @@ class LettersStore extends BaseStore {
                 .then(([status, body]) => {
                     if (status === responseStatuses.OK) {
                         const mailData: MailData = body.message;
-                        mailData.created_at = mailData.created_at.substring(0, 9).replace('-', '.');
+                        mailData.created_at = mailData.created_at.substring(0, 10)
+                            .replace('-', '.').replace('-', '.');
                         mailData.from_user_id.avatar =
                             `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
 
