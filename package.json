@@ -40,11 +40,11 @@
     "stylelint:fix": "stylelint '**/*{.css,.scss}' --fix",
     "css": "npx stylelint '**/*.{css,scss}' --config stylelint.config.js",
     "css:fix": "npx stylelint '**/*.{css,scss}' --fix --config stylelint.config.js",
-    "build": "npm run build:webpack",
-    "start:webpack": "webpack serve",
-    "build:webpack": "webpack --mode=production",
-    "build:dev": "webpack",
-    "start": "webpack-dev-server --mode development"
+    "dev": "cross-env NODE_ENV=development cross-env DOMAIN_DEPLOY=localhost:8002 webpack --mode development",
+    "prod": "cross-env NODE_ENV=production cross-env DOMAIN_DEPLOY=mailbx.ru webpack --mode production",
+    "stand": "npm run dev",
+    "deploy": "npm run prod",
+    "start:webpack": "webpack-dev-server --mode production"
   },
   "repository": {
     "type": "git",
@@ -78,6 +78,7 @@
     "eslint-plugin-jsdoc": "^39.6.4",
     "eslint-plugin-tsdoc": "^0.2.17",
     "typescript": "^4.9.3",
-    "@typescript-eslint/eslint-plugin": "^5.57.1"
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "cross-env": "^7.0.3"
   }
 }
