@@ -33,7 +33,6 @@ class LettersStore extends BaseStore {
                     this._storage.get(this._storeNames.letters).set(folderName, []);
 
 
-
                     body.messages?.forEach((message: any) => {
                         const time = message.created_at.substring(0, 10)
                             .replace('-', '.').replace('-', '.');
