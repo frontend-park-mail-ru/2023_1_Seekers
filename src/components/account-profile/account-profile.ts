@@ -164,11 +164,11 @@ export class AccountProfile extends Component {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-        case responseStatuses.OK:
-
-            break;
-        default:
-            break;
+            case responseStatuses.OK:
+                showNotification('Информация успешна изменена');
+                break;
+            default:
+                showNotification(body);
         }
     }
 
@@ -182,15 +182,15 @@ export class AccountProfile extends Component {
     };
 
     subscribeAvatarStatus() {
-        const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
-        const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
+        const status = reducerUser._storage.get(reducerUser._storeNames.status);
+        const body = reducerUser._storage.get(reducerUser._storeNames.body);
 
-        switch (answerStatus) {
+        switch (status) {
         case responseStatuses.OK:
             showNotification('Аватарка успешно загружена');
             break;
         default:
-            showNotification(answerBody.message);
+            showNotification(body);
         }
     }
 }

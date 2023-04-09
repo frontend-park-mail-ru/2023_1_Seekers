@@ -15,14 +15,10 @@ interface Router {
     root: Element;
     views: Map<string, Class>;
     privateViews: Map<string, Class>;
-
     actions: Map<string, any>;
     privateActions: Map<string, any>;
-
     currentPage: any;
-
     prevUrl: string;
-
     redirectUrl: string | undefined;
 }
 
@@ -151,7 +147,9 @@ class Router {
     }
 
     refresh(redirect = false) {
+        console.log(window.location.pathname)
         const href = this.redirectHandle(window.location.pathname);
+        console.log(href);
         const matchedHref = this.matchHref(href);
         if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
             this.open({
@@ -166,7 +164,7 @@ class Router {
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
-
+        console.log('start');
         this.currentPage = loaderPage;
         this.currentPage.render();
         // reducerUser.getProfile()

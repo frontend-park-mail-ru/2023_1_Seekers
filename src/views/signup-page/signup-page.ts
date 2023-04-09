@@ -8,7 +8,7 @@ import '@views/signup-page/signup-page.scss';
 
 import {PromoBox} from '@components/promo-box/promo-box';
 import {WrapperAccess} from '@components/wrapper-access/wrapper-access';
-import {config, responseStatuses, ROOT} from '@config/config';
+import {config, responseStatuses} from '@config/config';
 import {dispatcher} from '@utils/dispatcher';
 
 import {actionRedirect, actionSignup, actionToLogin, actionToSignUp} from '@actions/user';
