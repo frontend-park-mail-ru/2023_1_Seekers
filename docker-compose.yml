@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8003:8003"
+      - "8002:8002"
     networks:
       my_network:
         ipv4_address: 172.28.0.10
