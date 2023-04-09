@@ -147,7 +147,7 @@ class Router {
     }
 
     refresh(redirect = false) {
-        console.log(window.location.pathname)
+        console.log(window.location.pathname);
         const href = this.redirectHandle(window.location.pathname);
         console.log(href);
         const matchedHref = this.matchHref(href);

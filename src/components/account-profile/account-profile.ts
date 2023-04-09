@@ -164,11 +164,11 @@ export class AccountProfile extends Component {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
-                showNotification('Информация успешна изменена');
-                break;
-            default:
-                showNotification(body);
+        case responseStatuses.OK:
+            showNotification('Информация успешна изменена');
+            break;
+        default:
+            showNotification(body);
         }
     }
 
