@@ -1,7 +1,7 @@
 {
   "name": "mailbox",
   "version": "1.0.0",
-  "description": "Проект Почта команды \"Seekers\"",
+  "description": "Проект Почта команды Seekers",
   "main": "index.ts",
   "dependencies": {
     "clean-webpack-plugin": "^4.0.0",
@@ -44,8 +44,7 @@
     "start:webpack": "webpack serve",
     "build:webpack": "webpack --mode=production",
     "build:dev": "webpack",
-
-    "start2": "webpack-dev-server --mode development",
+    "start2": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",
