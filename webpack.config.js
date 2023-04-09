@@ -1,12 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -83,13 +83,7 @@ module.exports = {
         allowedHosts: "all",
         hot: false,
         liveReload: false,
-
-        proxy: {
-            '/websocket': {
-                target: '',
-                ws: false
-            },
-        }
+        https: true
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],
