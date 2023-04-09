@@ -78,7 +78,7 @@ module.exports = {
         historyApiFallback: true,
         allowedHosts: "all",
         hot: false,
-        inline: false,
+        liveReload: false,
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'],

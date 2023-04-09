@@ -44,7 +44,7 @@
     "start:webpack": "webpack serve",
     "build:webpack": "webpack --mode=production",
     "build:dev": "webpack",
-    "start2": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",
