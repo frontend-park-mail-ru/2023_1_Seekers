@@ -32,14 +32,17 @@ class LettersStore extends BaseStore {
                 if (status === responseStatuses.OK) {
                     this._storage.get(this._storeNames.letters).set(folderName, []);
 
+
+
                     body.messages?.forEach((message: any) => {
+                        const time = message.created_at.substring(0, 10).replace('-', '.');
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
                             text: message.text,
-                            created_at: message.created_at,
+                            created_at: time,
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}?email=${message.from_user_id.email}`,
                         };
@@ -66,6 +69,7 @@ class LettersStore extends BaseStore {
                 .then(([status, body]) => {
                     if (status === responseStatuses.OK) {
                         const mailData: MailData = body.message;
+                        mailData.created_at = mailData.created_at.substring(0, 9).replace('-', '.');
                         mailData.from_user_id.avatar =
                             `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
 
