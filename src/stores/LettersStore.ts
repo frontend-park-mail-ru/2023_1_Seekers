@@ -84,8 +84,8 @@ class LettersStore extends BaseStore {
                         mailData.created_at = mailData.created_at.substring(0, 10)
                             .replace('-', '.').replace('-', '.');
                         mailData.from_user_id.avatar =
-                            `${config.basePath}/${config.api.avatar}?email=
-                            ${body.message.from_user_id.email}`;
+                            `${config.basePath}/${config.api.avatar}?email=` +
+                            `${body.message.from_user_id.email}`;
 
                         this._storage.get(this._storeNames.mail).set(mailId, mailData);
 
