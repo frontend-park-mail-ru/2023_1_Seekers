@@ -22,7 +22,14 @@ interface Router {
     redirectUrl: string | undefined;
 }
 
+/**
+ * class that implements router for current application
+ */
 class Router {
+    /**
+     * set initial state of router
+     * @param root - contains root element for the application (pages)
+     */
     constructor(root: Element) {
         this.root = root;
         this.views = new Map();
@@ -44,7 +51,10 @@ class Router {
 
 
     /**
-     * Соопоставляет url и view
+     * function that matches url path to views
+     * @param path - href
+     * @param view - view to render
+     * @param privatePath - is url path private?
      */
     registerView({path, view}: { path: string, view: any }, privatePath = false) {
         privatePath ?
@@ -52,12 +62,22 @@ class Router {
             this.views.set(path, view);
     }
 
+    /**
+     * function that matches url path to actions
+     * @param path - href
+     * @param action - action to dispatch
+     * @param privateAction - is action private?
+     */
     registerActions({path, action}: { path: string, action: any }, privateAction = false) {
         privateAction ?
             this.privateActions.set(path, action) :
             this.actions.set(path, action);
     }
 
+    /**
+     * function that parse href
+     * @param href - href to parse
+     */
     matchHref(href: string) {
         const parts = href.split('/');
         const newHref: string[] = [];
@@ -70,6 +90,11 @@ class Router {
         return newHref;
     }
 
+    /**
+     * the function that triggers when user clicks to something on the page.
+     * It decides whether to change the address bar or not
+     * @param e - event
+     */
     onClickEvent = (e: MouseEvent) => {
         // e.preventDefault();
         const {target} = e;
@@ -87,6 +112,9 @@ class Router {
         }
     };
 
+    /**
+     * the function that triggers when user clicks to navigation buttons.
+     */
     onPopStateEvent = () => {
         let matchedHref = [];
         matchedHref[0] = decodeURIComponent((window.location.href.match(hrefRegExp.host)) ?
@@ -95,13 +123,13 @@ class Router {
 
         matchedHref = this.matchHref(matchedHref[0]);
 
-        // if (matchedHref[0] !== '/') {
-        //     matchedHref = this.matchHref(matchedHref[0]);
-        // }
         this.open({path: matchedHref[0], props: matchedHref[1]}, false, false);
         this.prevUrl = matchedHref[0];
     };
 
+    /**
+     * the function that opens another page.
+     */
     open(stateObject: stateObject, pushState: boolean, refresh: boolean) {
         if (this.currentPage) {
             this.currentPage.purge();
@@ -120,6 +148,11 @@ class Router {
         this.navigate({path, props, pushState});
     }
 
+    /**
+     * the function that contains redirection logic
+     * when unauthorized user tries to access to private href.
+     * @param href - href to access
+     */
     redirectHandle(href: string) {
         reducerUser.checkAuth();
         const isAuth = reducerUser._storage.get(reducerUser._storeNames.status) === responseStatuses.OK;
@@ -146,6 +179,10 @@ class Router {
         }
     }
 
+    /**
+     * the function that contains redirection logic
+     * between pages
+     */
     refresh(redirect = false) {
         console.log(window.location.pathname);
         const href = this.redirectHandle(window.location.pathname);
@@ -161,21 +198,24 @@ class Router {
         }
     }
 
+    /**
+     * function that triggers at start of the application
+     */
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
         console.log('start');
         this.currentPage = loaderPage;
         this.currentPage.render();
-        // reducerUser.getProfile()
-        //     .then(() => {
-        //         reducerLetters.getLetters('/inbox');
-        //     })
-        //     .then(() => {
         this.refresh();
-        //     });
     }
 
+    /**
+     * function that save current url to the history
+     * @param path - href to save
+     * @param props - additional info about url
+     * @param pushState - is saving needed?
+     */
     navigate({path, props, pushState}: { path: string, props: string | undefined, pushState: boolean }) {
         const location = decodeURIComponent((window.location.href.match(hrefRegExp.host)) ?
             window.location.href.match(hrefRegExp.host)![0] :

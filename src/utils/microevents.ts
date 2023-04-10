@@ -1,30 +1,36 @@
-/**
- * MicroEvent - to make any js object an event emitter (server or browser)
- *
- * - pure javascript - server compatible, browser compatible
- * - dont rely on the browser doms
- * - super simple - you get it immediatly, no mistery, no magic involved
- *
- * - create a MicroEventDebug with goodies to debug
- *   - make it safer to use
- */
+
 
 interface MicroEvent {
     _events: {[key: string]: Function[]};
 }
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * MicroEvent - implements event emitter
+ */
 class MicroEvent {
+    /**
+     * constructor initializes initial state
+     */
     constructor() {
         this._events = {};
     }
 
+    /**
+     * function that binds function to event
+     * @param event - event
+     * @param fct - function to bind
+     */
     bind(event: string, fct: Function) {
         this._events = this._events || {};
         this._events[event] = this._events[event] || [];
         this._events[event].push(fct);
     }
 
+    /**
+     * function that unbinds function to event
+     * @param event - event
+     * @param fct - function to unbind
+     */
     unbind(event: string, fct: Function) {
         this._events = this._events || {};
         if (!(event in this._events)) {
@@ -33,6 +39,10 @@ class MicroEvent {
         this._events[event].splice(this._events[event].indexOf(fct), 1);
     }
 
+    /**
+     * function that triggers event
+     * @param event - event
+     */
     trigger(event: string /* , args... */) {
         this._events = this._events || {};
         if (!(event in this._events)) {
