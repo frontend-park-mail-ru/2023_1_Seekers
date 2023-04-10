@@ -16,6 +16,11 @@ export interface PromoBox {
  * class implementing component PromoBox
  */
 export class PromoBox extends Component {
+    /**
+     * Constructor that creates a component class PromoBox
+     * @param context - HTML element into which
+     * will be rendered current element
+     */
     constructor(context: componentContext) {
         super(context);
         this.state = {
@@ -24,6 +29,10 @@ export class PromoBox extends Component {
             },
         };
     }
+
+    /**
+     * method insert form to HTML
+     */
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {

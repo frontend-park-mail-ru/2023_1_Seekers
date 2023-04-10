@@ -18,8 +18,10 @@ const handlers = [
     {type: 'getProfilePage', method: reducerLetters.getProfilePage.bind(reducerLetters)},
     {type: 'getSecurityPage', method: reducerLetters.getSecurityPage.bind(reducerLetters)},
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
-    {type: 'changeLetterStateToUnread', method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},
-    {type: 'changeLetterStateToRead', method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
+    {type: 'changeLetterStateToUnread',
+        method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},
+    {type: 'changeLetterStateToRead',
+        method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
     {type: 'logout', method: reducerUser.logout.bind(reducerUser)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},

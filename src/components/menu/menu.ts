@@ -7,7 +7,6 @@ import {dispatcher} from '@utils/dispatcher';
 import {actionGetLetters} from '@actions/letters';
 import {config} from '@config/config';
 import {NewMailButton} from '@uikits/new-mail-button/new-mail-button';
-import {SendMail} from '@components/send-mail/send-mail';
 import {actionCreateNewMail} from '@actions/newMail';
 
 // import {actionRedirect} from "@actions/user";
@@ -27,7 +26,7 @@ export interface Menu {
 export class Menu extends Component {
     /**
      * Constructor that creates a component class menuButton
-     * @param {componentContext} context HTML element into which
+     * @param context - HTML element into which
      * will be rendered current element
      */
     constructor(context: componentContext) {
@@ -40,6 +39,11 @@ export class Menu extends Component {
         };
     }
 
+    /**
+     * function that dispatches action to render New Mail Area
+     * it happens when user clicks to menu buttons
+     * @param e - event
+     */
     menuButtonClicked = async (e: Event) => {
         if (!e.isTrusted) {
             return;
@@ -61,6 +65,10 @@ export class Menu extends Component {
         }
     };
 
+    /**
+     * function that dispatches action to render New Mail Area
+     * @param e - event
+     */
     newMailButtonClicked = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
@@ -76,16 +84,16 @@ export class Menu extends Component {
      * according to a given template and context
      */
     render() {
-        const commonMenuButtons: Object[] = [];
-        const advancedMenuButtons: Object[] = [];
+        const commonMenuButtons: object[] = [];
+        // const advancedMenuButtons: object[] = [];
 
         Object.values(config.buttons.commonMenuButtons).forEach((menuButton) => {
             commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 
-        reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: Object) => {
-            advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
-        });
+        // reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: object) => {
+        //     advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
+        // });
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
@@ -121,8 +129,8 @@ export class Menu extends Component {
     }
 
     /**
-     * method register NOT IMPLEMENTED
-     * will register listeners for each letter-frame in letter-list
+     * method registerEventListener
+     * register listeners for each menu button in menu
      */
     registerEventListener() {
         this.state.menuButtons.forEach((child: Element) => {
@@ -132,8 +140,8 @@ export class Menu extends Component {
     }
 
     /**
-     * method unregister NOT IMPLEMENTED
-     * will unregister listeners for each letter-frame in letter-list
+     * method unregisterEventListener
+     * unregister listeners for each menu button in menu
      */
     unregisterEventListener() {
         this.state.menuButtons.forEach((child: Element) => {

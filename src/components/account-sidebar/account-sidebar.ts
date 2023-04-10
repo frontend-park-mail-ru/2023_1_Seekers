@@ -20,7 +20,6 @@ export interface AccountSidebar {
  * class implementing uikit account-sidebar
  */
 export class AccountSidebar extends Component {
-
     /**
      * Constructor that creates a component class Mail
      * @param context - HTML-element for including content

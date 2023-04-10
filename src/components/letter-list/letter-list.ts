@@ -8,7 +8,6 @@ import {microEvents} from '@utils/microevents';
 import {
     actionChangeLetterStateToRead,
     actionChangeLetterStateToUnread,
-    actionGetLetters,
     actionGetMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
@@ -31,7 +30,7 @@ export interface LetterList {
 export class LetterList extends Component {
     /**
      * Constructor that creates a component class menuButton
-     * @param {componentContext} context HTML element into which
+     * @param context - HTML element into which
      * will be rendered current element
      */
     constructor(context: componentContext) {
@@ -53,13 +52,12 @@ export class LetterList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                const path = reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
-
                 await dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
                 e.stopPropagation();
                 currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
-                const letterState = currentTarget.getElementsByClassName('letter-frame__read-state')[0] as HTMLElement;
+                const letterState = currentTarget.getElementsByClassName(
+                    'letter-frame__read-state')[0] as HTMLElement;
 
                 if (letterState.classList.contains('letter-is-unread')) {
                     dispatcher.dispatch(actionChangeLetterStateToRead(letterState.dataset.section!));
@@ -96,7 +94,6 @@ export class LetterList extends Component {
         const mail = reducerLetters.getCurrentMail();
         if (mail) {
             this.state.activeLetter?.classList.remove('letter-frame_color-active');
-            const element = this.state.letters[0]?.letterElement;
             this.state.activeLetter = this.state.letters.find((letter) => {
                 return letter.letterElement.id === 'letter-frame-id-' + mail.message_id;
             })?.letterElement;
@@ -120,8 +117,12 @@ export class LetterList extends Component {
         }
     }
 
+    /**
+     * A method that draws a letter list into a parent HTML element
+     * according to a given template and context
+     */
     renderLetterFrames() {
-        const letterList: Object[] = [];
+        const letterList: object[] = [];
         const letterObjs = reducerLetters._storage
             .get(reducerLetters._storeNames.letters)
             .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
@@ -142,7 +143,10 @@ export class LetterList extends Component {
         this.state.letters = [];
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
         [...this.state.element.getElementsByClassName('letter-frame')].forEach((letterFrame) => {
-            this.state.letters.push({letterElement: letterFrame, stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0]});
+            this.state.letters.push(
+                {letterElement: letterFrame,
+                    stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0],
+                });
         });
 
         this.changeLetterToActive();
@@ -150,7 +154,9 @@ export class LetterList extends Component {
         this.registerEventListener();
     }
 
-
+    /**
+     * A method that draws a loader into a parent HTML element
+     */
     renderLoader() {
         const loaderList = [];
 
@@ -165,7 +171,6 @@ export class LetterList extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
-
         this.registerEventListener();
     }
 
@@ -178,6 +183,9 @@ export class LetterList extends Component {
         this.state.element.remove();
     }
 
+    /**
+     * method letterList page rerender
+     */
     rerender() {
         this.purge();
         this.render();

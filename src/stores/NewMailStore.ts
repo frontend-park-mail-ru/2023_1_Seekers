@@ -1,12 +1,12 @@
 import {Connector} from '@utils/ajax';
-import {config, responseStatuses} from '@config/config';
+import {config} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
-import {reducerUser} from '@stores/userStore';
-import {actionChangeLetterStateToRead} from '@actions/letters';
 import {reducerLetters} from '@stores/LettersStore';
 
-
+/**
+ * class that implements all possible actions with sent mail
+ */
 class NewMailStore extends BaseStore {
     _storeNames = {
         title: 'title',
@@ -16,10 +16,16 @@ class NewMailStore extends BaseStore {
         answerBody: 'answerBody',
     };
 
+    /**
+     * constructor that creates the store
+     */
     constructor() {
         super();
     }
 
+    /**
+     * function that sets initial state of the store
+     */
     createNewMail = async () => {
         this._storage.set(this._storeNames.title, '');
         this._storage.set(this._storeNames.text, '');
@@ -30,21 +36,30 @@ class NewMailStore extends BaseStore {
         microEvents.trigger('createNewMail');
     };
 
+    /**
+     * function that sets initial state of the store when need to forward mail
+     */
     forwardMail = async () => {
         this._storage.set(
-            this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
+            this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail)
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
         );
         this._storage.set(
-            this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).text,
+            this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail)
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).text,
         );
         this._storage.set(this._storeNames.recipients, '');
 
         microEvents.trigger('createNewMail');
     };
 
+    /**
+     * function that sets initial state of the store when need to reply to mail
+     */
     replyToMail = async () => {
         this._storage.set(
-            this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
+            this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail)
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
         );
         this._storage.set(
             this._storeNames.text, '',
@@ -52,13 +67,18 @@ class NewMailStore extends BaseStore {
 
         this._storage.set(
             this._storeNames.recipients, reducerLetters._storage
-                .get(reducerLetters._storeNames.mail).get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail))
+                .get(reducerLetters._storeNames.mail).get(reducerLetters._storage
+                    .get(reducerLetters._storeNames.currentMail))
                 .from_user_id.email,
         );
 
         microEvents.trigger('createNewMail');
     };
 
+    /**
+     * function that make send mail request to backend
+     * @param mail - mail to send
+     */
     sendMail = async (mail: MailToSend) => {
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);

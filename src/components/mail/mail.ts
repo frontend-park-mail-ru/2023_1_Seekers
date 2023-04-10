@@ -7,8 +7,6 @@ import {microEvents} from '@utils/microevents';
 import {config} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {dispatcher} from '@utils/dispatcher';
-import {actionGetLetters} from '@actions/letters';
-import {reducerUser} from '@stores/userStore';
 import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
 
 
@@ -23,10 +21,9 @@ export interface Mail {
  * class implementing component Mail
  */
 export class Mail extends Component {
-
     /**
      * Constructor that creates a component class Mail
-     * @param {componentContext} context HTML-element for including content
+     * @param context - HTML-element for including content
      */
     constructor(context: componentContext) {
         super(context);
@@ -46,8 +43,8 @@ export class Mail extends Component {
             this.parent.insertAdjacentHTML('afterbegin', template({}));
             this.state.element = this.parent.getElementsByClassName('mail')[0];
         } else if (reducerLetters.getCurrentMail() !== undefined) {
-            const actionButtons: Object[] = [];
-            Object.values(config.buttons.mailActionButtons).forEach((button: Object) => {
+            const actionButtons: object[] = [];
+            Object.values(config.buttons.mailActionButtons).forEach((button: object) => {
                 actionButtons.push(IconButton.renderTemplate(button));
             });
             this.parent.insertAdjacentHTML('afterbegin', template(
@@ -97,11 +94,18 @@ export class Mail extends Component {
         this.state.element.remove();
     }
 
+    /**
+     * method letterList page rerender
+     */
     rerender() {
         this.purge();
         this.render();
     }
 
+    /**
+     * function that binds to the bottom buttons click
+     * @param e - event
+     */
     letterAction(e: Event) {
         e.preventDefault();
         const {currentTarget} = e;

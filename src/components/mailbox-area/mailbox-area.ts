@@ -2,9 +2,6 @@ import {Component} from '@components/component';
 import template from '@components/mailbox-area/mailbox-area.hbs';
 import '@components/mailbox-area/mailbox-area.scss';
 
-import {config} from '@config/config';
-import {dispatcher} from '@utils/dispatcher';
-
 import {microEvents} from '@utils/microevents';
 import {Menu} from '@components/menu/menu';
 import {LetterList} from '@components/letter-list/letter-list';
@@ -32,7 +29,7 @@ export class MailBoxArea extends Component {
 
     /**
      *
-     * @param {componentContext} context HTML-element for including content
+     * @param context - HTML-element for including content
      */
     constructor(context: componentContext) {
         super(context);
@@ -60,6 +57,9 @@ export class MailBoxArea extends Component {
         microEvents.unbind('createNewMail', this.renderNewMail);
     };
 
+    /**
+     * method that render area for mail sending
+     */
     renderNewMail = () => {
         const sendMail = new SendMail({parent: document.getElementById('root')!});
         sendMail.render();
@@ -91,7 +91,7 @@ export class MailBoxArea extends Component {
         this.registerEvents();
     };
 
-    /** \
+    /**
      * method mailbox page clearing
      */
     purge() {

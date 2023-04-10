@@ -3,10 +3,10 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
-import {actionChangeLetterStateToRead} from '@actions/letters';
-import {LetterFrame} from '@uikits/letter-frame/letter-frame';
 
-
+/**
+ * class that implements all possible actions with letters data
+ */
 class LettersStore extends BaseStore {
     _storeNames = {
         letters: 'letters',
@@ -17,6 +17,9 @@ class LettersStore extends BaseStore {
         currentAccountPage: 'currentAccountPage',
     };
 
+    /**
+     * constructor that sets initial state of the store
+     */
     constructor() {
         super();
         this._storage.set(this._storeNames.letters, new Map());
@@ -26,6 +29,10 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.currentLetters, '/inbox');
     }
 
+    /**
+     * function that makes request to get all the letters from folder
+     * @param folderName - name of folder
+     */
     getLetters = async (folderName: string) => {
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
@@ -44,7 +51,8 @@ class LettersStore extends BaseStore {
                             text: message.text,
                             created_at: time,
                             href: folderName + '/' + message.message_id,
-                            avatar: `${config.basePath}/${config.api.avatar}?email=${message.from_user_id.email}`,
+                            avatar: `${config.basePath}/${config.api.avatar}` +
+                                `?email=${message.from_user_id.email}`,
                         };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
@@ -62,6 +70,10 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+    /**
+     * function that makes request to get concrete mail
+     * @param href - href of mail
+     */
     getMail = async (href: string) => {
         const mailId = href.split('/').pop();
         if (!this._storage.get(this._storeNames.mail).get(mailId)) {
@@ -72,7 +84,8 @@ class LettersStore extends BaseStore {
                         mailData.created_at = mailData.created_at.substring(0, 10)
                             .replace('-', '.').replace('-', '.');
                         mailData.from_user_id.avatar =
-                            `${config.basePath}/${config.api.avatar}?email=${body.message.from_user_id.email}`;
+                            `${config.basePath}/${config.api.avatar}?email=
+                            ${body.message.from_user_id.email}`;
 
                         this._storage.get(this._storeNames.mail).set(mailId, mailData);
 
@@ -88,6 +101,9 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+    /**
+     * function that makes request to get menu
+     */
     getMenu = async () => {
         const responsePromise = Connector.makeGetRequest(config.api.getMenu);
         const [status, response] = await responsePromise;
@@ -97,6 +113,9 @@ class LettersStore extends BaseStore {
         }
     };
 
+    /**
+     * function that makes requests for all the components of mailbox
+     */
     getMailboxPage = async (obj: stateObject) => {
         this.getMenu().then(() => {
             this.getLetters(obj.path).then(() => {
@@ -109,67 +128,59 @@ class LettersStore extends BaseStore {
         });
     };
 
+    /**
+     * function that makes requests for all the components of account
+     */
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
         microEvents.trigger('renderAccountPage');
     };
 
+    /**
+     * function that makes requests for all the components of profile
+     */
     getProfilePage = async () => {
         microEvents.trigger('renderProfilePage');
     };
 
+    /**
+     * function that makes requests for all the components of security
+     */
     getSecurityPage = async () => {
         microEvents.trigger('renderSecurityPage');
     };
 
+    /**
+     * function that makes requests for changing letter state
+     */
     changeLetterStateToRead = async (letterId: string) => {
         const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read', {});
-        const [status, body] = await responsePromise;
+        const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
         }
     };
 
+    /**
+     * function that makes requests for changing letter state
+     */
     changeLetterStateToUnread = async (letterId: string) => {
         const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
-        const [status, body] = await responsePromise;
+        const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
         }
     };
 
-
+    /**
+     * function that gets current mail from this store
+     * @returns current mail
+     */
     getCurrentMail() {
-        return this._storage.get(this._storeNames.mail).get(this._storage.get(this._storeNames.currentMail));
+        return this._storage.get(this._storeNames.mail)
+            .get(this._storage.get(this._storeNames.currentMail));
     }
 }
-
-
-const menuBtns = [
-    {
-        href: 'inbox',
-        text: 'inbox',
-        count: '10',
-    },
-
-    {
-        href: 'outbox',
-        text: 'outbox',
-        count: '10',
-    },
-
-    {
-        href: 'spam',
-        text: 'spam',
-        count: '10',
-    },
-
-    {
-        href: 'trash',
-        text: 'trash',
-        count: '10',
-    },
-];
 
 export const reducerLetters = new LettersStore();

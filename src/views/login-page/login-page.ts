@@ -8,7 +8,7 @@ import '@views/login-page/login-page.scss';
 
 import {PromoBox} from '@components/promo-box/promo-box';
 import {WrapperAccess} from '@components/wrapper-access/wrapper-access';
-import {config, responseStatuses, ROOT} from '@config/config';
+import {config, responseStatuses} from '@config/config';
 import {dispatcher} from '@utils/dispatcher';
 
 import {actionLogin, actionRedirect, actionToSignUp} from '@actions/user';
@@ -36,8 +36,7 @@ class Login extends View {
 
 
     /**
-     *
-     * @param {Element} parent HTML-element for including content
+     * @param parent - HTML-element for including content
      */
     constructor(parent: Element) {
         super(
@@ -66,12 +65,12 @@ class Login extends View {
         e.preventDefault();
         const data = document.getElementById('wrapper-access__form') as HTMLElement;
 
-        const login_form = data.querySelector('input[name=login]') as HTMLInputElement;
-        const password_form = data.querySelector('input[name=password]') as HTMLInputElement;
+        const loginForm = data.querySelector('input[name=login]') as HTMLInputElement;
+        const passwordForm = data.querySelector('input[name=password]') as HTMLInputElement;
 
         const user = {} as user;
-        user.login = login_form.value;
-        user.password = password_form.value;
+        user.login = loginForm.value;
+        user.password = passwordForm.value;
 
         if (this.#validator.validateRegFields(user.login, user.password)) {
             await dispatcher.dispatch(actionLogin(user));
@@ -138,7 +137,7 @@ class Login extends View {
         this.registerEvents();
     };
 
-    /** \
+    /**
      * method login page clearing
      */
     purge() {
@@ -147,6 +146,9 @@ class Login extends View {
         });
     }
 
+    /**
+     * method that triggers when answer from backend received
+     */
     subscribeLoginStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);

@@ -1,5 +1,3 @@
-import {dispatcher} from '@utils/dispatcher';
-
 /**
  * Класс, реализующий базовое хранилище.
  */

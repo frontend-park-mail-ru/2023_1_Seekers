@@ -8,6 +8,10 @@ import '@uikits/new-mail-button/new-mail-button.scss';
  * class implementing component Menu Button
  */
 export class NewMailButton extends UiKit {
+    /**
+     * method that render current kit
+     * @param args - needed data to render template
+     */
     static renderTemplate(args: any) {
         return template(args);
     }

@@ -4,7 +4,6 @@ import {ProfileButton} from '@uikits/profile-button/profile-button';
 import template from '@components/navbar/navbar.hbs';
 
 import '@components/navbar/navbar.scss';
-import {SidebarLinkButton} from '@uikits/sidebar-linkButton/sidebar-linkButton';
 import {AccountSidebar} from '@components/account-sidebar/account-sidebar';
 import {reducerUser} from '@stores/userStore';
 import {microEvents} from '@utils/microevents';
@@ -18,16 +17,21 @@ export interface Navbar {
 }
 
 /**
- * class implementing component PromoBox
+ * class implementing component Navbar
  */
 export class Navbar extends Component {
+    /**
+     * Constructor that creates a component class Navbar
+     * @param context - HTML element into which
+     * will be rendered current element
+     */
     constructor(context: componentContext) {
         super(context);
     }
 
     /**
      * method handle click on navbar
-     * @param {Event} e - event that goes from one of childs of current element
+     * @param e - event that goes from one of children of current element
      */
     eventCatcher = (e: Event) => {
         e.preventDefault();
@@ -53,12 +57,12 @@ export class Navbar extends Component {
 
     /**
      * method insert form to HTML
-     * @param {Object} ctx - template rendering context
      */
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                profileButton: ProfileButton.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
+                profileButton: ProfileButton.renderTemplate(
+                    reducerUser._storage.get(reducerUser._storeNames.profile)),
             },
         ));
 

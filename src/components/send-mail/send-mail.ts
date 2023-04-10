@@ -8,13 +8,11 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {actionLogin} from '@actions/user';
 import {actionSendMail} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
 import {RecipientForm} from '@uikits/recipient-form/recipient-form';
-import {text} from 'express';
 import {showNotification} from '@components/notification/notification';
 
 
@@ -35,9 +33,14 @@ export interface SendMail {
 }
 
 /**
- * class implementing uikit send-mail
+ * class implementing component send-mail
  */
 export class SendMail extends Component {
+    /**
+     * Constructor that creates a component class SendMail
+     * @param context - HTML element into which
+     * will be rendered current element
+     */
     constructor(context: componentContext) {
         super(context);
         this.state = {
@@ -55,7 +58,7 @@ export class SendMail extends Component {
 
     /**
      * method handle click on navbar
-     * @param {Event} e - event that goes from one of childs of current element
+     * @param e - event that goes from one of childs of current element
      */
     bottomButtonsClicked = async (e: Event) => {
         e.preventDefault();
@@ -74,6 +77,9 @@ export class SendMail extends Component {
         }
     };
 
+    /**
+     * function that dispatches action to send mail
+     */
     sendMail = async () => {
         const mail = {
             title: this.state.topic.value,
@@ -82,7 +88,8 @@ export class SendMail extends Component {
         } as MailToSend;
 
         const sendButton = this.state.footerButtons.find((button) => {
-            return (button as HTMLElement).dataset.section === config.buttons.newMailButtons.footerButtons.send.href;
+            return (button as HTMLElement).dataset.section ===
+                config.buttons.newMailButtons.footerButtons.send.href;
         });
 
         sendButton?.classList.add('skeleton__block');
@@ -91,6 +98,9 @@ export class SendMail extends Component {
         await dispatcher.dispatch(actionSendMail(mail));
     };
 
+    /**
+     * function that triggers when the answer got from the backend
+     */
     getResponse = () => {
         const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
@@ -110,13 +120,18 @@ export class SendMail extends Component {
             showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
-            return (button as HTMLElement).dataset.section === config.buttons.newMailButtons.footerButtons.send.href;
+            return (button as HTMLElement).dataset.section ===
+                config.buttons.newMailButtons.footerButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
         sendButton?.classList.remove('new-mail-button_disabled');
     };
 
+    /**
+     * function that triggered when close button clicked
+     * @param e - event
+     */
     closeButtonClicked = async (e: Event) => {
         e.preventDefault();
         const {currentTarget} = e;
@@ -130,6 +145,10 @@ export class SendMail extends Component {
         }
     };
 
+    /**
+     * function that triggered when user want to delete one of recipients
+     * @param e - event
+     */
     onRemoveRecipientClicked = async (e: Event) => {
         if (e.currentTarget) {
             let element: any = undefined;
@@ -147,11 +166,16 @@ export class SendMail extends Component {
         }
     };
 
+    /**
+     * function that adds new recipients to input
+     * @param e - event
+     */
     addRecipient = async (e: Event) => {
         if (e.target instanceof HTMLInputElement) {
             const newRecipients = e.target.value.split(' ');
             e.target.value = '';
-            const recipientInput = document.getElementsByClassName('send-mail__input-form')[0] as HTMLElement;
+            const recipientInput = document.getElementsByClassName(
+                'send-mail__input-form')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
                 if (recipient !== '' && !this.state.recipients.has(recipient)) {
                     if (!recipient.includes('@')) {
@@ -160,25 +184,32 @@ export class SendMail extends Component {
 
                     recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
                         text: recipient,
-                        closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
+                        closeButton: IconButton.renderTemplate(
+                            config.buttons.newMailButtons.closeButton),
                     }));
 
-                    const foundElement = [...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
+                    const foundElement = [
+                        ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
                         return (element as HTMLElement).dataset.section === recipient;
                     })!;
 
                     const validator = new Validation;
-                    if (validator.validateLogin(recipient).status === false) {
+                    if (!validator.validateLogin(recipient).status) {
                         foundElement.classList.add('input-form__error__border');
                     }
 
-                    foundElement.getElementsByClassName('icon-button')[0].addEventListener('click', this.onRemoveRecipientClicked);
+                    foundElement.getElementsByClassName('icon-button')[0]
+                        .addEventListener('click', this.onRemoveRecipientClicked);
                     this.state.recipients.set(recipient, foundElement as HTMLElement);
                 }
             });
         }
     };
 
+    /**
+     * function that triggered when recipient input changed
+     * @param e - event
+     */
     onContentChanged = async (e: Event) => {
         if (e.target instanceof HTMLInputElement) {
             if (e.target.value.includes(' ')) {
@@ -191,6 +222,10 @@ export class SendMail extends Component {
         }
     };
 
+    /**
+     * method registerEventListener
+     * register listeners for each action that may happen in send mail
+     */
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);
 
@@ -206,7 +241,8 @@ export class SendMail extends Component {
     };
 
     /**
-     * method unregister events button submit and input focus
+     * method registerEventListener
+     * register listeners for each action that may happen in send mail
      */
     unregisterEventListener = () => {
         document.removeEventListener('click', this.onSidebarClick);
@@ -227,9 +263,13 @@ export class SendMail extends Component {
         });
     };
 
+    /**
+     * method that fills inputs by values from stores
+     */
     setInputsState = () => {
         this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
-        this.state.recipientsInput.value = reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
+        this.state.recipientsInput.value =
+            reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
         this.state.text.value = reducerNewMail._storage.get(reducerNewMail._storeNames.text);
     };
 
@@ -238,7 +278,7 @@ export class SendMail extends Component {
      * method insert sidebar to HTML
      */
     render() {
-        const actionButtons: Object[] = [];
+        const actionButtons: object[] = [];
         Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
             actionButtons.push(NewMailButton.renderTemplate(button));
         });
@@ -255,8 +295,10 @@ export class SendMail extends Component {
         this.state.footerButtons = [...this.state.element.getElementsByClassName('new-mail-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 
-        this.state.topic = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
-        this.state.recipientsInput = this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.recipients.name)!;
+        this.state.topic =
+            this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
+        this.state.recipientsInput = this.state.element.getElementsByTagName('input')
+            .namedItem(config.forms.newMail.recipients.name)!;
 
         this.state.text = this.state.element.getElementsByTagName('textarea')[0];
 
@@ -266,6 +308,10 @@ export class SendMail extends Component {
         this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
+    /**
+     * method that triggers when user click beyond the boundaries of a new letter
+     * @param e - event
+     */
     onSidebarClick = (e: Event) => {
         e.preventDefault();
         if (e.target) {

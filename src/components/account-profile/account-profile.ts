@@ -125,8 +125,8 @@ export class AccountProfile extends Component {
         const avatar = document.getElementById('account-sidebar__avatar');
         avatar?.removeEventListener('click', this.onClickAvatar);
 
-        const avatar_form = document.getElementById('account-profile__avatar__form');
-        avatar_form?.removeEventListener('change', this.onLoadAvatar);
+        const avatarForm = document.getElementById('account-profile__avatar__form');
+        avatarForm?.removeEventListener('change', this.onLoadAvatar);
 
         microEvents.unbind('profileChanged', this.rerenderCreds);
     };

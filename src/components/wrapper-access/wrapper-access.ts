@@ -22,6 +22,12 @@ export interface WrapperAccess {
  * class implementing component wrapper-access
  */
 export class WrapperAccess extends Component {
+    /**
+     * Constructor that creates a component class WrapperAccess
+     * @param context - HTML element into which
+     * @param state - initial state of object
+     * will be rendered current element
+     */
     constructor(context: componentContext, state: any) {
         super(context);
         this.state = state;

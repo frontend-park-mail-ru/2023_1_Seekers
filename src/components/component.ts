@@ -5,7 +5,14 @@ export interface Component extends anyObject {
     parent: HTMLElement;
 }
 
+/**
+ * base class for components
+ */
 export class Component {
+    /**
+     * constructor that initializes parent field
+     * @param context - contains parent
+     */
     constructor(context = {parent: ROOT} as componentContext) {
         this.state = {};
         this.context = context;

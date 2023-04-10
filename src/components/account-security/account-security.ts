@@ -11,7 +11,7 @@ import {dispatcher} from '@utils/dispatcher';
 import {actionPostSecurity} from '@actions/user';
 import {reducerUser} from '@stores/userStore';
 import {responseStatuses} from '@config/config';
-import {showNotification} from "@components/notification/notification";
+import {showNotification} from '@components/notification/notification';
 
 export interface AccountSecurity {
     state: {

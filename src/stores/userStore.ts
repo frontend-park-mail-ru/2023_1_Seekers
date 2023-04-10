@@ -3,6 +3,9 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 
+/**
+ * class that implements all possible actions with user data
+ */
 class UserStore extends BaseStore {
     _storeNames = {
         profile: 'profile',
@@ -12,6 +15,9 @@ class UserStore extends BaseStore {
         body: 'body',
     };
 
+    /**
+     * constructor that sets initial state of the store
+     */
     constructor() {
         super();
         this._storage.set(this._storeNames.name, undefined);
@@ -19,6 +25,10 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.profile, undefined);
     }
 
+    /**
+     * function that makes request to log in user
+     * @param user - user data
+     */
     async login(user: user) {
         const responsePromise = Connector.makePostRequest(config.api.login, user);
         const [status, body] = await responsePromise;
@@ -31,6 +41,10 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromLogin');
     }
 
+    /**
+     * function that makes request to sign up user
+     * @param user - user data
+     */
     async signup(user: user) {
         const responsePromise = Connector.makePostRequest(config.api.signup, user);
         const [status, body] = await responsePromise;
@@ -43,6 +57,9 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromSignup');
     }
 
+    /**
+     * function that makes request to get user data from backend
+     */
     async getProfile() {
         const responsePromise = Connector.makeGetRequest(config.api.getProfile);
 
@@ -53,20 +70,24 @@ class UserStore extends BaseStore {
                     email: body.email,
                     firstName: body.firstName,
                     lastName: body.lastName,
-                    avatar: `${config.basePath}/${config.api.avatar}?email=${body.email}&t=${new Date().getTime()}`,
+                    avatar: `${config.basePath}/${config.api.avatar}` +
+                        `?email=${body.email}&t=${new Date().getTime()}`,
                 });
             microEvents.trigger('profileChanged');
         }
     }
 
+    /**
+     * function that makes request to log out user
+     */
     async logout() {
-        const responsePromise = Connector.makeDeleteRequest(config.api.logout);
-
-        const [status, body] = await responsePromise;
+        await Connector.makeDeleteRequest(config.api.logout);
         microEvents.trigger('loggedOut');
-        // }
     }
 
+    /**
+     * function that makes request to change user name
+     */
     async changeName(user: user) {
         const responsePromise = Connector.makePutRequest({url: config.api.getProfile, data: user});
         const [status, body] = await responsePromise;
@@ -79,6 +100,9 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromProfile');
     }
 
+    /**
+     * function that makes request to change user password
+     */
     async changePw(userPwForm: userPwForm) {
         const responsePromise = Connector.makePutRequest({url: config.api.password, data: userPwForm});
         const [status, body] = await responsePromise;
@@ -90,8 +114,12 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromSecurity');
     }
 
+    /**
+     * function that makes request to change user avatar
+     */
     async putAvatar(formDataAvatar: FormData) {
-        const responsePromise = Connector.makePutRequest({url: config.api.avatar, data: formDataAvatar}, true);
+        const responsePromise = Connector.makePutRequest(
+            {url: config.api.avatar, data: formDataAvatar}, true);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
@@ -102,6 +130,9 @@ class UserStore extends BaseStore {
         microEvents.trigger('fromAvatar');
     }
 
+    /**
+     * function that checks if user is authenticated
+     */
     checkAuth() {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `${config.basePath}/${config.api.auth}`, false);
@@ -114,10 +145,16 @@ class UserStore extends BaseStore {
         xhr.send('null');
     }
 
+    /**
+     * function that triggers signup render
+     */
     getSignupPage = async () => {
         microEvents.trigger('renderSignup');
     };
 
+    /**
+     * function that triggers login render
+     */
     getLoginPage = async () => {
         microEvents.trigger('renderLogin');
     };

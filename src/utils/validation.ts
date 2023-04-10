@@ -74,7 +74,7 @@ export class Validation {
     /**
      * method validate text inputs(not empty)
      * @param data
-     * @return message for error and status
+     * @returns message for error and status
      */
     validateText = (data: string) => {
         if (data.length < 1) {
@@ -90,9 +90,10 @@ export class Validation {
      * @param anotherPassword
      * @param name
      * @param surname
-     * @return status
+     * @returns status
      */
-    validateRegFields = (login: string, password: string, anotherPassword: string = password, name = ' ', surname = ' ') => {
+    validateRegFields = (login: string, password: string, anotherPassword: string = password,
+        name = ' ', surname = ' ') => {
         return ((password === anotherPassword) && (this.validateLogin(login).status) &&
             (this.validatePassword(password).status) && (this.validateText(name).status) &&
             (this.validateText(surname).status));
@@ -131,7 +132,8 @@ export class Validation {
             }
         } else if (document.getElementById(e.target.name + 'Error') !== null) {
             document.getElementById(e.target.name + 'Error')?.remove();
-            document.getElementById(e.target.name)?.classList.remove('error-border', 'input-form__error__border');
+            document.getElementById(e.target.name)?.classList
+                .remove('error-border', 'input-form__error__border');
         }
     };
 }
