@@ -1,0 +1,59 @@
+<div class="mail mail_size mail_color">
+    {{#if this.mail includeZero=false}}
+        {{#if this.mail.text includeZero=false}}
+            <div class="mail__header mail__header_size">
+
+
+                    <img src='{{this.mail.from_user_id.avatar}}' class="mail__image skeleton__block" alt="">
+
+                <div class="mail__header__details">
+                    <div class="mail__author">
+                        <p class="mail__contact font-normal-0 mail__text_color">{{ this.mail.from_user_id.email }}</p>
+                        <p class="mail__date font-normal-0 mail__text_color">{{ this.mail.created_at }}</p>
+                    </div>
+                    <div class="mail__recipients">
+                        <p class="font-normal-0 mail__text_color">
+                            to:
+                            {{#each this.mail.recipients}}
+                                {{{this.email}}}
+                            {{/each}}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mail__content mail__content_color">
+                {{{ this.mailContent }}}
+            </div>
+            <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color">
+                {{#each this.actionButtons}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+        {{else}}
+                <div class="mail__header mail__header_size">
+
+                    <div class="mail__image skeleton__block"></div>
+
+                    <div class="mail__header__details skeleton__block"></div>
+                </div>
+                <div class="mail__content mail__content_color"></div>
+                <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color skeleton__block"></div>
+
+        {{/if}}
+    {{else}}
+        <div class="mail__not-chosen">
+            <svg class="mail__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="m3 19v-8.9296c0-.66875.3342-1.29322.8906-1.66415l7-4.66666c.6718-.44787 1.547-.44787 2.2188
+                0l7 4.66666c.5564.37093.8906.9954.8906 1.66415v8.9296m-18 0c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
+                2-2m-18 0 6.75-4.5m11.25 4.5-6.75-4.5m-11.25-4.50001 6.75 4.50001m11.25-4.50001-6.75 4.50001m0
+                0-1.1406.7604c-.6718.4479-1.547.4479-2.2188 0l-1.1406-.7604" fill-rule="evenodd" stroke-width="2"/>
+            </svg>
+
+            <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Письмо не выбрано</p>
+        </div>
+    {{/if}}
+
+
+</div>
+

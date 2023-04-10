@@ -1,0 +1,41 @@
+.icon-button {
+    display: flex;
+    position: relative;
+    border-radius: 6px;
+    flex: none;
+    cursor: pointer;
+
+    &_size {
+        width: 25px;
+        height: 25px;
+    }
+
+    &_color {
+        background: var(--mail-text-background-color);
+        border: 1px solid var(--mail-text-background-color);
+
+        &:hover {
+            background: var(--mail-text-background-color);
+            border: 1px solid var(--navbar-buttons-hover-border-color);
+        }
+
+        &:active {
+            background: var(--navbar-buttons-active-fill-color);
+            border: 1px solid var(--navbar-buttons-active-border-color);
+        }
+    }
+
+    &__icon {
+        display: flex;
+        fill: var(--navbar-icons-default-color);
+        flex: 1;
+
+        &:hover .icon-button__icon {
+            fill: var(--navbar-icons-hover-color);
+        }
+
+        &:active .icon-button__icon {
+            fill: var(--navbar-icons-active-color);
+        }
+    }
+}

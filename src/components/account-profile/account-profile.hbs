@@ -1,0 +1,38 @@
+<div class="account-profile" id="account-profile">
+    <div class="account-profile__area">
+
+        <div class="account-profile__avatar-area">
+            <div class="account-sidebar__item account-sidebar__avatar__active-user">
+                <form class="account-profile__avatar__form" enctype="multipart/form-data"
+                      id="account-profile__avatar__form">
+                    <input class="account-sidebar__avatar-picker" name="avatar" type="file" accept="image/*"
+                           id="avatar-picker">
+                </form>
+                <div class="account-sidebar__avatar account-sidebar__avatar__hover-active" aria-label="Сменить аватар"
+                     id="account-sidebar__avatar">
+                    <img class="account-sidebar__avatar-img skeleton__block" src={{this.avatar}} alt="">
+                </div>
+                <div class="account-sidebar__text">
+                    <div class="account-sidebar__title">
+                        <div class="account-sidebar__name account-profile__name" aria-label="{{this.firstName}} {{this.lastName}}">
+                            {{this.firstName}} {{this.lastName}}
+                        </div>
+                    </div>
+                    <div class="account-sidebar__desc" aria-label="{{this.login}}">
+                        {{this.login}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class="account-profile__form" action="#" method="post" enctype="multipart/form-data"
+              id="account-profile__form">
+            <div class="account-profile__form__input" id="account-profile__form__input">
+                {{{this.forms}}}
+            </div>
+            <div class="account-profile__button-area" id="account-profile__button-area">
+                {{{this.button}}}
+            </div>
+        </form>
+    </div>
+</div>

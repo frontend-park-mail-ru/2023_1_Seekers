@@ -1,0 +1,48 @@
+.button-classic {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &__label {
+        font-style: normal;
+        font-size: 15px;
+        letter-spacing: 0.03em;
+        color: var(--text-main-color);
+    }
+
+    &__indent {
+        padding: 10px 0;
+    }
+
+    &__size {
+        height: 36px;
+        min-width: 80%;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    &__color {
+        background: var(--button-default-color);
+        box-shadow: 0 3px 8px var(--button-shadow-close-default-color),
+        0 7px 21px var(--button-shadow-far-default-color);
+
+        &:hover {
+            background: var(--button-hover-color);
+            box-shadow: 0 3px 8px var(--button-shadow-close-hover-color),
+            0 7px 21px var(--button-shadow-far-hover-color);
+        }
+
+        &:active {
+            background: var(--button-active-color);
+            box-shadow: 0 3px 8px var(--button-shadow-close-active-color),
+            0 7px 21px var(--button-shadow-far-active-color);
+        }
+
+        &:disabled {
+            background: var(--button-disabled-color);
+            box-shadow: 0 3px 8px var(--button-shadow-close-disabled-color),
+            0 7px 21px var(--button-shadow-far-disabled-color);
+            cursor: default;
+        }
+    }
+}

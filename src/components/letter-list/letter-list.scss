@@ -1,0 +1,50 @@
+.letterList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 10px 10px 10px;
+    flex: 1;
+    position: relative;
+    overflow: auto;
+    overflow-x: hidden;
+    border-radius: 7px;
+
+    &_size {
+        gap: 5px;
+        max-height: 100%;
+        max-width: 600px;
+        min-width: 400px;
+    }
+
+    &_order {
+        order: 2;
+    }
+
+    &_color {
+        background-color: var(--secondary-background-color);
+    }
+
+    &__not-chosen {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__icon {
+        display: flex;
+        stroke: var(--menu-icons-default-color);
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.horizontal-line {
+    height: 0;
+    border: 1px solid var(--delimeters-color);
+    flex: 0;
+    align-self: center;
+    width: 97%;
+}

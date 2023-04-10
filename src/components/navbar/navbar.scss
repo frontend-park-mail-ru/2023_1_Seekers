@@ -1,0 +1,59 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 0;
+    position: relative;
+    order: 0;
+
+    &_color {
+        background: var(--navbar-color);
+    }
+
+    &_size {
+        padding: 0;
+        gap: 10px;
+        min-height: 60px;
+        max-height: 60px;
+    }
+
+    &__frame-left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+        padding: 0 10px;
+        gap: 10px;
+        flex: 1;
+        align-self: stretch;
+    }
+
+    &__frame-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        padding: 0 10px;
+        gap: 32px;
+        flex: 1;
+        align-self: stretch;
+    }
+
+    &__emblem-button {
+        text-decoration: none;
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        align-items: center;
+        background-color: var(--navbar-color);
+        gap: 10px;
+        flex: 0;
+    }
+
+    &__text{
+        &_color {
+            color: var(--menu-text-default-color);
+        }
+    }
+}

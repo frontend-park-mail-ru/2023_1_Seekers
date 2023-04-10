@@ -1,0 +1,49 @@
+<div class="send-mail">
+    <div class="send-mail__area send-mail__area_size send-mail__area_color">
+        <div class="send-mail__header send-mail__header_size">
+
+            <div class="send-mail__read-state"></div>
+
+                <img src='{{this.profile.avatar}}' class="send-mail__image skeleton__block" alt="">
+
+            <div class="send-mail__header_details">
+                <div class="send-mail__author">
+                    <p class="send-mail__to font-normal-0 send-mail__text_color">Кому:</p>
+                    <div class="send-mail__input-form send-mail__input-form_indent">
+                        <input class="send-mail__text_color send-mail__input-form_size send-mail__input-form_color" type="{{this.inputs.recipients.type}}"
+                               name="{{this.inputs.recipients.name}}" maxlength="{{this.inputs.recipients.maxlength}}"
+                               id="{{this.inputs.recipients.name}}" required/>
+                    </div>
+                    {{{ this.closeButton }}}
+                </div>
+
+                <div class="send-mail__delimiter"></div>
+
+                <div class="send-mail__author">
+                    <p class="send-mail__to font-normal-0 send-mail__text_color">Тема:</p>
+                    <div class="send-mail__input-form send-mail__input-form_indent">
+                        <input class="send-mail__text_color send-mail__input-form_size send-mail__input-form_color" type="{{this.inputs.topic.type}}"
+                               name="{{this.inputs.topic.name}}" maxlength="{{this.inputs.topic.maxlength}}"
+                               id="{{this.inputs.topic.name}}" required/>
+                    </div>
+                </div>
+                <div class="send-mail__delimiter"></div>
+            </div>
+
+        </div>
+        <div class="send-mail__content send-mail__content_color">
+                <textarea class="send-mail__textarea send-mail__textarea_text-color send-mail__textarea_size
+                send-mail__textarea_color" name="{{this.inputs.mailText.name}}"
+                          maxlength="{{this.inputs.mailText.maxlength}}"
+                          id="{{this.inputs.mailText.name}}" required> </textarea>
+
+        </div>
+        <div class="send-mail__bottom-actions send-mail__bottom-actions_size send-mail__bottom-actions_color">
+            {{#each this.actionButtons}}
+                <div class="send-mail__bottom-button">
+                {{{this}}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

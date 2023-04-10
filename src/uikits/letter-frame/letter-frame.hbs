@@ -1,0 +1,30 @@
+<a id="letter-frame-id-{{message_id}}" href="{{message_id}}" class="letter-frame" data-section="{{ href }}">
+    <div class="letter-frame__read-state {{#if seen}} letter-is-read {{else}} letter-is-unread {{/if}}" data-section="{{ message_id }}">
+
+    </div>
+    <div class="letter-frame__content">
+        <div class="letter-frame__header">
+            <div class="letter-frame__image">
+                    <img src='{{avatar}}' class="letter-frame__image_size skeleton__block" alt="">
+            </div>
+            <div class="letter-frame__header__content">
+                <p class="letter-frame__name font-normal-0">
+                    {{from_user_email}}
+                </p>
+                <div class="letter-frame__title">
+                    <p class="letter-frame__title_text font-caption-0">
+                        {{title}}
+                    </p>
+                    <p class="letter-frame__title_text font-caption-0 letter-frame__text_color" style="text-align: right">
+                        {{created_at}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="letter-frame__content__text">
+            <p class="letter-frame__text font-caption-0 letter-frame__text_color">
+                {{text}}
+            </p>
+        </div>
+    </div>
+</a>

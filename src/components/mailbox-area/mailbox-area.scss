@@ -1,0 +1,17 @@
+.mailbox-area {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 5px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 10px;
+  order: 1;
+
+  &__vertical-line {
+    width: 0;
+    border: 1px solid var(--background-color);
+    flex: 0;
+    align-self: stretch;
+  }
+}

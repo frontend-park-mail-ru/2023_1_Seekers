@@ -1,0 +1,24 @@
+.recipient-form {
+  display: flex;
+  border: 1px solid var(--primary-active-color);
+  gap: 10px;
+  border-radius: 7px;
+  background: var(--input-default-fill-color);
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__text {
+    font-family: "Roboto Thin", sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--text-main-color);
+    justify-content: center;
+    align-self: center;
+    padding: 0 6px 0 6px;
+  }
+}
+
