@@ -104,7 +104,7 @@ class UserStore extends BaseStore {
      * function that makes request to change user password
      */
     async changePw(userPwForm: userPwForm) {
-        const responsePromise = Connector.makePostRequest(config.api.password, userPwForm);
+        const responsePromise = Connector.makePutRequest({url: config.api.password, data: userPwForm});
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             this._changed = true;
