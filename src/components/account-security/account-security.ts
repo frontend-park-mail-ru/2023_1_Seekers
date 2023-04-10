@@ -120,12 +120,17 @@ export class AccountSecurity extends Component {
     subscribeProfileStatus() {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
+        console.log(status);
         switch (status) {
         case responseStatuses.OK:
             showNotification('Пароль успешно изменён');
             break;
         default:
-            showNotification(body);
+            if (body.message) {
+                showNotification(body.message);
+            } else {
+                showNotification('что-то пошло не так');
+            }
         }
     }
 }

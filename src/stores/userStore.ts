@@ -109,6 +109,7 @@ class UserStore extends BaseStore {
         if (status === responseStatuses.OK) {
             this._changed = true;
         }
+        console.log(status);
         this._storage.set(this._storeNames.body, body);
         this._storage.set(this._storeNames.status, status);
         microEvents.trigger('fromSecurity');
