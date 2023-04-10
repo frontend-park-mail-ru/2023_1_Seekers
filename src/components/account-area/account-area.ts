@@ -68,7 +68,6 @@ export class AccountArea extends Component {
         if (this.state.content) {
             this.state.content.purge();
         }
-        console.log('help me pls');
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile);
 
         this.state.content = new AccountProfile({
