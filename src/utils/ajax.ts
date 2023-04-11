@@ -47,14 +47,6 @@ export class Connector {
             headers,
             body: JSON.stringify(data),
         };
-        // const options = {
-        //     method: 'post',
-        //     mode: 'cors',
-        //     credentials: 'include',
-        //     headers: config.headers,
-        //     body: JSON.stringify(data),
-        // };
-        // console.log(headers);
 
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
@@ -67,11 +59,12 @@ export class Connector {
      * @return request promise
      */
     static makePutRequest = async ({url, data}: { url: string, data: any }, uploadFile = false) => {
-        const csrfToken = await fetch(`${config.basePath}/${config.api.csrf}`, {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
             method: 'get',
             headers: new Headers(config.headers),
             credentials: 'include',
         });
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
 
         let headers;
         if (uploadFile) {
@@ -89,6 +82,7 @@ export class Connector {
                 headers,
                 body: data,
             };
+            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
             if (csrfToken !== null) {
@@ -108,6 +102,7 @@ export class Connector {
                 headers,
                 body,
             };
+            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         }
     };
@@ -119,11 +114,29 @@ export class Connector {
      * @return request promise
      */
     static makeGetRequest = async (url: string) => {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        console.log(csrfToken)
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
+            headers = config.headers;
+        }
+
         const options = {
             method: 'get',
             mode: 'cors',
             credentials: 'include',
-            headers: config.headers,
+            headers,
         };
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
