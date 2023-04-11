@@ -49,7 +49,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'https://mailbx.ru',
+    basePath: 'http://127.0.0.1',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -74,6 +74,7 @@ export const config = {
         sendMail: `${prefixApi}message/send`,
         avatar: `${prefixApi}user/avatar`,
         auth: `${prefixApi}auth`,
+        csrf: `${prefixApi}csrf`,
         // session: `${prefixApi}session`,
     },
 

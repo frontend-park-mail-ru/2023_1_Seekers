@@ -23,13 +23,39 @@ export class Connector {
      * @return request promise
      */
     static makePostRequest = async (url: string, data: object) => {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
+            headers = config.headers;
+        }
+
         const options = {
             method: 'post',
             mode: 'cors',
             credentials: 'include',
-            headers: config.headers,
+            headers,
             body: JSON.stringify(data),
         };
+        // const options = {
+        //     method: 'post',
+        //     mode: 'cors',
+        //     credentials: 'include',
+        //     headers: config.headers,
+        //     body: JSON.stringify(data),
+        // };
+        // console.log(headers);
+
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 
@@ -41,22 +67,45 @@ export class Connector {
      * @return request promise
      */
     static makePutRequest = async ({url, data}: { url: string, data: any }, uploadFile = false) => {
+        const csrfToken = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
         if (uploadFile) {
+            if (csrfToken !== null) {
+                headers = {
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
+                headers = {};
+            }
             const options = {
                 method: 'put',
                 mode: 'cors',
                 credentials: 'include',
-                headers: {},
+                headers,
                 body: data,
             };
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
+            if (csrfToken !== null) {
+                headers = {
+                    ...config.headers,
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
+                headers = config.headers;
+            }
+
             const body = JSON.stringify(data);
             const options = {
                 method: 'put',
                 mode: 'cors',
                 credentials: 'include',
-                headers: config.headers,
+                headers,
                 body,
             };
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
@@ -86,11 +135,27 @@ export class Connector {
      * @return request promise
      */
     static makeDeleteRequest = async (url: string) => {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
+            headers = config.headers;
+        }
         const options = {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
-            headers: config.headers,
+            headers,
         };
         console.log(`${config.basePath}/${url}`);
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;

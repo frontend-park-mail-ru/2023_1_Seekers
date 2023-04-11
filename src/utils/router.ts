@@ -122,6 +122,7 @@ class Router {
             window.location.href.replace(hrefRegExp.localhost, ''));
 
         matchedHref = this.matchHref(matchedHref[0]);
+        console.log(matchedHref);
 
         this.open({path: matchedHref[0], props: matchedHref[1]}, false, false);
         this.prevUrl = matchedHref[0];
