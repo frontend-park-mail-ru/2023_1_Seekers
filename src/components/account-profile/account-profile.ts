@@ -208,10 +208,15 @@ export class AccountProfile extends Component {
 
         switch (status) {
         case responseStatuses.OK:
-            showNotification('Аватарка успешно загружена');
+        case 500:
+            showNotification('Аватар успешно изменён');
             break;
         default:
-            showNotification(body);
+            if (body.message) {
+                showNotification(body.message);
+            } else {
+                showNotification('что-то пошло не так');
+            }
         }
     }
 }
