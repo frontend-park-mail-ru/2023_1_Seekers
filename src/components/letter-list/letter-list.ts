@@ -11,6 +11,7 @@ import {
     actionGetMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
+
 // import {actionChangeURL} from "@actions/user";
 
 export interface LetterList {
@@ -44,7 +45,23 @@ export class LetterList extends Component {
         this.rerender = this.rerender.bind(this);
     }
 
-            selectLetter = async (e: Event) => {
+    showLetterContext = async (e: Event) => {
+        if (!e.isTrusted) {
+            return;
+        }
+        const me = e as MouseEvent;
+        console.log(me.clientX, me.clientY);
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                // e.stopPropagation();
+                currentTarget.dispatchEvent(new MouseEvent('contextmenu', {bubbles: true, cancelable: true}));
+            }
+        }
+    };
+
+    selectLetter = async (e: Event) => {
         if (!e.isTrusted) {
             return;
         }
@@ -144,7 +161,8 @@ export class LetterList extends Component {
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
         [...this.state.element.getElementsByClassName('letter-frame')].forEach((letterFrame) => {
             this.state.letters.push(
-                {letterElement: letterFrame,
+                {
+                    letterElement: letterFrame,
                     stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0],
                 });
         });
@@ -198,6 +216,7 @@ export class LetterList extends Component {
     registerEventListener() {
         this.state.letters.forEach((letter) => {
             letter.letterElement.addEventListener('click', this.selectLetter);
+            letter.letterElement.addEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.addEventListener('click', this.changeState);
         });
         microEvents.bind('letterListChanged', this.rerender);
@@ -213,6 +232,7 @@ export class LetterList extends Component {
         microEvents.unbind('mailChanged', this.changeLetterToActive);
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.selectLetter);
+            letter.letterElement.removeEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.removeEventListener('click', this.changeState);
         });
     }
