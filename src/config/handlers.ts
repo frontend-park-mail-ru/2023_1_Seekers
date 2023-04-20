@@ -2,6 +2,7 @@ import {reducerUser} from '@stores/userStore';
 import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
 import {reducerNewMail} from '@stores/NewMailStore';
+import {reducerFolder} from "@stores/FolderStore";
 
 
 const handlers = [
@@ -28,6 +29,9 @@ const handlers = [
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
     {type: 'forwardMail', method: reducerNewMail.forwardMail.bind(reducerNewMail)},
     {type: 'sendMail', method: reducerNewMail.sendMail.bind(reducerNewMail)},
+
+    {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
+    {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},

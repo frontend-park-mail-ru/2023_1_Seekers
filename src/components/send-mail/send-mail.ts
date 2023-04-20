@@ -1,6 +1,6 @@
 import {Component} from '@components/component';
 import {reducerUser} from '@stores/userStore';
-import {NewMailButton} from '@uikits/new-mail-button/new-mail-button';
+import {ContrastButton} from '@uikits/contrast-button/contrast-button';
 
 import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
@@ -93,7 +93,7 @@ export class SendMail extends Component {
         });
 
         sendButton?.classList.add('skeleton__block');
-        sendButton?.classList.add('new-mail-button_disabled');
+        sendButton?.classList.add('contrast-button_disabled');
 
         await dispatcher.dispatch(actionSendMail(mail));
     };
@@ -125,7 +125,7 @@ export class SendMail extends Component {
         });
 
         sendButton?.classList.remove('skeleton__block');
-        sendButton?.classList.remove('new-mail-button_disabled');
+        sendButton?.classList.remove('contrast-button_disabled');
     };
 
     /**
@@ -280,7 +280,7 @@ export class SendMail extends Component {
     render() {
         const actionButtons: object[] = [];
         Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
-            actionButtons.push(NewMailButton.renderTemplate(button));
+            actionButtons.push(ContrastButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
@@ -292,7 +292,7 @@ export class SendMail extends Component {
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
-        this.state.footerButtons = [...this.state.element.getElementsByClassName('new-mail-button')];
+        this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 
         this.state.topic =

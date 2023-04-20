@@ -44,7 +44,7 @@ export class LetterList extends Component {
         this.rerender = this.rerender.bind(this);
     }
 
-    selectLetter = async (e: Event) => {
+            selectLetter = async (e: Event) => {
         if (!e.isTrusted) {
             return;
         }

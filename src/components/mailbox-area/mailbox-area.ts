@@ -7,6 +7,7 @@ import {Menu} from '@components/menu/menu';
 import {LetterList} from '@components/letter-list/letter-list';
 import {Mail} from '@components/mail/mail';
 import {SendMail} from '@components/send-mail/send-mail';
+import {NewFolder} from '@components/new-folder/new-folder';
 
 
 export interface MailBoxArea {
@@ -47,6 +48,7 @@ export class MailBoxArea extends Component {
      * method register events button submit/input focus/redirect link
      */
     registerEvents = () => {
+        microEvents.bind('createNewFolder', this.renderNewFolder);
         microEvents.bind('createNewMail', this.renderNewMail);
     };
 
@@ -54,6 +56,7 @@ export class MailBoxArea extends Component {
      * method unregister events button submit/input focus/redirect link
      */
     unregisterEvents = () => {
+        microEvents.unbind('createNewFolder', this.renderNewFolder);
         microEvents.unbind('createNewMail', this.renderNewMail);
     };
 
@@ -62,6 +65,13 @@ export class MailBoxArea extends Component {
      */
     renderNewMail = () => {
         const sendMail = new SendMail({parent: document.getElementById('root')!});
+        sendMail.render();
+    };
+    /**
+     * method that render area for new folder
+     */
+    renderNewFolder = () => {
+        const sendMail = new NewFolder({parent: document.getElementById('root')!});
         sendMail.render();
     };
 

@@ -3,6 +3,7 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
+import {reducerFolder} from '@stores/FolderStore';
 
 /**
  * class that implements all possible actions with letters data
@@ -11,7 +12,6 @@ class LettersStore extends BaseStore {
     _storeNames = {
         letters: 'letters',
         mail: 'mail',
-        menu: 'menu',
         currentLetters: 'currentLetters',
         currentMail: 'currentMail',
         currentAccountPage: 'currentAccountPage',
@@ -25,7 +25,6 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.letters, new Map());
         this._storage.set(this._storeNames.mail, new Map());
         this._storage.set(this._storeNames.currentMail, undefined);
-        this._storage.set(this._storeNames.menu, []);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
     }
 
@@ -102,22 +101,10 @@ class LettersStore extends BaseStore {
     };
 
     /**
-     * function that makes request to get menu
-     */
-    getMenu = async () => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
-        const [status, response] = await responsePromise;
-        if (status === responseStatuses.OK) {
-            this._storage.set(this._storeNames.menu, response.folders);
-            microEvents.trigger('menuChanged');
-        }
-    };
-
-    /**
      * function that makes requests for all the components of mailbox
      */
     getMailboxPage = async (obj: stateObject) => {
-        this.getMenu().then(() => {
+        reducerFolder.getMenu().then(() => {
             this.getLetters(obj.path).then(() => {
                 if (obj.props) {
                     this.getMail(obj.props);

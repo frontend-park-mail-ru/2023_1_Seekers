@@ -49,7 +49,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'http://localhost',
+    basePath: 'http://localhost:8001',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -101,39 +101,39 @@ export const config = {
                 count: '',
             },
 
-            // drafts: {
-            //     href: '/drafts',
-            //     text: 'Черновики',
-            //     count: '10',
-            //     img: `<path d="m15.2322 5.23223 3.5355 3.53554m-2.0355-5.03554c.9763-.97631 2.5592-.97631
-            //           3.5355 0s.9763 2.55923 0 3.53554l-13.7677 13.76773h-3.5v-3.5711z"
-            //         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            //         `,
-            // },
-            //
-            // spam: {
-            //     href: '/spam',
-            //     text: 'Спам',
-            //     count: '10',
-            //     img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324
-            //     0-12.72796-3.5148-3.51472-9.21324-3.51472-12.72796
-            //     0m12.72796 12.72796c-3.5148 3.5147-9.21324
-            //     3.5147-12.72796 0-3.51472-3.5148-3.51472-9.21324
-            //     0-12.72796m12.72796 12.72796-12.72796-12.72796"
-            //     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
-            // },
-            //
-            // trash: {
-            //     href: '/trash',
-            //     text: 'Корзина',
-            //     count: '10',
-            //     img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
-            //         1.8575-1.9949 1.8575h-8.27556c-1.04928
-            //         0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5
-            //         4v6m4-6v6m1-10v-3c0-.55228-.4477-1-1-1h-4c-.55228 0-1
-            //         .44772-1 1v3m-5 0h16"
-            //         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
-            // },
+            drafts: {
+                href: '/drafts',
+                text: 'Черновики',
+                count: '10',
+                img: `<path d="m15.2322 5.23223 3.5355 3.53554m-2.0355-5.03554c.9763-.97631 2.5592-.97631
+                      3.5355 0s.9763 2.55923 0 3.53554l-13.7677 13.76773h-3.5v-3.5711z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    `,
+            },
+
+            spam: {
+                href: '/spam',
+                text: 'Спам',
+                count: '10',
+                img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324
+                0-12.72796-3.5148-3.51472-9.21324-3.51472-12.72796
+                0m12.72796 12.72796c-3.5148 3.5147-9.21324
+                3.5147-12.72796 0-3.51472-3.5148-3.51472-9.21324
+                0-12.72796m12.72796 12.72796-12.72796-12.72796"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+            },
+
+            trash: {
+                href: '/trash',
+                text: 'Корзина',
+                count: '10',
+                img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
+                    1.8575-1.9949 1.8575h-8.27556c-1.04928
+                    0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5
+                    4v6m4-6v6m1-10v-3c0-.55228-.4477-1-1-1h-4c-.55228 0-1
+                    .44772-1 1v3m-5 0h16"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+            },
         },
 
         accountButtons: {
@@ -236,6 +236,28 @@ export const config = {
                 send: {
                     href: '/send',
                     text: 'Отправить',
+                },
+                cancel: {
+                    href: '/cancel',
+                    text: 'Отменить',
+                },
+            },
+            closeButton: {
+                href: '/close',
+                img: `<path clip-rule="evenodd" d="m4.29289 4.29289c.39053-.39052 1.02369-.39052 
+                    1.41422 0l4.29289 4.2929 4.2929-4.2929c.3905-.39052 1.0237-.39052 1.4142 0 
+                    .3905.39053.3905 1.02369 0 1.41422l-4.2929 4.29289 4.2929 4.2929c.3905.3905.3905 
+                    1.0237 0 1.4142s-1.0237.3905-1.4142 0l-4.2929-4.2929-4.29289 
+                    4.2929c-.39053.3905-1.02369.3905-1.41422 0-.39052-.3905-.39052-1.0237 
+                    0-1.4142l4.2929-4.2929-4.2929-4.29289c-.39052-.39053-.39052-1.02369 0-1.41422z" 
+                    fill-rule="evenodd"/>`,
+            },
+        },
+        newFolderButtons: {
+            footerButtons: {
+                send: {
+                    href: '/create',
+                    text: 'Создать',
                 },
                 cancel: {
                     href: '/cancel',
@@ -410,6 +432,14 @@ export const config = {
             mailText: {
                 name: 'new-mail-text',
                 maxlenght: '1000',
+            },
+        },
+        newFolder: {
+            folderInput: {
+                name: 'new-folder',
+                type: 'text',
+                maxlenght: '10',
+                title: 'Название папки',
             },
         },
 

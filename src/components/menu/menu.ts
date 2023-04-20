@@ -6,8 +6,9 @@ import '@components/menu/menu.scss';
 import {dispatcher} from '@utils/dispatcher';
 import {actionGetLetters} from '@actions/letters';
 import {config} from '@config/config';
-import {NewMailButton} from '@uikits/new-mail-button/new-mail-button';
+import {ContrastButton} from '@uikits/contrast-button/contrast-button';
 import {actionCreateNewMail} from '@actions/newMail';
+import {actionCreateFolder} from '@actions/folders';
 
 // import {actionRedirect} from "@actions/user";
 
@@ -16,6 +17,7 @@ export interface Menu {
         element: Element,
         menuButtons: Element[],
         newMailButton: Element,
+        newFolderButton: Element,
         activeButton: Element,
     },
 }
@@ -35,6 +37,7 @@ export class Menu extends Component {
             element: document.createElement('div'),
             menuButtons: [],
             newMailButton: document.createElement('div'),
+            newFolderButton: document.createElement('div'),
             activeButton: document.createElement('div'),
         };
     }
@@ -79,6 +82,21 @@ export class Menu extends Component {
         }
     };
 
+
+    /**
+     * function that dispatches action to render New Mail Area
+     * @param e - event
+     */
+    newFolderButtonClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                dispatcher.dispatch(actionCreateFolder());
+            }
+        }
+    };
+
     /**
      * A method that draws a component into a parent HTML element
      * according to a given template and context
@@ -97,21 +115,31 @@ export class Menu extends Component {
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
-                newMailButton: NewMailButton.renderTemplate({href: '/new-mail', text: 'Новое письмо'}),
+                newMailButton: ContrastButton.renderTemplate(
+                    {href: '/new-mail', text: 'Новое письмо'}),
                 commonMenuButtons: commonMenuButtons,
+                newFolderButton: ContrastButton.renderTemplate(
+                    {href: '/new-folder', text: 'Новая папка'}),
                 // advancedMenuButtons: advancedMenuButtons,
             },
         ));
 
         this.state.element = this.parent.getElementsByClassName('menu')[0];
         this.state.menuButtons = [...this.state.element.getElementsByClassName('menu-button')];
-        this.state.newMailButton = this.state.element.getElementsByClassName('new-mail-button')[0];
+        this.state.newMailButton = [...this.state.element.getElementsByClassName('contrast-button')]
+            .find((element) => {
+                return (element as HTMLElement).dataset.section === '/new-mail';
+            })!;
+
+        this.state.newFolderButton = [...this.state.element.getElementsByClassName('contrast-button')]
+            .find((element) => {
+                return (element as HTMLElement).dataset.section === '/new-folder';
+            })!;
 
         const activeButton = this.state.menuButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                    reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
-        },
-        );
+                reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
+        });
         if (activeButton !== undefined) {
             this.state.activeButton = activeButton;
             this.state.activeButton.classList.add('menu-button_color-active');
@@ -137,6 +165,7 @@ export class Menu extends Component {
             child.addEventListener('click', this.menuButtonClicked);
         });
         this.state.newMailButton.addEventListener('click', this.newMailButtonClicked);
+        this.state.newFolderButton.addEventListener('click', this.newFolderButtonClicked);
     }
 
     /**
@@ -147,5 +176,7 @@ export class Menu extends Component {
         this.state.menuButtons.forEach((child: Element) => {
             child.removeEventListener('click', this.menuButtonClicked);
         });
+        this.state.newMailButton.removeEventListener('click', this.newMailButtonClicked);
+        this.state.newFolderButton.removeEventListener('click', this.newFolderButtonClicked);
     }
 }

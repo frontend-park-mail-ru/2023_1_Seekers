@@ -1,0 +1,21 @@
+<div class="new-folder">
+    <div class="new-folder__area new-folder__area_size new-folder__area_color">
+        <div class="new-folder__header new-folder__header_size">
+            <p class="font-normal-0 new-folder__text_color">Новая папка</p>
+            {{{ this.closeButton }}}
+        </div>
+            <div class="new-folder__input-form new-folder__input-form__indent">
+            <input class="new-folder__input-form__size new-folder__input-form__color" type="{{this.input.type}}" name="{{this.input.name}}"
+                   maxlength="{{this.input.maxlenght}}" id="{{this.input.name}}" required/>
+            <span class="new-folder__input-form__span new-folder__input-form__span__indent new-folder__input-form__span__size new-folder__input-form__span__animation new-folder__input-form__span__color">{{this.input.title}}</span>
+            </div>
+
+        <div class="new-folder__bottom-actions new-folder__bottom-actions_size new-folder__bottom-actions_color">
+            {{#each this.actionButtons}}
+                <div class="new-folder__bottom-button">
+                    {{{this}}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
