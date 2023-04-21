@@ -13,7 +13,8 @@ class LettersStore extends BaseStore {
         letters: 'letters',
         mail: 'mail',
         currentLetters: 'currentLetters',
-        currentMail: 'currentMail',
+        shownMail: 'shownMail',
+        contextMail: 'contextMail',
         currentAccountPage: 'currentAccountPage',
     };
 
@@ -24,7 +25,8 @@ class LettersStore extends BaseStore {
         super();
         this._storage.set(this._storeNames.letters, new Map());
         this._storage.set(this._storeNames.mail, new Map());
-        this._storage.set(this._storeNames.currentMail, undefined);
+        this._storage.set(this._storeNames.shownMail, undefined);
+        this._storage.set(this._storeNames.contextMail, undefined);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
     }
 
@@ -33,12 +35,11 @@ class LettersStore extends BaseStore {
      * @param folderName - name of folder
      */
     getLetters = async (folderName: string) => {
+        console.log('in get letters');
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
                     this._storage.get(this._storeNames.letters).set(folderName, []);
-
-
                     body.messages?.forEach((message: any) => {
                         const time = message.created_at.substring(0, 10)
                             .replace('-', '.').replace('-', '.');
@@ -64,39 +65,56 @@ class LettersStore extends BaseStore {
                 }
             });
         this._storage.set(this._storeNames.currentLetters, folderName);
-        this._storage.set(this._storeNames.currentMail, undefined);
+        this._storage.set(this._storeNames.shownMail, undefined);
         microEvents.trigger('letterListChanged');
         microEvents.trigger('mailChanged');
     };
 
+    downloadMail = async (mailId: string) => {
+        Connector.makeGetRequest(config.api.getMail + mailId)
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
+                    const mailData: MailData = body.message;
+                    mailData.created_at = mailData.created_at.substring(0, 10)
+                        .replace('-', '.').replace('-', '.');
+                    mailData.from_user_id.avatar =
+                        `${config.basePath}/${config.api.avatar}?email=` +
+                        `${body.message.from_user_id.email}`;
+
+                    this._storage.get(this._storeNames.mail).set(mailId, mailData);
+
+                    if (this._storage.get(this._storeNames.shownMail) === mailId) {
+                        microEvents.trigger('mailChanged');
+                    }
+                }
+            });
+    };
+
     /**
-     * function that makes request to get concrete mail
+     * function that makes request to show concrete mail
      * @param href - href of mail
      */
-    getMail = async (href: string) => {
+    showMail = async (href: string) => {
         const mailId = href.split('/').pop();
         if (!this._storage.get(this._storeNames.mail).get(mailId)) {
-            Connector.makeGetRequest(config.api.getMail + mailId)
-                .then(([status, body]) => {
-                    if (status === responseStatuses.OK) {
-                        const mailData: MailData = body.message;
-                        mailData.created_at = mailData.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
-                        mailData.from_user_id.avatar =
-                            `${config.basePath}/${config.api.avatar}?email=` +
-                            `${body.message.from_user_id.email}`;
-
-                        this._storage.get(this._storeNames.mail).set(mailId, mailData);
-
-                        if (this._storage.get(this._storeNames.currentMail) === mailId) {
-                            microEvents.trigger('mailChanged');
-                        }
-                    }
-                });
-
+            await this.downloadMail(mailId!);
             this._storage.get(this._storeNames.mail).set(mailId, {});
         }
-        this._storage.set(this._storeNames.currentMail, mailId);
+        this._storage.set(this._storeNames.shownMail, mailId);
+        microEvents.trigger('mailChanged');
+    };
+
+    /**
+     * function that makes request to get mail for context
+     * @param href - href of mail
+     */
+    getCtxMail = async (href: string) => {
+        const mailId = href.split('/').pop();
+        if (!this._storage.get(this._storeNames.mail).get(mailId)) {
+            await this.downloadMail(mailId!);
+            this._storage.get(this._storeNames.mail).set(mailId, {});
+        }
+        this._storage.set(this._storeNames.contextMail, mailId);
         microEvents.trigger('mailChanged');
     };
 
@@ -107,7 +125,7 @@ class LettersStore extends BaseStore {
         reducerFolder.getMenu().then(() => {
             this.getLetters(obj.path).then(() => {
                 if (obj.props) {
-                    this.getMail(obj.props);
+                    this.showMail(obj.props);
                 }
                 reducerUser.getProfile();
                 microEvents.trigger('renderMailboxPage');
@@ -166,8 +184,113 @@ class LettersStore extends BaseStore {
      */
     getCurrentMail() {
         return this._storage.get(this._storeNames.mail)
-            .get(this._storage.get(this._storeNames.currentMail));
+            .get(this._storage.get(this._storeNames.shownMail));
+    }
+
+    /**
+     * function that gets current mail from this store
+     * @returns []Object array of current lettters
+     */
+    getCurrentLettersArray() {
+        return this._storage.get(this._storeNames.letters)
+            .get(this._storage.get(this._storeNames.currentLetters)) as LetterFrameData[];
+    }
+
+    getCurrentMailPath() {
+        return this._storage.get(this._storeNames.currentLetters) + '/' +
+            this._storage.get(this._storeNames.shownMail);
     }
 }
+
+
+const testLetters = [{
+    'message_id': 8,
+    'from_user_id': {'firstName': 'Michail', 'lastName': 'Sidorov', 'email': 'max@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Let’s get acquainted',
+    'created_at': '2023-01-29T00:00:00Z',
+    'text': 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout',
+    'reply_to': null,
+    'seen': true,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 7,
+    'from_user_id': {'firstName': 'Ivan', 'lastName': 'Ivanov', 'email': 'gena@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Advertisement',
+    'created_at': '2023-01-07T00:00:00Z',
+    'text': 'Hi, visit our shop!',
+    'reply_to': null,
+    'seen': true,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 5,
+    'from_user_id': {'firstName': 'Ivan', 'lastName': 'Ivanov', 'email': 'gena@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Small text letter',
+    'created_at': '2023-01-06T00:00:00Z',
+    'text': 'Hi! how are you?',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 6,
+    'from_user_id': {'firstName': 'Michail', 'lastName': 'Sidorov', 'email': 'max@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Do you like to read books?',
+    'created_at': '2023-01-06T00:00:00Z',
+    'text': 'We have a lot of new books that may interest you',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 4,
+    'from_user_id': {'firstName': 'Michail', 'lastName': 'Sidorov', 'email': 'max@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Very interesting letter',
+    'created_at': '2023-01-05T00:00:00Z',
+    'text': 'Morbi sit amet porttitor sapien, eget venenatis est. Suspendisse sollicitudin elit velit, quis sodales dolor maximus id. Vestibulum gravida scelerisque nibh, sit amet tincidunt augue gravida nec. Maecenas non placerat justo, at feugiat nulla. Phasellus dapibus a mi ut interdum. Aliquam nec quam feugiat, rutrum urna ut, cursus purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 3,
+    'from_user_id': {'firstName': 'Ivan', 'lastName': 'Ivanov', 'email': 'gena@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Lorem',
+    'created_at': '2023-01-04T00:00:00Z',
+    'text': 'Mauris imperdiet massa ante. Pellentesque feugiat nisl nec ultrices laoreet. Aenean a mauris mi. Sed auctor egestas nulla et vulputate. Praesent lobortis nulla ante, vel dignissim odio aliquet et. Suspendisse potenti. Donec venenatis nibh a sem consectetur, bibendum consectetur metus venenatis. Mauris lorem tellus, finibus id dui sit amet, facilisis fermentum orci. Mauris arcu ante, lacinia vitae orci in, tempus elementum lacus. Donec eu augue vulputate, tempor neque nec, efficitur purus. Mauris ut lorem non sapien placerat mattis. In in lacus a lorem viverra laoreet ut et orci. Maecenas auctor, justo nec hendrerit interdum, nibh nisi consectetur sapien, id ultrices lacus mi sed risus.',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 2,
+    'from_user_id': {'firstName': 'Michail', 'lastName': 'Sidorov', 'email': 'max@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Spam letter',
+    'created_at': '2023-01-02T00:00:00Z',
+    'text': 'Nunc non velit commodo, vestibulum enim ullamcorper, lobortis mi. Integer eu elit nibh. Integer bibendum semper arcu, eget consectetur nisi gravida eu. Suspendisse maximus id urna a volutpat. Quisque nec iaculis purus, non facilisis massa. Maecenas finibus dui ipsum, ut tempor sapien tincidunt blandit. Ut at iaculis eros, ultrices iaculis nibh. Mauris fermentum elit erat, at cursus urna euismod vel. In congue, ipsum a fermentum semper, dolor sem scelerisque leo, a tempus risus orci eu leo. Fusce vulputate venenatis imperdiet. Vestibulum interdum pellentesque facilisis',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}, {
+    'message_id': 1,
+    'from_user_id': {'firstName': 'Ivan', 'lastName': 'Ivanov', 'email': 'gena@mailbox.ru'},
+    'recipients': [{'firstName': 'Michail', 'lastName': 'Testov', 'email': 'test@mailbox.ru'}],
+    'title': 'Invitation',
+    'created_at': '2023-01-01T00:00:00Z',
+    'text': 'Hello, we decided to invite you to our party, lets go it will be fine!',
+    'reply_to': null,
+    'seen': false,
+    'favorite': false,
+    'deleted': false,
+}];
 
 export const reducerLetters = new LettersStore();

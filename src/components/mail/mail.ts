@@ -8,6 +8,8 @@ import {config} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {dispatcher} from '@utils/dispatcher';
 import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
+import {actionCtxMail} from "@actions/letters";
+import {ContextMenu} from "@components/context-menu/context-menu";
 
 
 export interface Mail {
@@ -39,7 +41,7 @@ export class Mail extends Component {
      * method insert mail to HTML
      */
     render() {
-        if (reducerLetters._storage.get(reducerLetters._storeNames.currentMail) === undefined) {
+        if (reducerLetters._storage.get(reducerLetters._storeNames.shownMail) === undefined) {
             this.parent.insertAdjacentHTML('afterbegin', template({}));
             this.state.element = this.parent.getElementsByClassName('mail')[0];
         } else if (reducerLetters.getCurrentMail() !== undefined) {
@@ -107,19 +109,32 @@ export class Mail extends Component {
      * @param e - event
      */
     letterAction(e: Event) {
+        if (!e.isTrusted) {
+            return;
+        }
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 switch (currentTarget.dataset.section) {
                 case config.buttons.mailActionButtons.forward.href:
+                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
                     dispatcher.dispatch(actionForwardMail());
                     break;
 
                 case config.buttons.mailActionButtons.reply.href:
+                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
                     dispatcher.dispatch(actionReplyToMail());
                     break;
+
+                case config.buttons.mailActionButtons.more.href:
+                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
+                    const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
+                    ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
+                    break;
                 }
+                e.stopPropagation();
+                // currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
             }
         }
     }

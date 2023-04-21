@@ -42,11 +42,11 @@ class NewMailStore extends BaseStore {
     forwardMail = async () => {
         this._storage.set(
             this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title,
         );
         this._storage.set(
             this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).text,
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text,
         );
         this._storage.set(this._storeNames.recipients, '');
 
@@ -59,7 +59,7 @@ class NewMailStore extends BaseStore {
     replyToMail = async () => {
         this._storage.set(
             this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.currentMail)).title,
+                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title,
         );
         this._storage.set(
             this._storeNames.text, '',
@@ -68,7 +68,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(
             this._storeNames.recipients, reducerLetters._storage
                 .get(reducerLetters._storeNames.mail).get(reducerLetters._storage
-                    .get(reducerLetters._storeNames.currentMail))
+                    .get(reducerLetters._storeNames.contextMail))
                 .from_user_id.email,
         );
 

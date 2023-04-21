@@ -4,8 +4,13 @@ export const actionGetLetters = (name: string) => ({
     value: name,
 });
 
-export const actionGetMail = (name: string) => ({
-    type: 'getMail',
+export const actionShowMail = (name: string) => ({
+    type: 'showMail',
+    value: name,
+});
+
+export const actionCtxMail = (name: string) => ({
+    type: 'ctxMail',
     value: name,
 });
 

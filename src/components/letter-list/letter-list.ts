@@ -7,12 +7,14 @@ import {dispatcher} from '@utils/dispatcher';
 import {microEvents} from '@utils/microevents';
 import {
     actionChangeLetterStateToRead,
-    actionChangeLetterStateToUnread,
-    actionGetMail,
+    actionChangeLetterStateToUnread, actionCtxMail,
+    actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
+import {ContextMenu} from '@components/context-menu/context-menu';
 
 // import {actionChangeURL} from "@actions/user";
+
 
 export interface LetterList {
     state: {
@@ -55,8 +57,11 @@ export class LetterList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                // e.stopPropagation();
-                currentTarget.dispatchEvent(new MouseEvent('contextmenu', {bubbles: true, cancelable: true}));
+                await dispatcher.dispatch(actionCtxMail(currentTarget.dataset.section));
+                const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
+                ctxMenu.render(me.clientX, me.clientY);
+                e.stopPropagation();
+                // currentTarget.dispatchEvent(new MouseEvent('contextmenu', {bubbles: true, cancelable: true}));
             }
         }
     };
@@ -69,7 +74,7 @@ export class LetterList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                await dispatcher.dispatch(actionGetMail(currentTarget.dataset.section));
+                await dispatcher.dispatch(actionShowMail(currentTarget.dataset.section));
                 e.stopPropagation();
                 currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 

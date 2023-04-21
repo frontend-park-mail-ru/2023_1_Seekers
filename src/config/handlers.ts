@@ -2,7 +2,7 @@ import {reducerUser} from '@stores/userStore';
 import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
 import {reducerNewMail} from '@stores/NewMailStore';
-import {reducerFolder} from "@stores/FolderStore";
+import {reducerFolder} from '@stores/FolderStore';
 
 
 const handlers = [
@@ -11,7 +11,8 @@ const handlers = [
     {type: 'initUser', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
     {type: 'getProfile', method: reducerUser.getProfile.bind(reducerUser)},
     {type: 'getLetters', method: reducerLetters.getLetters.bind(reducerLetters)},
-    {type: 'getMail', method: reducerLetters.getMail.bind(reducerLetters)},
+    {type: 'showMail', method: reducerLetters.showMail.bind(reducerLetters)},
+    {type: 'ctxMail', method: reducerLetters.getCtxMail.bind(reducerLetters)},
     {type: 'redirect', method: router.open.bind(router)},
     {type: 'start', method: router.start.bind(router)},
 
@@ -32,6 +33,7 @@ const handlers = [
 
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},
+    {type: 'transmitToFolder', method: reducerFolder.transmitToFolder.bind(reducerFolder)},
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},
