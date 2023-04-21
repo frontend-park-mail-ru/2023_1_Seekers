@@ -62,7 +62,8 @@ class NewMailStore extends BaseStore {
                 .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title,
         );
         this._storage.set(
-            this._storeNames.text, '',
+            this._storeNames.text, '\n\n\n\n' + reducerLetters._storage.get(reducerLetters._storeNames.mail)
+            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text
         );
 
         this._storage.set(

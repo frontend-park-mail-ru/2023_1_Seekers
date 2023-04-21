@@ -227,7 +227,7 @@ export class SendMail extends Component {
      * register listeners for each action that may happen in send mail
      */
     registerEventListener = () => {
-        document.addEventListener('mousedown', this.onSidebarClick);
+        document.addEventListener('click', this.onSidebarClick);
 
         this.state.footerButtons.forEach((button: Element) => {
             button.addEventListener('click', this.bottomButtonsClicked);
