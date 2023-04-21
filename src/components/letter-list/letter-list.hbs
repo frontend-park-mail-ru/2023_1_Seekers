@@ -2,7 +2,10 @@
     {{#if this.letterFrames includeZero=false}}
         {{#each letterFrames}}
             {{{this}}}
-            <div class="horizontal-line"></div>
+            {{#unless @last}}
+                <div class="horizontal-line"></div>
+            {{/unless}}
+
         {{/each}}
     {{else}}
         <div class="letterList__not-chosen">
