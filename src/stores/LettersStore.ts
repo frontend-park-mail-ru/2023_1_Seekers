@@ -81,7 +81,7 @@ class LettersStore extends BaseStore {
                         `${config.basePath}/${config.api.avatar}?email=` +
                         `${body.message.from_user_id.email}`;
 
-                    this._storage.get(this._storeNames.mail).set(mailId, mailData);
+                    this.getMailArray().set(mailId, mailData);
 
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
                         microEvents.trigger('mailChanged');
@@ -110,9 +110,9 @@ class LettersStore extends BaseStore {
      */
     getCtxMail = async (href: string) => {
         const mailId = href.split('/').pop();
-        if (!this._storage.get(this._storeNames.mail).get(mailId)) {
+        if (!this.getMailArray().get(mailId)) {
             await this.downloadMail(mailId!);
-            this._storage.get(this._storeNames.mail).set(mailId, {});
+            this.getMailArray().set(mailId, {});
         }
         this._storage.set(this._storeNames.contextMail, mailId);
         microEvents.trigger('mailChanged');
@@ -199,6 +199,15 @@ class LettersStore extends BaseStore {
     getCurrentMailPath() {
         return this._storage.get(this._storeNames.currentLetters) + '/' +
             this._storage.get(this._storeNames.shownMail);
+    }
+
+    getCurrentContextMail() {
+        return this._storage.get(this._storeNames.mail)
+            .get(this._storage.get(this._storeNames.contextMail)) as MailData;
+    }
+
+    getMailArray() {
+        return this._storage.get(this._storeNames.mail);
     }
 }
 

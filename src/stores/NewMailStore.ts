@@ -41,12 +41,10 @@ class NewMailStore extends BaseStore {
      */
     forwardMail = async () => {
         this._storage.set(
-            this._storeNames.title, reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title,
+            this._storeNames.title, reducerLetters.getCurrentContextMail().title,
         );
         this._storage.set(
-            this._storeNames.text, reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text,
+            this._storeNames.text, reducerLetters.getCurrentContextMail().text,
         );
         this._storage.set(this._storeNames.recipients, '');
 
@@ -57,22 +55,16 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to reply to mail
      */
     replyToMail = async () => {
-        const email = reducerLetters._storage
-            .get(reducerLetters._storeNames.mail).get(reducerLetters._storage
-                .get(reducerLetters._storeNames.contextMail))
-            .from_user_id.email;
-
-        const text = reducerLetters._storage.get(reducerLetters._storeNames.mail)
-            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text;
-
-        const title = reducerLetters._storage.get(reducerLetters._storeNames.mail)
-            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title;
+        const email = reducerLetters.getCurrentContextMail().from_user_id.email;
+        const text = reducerLetters.getCurrentContextMail().text;
+        const title = reducerLetters.getCurrentContextMail().title;
 
         this._storage.set(
             this._storeNames.title, 'RE: ' + title,
         );
         this._storage.set(
-            this._storeNames.text, '\n\n\n\n\n\n' + email + ' написал(а) ' + 'ВРЕМЯ(с датой):' + '\n' +  text
+            this._storeNames.text, '\n\n\n\n\n\n' + email +
+            ' написал(а) ' + 'ВРЕМЯ(с датой):' + '\n' + text,
         );
 
         this._storage.set(

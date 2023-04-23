@@ -34,6 +34,7 @@ class FolderStore extends BaseStore {
         this._storage.set(this._storeNames.answerBody, 200);
         this._storage.set(this._storeNames.answerStatus, 200);
         microEvents.trigger('folderRequestSent');
+        await this.getMenu();
         // });
     };
 
