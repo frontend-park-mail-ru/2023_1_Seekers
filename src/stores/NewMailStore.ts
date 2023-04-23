@@ -57,20 +57,26 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to reply to mail
      */
     replyToMail = async () => {
+        const email = reducerLetters._storage
+            .get(reducerLetters._storeNames.mail).get(reducerLetters._storage
+                .get(reducerLetters._storeNames.contextMail))
+            .from_user_id.email;
+
+        const text = reducerLetters._storage.get(reducerLetters._storeNames.mail)
+            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text;
+
+        const title = reducerLetters._storage.get(reducerLetters._storeNames.mail)
+            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title;
+
         this._storage.set(
-            this._storeNames.title, 'RE: ' + reducerLetters._storage.get(reducerLetters._storeNames.mail)
-                .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).title,
+            this._storeNames.title, 'RE: ' + title,
         );
         this._storage.set(
-            this._storeNames.text, '\n\n\n\n' + reducerLetters._storage.get(reducerLetters._storeNames.mail)
-            .get(reducerLetters._storage.get(reducerLetters._storeNames.contextMail)).text
+            this._storeNames.text, '\n\n\n\n\n\n' + email + ' написал(а) ' + 'ВРЕМЯ(с датой):' + '\n' +  text
         );
 
         this._storage.set(
-            this._storeNames.recipients, reducerLetters._storage
-                .get(reducerLetters._storeNames.mail).get(reducerLetters._storage
-                    .get(reducerLetters._storeNames.contextMail))
-                .from_user_id.email,
+            this._storeNames.recipients, email,
         );
 
         microEvents.trigger('createNewMail');
