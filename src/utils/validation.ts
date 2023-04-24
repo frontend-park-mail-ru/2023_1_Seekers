@@ -93,7 +93,7 @@ export class Validation {
      * @returns status
      */
     validateRegFields = (login: string, password: string, anotherPassword: string = password,
-        name = ' ', surname = ' ') => {
+                         name = ' ', surname = ' ') => {
         return ((password === anotherPassword) && (this.validateLogin(login).status) &&
             (this.validatePassword(password).status) && (this.validateText(name).status) &&
             (this.validateText(surname).status));
@@ -106,30 +106,33 @@ export class Validation {
     focusValidator = async (e: any) => {
         let check;
         switch (e.target?.name) {
-        case 'first-name':
-        case 'last-name':
-            check = this.validateText(e.target.value);
-            break;
-        case 'new-mail-recipients':
-        case 'login':
-            check = this.validateLogin(e.target.value);
-            break;
-        case 'password_old':
-        case 'password':
-            check = this.validatePassword(e.target.value);
-            break;
-        case 'repeat_password':
-            check = this.validateRePassword((document.getElementById('password') as any ).value,
-                e.target.value);
-            break;
-        default:
-            return;
+            case 'first-name':
+            case 'last-name':
+                check = this.validateText(e.target.value);
+                break;
+            case 'new-mail-recipients':
+            case 'login':
+                check = this.validateLogin(e.target.value);
+                break;
+            case 'password_old':
+            case 'password':
+                check = this.validatePassword(e.target.value);
+                break;
+            case 'repeat_password':
+                check = this.validateRePassword((document.getElementById('password') as any).value,
+                    e.target.value);
+                break;
+            default:
+                return;
         }
         if (!check.status) {
-            if (document.getElementById(e.target.name + 'Error') === null) {
-                this.putErrorMessage((document.getElementById(e.target.name) as any),
-                    e.target.name + 'Error', check.message);
+            if (document.getElementById(e.target.name + 'Error') !== null) {
+                document.getElementById(e.target.name + 'Error')?.remove();
+                document.getElementById(e.target.name)?.classList
+                    .remove('error-border', 'input-form__error__border');
             }
+            this.putErrorMessage((document.getElementById(e.target.name) as any),
+                e.target.name + 'Error', check.message);
         } else if (document.getElementById(e.target.name + 'Error') !== null) {
             document.getElementById(e.target.name + 'Error')?.remove();
             document.getElementById(e.target.name)?.classList
