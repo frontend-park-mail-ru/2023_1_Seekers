@@ -9,7 +9,7 @@ export const actionSendFolderToCreate = (name: string) => ({
     value: name,
 });
 
-export const actionTransmitToFolder = (id: number) => ({
+export const actionTransmitToFolder = (folderSlug: string) => ({
     type: 'transmitToFolder',
-    value: id,
+    value: folderSlug,
 });

@@ -81,7 +81,10 @@ export class NewFolder extends Component {
         sendButton?.classList.add('contrast-button_disabled');
         sendButton?.classList.add('skeleton__block');
 
-        await dispatcher.dispatch(actionSendFolderToCreate(this.state.folderInput.textContent!));
+        console.log(this.state.folderInput.value!);
+        console.log(this.state.folderInput);
+
+        await dispatcher.dispatch(actionSendFolderToCreate(this.state.folderInput.value!));
     };
 
     /**

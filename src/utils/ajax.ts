@@ -11,8 +11,10 @@ export class Connector {
      * @return request promise
      */
     static makeRequest = (url: string, options: object) => {
-        return fetch(url, options).then((response) =>
-            response.json().then((data) => [response.status, data]))
+        return fetch(url, options)
+            .then((response) => response.json()
+                .then((data) => [response.status, data])
+                .catch((error) => [response.status, {}]))
             .catch((error) => [500, error]) as anyObject;
     };
 

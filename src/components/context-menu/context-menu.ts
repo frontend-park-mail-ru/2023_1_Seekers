@@ -9,6 +9,9 @@ import {reducerFolder} from '@stores/FolderStore';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {dispatcher} from '@utils/dispatcher';
 import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
+import {actionTransmitToFolder} from "@actions/folders";
+import {reducerLetters} from "@stores/LettersStore";
+import {microEvents} from "@utils/microevents";
 
 
 export interface ContextMenu {
@@ -56,6 +59,9 @@ export class ContextMenu extends Component {
                 dispatcher.dispatch(actionReplyToMail());
                 this.purge();
                 break;
+
+            default:
+                dispatcher.dispatch(actionTransmitToFolder(currentTarget.dataset.section.split('/')[1]));
             }
         }
     };
@@ -69,14 +75,11 @@ export class ContextMenu extends Component {
 
         switch (answerStatus) {
         case responseStatuses.OK:
-            showNotification('Папка создана успешно!');
+            showNotification('Письмо перенесено успешно!');
             this.purge();
             return;
-        case responseStatuses.Forbidden:
-            showNotification('Заполните поля!');
-            break;
         default:
-            showNotification(answerBody.message);
+            showNotification('что-то пошло не так');
         }
     };
 
@@ -91,6 +94,7 @@ export class ContextMenu extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.addEventListener('click', this.buttonsClicked);
         });
+        microEvents.bind('responseFromTransmitFolder', this.getResponse);
     };
 
     /**
@@ -104,6 +108,7 @@ export class ContextMenu extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.removeEventListener('click', this.buttonsClicked);
         });
+        microEvents.unbind('responseFromTransmitFolder', this.getResponse);
     };
 
 

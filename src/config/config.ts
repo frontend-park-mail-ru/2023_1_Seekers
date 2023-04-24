@@ -75,7 +75,9 @@ export const config = {
         avatar: `${prefixApi}user/avatar`,
         auth: `${prefixApi}auth`,
         csrf: `${prefixApi}csrf`,
-        // session: `${prefixApi}session`,
+        createFolder: `${prefixApi}folder/create`,
+        moveToFolder: `${prefixApi}/message/`,
+        moveToFolder_post: '/move?folderSlug=',
     },
 
     buttons: {
@@ -200,7 +202,7 @@ export const config = {
 
             folderActions: {
                 drafts: {
-                    href: '/toDrafts',
+                    href: '/draft',
                     text: 'В черновики',
                     count: '',
                     img: `<path d="m15.2322 5.23223 3.5355 3.53554m-2.0355-5.03554c.9763-.97631 2.5592-.97631
@@ -210,7 +212,7 @@ export const config = {
                 },
 
                 spam: {
-                    href: '/toSpam',
+                    href: '/spam',
                     text: 'В спам',
                     count: '',
                     img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324
@@ -222,7 +224,7 @@ export const config = {
                 },
 
                 trash: {
-                    href: '/toTrash',
+                    href: '/trash',
                     text: 'В корзину',
                     count: '',
                     img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
@@ -234,7 +236,7 @@ export const config = {
                 },
 
                 another: {
-                    href: '/toAnother',
+                    href: '/another',
                     text: 'В другую папку',
                     count: '',
                     img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
