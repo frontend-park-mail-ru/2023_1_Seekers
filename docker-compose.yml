@@ -9,7 +9,7 @@ services:
       - "8002:8002"
     networks:
       my_network:
-        ipv4_address: 172.28.0.10
+        ipv4_address: 172.28.0.15
 
 networks:
   my_network:

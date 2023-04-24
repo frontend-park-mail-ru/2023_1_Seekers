@@ -1,18 +1,18 @@
 .account-sidebar {
   position: absolute;
-  height: 100vh;
+  min-height: 225px;
   width: 434px;
   z-index: 1000;
-  top: 0;
-  bottom: 0;
+  top: 80px;
   right: -434px;
-  padding-top: 60px;
+  scrollbar-width: none;
   background-color: var(--custom-color-account-sidebar);
   will-change: right;
-  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation: slide 0.3s forwards;
+  border-radius: 8px;
 
   &__delete {
-    transition: transform 0.5s 0s;
+    transition: transform 0.3s 0s;
     transform: translateX(434px);
   }
 
@@ -98,7 +98,7 @@
 
 @-webkit-keyframes slide {
   100% {
-    right: 0;
+    right: 10px;
   }
 }
 
