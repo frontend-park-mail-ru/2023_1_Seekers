@@ -12,6 +12,8 @@ import {
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
 import {ContextMenu} from '@components/context-menu/context-menu';
+import {LetterListHeader} from "@uikits/letter-list-header/letter-list-header";
+import {config} from "@config/config";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -158,6 +160,7 @@ export class LetterList extends Component {
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
+                letterListHeader: LetterListHeader.renderTemplate(config.buttons.letterListHeader),
                 currentLetters: reducerLetters._storage.get(reducerLetters._storeNames.currentLetters),
                 letterFrames: letterList,
             },
