@@ -9,6 +9,8 @@ import {config} from '@config/config';
 import {ContrastButton} from '@uikits/contrast-button/contrast-button';
 import {actionCreateNewMail} from '@actions/newMail';
 import {actionCreateFolder} from '@actions/folders';
+import {microEvents} from "@utils/microevents";
+import {reducerFolder} from "@stores/FolderStore";
 
 // import {actionRedirect} from "@actions/user";
 
@@ -40,6 +42,7 @@ export class Menu extends Component {
             newFolderButton: document.createElement('div'),
             activeButton: document.createElement('div'),
         };
+        this.rerender = this.rerender.bind(this);
     }
 
     /**
@@ -103,15 +106,15 @@ export class Menu extends Component {
      */
     render() {
         const commonMenuButtons: object[] = [];
-        // const advancedMenuButtons: object[] = [];
+        const advancedMenuButtons: object[] = [];
 
         Object.values(config.buttons.commonMenuButtons).forEach((menuButton) => {
             commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 
-        // reducerLetters._storage.get(reducerLetters._storeNames.menu).forEach((menuButton: object) => {
-        //     advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
-        // });
+        reducerFolder._storage.get(reducerFolder._storeNames.menu).forEach((menuButton: object) => {
+            advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
+        });
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
@@ -120,7 +123,7 @@ export class Menu extends Component {
                 commonMenuButtons: commonMenuButtons,
                 newFolderButton: ContrastButton.renderTemplate(
                     {href: '/new-folder', text: 'Новая папка'}),
-                // advancedMenuButtons: advancedMenuButtons,
+                advancedMenuButtons: advancedMenuButtons,
             },
         ));
 
@@ -145,6 +148,12 @@ export class Menu extends Component {
             this.state.activeButton.classList.add('menu-button_color-active');
         }
 
+        [...document.getElementById('advanced-menu-buttons')!.children].forEach((child) => {
+            if (child.classList.contains('menu-button')) {
+                child.classList.add('menu-button_disabled');
+            }
+        });
+
         this.registerEventListener();
     }
 
@@ -166,6 +175,7 @@ export class Menu extends Component {
         });
         this.state.newMailButton.addEventListener('click', this.newMailButtonClicked);
         this.state.newFolderButton.addEventListener('click', this.newFolderButtonClicked);
+        microEvents.bind('menuChanged', this.rerender);
     }
 
     /**
@@ -178,5 +188,11 @@ export class Menu extends Component {
         });
         this.state.newMailButton.removeEventListener('click', this.newMailButtonClicked);
         this.state.newFolderButton.removeEventListener('click', this.newFolderButtonClicked);
+        microEvents.unbind('menuChanged', this.rerender);
+    }
+
+    rerender() {
+        this.purge();
+        this.render();
     }
 }

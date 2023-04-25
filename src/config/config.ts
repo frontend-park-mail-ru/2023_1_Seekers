@@ -89,24 +89,24 @@ export const config = {
                   0 2-.8954 2-2v-10c0-1.10457-.8954-2-2-2h-14c-1.10457 0-2 .89543-2 2v10c0 1.1046.89543
                   2 2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                   `,
-                href: '/inbox',
-                text: 'Входящие',
-                count: '10',
+                folder_slug: '/inbox',
+                name: 'Входящие',
+                messages_unseen: '10',
             },
             outbox: {
                 img: `
                   <path d="m12 19 9 2-9-18-9 18zm0 0v-8" stroke-linecap="round"
                   stroke-linejoin="round" stroke-width="2"/>
                   `,
-                href: '/outbox',
-                text: 'Исходящие',
-                count: '',
+                folder_slug: '/outbox',
+                name: 'Исходящие',
+                messages_unseen: '',
             },
 
             drafts: {
-                href: '/drafts',
-                text: 'Черновики',
-                count: '10',
+                folder_slug: '/drafts',
+                name: 'Черновики',
+                messages_unseen: '10',
                 img: `<path d="m15.2322 5.23223 3.5355 3.53554m-2.0355-5.03554c.9763-.97631 2.5592-.97631
                       3.5355 0s.9763 2.55923 0 3.53554l-13.7677 13.76773h-3.5v-3.5711z"
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
@@ -114,9 +114,9 @@ export const config = {
             },
 
             spam: {
-                href: '/spam',
-                text: 'Спам',
-                count: '10',
+                folder_slug: '/spam',
+                name: 'Спам',
+                messages_unseen: '10',
                 img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324
                 0-12.72796-3.5148-3.51472-9.21324-3.51472-12.72796
                 0m12.72796 12.72796c-3.5148 3.5147-9.21324
@@ -126,9 +126,9 @@ export const config = {
             },
 
             trash: {
-                href: '/trash',
-                text: 'Корзина',
-                count: '10',
+                folder_slug: '/trash',
+                name: 'Корзина',
+                messages_unseen: '10',
                 img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
                     1.8575-1.9949 1.8575h-8.27556c-1.04928
                     0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5
@@ -173,9 +173,9 @@ export const config = {
         contextMenuButtons: {
             mailActions: {
                 forward: {
-                    href: '/forward',
-                    text: 'Переслать',
-                    count: '',
+                    folder_slug: '/forward',
+                    name: 'Переслать',
+                    messages_unseen: '',
                     img: `<path clip-rule="evenodd" d="m10.2929 3.29289c.3905-.39052 1.0237-.39052 1.4142 
                 0l6 6c.3905.39053.3905 1.02371 0 1.41421l-6 
                 6c-.3905.3905-1.0237.3905-1.4142 0-.39053-.3905-.39053-1.0237 
@@ -186,9 +186,9 @@ export const config = {
                 },
 
                 reply: {
-                    href: '/reply',
-                    text: 'Ответить',
-                    count: '',
+                    folder_slug: '/reply',
+                    name: 'Ответить',
+                    messages_unseen: '',
                     img: `<path clip-rule="evenodd" 
                     d="m7.70711 3.29289c.39052.39053.39052 1.02369 0 1.41422l-2.2929 
                     2.29289h5.58579c3.866 0 7 3.134 7 7v2c0 .5523-.4477 1-1 
@@ -201,20 +201,31 @@ export const config = {
             },
 
             folderActions: {
-                drafts: {
-                    href: '/draft',
-                    text: 'В черновики',
-                    count: '',
-                    img: `<path d="m15.2322 5.23223 3.5355 3.53554m-2.0355-5.03554c.9763-.97631 2.5592-.97631
-                    3.5355 0s.9763 2.55923 0 3.53554l-13.7677 13.76773h-3.5v-3.5711z"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                    `,
+                inbox: {
+                    img: `
+                  <path d="m3 8 7.8906 5.2604c.6718.4479 1.547.4479 
+                  2.2188 0l7.8906-5.2604m-16 11h14c1.1046
+                  0 2-.8954 2-2v-10c0-1.10457-.8954-2-2-2h-14c-1.10457 0-2 .89543-2 2v10c0 1.1046.89543
+                  2 2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  `,
+                    folder_slug: '/to_inbox',
+                    name: 'Во входящие',
+                    messages_unseen: '',
+                },
+                outbox: {
+                    img: `
+                  <path d="m12 19 9 2-9-18-9 18zm0 0v-8" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"/>
+                  `,
+                    folder_slug: '/to_outbox',
+                    name: 'В исходящие',
+                    messages_unseen: '',
                 },
 
                 spam: {
-                    href: '/spam',
-                    text: 'В спам',
-                    count: '',
+                    folder_slug: '/to_spam',
+                    name: 'В спам',
+                    messages_unseen: '',
                     img: `<path d="m18.364 18.364c3.5147-3.5148 3.5147-9.21324
                 0-12.72796-3.5148-3.51472-9.21324-3.51472-12.72796
                 0m12.72796 12.72796c-3.5148 3.5147-9.21324
@@ -224,9 +235,9 @@ export const config = {
                 },
 
                 trash: {
-                    href: '/trash',
-                    text: 'В корзину',
-                    count: '',
+                    folder_slug: '/to_trash',
+                    name: 'В корзину',
+                    messages_unseen: '',
                     img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
                     1.8575-1.9949 1.8575h-8.27556c-1.04928
                     0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5
@@ -236,15 +247,9 @@ export const config = {
                 },
 
                 another: {
-                    href: '/another',
-                    text: 'В другую папку',
-                    count: '',
-                    img: `<path d="m19 7-.8673 12.1425c-.0748 1.0466-.9457
-                    1.8575-1.9949 1.8575h-8.27556c-1.04928
-                    0-1.92016-.8109-1.99492-1.8575l-.86732-12.1425m5
-                    4v6m4-6v6m1-10v-3c0-.55228-.4477-1-1-1h-4c-.55228 0-1
-                    .44772-1 1v3m-5 0h16"
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+                    folder_slug: '/to_another',
+                    name: 'В другую папку',
+                    messages_unseen: '',
                 },
             },
         },

@@ -1,21 +1,18 @@
 import {Component} from '@components/component';
 
-import template from '@components/context-menu/context-menu.hbs';
-import '@components/context-menu/context-menu.scss';
+import template from '@components/advanced-context-menu/advanced-context-menu.hbs';
+import '@components/advanced-context-menu/advanced-context-menu.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
 import {reducerFolder} from '@stores/FolderStore';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {dispatcher} from '@utils/dispatcher';
-import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
 import {actionTransmitToFolder} from "@actions/folders";
-import {reducerLetters} from "@stores/LettersStore";
 import {microEvents} from "@utils/microevents";
-import {AdvancedContextMenu} from "@components/advanced-context-menu/advanced-context-menu";
 
 
-export interface ContextMenu {
+export interface AdvancedContextMenu {
     state: {
         element: Element,
         area: Element,
@@ -26,7 +23,7 @@ export interface ContextMenu {
 /**
  * class implementing component send-mail
  */
-export class ContextMenu extends Component {
+export class AdvancedContextMenu extends Component {
     /**
      * Constructor that creates a component class SendMail
      * @param context - HTML element into which
@@ -46,30 +43,11 @@ export class ContextMenu extends Component {
      * @param e - event that goes from one of childs of current element
      */
     buttonsClicked = async (e: Event) => {
-        if (!e.isTrusted) {
-            return;
-        }
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.contextMenuButtons.mailActions.forward.folder_slug:
-                dispatcher.dispatch(actionForwardMail());
-                this.purge();
-                break;
-
-            case config.buttons.contextMenuButtons.mailActions.reply.folder_slug:
-                dispatcher.dispatch(actionReplyToMail());
-                this.purge();
-                break;
-
-            case config.buttons.contextMenuButtons.folderActions.another.folder_slug:
-                const ctxMenu = new AdvancedContextMenu({parent: document.getElementById('root')!});
-                ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
-                e.stopPropagation();
-                break;
-
             default:
                 dispatcher.dispatch(actionTransmitToFolder(currentTarget.dataset.section.split('/')[1]));
             }
@@ -94,6 +72,8 @@ export class ContextMenu extends Component {
             return;
         default:
             showNotification('Что-то пошло не так.');
+            this.purge();
+            return;
         }
     };
 
@@ -130,7 +110,14 @@ export class ContextMenu extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
-        [...document.getElementsByClassName('context-menu__area')].forEach((ctxMenu) => {
+
+        const advancedMenuButtons: object[] = [];
+
+        reducerFolder._storage.get(reducerFolder._storeNames.menu).forEach((menuButton: object) => {
+            advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
+        });
+
+        [...document.getElementsByClassName('advanced-context-menu__area')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {
                     child.removeEventListener('click', this.buttonsClicked);
@@ -141,24 +128,13 @@ export class ContextMenu extends Component {
             ctxMenu.remove();
         });
 
-        console.log(x, y);
-        const mailActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.mailActions).forEach((button) => {
-            mailActionButtons.push(MenuButton.renderTemplate(button));
-        });
-
-        const folderActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.folderActions).forEach((button) => {
-            folderActionButtons.push(MenuButton.renderTemplate(button));
-        });
-
         this.parent.insertAdjacentHTML('afterbegin', template({
-            mailActionButtons: mailActionButtons,
-            folderActionButtons: folderActionButtons,
+            folderActionButtons: advancedMenuButtons,
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        this.state.area = this.parent.getElementsByClassName('context-menu__area')[0];
+        console.log('im here!');
+        this.state.area = this.parent.getElementsByClassName('advanced-context-menu__area')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;

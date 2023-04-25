@@ -1,4 +1,4 @@
-<a class="menu-button menu-button_color menu-button_size" href="{{ href }}" data-section="{{ href }}">
+<a class="menu-button menu-button_color menu-button_size" href="{{ folder_slug }}" data-section="{{ folder_slug }}">
     <div class="menu-button__left-frame">
         <svg class="menu-button__icon menu-button__icon_color menu-button__icon_size" fill="none"
              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -10,9 +10,9 @@
                 stroke-width="2px" stroke-linecap="round" stroke-linejoin="round"/>
             {{/if}}
         </svg>
-            <p class="font-caption-0 menu-button__text_color">{{ text }}</p>
+            <p class="font-caption-0 menu-button__text_color">{{ name }}</p>
     </div>
     <div class="menu-button__right-frame">
-<!--            <p class="font-caption-0 menu-button__text_color">{{ count }}</p>-->
+<!--            <p class="font-caption-0 menu-button__text_color">{{ messages_unseen }}</p>-->
     </div>
 </a>

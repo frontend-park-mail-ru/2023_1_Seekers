@@ -45,10 +45,17 @@ class FolderStore extends BaseStore {
      * function that makes request to get menu
      */
     getMenu = async () => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
+        if (!this._storage.get(this._storeNames.menu)) {
+            this._storage.set(this._storeNames.menu, []);
+        }
+        const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
+            (response.folders as Folder[]).forEach((folder) => {
+                folder.folder_slug = '/to_' + folder.folder_slug;
+            });
             this._storage.set(this._storeNames.menu, response.folders);
+            console.log(this._storage.get(this._storeNames.menu));
             microEvents.trigger('menuChanged');
         }
     };
@@ -57,6 +64,7 @@ class FolderStore extends BaseStore {
      * function that transmits mail to another folder
      */
     transmitToFolder = async (folder: string) => {
+        folder = folder.replace('to_', '');
         const responsePromise = Connector.makePutRequest({
             url: config.api.moveToFolder +
                 reducerLetters.getCurrentContextMail().message_id.toString() +
@@ -77,6 +85,12 @@ class FolderStore extends BaseStore {
             //     }
             // });
             microEvents.trigger('responseFromTransmitFolder');
+            const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
+            console.log(mailHref);
+            reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+            if (mailHref !== '/undefined') {
+                reducerLetters.showMail(mailHref);
+            }
         // }
     };
 }

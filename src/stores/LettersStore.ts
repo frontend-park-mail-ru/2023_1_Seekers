@@ -35,7 +35,6 @@ class LettersStore extends BaseStore {
      * @param folderName - name of folder
      */
     getLetters = async (folderName: string) => {
-        console.log('in get letters');
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {

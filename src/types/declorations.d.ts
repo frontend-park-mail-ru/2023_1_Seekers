@@ -52,4 +52,13 @@ type MailData = {
     title: string,
 }
 
+type Folder = {
+    folder_id: number,
+    folder_slug: string,
+    messages_count?: number,
+    messages_unseen: number,
+    name: string,
+    img?: string
+}
+
 type CustomPages = LoginPage;
