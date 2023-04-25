@@ -78,8 +78,12 @@ export class ContextMenu extends Component {
             showNotification('Письмо перенесено успешно!');
             this.purge();
             return;
+        case responseStatuses.BadRequest:
+            showNotification('Письмо уже в выбранной папке.');
+            this.purge();
+            return;
         default:
-            showNotification('что-то пошло не так');
+            showNotification('Что-то пошло не так.');
         }
     };
 

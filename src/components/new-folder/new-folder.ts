@@ -99,7 +99,7 @@ export class NewFolder extends Component {
             showNotification('Папка создана успешно!');
             this.purge();
             return;
-        case responseStatuses.Forbidden:
+        case responseStatuses.BadRequest:
             showNotification('Заполните поля!');
             break;
         default:
