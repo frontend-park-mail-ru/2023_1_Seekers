@@ -49,7 +49,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'http://localhost',
+    basePath: 'https://mailbx.ru',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
