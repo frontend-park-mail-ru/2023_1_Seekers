@@ -52,6 +52,7 @@ class LettersStore extends BaseStore {
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}` +
                                 `?email=${message.from_user_id.email}`,
+                            recipients: message.recipients,
                         };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
@@ -70,7 +71,7 @@ class LettersStore extends BaseStore {
     };
 
     downloadMail = async (mailId: string) => {
-        Connector.makeGetRequest(config.api.getMail + mailId)
+        return Connector.makeGetRequest(config.api.getMail + mailId)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
                     const mailData: MailData = body.message;
@@ -207,6 +208,18 @@ class LettersStore extends BaseStore {
 
     getMailArray() {
         return this._storage.get(this._storeNames.mail);
+    }
+
+    getLetterByFolderAndId(folder: string, id: number) {
+        console.log(folder);
+        console.log(id);
+
+        return (this._storage.get(this._storeNames.letters)
+            .get('/' + folder) as MailData[]).find((letterFrame) => {
+            if (letterFrame.message_id === id) {
+                return letterFrame;
+            }
+        });
     }
 }
 

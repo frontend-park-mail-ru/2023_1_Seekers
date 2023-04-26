@@ -78,22 +78,25 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to forward mail
      */
     selectDraft = async (draftHref: string) => {
-        reducerLetters.getCtxMail(draftHref).then(() => {
-            let recipientsStr = '';
-            reducerLetters.getCurrentContextMail().recipients?.forEach((recipient) => {
-                recipientsStr = recipientsStr + recipient.email + ' ';
-            });
+        const mail = reducerLetters.
+            getLetterByFolderAndId('drafts', parseInt(draftHref.split('/').pop()!))!;
+        let recipientsStr = '';
 
-            this._storage.set(
-                this._storeNames.title, reducerLetters.getCurrentContextMail().title,
-            );
-            this._storage.set(
-                this._storeNames.text, reducerLetters.getCurrentContextMail().text,
-            );
-            this._storage.set(this._storeNames.recipients, recipientsStr);
+        console.log(mail);
 
-            microEvents.trigger('createNewMail');
+        mail.recipients?.forEach((recipient) => {
+            recipientsStr = recipientsStr + recipient.email + ' ';
         });
+
+        this._storage.set(
+            this._storeNames.title, mail.title,
+        );
+        this._storage.set(
+            this._storeNames.text, mail.text,
+        );
+        this._storage.set(this._storeNames.recipients, recipientsStr);
+
+        microEvents.trigger('createNewMail');
     };
 
     /**

@@ -29,6 +29,7 @@ type LetterFrameData = {
     created_at: string,
     href: string,
     avatar: string,
+    recipients?: any[],
 }
 
 type ProfileData = {
