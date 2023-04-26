@@ -70,8 +70,18 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+    /**
+     * function that makes request to log out user
+     */
+    async deleteMail(id: string) {
+        await Connector.makeDeleteRequest(config.api.deleteMail + id);
+        console.log('deleted');
+        microEvents.trigger('responseFromDelete');
+        this.getLetters(this._storage.get(this._storeNames.currentLetters));
+    }
+
     downloadMail = async (mailId: string) => {
-        return Connector.makeGetRequest(config.api.getMail + mailId)
+        Connector.makeGetRequest(config.api.getMail + mailId)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
                     const mailData: MailData = body.message;
@@ -187,6 +197,10 @@ class LettersStore extends BaseStore {
             .get(this._storage.get(this._storeNames.shownMail));
     }
 
+    getCurrentLettersName() {
+        return this._storage.get(this._storeNames.currentLetters);
+    }
+
     /**
      * function that gets current mail from this store
      * @returns []Object array of current lettters
@@ -202,6 +216,8 @@ class LettersStore extends BaseStore {
     }
 
     getCurrentContextMail() {
+        console.log(this._storage.get(this._storeNames.mail)
+            .get(this._storage.get(this._storeNames.contextMail)));
         return this._storage.get(this._storeNames.mail)
             .get(this._storage.get(this._storeNames.contextMail)) as MailData;
     }

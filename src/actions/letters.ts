@@ -33,3 +33,8 @@ export const actionChangeLetterStateToRead = (letterId: string) => ({
     type: 'changeLetterStateToRead',
     value: letterId,
 });
+
+export const actionDeleteMail = (id: number) => ({
+    type: 'deleteMail',
+    value: id,
+});

@@ -1,22 +1,20 @@
 import {Component} from '@components/component';
 
-import template from '@components/context-menu/context-menu.hbs';
-import '@components/context-menu/context-menu.scss';
+import template from '@components/context-draft/context-draft.hbs';
+import '@components/context-draft/context-draft.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
 import {reducerFolder} from '@stores/FolderStore';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {dispatcher} from '@utils/dispatcher';
-import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
-import {actionTransmitToFolder} from '@actions/folders';
-import {reducerLetters} from '@stores/LettersStore';
+import {actionForwardMail, actionReplyToMail, actionSelectDraft} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
-import {AdvancedContextMenu} from '@components/advanced-context-menu/advanced-context-menu';
-import {actionDeleteMail} from '@actions/letters';
+import {actionDeleteMail} from "@actions/letters";
+import {reducerLetters} from "@stores/LettersStore";
 
 
-export interface ContextMenu {
+export interface ContextDraft {
     state: {
         element: Element,
         area: Element,
@@ -27,7 +25,7 @@ export interface ContextMenu {
 /**
  * class implementing component send-mail
  */
-export class ContextMenu extends Component {
+export class ContextDraft extends Component {
     /**
      * Constructor that creates a component class SendMail
      * @param context - HTML element into which
@@ -55,28 +53,9 @@ export class ContextMenu extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.contextMenuButtons.mailActions.forward.folder_slug:
-                dispatcher.dispatch(actionForwardMail());
-                this.purge();
-                break;
-
-            case config.buttons.contextMenuButtons.mailActions.reply.folder_slug:
-                dispatcher.dispatch(actionReplyToMail());
-                this.purge();
-                break;
-
-            case config.buttons.contextMenuButtons.folderActions.another.folder_slug:
-                const ctxMenu = new AdvancedContextMenu({parent: document.getElementById('root')!});
-                ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
-                e.stopPropagation();
-                break;
-
-            case config.buttons.contextMenuButtons.delete.folder_slug:
+            case config.buttons.contextDraftButtons.trash.folder_slug:
                 dispatcher.dispatch(actionDeleteMail(reducerLetters.getCurrentContextMail().message_id));
                 break;
-
-            default:
-                dispatcher.dispatch(actionTransmitToFolder(currentTarget.dataset.section.split('/')[1]));
             }
         }
     };
@@ -84,28 +63,7 @@ export class ContextMenu extends Component {
     /**
      * function that triggers when the answer got from the backend
      */
-    getResponse = () => {
-        const [answerStatus] = reducerFolder.getAnswer();
-
-        switch (answerStatus) {
-        case responseStatuses.OK:
-            showNotification('Письмо перенесено успешно!');
-            this.purge();
-            return;
-        case responseStatuses.BadRequest:
-            showNotification('Письмо уже в выбранной папке.');
-            this.purge();
-            return;
-        default:
-            showNotification('Что-то пошло не так.');
-        }
-    };
-
-    /**
-     * function that triggers when the answer got from the backend
-     */
     getDeleteResponse = () => {
-        console.log('req deleted');
         const [answerStatus] = reducerFolder.getAnswer();
 
         switch (answerStatus) {
@@ -129,7 +87,6 @@ export class ContextMenu extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.addEventListener('click', this.buttonsClicked);
         });
-        microEvents.bind('responseFromTransmitFolder', this.getResponse);
         microEvents.bind('responseFromDelete', this.getDeleteResponse);
     };
 
@@ -144,7 +101,6 @@ export class ContextMenu extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.removeEventListener('click', this.buttonsClicked);
         });
-        microEvents.unbind('responseFromTransmitFolder', this.getResponse);
         microEvents.unbind('responseFromDelete', this.getDeleteResponse);
     };
 
@@ -153,7 +109,7 @@ export class ContextMenu extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
-        [...document.getElementsByClassName('context-menu__area')].forEach((ctxMenu) => {
+        [...document.getElementsByClassName('context-draft__area')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {
                     child.removeEventListener('click', this.buttonsClicked);
@@ -164,33 +120,23 @@ export class ContextMenu extends Component {
             ctxMenu.remove();
         });
 
-        console.log(x, y);
-        const mailActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.mailActions).forEach((button) => {
-            mailActionButtons.push(MenuButton.renderTemplate(button));
+        const draftActionButtons: object[] = [];
+        Object.values(config.buttons.contextDraftButtons).forEach((button) => {
+            draftActionButtons.push(MenuButton.renderTemplate(button));
         });
 
-        const folderActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.folderActions).forEach((button) => {
-            folderActionButtons.push(MenuButton.renderTemplate(button));
-        });
 
+        console.log(reducerFolder.getAdvancedMenu());
         if (reducerFolder.getAdvancedMenu().length === 0) {
-            folderActionButtons.pop();
-        }
-
-        if (reducerLetters.getCurrentLettersName() === '/trash') {
-            folderActionButtons.push(
-                MenuButton.renderTemplate(config.buttons.contextMenuButtons.delete));
+            draftActionButtons.pop();
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template({
-            mailActionButtons: mailActionButtons,
-            folderActionButtons: folderActionButtons,
+            draftActionButtons: draftActionButtons,
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        this.state.area = this.parent.getElementsByClassName('context-menu__area')[0];
+        this.state.area = this.parent.getElementsByClassName('context-draft__area')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;

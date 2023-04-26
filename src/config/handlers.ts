@@ -25,6 +25,7 @@ const handlers = [
     {type: 'changeLetterStateToRead',
         method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
     {type: 'logout', method: reducerUser.logout.bind(reducerUser)},
+    {type: 'deleteMail', method: reducerLetters.deleteMail.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},

@@ -12,9 +12,10 @@ import {
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
 import {ContextMenu} from '@components/context-menu/context-menu';
-import {LetterListHeader} from "@uikits/letter-list-header/letter-list-header";
-import {config} from "@config/config";
-import {actionCreateNewMail, actionSelectDraft} from "@actions/newMail";
+import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
+import {config} from '@config/config';
+import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
+import {ContextDraft} from '@components/context-draft/context-draft';
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -57,7 +58,6 @@ export class LetterList extends Component {
             return;
         }
         const me = e as MouseEvent;
-        console.log(me.clientX, me.clientY);
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
@@ -66,7 +66,24 @@ export class LetterList extends Component {
                 const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
                 ctxMenu.render(me.clientX, me.clientY);
                 e.stopPropagation();
-                // currentTarget.dispatchEvent(new MouseEvent('contextmenu', {bubbles: true, cancelable: true}));
+            }
+        }
+    };
+
+    showDraftContext = async (e: Event) => {
+        if (!e.isTrusted) {
+            return;
+        }
+        const me = e as MouseEvent;
+        console.log(me.clientX, me.clientY);
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                await dispatcher.dispatch(actionCtxMail(currentTarget.dataset.section));
+                const ctxMenu = new ContextDraft({parent: document.getElementById('root')!});
+                ctxMenu.render(me.clientX, me.clientY);
+                e.stopPropagation();
             }
         }
     };
