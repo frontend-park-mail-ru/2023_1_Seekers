@@ -80,8 +80,7 @@ export class ContextMenu extends Component {
      * function that triggers when the answer got from the backend
      */
     getResponse = () => {
-        const answerStatus = reducerFolder._storage.get(reducerFolder._storeNames.answerStatus);
-        const answerBody = reducerFolder._storage.get(reducerFolder._storeNames.answerBody);
+        const [answerStatus] = reducerFolder.getAnswer();
 
         switch (answerStatus) {
         case responseStatuses.OK:
@@ -151,6 +150,12 @@ export class ContextMenu extends Component {
         Object.values(config.buttons.contextMenuButtons.folderActions).forEach((button) => {
             folderActionButtons.push(MenuButton.renderTemplate(button));
         });
+
+
+        console.log(reducerFolder.getAdvancedMenu());
+        if (reducerFolder.getAdvancedMenu().length === 0) {
+            folderActionButtons.pop();
+        }
 
         this.parent.insertAdjacentHTML('afterbegin', template({
             mailActionButtons: mailActionButtons,

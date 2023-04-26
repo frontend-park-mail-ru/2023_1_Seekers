@@ -30,6 +30,8 @@ const handlers = [
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
     {type: 'forwardMail', method: reducerNewMail.forwardMail.bind(reducerNewMail)},
     {type: 'sendMail', method: reducerNewMail.sendMail.bind(reducerNewMail)},
+    {type: 'sendDraft', method: reducerNewMail.sendDraft.bind(reducerNewMail)},
+    {type: 'selectDraft', method: reducerNewMail.selectDraft.bind(reducerNewMail)},
 
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},

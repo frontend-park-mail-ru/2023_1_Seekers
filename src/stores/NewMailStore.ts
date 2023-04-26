@@ -75,11 +75,41 @@ class NewMailStore extends BaseStore {
     };
 
     /**
+     * function that sets initial state of the store when need to forward mail
+     */
+    selectDraft = async (draftHref: string) => {
+        reducerLetters.getCtxMail(draftHref).then(() => {
+            let recipientsStr = '';
+            reducerLetters.getCurrentContextMail().recipients?.forEach((recipient) => {
+                recipientsStr = recipientsStr + recipient.email + ' ';
+            });
+
+            this._storage.set(
+                this._storeNames.title, reducerLetters.getCurrentContextMail().title,
+            );
+            this._storage.set(
+                this._storeNames.text, reducerLetters.getCurrentContextMail().text,
+            );
+            this._storage.set(this._storeNames.recipients, recipientsStr);
+
+            microEvents.trigger('createNewMail');
+        });
+    };
+
+    /**
      * function that make send mail request to backend
      * @param mail - mail to send
      */
     sendMail = async (mail: MailToSend) => {
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
+            this._storage.set(this._storeNames.answerBody, body);
+            this._storage.set(this._storeNames.answerStatus, status);
+            microEvents.trigger('mailSent');
+        });
+    };
+
+    sendDraft = async (draft: MailToSend) => {
+        Connector.makePostRequest(config.api.sendDraft, draft).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
             microEvents.trigger('mailSent');

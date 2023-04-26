@@ -148,12 +148,6 @@ export class Menu extends Component {
             this.state.activeButton.classList.add('menu-button_color-active');
         }
 
-        [...document.getElementById('advanced-menu-buttons')!.children].forEach((child) => {
-            if (child.classList.contains('menu-button')) {
-                child.classList.add('menu-button_disabled');
-            }
-        });
-
         this.registerEventListener();
     }
 

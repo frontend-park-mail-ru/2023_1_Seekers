@@ -18,3 +18,13 @@ export const actionCreateNewMail = () => ({
     type: 'createNewMail',
     value: {},
 });
+
+export const actionSendDraft = (draft: MailToSend) => ({
+    type: 'sendDraft',
+    value: draft,
+});
+
+export const actionSelectDraft = (draftHref: string) => ({
+    type: 'selectDraft',
+    value: draftHref,
+});

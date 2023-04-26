@@ -14,6 +14,7 @@ import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader
 import {ContextMenu} from '@components/context-menu/context-menu';
 import {LetterListHeader} from "@uikits/letter-list-header/letter-list-header";
 import {config} from "@config/config";
+import {actionCreateNewMail, actionSelectDraft} from "@actions/newMail";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -26,6 +27,7 @@ export interface LetterList {
             stateElement: Element,
         }[],
         activeLetter: Element | undefined,
+        currentLetters: string;
     },
 }
 
@@ -44,6 +46,7 @@ export class LetterList extends Component {
             element: document.createElement('div'),
             letters: [],
             activeLetter: document.createElement('div'),
+            currentLetters: '',
         };
 
         this.rerender = this.rerender.bind(this);
@@ -77,6 +80,33 @@ export class LetterList extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 await dispatcher.dispatch(actionShowMail(currentTarget.dataset.section));
+                e.stopPropagation();
+                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+
+                const letterState = currentTarget.getElementsByClassName(
+                    'letter-frame__read-state')[0] as HTMLElement;
+
+                if (letterState.classList.contains('letter-is-unread')) {
+                    dispatcher.dispatch(actionChangeLetterStateToRead(letterState.dataset.section!));
+                    letterState.classList.remove('letter-is-unread');
+                    letterState.classList.add('letter-is-read');
+                }
+                this.state.activeLetter?.classList.remove('letter-frame_color-active');
+                this.state.activeLetter = currentTarget;
+                this.state.activeLetter?.classList.add('letter-frame_color-active');
+            }
+        }
+    };
+
+    selectDraft = async (e: Event) => {
+        if (!e.isTrusted) {
+            return;
+        }
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                await dispatcher.dispatch(actionSelectDraft(currentTarget.dataset.section));
                 e.stopPropagation();
                 currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
@@ -130,9 +160,9 @@ export class LetterList extends Component {
      * according to a given template and context
      */
     render() {
-        const letterObjs = reducerLetters._storage
-            .get(reducerLetters._storeNames.letters)
-            .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+        const letterObjs = reducerLetters.getCurrentLettersArray();
+        this.state.currentLetters =
+            reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
 
         if (letterObjs) {
             this.renderLetterFrames();
@@ -147,9 +177,7 @@ export class LetterList extends Component {
      */
     renderLetterFrames() {
         const letterList: object[] = [];
-        const letterObjs = reducerLetters._storage
-            .get(reducerLetters._storeNames.letters)
-            .get(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+        const letterObjs = reducerLetters.getCurrentLettersArray();
 
 
         if (letterObjs) {
@@ -161,7 +189,7 @@ export class LetterList extends Component {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 letterListHeader: LetterListHeader.renderTemplate(config.buttons.letterListHeader),
-                currentLetters: reducerLetters._storage.get(reducerLetters._storeNames.currentLetters),
+                currentLetters: this.state.currentLetters,
                 letterFrames: letterList,
             },
         ));
@@ -186,7 +214,7 @@ export class LetterList extends Component {
     renderLoader() {
         const loaderList = [];
 
-        for (let i = 0; i < 10; i++) { // выведет 0, затем 1, затем 2
+        for (let i = 0; i < 10; i++) {
             loaderList.push(LetterFrameLoader.renderTemplate({}));
         }
 
@@ -222,9 +250,30 @@ export class LetterList extends Component {
      * will register listeners for each letter-frame in letter-list
      */
     registerEventListener() {
+        switch (this.state.currentLetters) {
+        case config.buttons.commonMenuButtons.drafts.folder_slug:
+            this.registerDraftListeners();
+            break;
+        default:
+            this.registerDefaultListeners();
+            break;
+        }
+    }
+
+    registerDefaultListeners() {
         this.state.letters.forEach((letter) => {
             letter.letterElement.addEventListener('click', this.selectLetter);
             letter.letterElement.addEventListener('contextmenu', this.showLetterContext);
+            letter.stateElement.addEventListener('click', this.changeState);
+        });
+        microEvents.bind('letterListChanged', this.rerender);
+        microEvents.bind('mailChanged', this.changeLetterToActive);
+    }
+
+    registerDraftListeners() {
+        this.state.letters.forEach((letter) => {
+            letter.letterElement.addEventListener('click', this.selectDraft);
+            letter.letterElement.addEventListener('contextmenu', this.showDraftContext);
             letter.stateElement.addEventListener('click', this.changeState);
         });
         microEvents.bind('letterListChanged', this.rerender);
@@ -236,11 +285,25 @@ export class LetterList extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
+        this.unregisterDefaultListeners();
+    }
+
+    unregisterDefaultListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
         microEvents.unbind('mailChanged', this.changeLetterToActive);
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.selectLetter);
             letter.letterElement.removeEventListener('contextmenu', this.showLetterContext);
+            letter.stateElement.removeEventListener('click', this.changeState);
+        });
+    }
+
+    unregisterDraftListeners() {
+        microEvents.unbind('letterListChanged', this.rerender);
+        microEvents.unbind('mailChanged', this.changeLetterToActive);
+        this.state.letters.forEach((letter) => {
+            letter.letterElement.removeEventListener('click', this.selectDraft);
+            letter.letterElement.removeEventListener('contextmenu', this.showDraftContext);
             letter.stateElement.removeEventListener('click', this.changeState);
         });
     }

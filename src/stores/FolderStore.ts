@@ -77,22 +77,31 @@ class FolderStore extends BaseStore {
         console.log(response);
         console.log(status);
         // if (status === responseStatuses.OK) {
-            // this._storage.set(this._storeNames.menu, response.folders);
-            // reducerLetters.getCurrentLettersArray().forEach((letter) => {
-            //     if (letter.message_id === id) {
-            //         reducerLetters.getCurrentLettersArray()
-            //             .splice(reducerLetters.getCurrentLettersArray().indexOf(letter), 1);
-            //     }
-            // });
-            microEvents.trigger('responseFromTransmitFolder');
-            const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
-            console.log(mailHref);
-            reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
-            if (mailHref !== '/undefined') {
-                reducerLetters.showMail(mailHref);
-            }
+        // this._storage.set(this._storeNames.menu, response.folders);
+        // reducerLetters.getCurrentLettersArray().forEach((letter) => {
+        //     if (letter.message_id === id) {
+        //         reducerLetters.getCurrentLettersArray()
+        //             .splice(reducerLetters.getCurrentLettersArray().indexOf(letter), 1);
+        //     }
+        // });
+        microEvents.trigger('responseFromTransmitFolder');
+        const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
+        console.log(mailHref);
+        reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+        if (mailHref !== '/undefined') {
+            reducerLetters.showMail(mailHref);
+        }
         // }
     };
+
+    getAdvancedMenu() {
+        return this._storage.get(this._storeNames.menu);
+    }
+
+    getAnswer() {
+        return [this._storage.get(this._storeNames.answerStatus),
+            this._storage.get(this._storeNames.answerBody)];
+    }
 }
 
 export const reducerFolder = new FolderStore();

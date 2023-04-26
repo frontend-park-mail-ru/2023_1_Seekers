@@ -8,7 +8,7 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {actionSendMail} from '@actions/newMail';
+import {actionSendDraft, actionSendMail} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
@@ -77,15 +77,19 @@ export class SendMail extends Component {
         }
     };
 
-    /**
-     * function that dispatches action to send mail
-     */
-    sendMail = async () => {
-        const mail = {
+    getMailInputs () {
+        return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
             text: this.state.text.value,
         } as MailToSend;
+    }
+
+    /**
+     * function that dispatches action to send mail
+     */
+    sendMail = async () => {
+        const mail = this.getMailInputs();
 
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -106,18 +110,18 @@ export class SendMail extends Component {
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
-        case responseStatuses.OK:
-            showNotification('Письмо отправлено успешно!');
-            this.purge();
-            return;
-        case responseStatuses.BadRequest:
-            showNotification('В списке получателей нет ни одного существующего!');
-            break;
-        case responseStatuses.Forbidden:
-            showNotification('Заполните поля!');
-            break;
-        default:
-            showNotification(answerBody.message);
+            case responseStatuses.OK:
+                showNotification('Письмо отправлено успешно!');
+                this.purge();
+                return;
+            case responseStatuses.BadRequest:
+                showNotification('В списке получателей нет ни одного существующего!');
+                break;
+            case responseStatuses.Forbidden:
+                showNotification('Заполните поля!');
+                break;
+            default:
+                showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -138,9 +142,9 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
-                break;
+                case config.buttons.newMailButtons.closeButton.href:
+                    this.purge();
+                    break;
             }
         }
     };
@@ -316,6 +320,8 @@ export class SendMail extends Component {
         e.preventDefault();
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
+                const draft = this.getMailInputs();
+                dispatcher.dispatch(actionSendDraft(draft));
                 this.purge();
             }
         }
