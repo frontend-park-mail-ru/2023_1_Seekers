@@ -1,7 +1,7 @@
 import {Component} from '@components/component';
 
-import template from '@components/context-menu/context-menu.hbs';
-import '@components/context-menu/context-menu.scss';
+import template from '@components/context-letter/context-letter.hbs';
+import '@components/context-letter/context-letter.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
@@ -16,7 +16,7 @@ import {AdvancedContextMenu} from '@components/advanced-context-menu/advanced-co
 import {actionDeleteMail} from '@actions/letters';
 
 
-export interface ContextMenu {
+export interface ContextLetter {
     state: {
         element: Element,
         area: Element,
@@ -27,7 +27,7 @@ export interface ContextMenu {
 /**
  * class implementing component send-mail
  */
-export class ContextMenu extends Component {
+export class ContextLetter extends Component {
     /**
      * Constructor that creates a component class SendMail
      * @param context - HTML element into which
@@ -153,7 +153,7 @@ export class ContextMenu extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
-        [...document.getElementsByClassName('context-menu__area')].forEach((ctxMenu) => {
+        [...document.getElementsByClassName('context-letter__area')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {
                     child.removeEventListener('click', this.buttonsClicked);
@@ -190,7 +190,7 @@ export class ContextMenu extends Component {
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        this.state.area = this.parent.getElementsByClassName('context-menu__area')[0];
+        this.state.area = this.parent.getElementsByClassName('context-letter__area')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;

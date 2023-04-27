@@ -11,7 +11,7 @@ import {
     actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
-import {ContextMenu} from '@components/context-menu/context-menu';
+import {ContextLetter} from '@components/context-letter/context-letter';
 import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
 import {config} from '@config/config';
 import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
@@ -63,7 +63,7 @@ export class LetterList extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 await dispatcher.dispatch(actionCtxMail(currentTarget.dataset.section));
-                const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
+                const ctxMenu = new ContextLetter({parent: document.getElementById('root')!});
                 ctxMenu.render(me.clientX, me.clientY);
                 e.stopPropagation();
             }

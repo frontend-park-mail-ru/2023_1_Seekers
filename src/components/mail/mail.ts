@@ -8,8 +8,8 @@ import {config} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {dispatcher} from '@utils/dispatcher';
 import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
-import {actionCtxMail} from "@actions/letters";
-import {ContextMenu} from "@components/context-menu/context-menu";
+import {actionCtxMail} from '@actions/letters';
+import {ContextLetter} from '@components/context-letter/context-letter';
 
 
 export interface Mail {
@@ -129,7 +129,7 @@ export class Mail extends Component {
 
                 case config.buttons.mailActionButtons.more.href:
                     dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-                    const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
+                    const ctxMenu = new ContextLetter({parent: document.getElementById('root')!});
                     ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
                     break;
                 }
