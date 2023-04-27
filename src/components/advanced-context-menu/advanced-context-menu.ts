@@ -8,8 +8,8 @@ import {showNotification} from '@components/notification/notification';
 import {reducerFolder} from '@stores/FolderStore';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {dispatcher} from '@utils/dispatcher';
-import {actionTransmitToFolder} from "@actions/folders";
-import {microEvents} from "@utils/microevents";
+import {actionTransmitToFolder} from '@actions/folders';
+import {microEvents} from '@utils/microevents';
 
 
 export interface AdvancedContextMenu {
@@ -113,7 +113,8 @@ export class AdvancedContextMenu extends Component {
 
         const advancedMenuButtons: object[] = [];
 
-        reducerFolder._storage.get(reducerFolder._storeNames.menu).forEach((menuButton: object) => {
+        reducerFolder._storage.get(reducerFolder._storeNames.menu).forEach((menuButton: Folder) => {
+            menuButton.folder_slug = '/to_' + menuButton.folder_slug;
             advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 
