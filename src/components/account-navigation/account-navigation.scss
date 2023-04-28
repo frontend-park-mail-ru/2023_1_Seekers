@@ -21,3 +21,12 @@
         margin: 16px 12px;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .account-navigation {
+        zoom: 2;
+        &__nav {
+            flex-direction: row;
+        }
+    }
+}
