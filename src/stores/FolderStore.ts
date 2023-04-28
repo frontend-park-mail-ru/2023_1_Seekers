@@ -2,8 +2,7 @@ import {Connector} from '@utils/ajax';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
-import {reducerLetters} from "@stores/LettersStore";
-import {loginPage} from "@views/login-page/login-page";
+import {reducerLetters} from '@stores/LettersStore';
 
 /**
  * class that implements all possible actions with sent mail
@@ -12,6 +11,7 @@ class FolderStore extends BaseStore {
     _storeNames = {
         answerStatus: 'answerStatus',
         answerBody: 'answerBody',
+        contextFolder: 'contextFolder',
         menu: 'menu',
     };
 
@@ -24,6 +24,10 @@ class FolderStore extends BaseStore {
 
     createNewFolder = async () => {
         microEvents.trigger('createNewFolder');
+    };
+
+    createRenameFolderForm = async () => {
+        microEvents.trigger('createRenameFolderForm');
     };
 
     /**
@@ -62,6 +66,16 @@ class FolderStore extends BaseStore {
      */
     transmitToFolder = async (folder: string) => {
         folder = folder.replace('to_', '');
+        if (reducerLetters.getSelectedLetters().find((letterId) => {
+            return letterId === reducerLetters.getCurrentContextMail().message_id;
+        })) {
+            this.transmitPackToFolder(folder);
+        } else {
+            this.transmitLetterToFolder(folder);
+        }
+    };
+
+    transmitLetterToFolder = async (folder: string) => {
         const responsePromise = Connector.makePutRequest({
             url: config.api.moveToFolder +
                 reducerLetters.getCurrentContextMail().message_id.toString() +
@@ -71,16 +85,6 @@ class FolderStore extends BaseStore {
         const [status, response] = await responsePromise;
         this._storage.set(this._storeNames.answerBody, response);
         this._storage.set(this._storeNames.answerStatus, status);
-        console.log(response);
-        console.log(status);
-        // if (status === responseStatuses.OK) {
-        // this._storage.set(this._storeNames.menu, response.folders);
-        // reducerLetters.getCurrentLettersArray().forEach((letter) => {
-        //     if (letter.message_id === id) {
-        //         reducerLetters.getCurrentLettersArray()
-        //             .splice(reducerLetters.getCurrentLettersArray().indexOf(letter), 1);
-        //     }
-        // });
         microEvents.trigger('responseFromTransmitFolder');
         const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
         console.log(mailHref);
@@ -91,6 +95,74 @@ class FolderStore extends BaseStore {
         // }
     };
 
+    /**
+     * function that transmits mail to another folder
+     */
+    transmitPackToFolder = async (folder: string) => {
+        folder = folder.replace('to_', '');
+        const len = reducerLetters.getSelectedLetters().length;
+        let i = 0;
+        reducerLetters.getSelectedLetters().forEach((id) => {
+            Connector.makePutRequest({
+                url: config.api.moveToFolder + id.toString() +
+                    config.api.moveToFolder_post + folder,
+                data: {},
+            }).then(([status, answer]) => {
+                i++;
+                if (i === len) {
+                    reducerLetters.clearSelectedLetter();
+                    console.log(answer);
+                    console.log(status);
+                    this._storage.set(this._storeNames.answerBody, answer);
+                    this._storage.set(this._storeNames.answerStatus, status);
+                    microEvents.trigger('responseFromTransmitFolder');
+                    const mailHref = '/' +
+                        reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
+                    console.log(mailHref);
+                    reducerLetters.getLetters(
+                        reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
+                    if (mailHref !== '/undefined') {
+                        reducerLetters.showMail(mailHref);
+                    }
+                }
+            });
+        });
+    };
+
+    setCtxFolder(folder: string) {
+        this._storage.set(this._storeNames.contextFolder, folder);
+    }
+
+
+    deleteFolder(folder: string) {
+        Connector.makeDeleteRequest(config.api.deleteFolder + '/' + folder).then(() => {
+            this.getMenu();
+            microEvents.trigger('folderDeleted');
+        });
+    }
+
+    deleteFolderByCtx() {
+        this.deleteFolder(this.getCtxFolder());
+    }
+
+    renameFolder(slug: string, newName: string) {
+        Connector.makePutRequest({
+            url: config.api.renameFolder + '/' + slug + config.api.renameFolder_post,
+            data: {
+                name: newName,
+            },
+        }).then(([status, body]) => {
+            this._storage.set(this._storeNames.answerBody, body);
+            this._storage.set(this._storeNames.answerStatus, status);
+            this.getMenu();
+            microEvents.trigger('folderRenamed');
+        });
+    }
+
+    renameFolderByCtx(newName: string) {
+        this.renameFolder(this.getCtxFolder(), newName);
+    }
+
     getAdvancedMenu() {
         return this._storage.get(this._storeNames.menu);
     }
@@ -98,6 +170,10 @@ class FolderStore extends BaseStore {
     getAnswer() {
         return [this._storage.get(this._storeNames.answerStatus),
             this._storage.get(this._storeNames.answerBody)];
+    }
+
+    getCtxFolder() {
+        return this._storage.get(this._storeNames.contextFolder);
     }
 }
 

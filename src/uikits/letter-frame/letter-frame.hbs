@@ -1,11 +1,16 @@
 <a id="letter-frame-id-{{message_id}}" href="{{message_id}}" class="letter-frame" data-section="{{ href }}">
-    <div class="letter-frame__read-state {{#if seen}} letter-is-read {{else}} letter-is-unread {{/if}}" data-section="{{ message_id }}">
+    <div class="letter-frame__read-state {{#if seen}} letter-is-read {{else}} letter-is-unread {{/if}}"
+         data-section="{{ message_id }}">
 
     </div>
     <div class="letter-frame__content">
         <div class="letter-frame__header">
+            <div class="letter-frame__checkbox_area">
+                <input type="checkbox" value="None" class="letter-frame__checkbox letter-frame__checkbox_color" id="checkbox_for_{{message_id}}" name="message_id" />
+                <label for="checkbox_for_{{message_id}}"></label>
+            </div>
             <div class="letter-frame__image">
-                    <img src='{{avatar}}' class="letter-frame__image_size skeleton__block" alt="">
+                <img src='{{avatar}}' class="letter-frame__image_size skeleton__block" alt="">
             </div>
             <div class="letter-frame__header__content">
                 <p class="letter-frame__name font-normal-0">
@@ -15,7 +20,8 @@
                     <p class="letter-frame__title_text font-caption-0">
                         {{title}}
                     </p>
-                    <p class="letter-frame__title_text font-caption-0 letter-frame__text_color" style="text-align: right">
+                    <p class="letter-frame__title_text font-caption-0 letter-frame__text_color"
+                       style="text-align: right">
                         {{created_at}}
                     </p>
                 </div>

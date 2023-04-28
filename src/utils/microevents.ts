@@ -23,7 +23,12 @@ class MicroEvent {
     bind(event: string, fct: Function) {
         this._events = this._events || {};
         this._events[event] = this._events[event] || [];
+
+        console.log(this._events[event]);
+        console.log(fct);
         this._events[event].push(fct);
+
+        console.log(this._events[event]);
     }
 
     /**
@@ -49,6 +54,7 @@ class MicroEvent {
             return;
         }
         for (let i = 0; i < this._events[event].length; i++) {
+            console.log(this._events[event][i]);
             this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
         }
     }

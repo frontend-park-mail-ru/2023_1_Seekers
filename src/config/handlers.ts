@@ -26,6 +26,8 @@ const handlers = [
         method: reducerLetters.changeLetterStateToRead.bind(reducerLetters)},
     {type: 'logout', method: reducerUser.logout.bind(reducerUser)},
     {type: 'deleteMail', method: reducerLetters.deleteMail.bind(reducerLetters)},
+    {type: 'addSelectedLetter', method: reducerLetters.addSelectedLetter.bind(reducerLetters)},
+    {type: 'deleteSelectedLetter', method: reducerLetters.deleteSelectedLetter.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
@@ -37,6 +39,10 @@ const handlers = [
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},
     {type: 'transmitToFolder', method: reducerFolder.transmitToFolder.bind(reducerFolder)},
+    {type: 'deleteFolderByCtx', method: reducerFolder.deleteFolderByCtx.bind(reducerFolder)},
+    {type: 'renameFolderByCtx', method: reducerFolder.renameFolderByCtx.bind(reducerFolder)},
+    {type: 'setContextFolder', method: reducerFolder.setCtxFolder.bind(reducerFolder)},
+    {type: 'createRenameFolderForm', method: reducerFolder.createRenameFolderForm.bind(reducerFolder)},
 
     {type: 'changeName', method: reducerUser.changeName.bind(reducerUser)},
     {type: 'changePw', method: reducerUser.changePw.bind(reducerUser)},

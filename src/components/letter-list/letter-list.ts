@@ -6,8 +6,9 @@ import '@components/letter-list/letter-list.scss';
 import {dispatcher} from '@utils/dispatcher';
 import {microEvents} from '@utils/microevents';
 import {
+    actionAddSelectedLetter,
     actionChangeLetterStateToRead,
-    actionChangeLetterStateToUnread, actionCtxMail,
+    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteMail, actionDeleteSelectedLetter,
     actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
@@ -26,9 +27,12 @@ export interface LetterList {
         letters: {
             letterElement: Element,
             stateElement: Element,
+            checkbox_area: Element,
         }[],
         activeLetter: Element | undefined,
         currentLetters: string;
+        chooseAllButton: Element;
+        filterButton: Element;
     },
 }
 
@@ -48,6 +52,8 @@ export class LetterList extends Component {
             letters: [],
             activeLetter: document.createElement('div'),
             currentLetters: '',
+            chooseAllButton: document.createElement('div'),
+            filterButton: document.createElement('div'),
         };
 
         this.rerender = this.rerender.bind(this);
@@ -88,7 +94,7 @@ export class LetterList extends Component {
         }
     };
 
-    selectLetter = async (e: Event) => {
+    chooseLetter = async (e: Event) => {
         if (!e.isTrusted) {
             return;
         }
@@ -115,7 +121,7 @@ export class LetterList extends Component {
         }
     };
 
-    selectDraft = async (e: Event) => {
+    chooseDraft = async (e: Event) => {
         if (!e.isTrusted) {
             return;
         }
@@ -141,6 +147,46 @@ export class LetterList extends Component {
             }
         }
     };
+
+    selectLetter = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            const checkbox = currentTarget.getElementsByClassName(
+                'letter-frame__checkbox')[0]! as HTMLInputElement;
+            const letterFrame = (checkbox as Element).closest('.letter-frame')!;
+            const letterId = parseInt((letterFrame as HTMLElement).dataset.section!.split('/').pop()!);
+            if (checkbox.checked) {
+                dispatcher.dispatch(actionDeleteSelectedLetter(letterId));
+                letterFrame.classList.remove('letter-frame_selected');
+                checkbox.checked = false;
+            } else {
+                dispatcher.dispatch(actionAddSelectedLetter(letterId));
+                letterFrame.classList.add('letter-frame_selected');
+                checkbox.checked = true;
+            }
+        }
+
+        e.stopPropagation();
+    };
+
+    selectAll = async (e: Event) => {
+        e.preventDefault();
+        this.state.letters.forEach((letter) => {
+            const currentTarget = letter.checkbox_area;
+
+            const checkbox = currentTarget.getElementsByClassName(
+                'letter-frame__checkbox')[0]! as HTMLInputElement;
+            const letterFrame = (checkbox as Element).closest('.letter-frame')!;
+            const letterId = parseInt((letterFrame as HTMLElement).dataset.section!.split('/').pop()!);
+            if (!checkbox.checked) {
+                dispatcher.dispatch(actionAddSelectedLetter(letterId));
+                letterFrame.classList.add('letter-frame_selected');
+                checkbox.checked = true;
+            }
+        });
+    };
+
 
     changeState = async (e: Event) => {
         e.preventDefault();
@@ -217,9 +263,16 @@ export class LetterList extends Component {
                 {
                     letterElement: letterFrame,
                     stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0],
+                    checkbox_area: letterFrame.getElementsByClassName('letter-frame__checkbox_area')[0],
                 });
         });
+        this.state.chooseAllButton = this.state.element
+            .getElementsByClassName('letter-list-header__b-area__select')[0]!;
 
+        console.log(this.state.chooseAllButton);
+
+        this.state.filterButton = this.state.element
+            .getElementsByClassName('letter-list-header__b-area__sort')[0]!;
         this.changeLetterToActive();
 
         this.registerEventListener();
@@ -279,22 +332,30 @@ export class LetterList extends Component {
 
     registerDefaultListeners() {
         this.state.letters.forEach((letter) => {
-            letter.letterElement.addEventListener('click', this.selectLetter);
+            letter.letterElement.addEventListener('click', this.chooseLetter);
             letter.letterElement.addEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.addEventListener('click', this.changeState);
+            letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
+
+        this.state.chooseAllButton.addEventListener('click', this.selectAll);
+
         microEvents.bind('letterListChanged', this.rerender);
-        microEvents.bind('mailChanged', this.changeLetterToActive);
+        // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     registerDraftListeners() {
         this.state.letters.forEach((letter) => {
-            letter.letterElement.addEventListener('click', this.selectDraft);
+            letter.letterElement.addEventListener('click', this.chooseDraft);
             letter.letterElement.addEventListener('contextmenu', this.showDraftContext);
             letter.stateElement.addEventListener('click', this.changeState);
+            letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
+
+        this.state.chooseAllButton.addEventListener('click', this.selectAll);
+
         microEvents.bind('letterListChanged', this.rerender);
-        microEvents.bind('mailChanged', this.changeLetterToActive);
+        // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     /**
@@ -303,25 +364,34 @@ export class LetterList extends Component {
      */
     unregisterEventListener() {
         this.unregisterDefaultListeners();
+        this.unregisterDraftListeners();
     }
 
     unregisterDefaultListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
         microEvents.unbind('mailChanged', this.changeLetterToActive);
+
+        this.state.chooseAllButton.removeEventListener('click', this.selectAll);
+
         this.state.letters.forEach((letter) => {
-            letter.letterElement.removeEventListener('click', this.selectLetter);
+            letter.letterElement.removeEventListener('click', this.chooseLetter);
             letter.letterElement.removeEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.removeEventListener('click', this.changeState);
+            letter.checkbox_area.removeEventListener('click', this.selectLetter);
         });
     }
 
     unregisterDraftListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
         microEvents.unbind('mailChanged', this.changeLetterToActive);
+
+        this.state.chooseAllButton.removeEventListener('click', this.chooseAll);
+
         this.state.letters.forEach((letter) => {
-            letter.letterElement.removeEventListener('click', this.selectDraft);
+            letter.letterElement.removeEventListener('click', this.chooseDraft);
             letter.letterElement.removeEventListener('contextmenu', this.showDraftContext);
             letter.stateElement.removeEventListener('click', this.changeState);
+            letter.checkbox_area.removeEventListener('click', this.selectLetter);
         });
     }
 }

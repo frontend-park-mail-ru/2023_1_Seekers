@@ -38,3 +38,14 @@ export const actionDeleteMail = (id: number) => ({
     type: 'deleteMail',
     value: id,
 });
+
+export const actionAddSelectedLetter = (id: number) => ({
+    type: 'addSelectedLetter',
+    value: id,
+});
+
+
+export const actionDeleteSelectedLetter = (id: number) => ({
+    type: 'deleteSelectedLetter',
+    value: id,
+});

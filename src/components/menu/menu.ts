@@ -4,13 +4,15 @@ import {Component} from '@components/component';
 import {reducerLetters} from '@stores/LettersStore';
 import '@components/menu/menu.scss';
 import {dispatcher} from '@utils/dispatcher';
-import {actionGetLetters} from '@actions/letters';
+import {actionCtxMail, actionGetLetters} from '@actions/letters';
 import {config} from '@config/config';
 import {ContrastButton} from '@uikits/contrast-button/contrast-button';
 import {actionCreateNewMail} from '@actions/newMail';
-import {actionCreateFolder} from '@actions/folders';
+import {actionCreateFolder, actionCtxFolder} from '@actions/folders';
 import {microEvents} from "@utils/microevents";
 import {reducerFolder} from "@stores/FolderStore";
+import {ContextDraft} from "@components/context-draft/context-draft";
+import {ContextMenu} from "@components/context-menu/context-menu";
 
 // import {actionRedirect} from "@actions/user";
 
@@ -67,6 +69,25 @@ export class Menu extends Component {
                 this.state.activeButton.classList.remove('menu-button_color-active');
                 this.state.activeButton = currentTarget;
                 this.state.activeButton.classList.add('menu-button_color-active');
+            }
+        }
+    };
+
+    showMenuContext = async (e: Event) => {
+        if (!e.isTrusted) {
+            return;
+        }
+        const me = e as MouseEvent;
+        console.log(me.clientX, me.clientY);
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                console.log(currentTarget.dataset.section);
+                await dispatcher.dispatch(actionCtxFolder(currentTarget.dataset.section));
+                const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
+                ctxMenu.render(me.clientX, me.clientY);
+                e.stopPropagation();
             }
         }
     };
@@ -169,6 +190,12 @@ export class Menu extends Component {
         });
         this.state.newMailButton.addEventListener('click', this.newMailButtonClicked);
         this.state.newFolderButton.addEventListener('click', this.newFolderButtonClicked);
+
+        [...document.getElementById('advanced-menu-buttons')!.children].forEach((child) => {
+            if (child.classList.contains('menu-button')) {
+                child.addEventListener('contextmenu', this.showMenuContext);
+            }
+        });
         microEvents.bind('menuChanged', this.rerender);
     }
 
@@ -182,6 +209,13 @@ export class Menu extends Component {
         });
         this.state.newMailButton.removeEventListener('click', this.newMailButtonClicked);
         this.state.newFolderButton.removeEventListener('click', this.newFolderButtonClicked);
+
+        [...document.getElementById('advanced-menu-buttons')!.children].forEach((child) => {
+            if (child.classList.contains('menu-button')) {
+                child.removeEventListener('contextmenu', this.showMenuContext);
+            }
+        });
+
         microEvents.unbind('menuChanged', this.rerender);
     }
 

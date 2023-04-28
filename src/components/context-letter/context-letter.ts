@@ -55,23 +55,23 @@ export class ContextLetter extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.contextMenuButtons.mailActions.forward.folder_slug:
+            case config.buttons.contextLetterButtons.mailActions.forward.folder_slug:
                 dispatcher.dispatch(actionForwardMail());
                 this.purge();
                 break;
 
-            case config.buttons.contextMenuButtons.mailActions.reply.folder_slug:
+            case config.buttons.contextLetterButtons.mailActions.reply.folder_slug:
                 dispatcher.dispatch(actionReplyToMail());
                 this.purge();
                 break;
 
-            case config.buttons.contextMenuButtons.folderActions.another.folder_slug:
+            case config.buttons.contextLetterButtons.folderActions.another.folder_slug:
                 const ctxMenu = new AdvancedContextMenu({parent: document.getElementById('root')!});
                 ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
                 e.stopPropagation();
                 break;
 
-            case config.buttons.contextMenuButtons.delete.folder_slug:
+            case config.buttons.contextLetterButtons.delete.folder_slug:
                 dispatcher.dispatch(actionDeleteMail(reducerLetters.getCurrentContextMail().message_id));
                 break;
 
@@ -105,17 +105,8 @@ export class ContextLetter extends Component {
      * function that triggers when the answer got from the backend
      */
     getDeleteResponse = () => {
-        console.log('req deleted');
-        const [answerStatus] = reducerFolder.getAnswer();
-
-        switch (answerStatus) {
-        case responseStatuses.OK:
-            showNotification('Письмо удалено успешно!');
-            this.purge();
-            return;
-        default:
-            showNotification('Что-то пошло не так.');
-        }
+        showNotification('Письмо удалено.');
+        this.purge();
     };
 
     /**
@@ -153,7 +144,7 @@ export class ContextLetter extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
-        [...document.getElementsByClassName('context-letter__area')].forEach((ctxMenu) => {
+        [...document.getElementsByClassName('mailbox__context')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {
                     child.removeEventListener('click', this.buttonsClicked);
@@ -166,12 +157,12 @@ export class ContextLetter extends Component {
 
         console.log(x, y);
         const mailActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.mailActions).forEach((button) => {
+        Object.values(config.buttons.contextLetterButtons.mailActions).forEach((button) => {
             mailActionButtons.push(MenuButton.renderTemplate(button));
         });
 
         const folderActionButtons: object[] = [];
-        Object.values(config.buttons.contextMenuButtons.folderActions).forEach((button) => {
+        Object.values(config.buttons.contextLetterButtons.folderActions).forEach((button) => {
             folderActionButtons.push(MenuButton.renderTemplate(button));
         });
 
@@ -181,7 +172,7 @@ export class ContextLetter extends Component {
 
         if (reducerLetters.getCurrentLettersName() === '/trash') {
             folderActionButtons.push(
-                MenuButton.renderTemplate(config.buttons.contextMenuButtons.delete));
+                MenuButton.renderTemplate(config.buttons.contextLetterButtons.delete));
         }
 
         this.parent.insertAdjacentHTML('afterbegin', template({

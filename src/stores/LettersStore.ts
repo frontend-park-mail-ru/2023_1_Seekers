@@ -16,6 +16,7 @@ class LettersStore extends BaseStore {
         shownMail: 'shownMail',
         contextMail: 'contextMail',
         currentAccountPage: 'currentAccountPage',
+        selectedLetters: 'selectedLetters',
     };
 
     /**
@@ -28,6 +29,7 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.shownMail, undefined);
         this._storage.set(this._storeNames.contextMail, undefined);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
+        this._storage.set(this._storeNames.selectedLetters, []);
     }
 
     /**
@@ -35,6 +37,7 @@ class LettersStore extends BaseStore {
      * @param folderName - name of folder
      */
     getLetters = async (folderName: string) => {
+        this.clearSelectedLetter();
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
@@ -73,11 +76,44 @@ class LettersStore extends BaseStore {
     /**
      * function that makes request to log out user
      */
-    async deleteMail(id: string) {
+    async deleteMailRequest(id: string) {
         await Connector.makeDeleteRequest(config.api.deleteMail + id);
         console.log('deleted');
-        microEvents.trigger('responseFromDelete');
+    }
+
+    deleteMail = async () => {
+        if (this.getSelectedLetters().find((letterId) =>
+            letterId === this.getCurrentContextMail().message_id)) {
+            const len = this.getSelectedLetters().length;
+            let i = 0;
+            this.getSelectedLetters().forEach((id) => {
+                Connector.makeDeleteRequest(config.api.deleteMail + id).then(() => {
+                    i++;
+                    if (i === len) {
+                        this.deleteDone();
+                    }
+                });
+            });
+        } else {
+            Connector.makeDeleteRequest(config.api.deleteMail +
+                this.getCurrentContextMail().message_id.toString()).then(() => {
+                this.deleteDone();
+            });
+        }
+    };
+
+    deleteDone = () => {
+        this.clearSelectedLetter();
         this.getLetters(this._storage.get(this._storeNames.currentLetters));
+        microEvents.trigger('responseFromDelete');
+        const mailHref = '/' +
+            this._storage.get(this._storeNames.shownMail);
+        console.log(mailHref);
+        this.getLetters(
+            this._storage.get(this._storeNames.currentLetters));
+        if (mailHref !== '/undefined') {
+            this.showMail(mailHref);
+        }
     }
 
     downloadMail = async (mailId: string) => {
@@ -92,8 +128,10 @@ class LettersStore extends BaseStore {
                         `${body.message.from_user_id.email}`;
 
                     this.getMailArray().set(mailId, mailData);
+                    console.log('mailDownloaded');
 
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
+                        console.log('triggering from download');
                         microEvents.trigger('mailChanged');
                     }
                 }
@@ -188,6 +226,23 @@ class LettersStore extends BaseStore {
         }
     };
 
+    addSelectedLetter = (id: number) => {
+        if (!this.getSelectedLetters().find((letter) => letter === id)) {
+            this.getSelectedLetters().push(id);
+        }
+    };
+
+    deleteSelectedLetter = (id: number) => {
+        if (this.getSelectedLetters().find((letter) => letter === id)) {
+            this.getSelectedLetters()
+                .splice(this.getSelectedLetters().indexOf(id), 1);
+        }
+    };
+
+    clearSelectedLetter = () => {
+        this.getSelectedLetters().splice(0, this.getSelectedLetters().length);
+    };
+
     /**
      * function that gets current mail from this store
      * @returns current mail
@@ -216,14 +271,16 @@ class LettersStore extends BaseStore {
     }
 
     getCurrentContextMail() {
-        console.log(this._storage.get(this._storeNames.mail)
-            .get(this._storage.get(this._storeNames.contextMail)));
         return this._storage.get(this._storeNames.mail)
             .get(this._storage.get(this._storeNames.contextMail)) as MailData;
     }
 
     getMailArray() {
         return this._storage.get(this._storeNames.mail);
+    }
+
+    getSelectedLetters() {
+        return this._storage.get(this._storeNames.selectedLetters) as number[];
     }
 
     getLetterByFolderAndId(folder: string, id: number) {

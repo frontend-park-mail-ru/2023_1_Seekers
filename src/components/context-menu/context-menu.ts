@@ -1,20 +1,22 @@
 import {Component} from '@components/component';
 
-import template from '@components/context-draft/context-draft.hbs';
-import '@components/context-draft/context-draft.scss';
+import template from '@components/context-menu/context-menu.hbs';
+import '@components/context-menu/context-menu.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
-import {reducerFolder} from '@stores/FolderStore';
 import {MenuButton} from '@uikits/menu-button/menu-button';
-import {dispatcher} from '@utils/dispatcher';
-import {actionForwardMail, actionReplyToMail, actionSelectDraft} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
-import {actionDeleteMail} from "@actions/letters";
-import {reducerLetters} from "@stores/LettersStore";
+import {dispatcher} from "@utils/dispatcher";
+import {
+    actionCreateFolder,
+    actionDeleteFolderByCtx,
+    actionRenameFolderByCtx,
+    actionRenameFolderForm
+} from "@actions/folders";
 
 
-export interface ContextDraft {
+export interface ContextMenu {
     state: {
         element: Element,
         area: Element,
@@ -25,7 +27,7 @@ export interface ContextDraft {
 /**
  * class implementing component send-mail
  */
-export class ContextDraft extends Component {
+export class ContextMenu extends Component {
     /**
      * Constructor that creates a component class SendMail
      * @param context - HTML element into which
@@ -53,8 +55,13 @@ export class ContextDraft extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.contextDraftButtons.trash.folder_slug:
-                dispatcher.dispatch(actionDeleteMail(reducerLetters.getCurrentContextMail().message_id));
+            case config.buttons.contextMenuButtons.delete.folder_slug:
+                dispatcher.dispatch(actionDeleteFolderByCtx());
+                break;
+
+            case config.buttons.contextMenuButtons.rename.folder_slug:
+                dispatcher.dispatch(actionRenameFolderForm());
+                this.purge();
                 break;
             }
         }
@@ -64,7 +71,7 @@ export class ContextDraft extends Component {
      * function that triggers when the answer got from the backend
      */
     getDeleteResponse = () => {
-        showNotification('Письмо удалено.');
+        showNotification('Папка удалена.');
         this.purge();
     };
 
@@ -79,7 +86,7 @@ export class ContextDraft extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.addEventListener('click', this.buttonsClicked);
         });
-        microEvents.bind('responseFromDelete', this.getDeleteResponse);
+        microEvents.bind('folderDeleted', this.getDeleteResponse);
     };
 
     /**
@@ -93,7 +100,7 @@ export class ContextDraft extends Component {
         this.state.buttons.forEach((button: Element) => {
             button.removeEventListener('click', this.buttonsClicked);
         });
-        microEvents.unbind('responseFromDelete', this.getDeleteResponse);
+        microEvents.unbind('folderDeleted', this.getDeleteResponse);
     };
 
 
@@ -112,17 +119,17 @@ export class ContextDraft extends Component {
             ctxMenu.remove();
         });
 
-        const draftActionButtons: object[] = [];
-        Object.values(config.buttons.contextDraftButtons).forEach((button) => {
-            draftActionButtons.push(MenuButton.renderTemplate(button));
+        const menuActionButtons: object[] = [];
+        Object.values(config.buttons.contextMenuButtons).forEach((button) => {
+            menuActionButtons.push(MenuButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
-            draftActionButtons: draftActionButtons,
+            menuActionButtons: menuActionButtons,
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        this.state.area = this.parent.getElementsByClassName('context-draft__area')[0];
+        this.state.area = this.parent.getElementsByClassName('context-menu__area')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;
