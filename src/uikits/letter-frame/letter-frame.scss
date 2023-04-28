@@ -39,18 +39,22 @@
         gap: 10px;
         flex: 1;
         order: 1;
+
         align-self: stretch;
+        overflow: hidden;
 
         &__text{
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-between;
             padding: 0;
-            gap: 10px;
-            width: 100%;
+            gap: 0px;
+            //width: 100%;
             height: 100%;
             flex: 1;
             align-self: auto;
+            overflow: hidden;
         }
     }
 
@@ -62,9 +66,10 @@
         padding: 0;
         gap: 10px;
         height: 40px;
-        flex: none;
+        flex: 1;
         order: 0;
         align-self: stretch;
+        overflow: hidden;
 
         &__content {
             display: flex;
@@ -72,30 +77,38 @@
             align-items: flex-start;
             padding: 0;
             gap: 0px;
-            flex: available;
+            flex: 1;
             align-self: stretch;
             flex-grow: 1;
+            overflow: hidden;
         }
     }
 
     &__text {
         overflow: hidden;
+        text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        flex: 1;
         align-self: stretch;
 
         &_color {
             color: var(--color-text-secondary);
         }
+
+        &_color-contrast {
+            color: var(--color-text-primary);
+        }
     }
 
     &__name {
         color: var(--letterlist-name-text-color);
-        flex: available;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
         align-self: stretch;
-        flex-grow: 1;
     }
 
     &__title {
@@ -110,9 +123,10 @@
 
         &_text {
             color: var(--letterlist-header-text-color);
-            flex: none;
-            align-self: stretch;
-            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
         }
     }
 
@@ -159,7 +173,7 @@
             justify-content: center;
             flex-grow: 0;
 
-            width: 35px;
+            min-width: 35px;
 
             height: 35px;
             overflow: hidden;
