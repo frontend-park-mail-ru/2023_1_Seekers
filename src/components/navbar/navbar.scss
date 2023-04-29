@@ -53,7 +53,9 @@
 
   &__menu-button,
   &__send-mail,
-  &__backTO__send-mail {
+  &__back-right-mail,
+  &__back-left-mail,
+  &__actions{
     display: none;
 
     &__icon {
@@ -112,8 +114,10 @@
       }
     }
 
-    &__backTO__send-mail,
-    &__email{
+    &__back-right-mail,
+    &__back-left-mail,
+    &__email,
+    &__actions{
       display: none;
 
       &__show {

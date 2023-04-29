@@ -51,6 +51,15 @@
         <div class="navbar__email" id="navbar__email">
             {{this.profile.email}}
         </div>
+        <div class="navbar__back-left-mail" id="navbar__back-left-mail">
+            <svg class="navbar__back-left-mail__icon navbar__back-left-mail__icon__color navbar__back-left-mail__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.backLeft.img includeZero=true}}
+                    {{{ this.backLeft.img }}}
+                {{/if}}
+            </svg>
+        </div>
     </div>
     <div class="navbar__frame-right">
         {{{this.profileButton}}}
@@ -63,12 +72,22 @@
                 {{/if}}
             </svg>
         </div>
-        <div class="navbar__backTO__send-mail" id="navbar__backTO__send-mail-right">
-            <svg class="navbar__backTO__send-mail__icon navbar__backTO__send-mail__icon__color navbar__backTO__send-mail__icon__size"
+        <div class="navbar__back-right-mail" id="navbar__back-right-mail">
+            <svg class="navbar__back-right-mail__icon navbar__back-right-mail__icon__color navbar__back-right-mail__icon__size"
                  fill="none"
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                {{#if this.backTOSendRight.img includeZero=true}}
-                    {{{ this.backTOSendRight.img }}}
+                {{#if this.backRight.img includeZero=true}}
+                    {{{ this.backRight.img }}}
+                {{/if}}
+            </svg>
+        </div>
+
+        <div class="navbar__actions" id="navbar__actions">
+            <svg class="navbar__actions__icon navbar__actions__icon__color navbar__actions__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.actions.img includeZero=true}}
+                    {{{ this.actions.img }}}
                 {{/if}}
             </svg>
         </div>
