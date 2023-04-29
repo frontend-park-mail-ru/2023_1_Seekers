@@ -26,12 +26,29 @@
   align-self: stretch;
 }
 
+.footer-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px 0 10px 0;
+  display: none;
+}
+
 @media only screen and (max-width: 991px) {
   .mailbox-area {
     padding: unset !important;
 
     &__vertical-line {
       display: none;
+    }
+  }
+
+  .footer-button {
+    zoom: 2;
+    display: none;
+
+    &__show {
+      display: unset;
     }
   }
 }

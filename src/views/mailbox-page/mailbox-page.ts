@@ -10,6 +10,7 @@ import {Navbar} from '@components/navbar/navbar';
 import {MailBoxArea} from '@components/mailbox-area/mailbox-area';
 import {AccountArea} from '@components/account-area/account-area';
 import {actionRedirect} from '@actions/user';
+import {Footer} from "@components/footer/footer";
 
 
 export interface MailBox {
@@ -17,6 +18,7 @@ export interface MailBox {
         element: HTMLElement,
         navbar: any,
         content: any,
+        footer: any,
     }
 }
 
@@ -42,6 +44,7 @@ export class MailBox extends View {
             element: document.createElement('div'),
             navbar: undefined,
             content: undefined,
+            footer: undefined,
         };
     }
 
@@ -54,6 +57,8 @@ export class MailBox extends View {
         microEvents.bind('renderMailboxPage', this.renderMailbox);
         microEvents.bind('renderAccountPage', this.renderAccountArea);
         microEvents.bind('loggedOut', this.closePage);
+
+        document.getElementById('footer-button')!.addEventListener('click', this.onFooterButtonClick);
     };
 
 
@@ -65,7 +70,14 @@ export class MailBox extends View {
         microEvents.unbind('renderMailboxPage', this.renderMailbox);
         microEvents.unbind('renderAccountPage', this.renderAccountArea);
         microEvents.unbind('loggedOut', this.closePage);
+
+        document.getElementById('footer-button')!.removeEventListener('click', this.onFooterButtonClick);
     };
+
+    onFooterButtonClick = (e: Event) => {
+        e.preventDefault();
+        this.state.footer.render();
+    }
 
     /**
      * method insert login to HTML
@@ -79,6 +91,11 @@ export class MailBox extends View {
             parent: this.state.element,
         });
         this.state.navbar.render();
+
+        this.state.footer = new Footer({
+            parent: document.getElementById('footer-button') as HTMLElement,
+        });
+
         // this.renderMailbox();
         this.registerEvents();
     };

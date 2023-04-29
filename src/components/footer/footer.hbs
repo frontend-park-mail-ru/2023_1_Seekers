@@ -1,0 +1,30 @@
+<div class="footer" id="footer">
+    <div class="footer__frame">
+        <div class="accountsFooter">
+            <div class="footer__item footer__avatar__active-user">
+
+                <a class="footer__avatar footer__avatar__hover-active" data-section="/profile" aria-label="Сменить аватар">
+
+
+                    <img src={{profile.avatar}} class="footer__avatar-img skeleton__block" alt="">
+
+
+                </a>
+                <div class="footer__text">
+                    <div class="footer__title" >
+                        <div class="footer__name" aria-label="{{profile.firstName}} {{profile.lastName}}">
+                            {{profile.firstName}} {{profile.lastName}}
+                        </div>
+                    </div>
+                    <div class="footer__desc" aria-label="{{profile.email}}">
+                        {{profile.email}}
+                    </div>
+                </div>
+            </div>
+            <hr class="footer__hr" id="footer__hr">
+
+            {{{buttons}}}
+
+        </div>
+    </div>
+</div>

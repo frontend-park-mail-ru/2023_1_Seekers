@@ -1,19 +1,24 @@
-.account-sidebar {
+.footer {
   position: absolute;
-  min-height: 225px;
-  width: 36%;
+  width: 100vw;
+  height: 40vh;
   z-index: 1000;
-  top: 80px;
-  right: -434px;
+  bottom: -434px;
   scrollbar-width: none;
   background-color: var(--custom-color-account-sidebar);
-  will-change: right;
-  -webkit-animation: slide 0.3s forwards;
-  border-radius: 8px;
+  will-change: bottom;
+  -webkit-animation: slideFooter 0.3s forwards;
+  left: -10px;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 
   &__delete {
     transition: transform 0.3s 0s;
-    transform: translateX(434px);
+    transform: translateY(434px);
   }
 
   &__frame {
@@ -96,13 +101,21 @@
   }
 }
 
-@-webkit-keyframes slide {
+@-webkit-keyframes slideFooter {
   100% {
-    right: 10px;
+    bottom: -10px;
   }
 }
 
-.accounts {
+.accountsFooter {
   padding: 0 20px 32px;
   overflow: auto;
+}
+
+@media only screen and (max-width: 991px) {
+  .footer {
+    zoom: 1;
+    width: unset;
+    height: unset;
+  }
 }

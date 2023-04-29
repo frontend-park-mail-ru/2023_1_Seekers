@@ -196,3 +196,10 @@ select:-webkit-autofill:focus {
   font-size: 12px;
   letter-spacing: 0.03em;
 }
+
+@media only screen and (max-width: 991px) {
+  .new-folder {
+    zoom: 3;
+    padding: 10px;
+  }
+}
