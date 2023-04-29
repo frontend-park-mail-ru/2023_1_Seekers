@@ -166,6 +166,11 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+    clearCtxMail = async () => {
+        this._storage.set(this._storeNames.contextMail, undefined);
+        microEvents.trigger('mailChanged');
+    };
+
     /**
      * function that makes requests for all the components of mailbox
      */

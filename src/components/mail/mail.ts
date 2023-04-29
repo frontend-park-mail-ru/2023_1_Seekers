@@ -65,11 +65,19 @@ export class Mail extends Component {
     }
 
     /**
+     * method letterList page rerender
+     */
+    rerenderMail() {
+        console.log('rerender mail');
+        this.purge();
+        this.render();
+    }
+
+    /**
      * method registerEventListener
      * register listeners for current object
      */
     registerEventListener() {
-        console.log('register events');
         microEvents.bind('mailChanged', this.rerenderMail);
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
@@ -99,14 +107,7 @@ export class Mail extends Component {
         this.state.element.remove();
     }
 
-    /**
-     * method letterList page rerender
-     */
-    rerenderMail() {
-        console.log('rerender mail');
-        this.purge();
-        this.render();
-    }
+
 
     /**
      * function that binds to the bottom buttons click

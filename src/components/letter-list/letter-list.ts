@@ -32,6 +32,7 @@ export interface LetterList {
         activeLetter: Element | undefined,
         currentLetters: string;
         chooseAllButton: Element;
+        unchooseAllButton: Element;
         filterButton: Element;
     },
 }
@@ -53,6 +54,7 @@ export class LetterList extends Component {
             activeLetter: document.createElement('div'),
             currentLetters: '',
             chooseAllButton: document.createElement('div'),
+            unchooseAllButton: document.createElement('div'),
             filterButton: document.createElement('div'),
         };
 
@@ -196,6 +198,23 @@ export class LetterList extends Component {
         });
     };
 
+    unselectAll = async (e: Event) => {
+        e.preventDefault();
+        this.state.letters.forEach((letter) => {
+            const currentTarget = letter.checkbox_area;
+
+            const checkbox = currentTarget.getElementsByClassName(
+                'letter-frame__checkbox')[0]! as HTMLInputElement;
+            const letterFrame = (checkbox as Element).closest('.letter-frame')!;
+            const letterId = parseInt((letterFrame as HTMLElement).dataset.section!.split('/').pop()!);
+            if (checkbox.checked) {
+                dispatcher.dispatch(actionDeleteSelectedLetter(letterId));
+                letterFrame.classList.remove('letter-frame_selected');
+                checkbox.checked = false;
+            }
+        });
+    };
+
 
     changeState = async (e: Event) => {
         e.preventDefault();
@@ -278,6 +297,9 @@ export class LetterList extends Component {
         this.state.chooseAllButton = this.state.element
             .getElementsByClassName('letter-list-header__b-area__select')[0]!;
 
+        this.state.unchooseAllButton = this.state.element
+            .getElementsByClassName('letter-list-header__b-area__unselect')[0]!;
+
         console.log(this.state.chooseAllButton);
 
         this.state.filterButton = this.state.element
@@ -340,14 +362,17 @@ export class LetterList extends Component {
     }
 
     registerDefaultListeners() {
+        console.log('============================LETTERLIST=============================');
         this.state.letters.forEach((letter) => {
             letter.letterElement.addEventListener('click', this.chooseLetter);
             letter.letterElement.addEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.addEventListener('click', this.changeState);
             letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
-
-        this.state.chooseAllButton.addEventListener('click', this.selectAll);
+        if (this.state.letters) {
+            this.state.chooseAllButton.addEventListener('click', this.selectAll);
+            this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
+        }
 
         microEvents.bind('letterListChanged', this.rerender);
         // microEvents.bind('mailChanged', this.changeLetterToActive);
@@ -361,7 +386,10 @@ export class LetterList extends Component {
             letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
 
-        this.state.chooseAllButton.addEventListener('click', this.selectAll);
+        if (this.state.letters) {
+            this.state.chooseAllButton.addEventListener('click', this.selectAll);
+            this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
+        }
 
         microEvents.bind('letterListChanged', this.rerender);
         // microEvents.bind('mailChanged', this.changeLetterToActive);
@@ -378,10 +406,11 @@ export class LetterList extends Component {
 
     unregisterDefaultListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
-        microEvents.unbind('mailChanged', this.changeLetterToActive);
-
-        this.state.chooseAllButton.removeEventListener('click', this.selectAll);
-
+        // microEvents.unbind('mailChanged', this.changeLetterToActive);
+        if (this.state.letters) {
+            this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);
+            this.state.chooseAllButton.removeEventListener('click', this.selectAll);
+        }
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.chooseLetter);
             letter.letterElement.removeEventListener('contextmenu', this.showLetterContext);
@@ -392,10 +421,11 @@ export class LetterList extends Component {
 
     unregisterDraftListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
-        microEvents.unbind('mailChanged', this.changeLetterToActive);
-
-        this.state.chooseAllButton.removeEventListener('click', this.chooseAll);
-
+        // microEvents.unbind('mailChanged', this.changeLetterToActive);
+        if (this.state.letters) {
+            this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);
+            this.state.chooseAllButton.removeEventListener('click', this.selectAll);
+        }
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.chooseDraft);
             letter.letterElement.removeEventListener('contextmenu', this.showDraftContext);

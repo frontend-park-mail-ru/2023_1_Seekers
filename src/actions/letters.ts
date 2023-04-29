@@ -14,6 +14,11 @@ export const actionCtxMail = (name: string) => ({
     value: name,
 });
 
+export const actionClearCtxMail = () => ({
+    type: 'ctxMail',
+    value: {},
+});
+
 export const actionSignup = (user :user) => ({
     type: 'signup',
     value: user,

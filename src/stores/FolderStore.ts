@@ -67,7 +67,7 @@ class FolderStore extends BaseStore {
     transmitToFolder = async (folder: string) => {
         folder = folder.replace('to_', '');
         if (reducerLetters.getSelectedLetters().find((letterId) => {
-            return letterId === reducerLetters.getCurrentContextMail().message_id;
+            return letterId === reducerLetters.getCurrentContextMail()?.message_id;
         })) {
             this.transmitPackToFolder(folder);
         } else {

@@ -153,6 +153,7 @@ export class ContextDraft extends Component {
         if (e.target) {
             if (!(this.state.area === e.target as HTMLElement ||
                 this.state.area.contains(e.target as HTMLElement))) {
+
                 this.purge();
             }
         }
