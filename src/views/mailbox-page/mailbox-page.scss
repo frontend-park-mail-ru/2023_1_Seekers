@@ -25,3 +25,13 @@
   flex: 0;
   align-self: stretch;
 }
+
+@media only screen and (max-width: 991px) {
+  .mailbox-area {
+    padding: unset !important;
+
+    &__vertical-line {
+      display: none;
+    }
+  }
+}

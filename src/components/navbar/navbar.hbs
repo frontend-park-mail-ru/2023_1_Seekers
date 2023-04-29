@@ -39,9 +39,38 @@
 
             <p class="font-normal-0 navbar__text_color">MailBox</p>
         </a>
-
+        <div class="navbar__menu-button" id="navbar__menu-button">
+            <svg class="navbar__menu-button__icon navbar__menu-button__icon__color navbar__menu-button__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.menu.img includeZero=true}}
+                    {{{ this.menu.img }}}
+                {{/if}}
+            </svg>
+        </div>
+        <div class="navbar__email" id="navbar__email">
+            {{this.profile.email}}
+        </div>
     </div>
     <div class="navbar__frame-right">
         {{{this.profileButton}}}
+        <div class="navbar__send-mail" id="navbar__send-mail" data-section="/new-mail">
+            <svg class="navbar__send-mail__icon navbar__send-mail__icon__color navbar__send-mail__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.send.img includeZero=true}}
+                    {{{ this.send.img }}}
+                {{/if}}
+            </svg>
+        </div>
+        <div class="navbar__backTO__send-mail" id="navbar__backTO__send-mail-right">
+            <svg class="navbar__backTO__send-mail__icon navbar__backTO__send-mail__icon__color navbar__backTO__send-mail__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.backTOSendRight.img includeZero=true}}
+                    {{{ this.backTOSendRight.img }}}
+                {{/if}}
+            </svg>
+        </div>
     </div>
 </header>

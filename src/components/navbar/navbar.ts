@@ -7,6 +7,9 @@ import '@components/navbar/navbar.scss';
 import {AccountSidebar} from '@components/account-sidebar/account-sidebar';
 import {reducerUser} from '@stores/userStore';
 import {microEvents} from '@utils/microevents';
+import {config} from "@config/config";
+import {dispatcher} from "@utils/dispatcher";
+import {actionCreateNewMail} from "@actions/newMail";
 
 export interface Navbar {
     state: {
@@ -38,6 +41,42 @@ export class Navbar extends Component {
         this.state.sidebar.render();
     };
 
+    onMenuButtonClick = (e: Event) => {
+        e.preventDefault();
+        document.getElementsByClassName('letterList')[0].classList.add('letterList__hide');
+        document.getElementsByClassName('menu')[0].classList.add('menu__show');
+
+        document.getElementById('navbar__menu-button')!.classList.add('navbar__menu-button__hide');
+        document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
+
+        document.getElementById('navbar__backTO__send-mail-right')!.classList.add('navbar__backTO__send-mail__show');
+        document.getElementById('navbar__email')!.classList.add('navbar__email__show');
+
+    }
+
+    onBackRightClick = (e: Event) => {
+        e.preventDefault();
+        document.getElementsByClassName('letterList')[0].classList.remove('letterList__hide');
+        document.getElementsByClassName('menu')[0].classList.remove('menu__show');
+
+        document.getElementById('navbar__menu-button')!.classList.remove('navbar__menu-button__hide');
+        document.getElementById('navbar__send-mail')!.classList.remove('navbar__send-mail__hide');
+
+        document.getElementById('navbar__backTO__send-mail-right')!.classList.remove('navbar__backTO__send-mail__show');
+        document.getElementById('navbar__email')!.classList.remove('navbar__email__show');
+
+    }
+
+    onSendMailClick = (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                dispatcher.dispatch(actionCreateNewMail());
+            }
+        }
+    }
+
     /**
      * method registerEventListener
      * unregister listeners for each button in letter-list
@@ -45,6 +84,10 @@ export class Navbar extends Component {
     registerEventListener() {
         microEvents.bind('profileChanged', this.rerenderProfileButton);
         this.state.profileButton.addEventListener('click', this.eventCatcher);
+
+        document.getElementById('navbar__menu-button')!.addEventListener('click', this.onMenuButtonClick);
+        document.getElementById('navbar__backTO__send-mail-right')!.addEventListener('click', this.onBackRightClick);
+        document.getElementById('navbar__send-mail')!.addEventListener('click', this.onSendMailClick);
     }
 
     /**
@@ -53,6 +96,10 @@ export class Navbar extends Component {
     unregisterEventListener() {
         microEvents.unbind('profileChanged', this.rerenderProfileButton);
         this.state.profileButton.removeEventListener('click', this.eventCatcher);
+
+        document.getElementById('navbar__menu-button')!.removeEventListener('click', this.onMenuButtonClick);
+        document.getElementById('navbar__backTO__send-mail-right')!.removeEventListener('click', this.onBackRightClick);
+        document.getElementById('navbar__send-mail')!.removeEventListener('click', this.onSendMailClick);
     }
 
     /**
@@ -61,6 +108,10 @@ export class Navbar extends Component {
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
+                menu: config.navbar.menu,
+                send: config.navbar.send,
+                profile: reducerUser._storage.get(reducerUser._storeNames.profile), //why
+                backTOSendRight: config.navbar.backToSendRight,
                 profileButton: ProfileButton.renderTemplate(
                     reducerUser._storage.get(reducerUser._storeNames.profile)),
             },

@@ -41,3 +41,16 @@
         flex-grow: 0;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .menu {
+        display: none;
+        width: 100%;
+        zoom: 3;
+        border-radius: unset;
+
+        &__show {
+            display: flex !important;
+        }
+    }
+}
