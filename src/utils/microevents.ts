@@ -54,7 +54,6 @@ class MicroEvent {
             return;
         }
         for (let i = 0; i < this._events[event].length; i++) {
-            console.log(this._events[event][i]);
             this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
         }
     }

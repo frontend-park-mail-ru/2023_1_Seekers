@@ -34,6 +34,8 @@ export interface LetterList {
         chooseAllButton: Element;
         unchooseAllButton: Element;
         filterButton: Element;
+
+        selectedLettersCount: number;
     },
 }
 
@@ -56,6 +58,7 @@ export class LetterList extends Component {
             chooseAllButton: document.createElement('div'),
             unchooseAllButton: document.createElement('div'),
             filterButton: document.createElement('div'),
+            selectedLettersCount: 0,
         };
 
         this.rerender = this.rerender.bind(this);
@@ -161,6 +164,11 @@ export class LetterList extends Component {
 
     selectLetter = async (e: Event) => {
         e.preventDefault();
+
+        if (this.state.selectedLettersCount === this.state.letters.length) {
+            this.state.chooseAllButton.classList.remove('element-hidden');
+            this.state.unchooseAllButton.classList.add('element-hidden');
+        }
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             const checkbox = currentTarget.getElementsByClassName(
@@ -171,18 +179,28 @@ export class LetterList extends Component {
                 dispatcher.dispatch(actionDeleteSelectedLetter(letterId));
                 letterFrame.classList.remove('letter-frame_selected');
                 checkbox.checked = false;
+                this.state.selectedLettersCount--;
             } else {
                 dispatcher.dispatch(actionAddSelectedLetter(letterId));
                 letterFrame.classList.add('letter-frame_selected');
                 checkbox.checked = true;
+                this.state.selectedLettersCount++;
             }
         }
+        if (this.state.selectedLettersCount === this.state.letters.length) {
+            this.state.chooseAllButton.classList.add('element-hidden');
+            this.state.unchooseAllButton.classList.remove('element-hidden');
+        }
+
 
         e.stopPropagation();
     };
 
     selectAll = async (e: Event) => {
         e.preventDefault();
+        if (this.state.selectedLettersCount === this.state.letters.length) {
+            return;
+        }
         this.state.letters.forEach((letter) => {
             const currentTarget = letter.checkbox_area;
 
@@ -194,12 +212,18 @@ export class LetterList extends Component {
                 dispatcher.dispatch(actionAddSelectedLetter(letterId));
                 letterFrame.classList.add('letter-frame_selected');
                 checkbox.checked = true;
+                this.state.selectedLettersCount++;
             }
         });
+        this.state.chooseAllButton.classList.add('element-hidden');
+        this.state.unchooseAllButton.classList.remove('element-hidden');
     };
 
     unselectAll = async (e: Event) => {
         e.preventDefault();
+        if (this.state.selectedLettersCount === 0) {
+            return;
+        }
         this.state.letters.forEach((letter) => {
             const currentTarget = letter.checkbox_area;
 
@@ -211,8 +235,12 @@ export class LetterList extends Component {
                 dispatcher.dispatch(actionDeleteSelectedLetter(letterId));
                 letterFrame.classList.remove('letter-frame_selected');
                 checkbox.checked = false;
+                this.state.selectedLettersCount--;
             }
         });
+
+        this.state.chooseAllButton.classList.remove('element-hidden');
+        this.state.unchooseAllButton.classList.add('element-hidden');
     };
 
 
@@ -299,6 +327,8 @@ export class LetterList extends Component {
 
         this.state.unchooseAllButton = this.state.element
             .getElementsByClassName('letter-list-header__b-area__unselect')[0]!;
+
+        this.state.unchooseAllButton.classList.add('element-hidden');
 
         console.log(this.state.chooseAllButton);
 
