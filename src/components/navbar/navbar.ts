@@ -59,6 +59,8 @@ export class Navbar extends Component {
         document.getElementById('footer-button')!.classList.add('footer-button__show');
 
         document.getElementById('navbar__frame__center')!.classList.add('navbar__frame__center__hide');
+
+        document.getElementById('user-info')!.classList.add('user-info__show');
     }
 
     onBackRightClick = (e: Event) => {
@@ -75,6 +77,8 @@ export class Navbar extends Component {
         document.getElementById('footer-button')!.classList.remove('footer-button__show');
 
         document.getElementById('navbar__frame__center')!.classList.remove('navbar__frame__center__hide');
+
+        document.getElementById('user-info')!.classList.remove('user-info__show');
     }
 
     onBackLeftClick = (e: Event) => {
@@ -170,7 +174,7 @@ export class Navbar extends Component {
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
         this.state.profileButton.addEventListener('click', this.eventCatcher);
 
-        // this.state.userInfo.remove();
+        this.state.userInfo.remove();
         document.getElementById('navbar__email')!.insertAdjacentHTML(
             'afterbegin',
             NavbarUserInfo.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),

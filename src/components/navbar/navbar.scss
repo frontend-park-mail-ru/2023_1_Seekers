@@ -146,6 +146,13 @@
     display: none;
   }
 
+  .user-info{
+
+    &__show{
+      display: flex !important;
+    }
+  }
+
   .navbar {
 
     &__frame__center {
