@@ -164,7 +164,6 @@ class LettersStore extends BaseStore {
             this.getMailArray().set(mailId, {});
         }
         this._storage.set(this._storeNames.contextMail, mailId);
-        microEvents.trigger('mailChanged');
     };
 
     clearCtxMail = async () => {

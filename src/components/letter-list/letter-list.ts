@@ -271,6 +271,15 @@ export class LetterList extends Component {
                 return letter.letterElement.id === 'letter-frame-id-' + mail.message_id;
             })?.letterElement;
             this.state.activeLetter?.classList.add('letter-frame_color-active');
+
+            document.getElementsByClassName('letterList')[0].classList.add('letterList__hide');
+            document.getElementsByClassName('mail')[0].classList.add('mail__show');
+
+            document.getElementById('navbar__menu-button')!.classList.add('navbar__menu-button__hide');
+            document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
+
+            document.getElementById('navbar__back-left-mail')!.classList.add('navbar__back-left-mail__show');
+            document.getElementById('navbar__actions')!.classList.add('navbar__actions__show');
         }
     };
 

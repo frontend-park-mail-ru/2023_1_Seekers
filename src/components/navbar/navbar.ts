@@ -18,7 +18,6 @@ export interface Navbar {
         element: Element,
         profileButton: Element,
         sidebar: AccountSidebar,
-        folderName: Element,
     },
 }
 
@@ -150,7 +149,6 @@ export class Navbar extends Component {
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
-        this.state.folderName = this.state.element.getElementsByClassName('folderName')[0];
 
         this.state.sidebar = new AccountSidebar({
             parent: this.state.element as HTMLElement,

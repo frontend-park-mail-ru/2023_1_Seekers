@@ -60,6 +60,7 @@ export class Mail extends Component {
             this.state.element = this.parent.getElementsByClassName('mail')[0];
 
             this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
+            this.state.element.classList.add('mail__show');
         }
         this.registerEventListener();
     }
