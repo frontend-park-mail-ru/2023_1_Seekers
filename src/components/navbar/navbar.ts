@@ -11,6 +11,7 @@ import {config} from "@config/config";
 import {dispatcher} from "@utils/dispatcher";
 import {actionCreateNewMail} from "@actions/newMail";
 import {FolderName} from "@uikits/folder-name/folder-name";
+import {reducerFolder} from "@stores/FolderStore";
 
 export interface Navbar {
     state: {
@@ -54,6 +55,8 @@ export class Navbar extends Component {
         document.getElementById('navbar__email')!.classList.add('navbar__email__show');
 
         document.getElementById('footer-button')!.classList.add('footer-button__show');
+
+        document.getElementById('navbar__frame__center')!.classList.add('navbar__frame__center__hide');
     }
 
     onBackRightClick = (e: Event) => {
@@ -68,6 +71,8 @@ export class Navbar extends Component {
         document.getElementById('navbar__email')!.classList.remove('navbar__email__show');
 
         document.getElementById('footer-button')!.classList.remove('footer-button__show');
+
+        document.getElementById('navbar__frame__center')!.classList.remove('navbar__frame__center__hide');
     }
 
     onBackLeftClick = (e: Event) => {
@@ -168,7 +173,7 @@ export class Navbar extends Component {
         this.state.element.getElementsByClassName('navbar__frame__center')[0].insertAdjacentHTML(
             'afterbegin',
             FolderName.renderTemplate({
-                text: {}, // FIXIT:
+                text: reducerFolder.getCurrentFolderName(), // FIXIT:
             }),
         );
     };

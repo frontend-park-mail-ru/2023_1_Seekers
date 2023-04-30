@@ -49,7 +49,9 @@
             </svg>
         </div>
         <div class="navbar__email" id="navbar__email">
-            {{this.profile.email}}
+            <p class="font-title-2 mail-content__text_color">
+                {{this.profile.email}}
+            </p>
         </div>
         <div class="navbar__back-left-mail" id="navbar__back-left-mail">
             <svg class="navbar__back-left-mail__icon navbar__back-left-mail__icon__color navbar__back-left-mail__icon__size"
@@ -61,7 +63,7 @@
             </svg>
         </div>
     </div>
-    <div class="navbar__frame__center">
+    <div class="navbar__frame__center" id="navbar__frame__center">
         {{{this.folderName}}}
     </div>
     <div class="navbar__frame-right">
