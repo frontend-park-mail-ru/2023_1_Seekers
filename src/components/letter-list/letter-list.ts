@@ -272,7 +272,7 @@ export class LetterList extends Component {
             this.state.activeLetter?.classList.add('letter-frame_color-active');
 
             document.getElementsByClassName('letterList')[0].classList.add('letterList__hide');
-            document.getElementsByClassName('mail')[0].classList.add('mail__show');
+            document.getElementsByClassName('mail')[0]?.classList.add('mail__show');
 
             document.getElementById('navbar__menu-button')!.classList.add('navbar__menu-button__hide');
             document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
