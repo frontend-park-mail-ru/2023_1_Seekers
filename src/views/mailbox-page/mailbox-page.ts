@@ -93,7 +93,7 @@ export class MailBox extends View {
         this.state.navbar.render();
 
         this.state.footer = new Footer({
-            parent: document.getElementById('footer-button') as HTMLElement,
+            parent: this.state.element as HTMLElement,
         });
 
         // this.renderMailbox();

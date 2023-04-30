@@ -8,7 +8,7 @@
   background-color: var(--custom-color-account-sidebar);
   will-change: bottom;
   -webkit-animation: slideFooter 0.3s forwards;
-  left: -10px;
+  left: 0;
 
   &__item {
     display: flex;
@@ -18,7 +18,7 @@
 
   &__delete {
     transition: transform 0.3s 0s;
-    transform: translateY(434px);
+    transform: translateY(800px);
   }
 
   &__frame {
@@ -103,7 +103,7 @@
 
 @-webkit-keyframes slideFooter {
   100% {
-    bottom: -10px;
+    bottom: 0;
   }
 }
 
@@ -113,9 +113,34 @@
 }
 
 @media only screen and (max-width: 991px) {
-  .footer {
-    zoom: 1;
-    width: unset;
-    height: unset;
+  .accountsFooter {
+    zoom: 2.4;
+  }
+}
+
+.footer-button-close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 10px 0 0;
+  zoom: 2;
+
+  &__icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    flex: none;
+    align-self: center;
+
+    &__color {
+      stroke: var(--menu-icons-default-color);
+    }
+
+    &__size {
+      width: 22px;
+      height: 18px;
+    }
   }
 }

@@ -79,7 +79,7 @@ export class Footer extends Component {
     };
 
     registerEventListener = () => {
-        document.addEventListener('click', this.onFooterClick);
+        document.getElementById('footer-button-close')!.addEventListener('click', this.onFooterClick);
 
         this.state.children.forEach((button: Element) => {
             button.addEventListener('click', this.localEventCatcher);
@@ -92,7 +92,7 @@ export class Footer extends Component {
      * method unregister events button submit and input focus
      */
     unregisterEventListener = () => {
-        document.removeEventListener('click', this.onFooterClick);
+        document.getElementById('footer-button-close')!.removeEventListener('click', this.onFooterClick);
 
         this.state.children.forEach((button: Element) => {
             button.removeEventListener('click', this.localEventCatcher);
@@ -128,13 +128,8 @@ export class Footer extends Component {
 
     onFooterClick = (e: Event) => {
         e.preventDefault();
-        if (e.target) {
-            if (!(this.state.element.contains(e.target as HTMLElement) ||
-                    (this.parent.contains(e.target as HTMLElement))) ||
-                (this.parent === (e.target as HTMLElement))) {
-                this.removeFooter();
-            }
-        }
+        this.removeFooter();
+
     };
 
     removeFooter = () => {
