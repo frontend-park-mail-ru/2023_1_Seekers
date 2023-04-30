@@ -136,7 +136,8 @@ export class Navbar extends Component {
             {
                 menu: config.navbar.menu,
                 send: config.navbar.send,
-                userInfo: NavbarUserInfo.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
+                userInfo: NavbarUserInfo.renderTemplate(
+                    reducerUser._storage.get(reducerUser._storeNames.profile)),
                 backRight: config.navbar.backRight,
                 backLeft: config.navbar.backLeft,
                 profileButton: ProfileButton.renderTemplate(
@@ -149,7 +150,8 @@ export class Navbar extends Component {
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
-        this.state.userInfo = document.getElementsByClassName('user-info')[0];
+        this.state.userInfo = this.state.element.getElementsByClassName('user-info')[0];
+
 
         this.state.sidebar = new AccountSidebar({
             parent: this.state.element as HTMLElement,
