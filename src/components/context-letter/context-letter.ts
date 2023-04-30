@@ -68,6 +68,7 @@ export class ContextLetter extends Component {
             case config.buttons.contextLetterButtons.folderActions.another.folder_slug:
                 const ctxMenu = new AdvancedContextMenu({parent: document.getElementById('root')!});
                 ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
+                this.state.element.classList.add('context-letter__hide');
                 e.stopPropagation();
                 break;
 

@@ -33,12 +33,31 @@
       border: 1px solid var(--delimeters-color);
     }
   }
-  &__delimiter{
+
+  &__delimiter {
     width: 100%;
     height: 0;
     border: 1px solid var(--delimeters-color);
     flex: none;
     align-self: stretch;
     flex-grow: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .context-letter {
+    top: unset !important;
+    left: unset !important;
+    bottom: 0 !important;
+    right: unset !important;
+    width: 100vw;
+
+    &__area {
+      zoom: 3;
+    }
+
+    &__hide {
+      display: none;
+    }
   }
 }

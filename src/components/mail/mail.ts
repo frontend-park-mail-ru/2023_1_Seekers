@@ -69,7 +69,6 @@ export class Mail extends Component {
      * method letterList page rerender
      */
     rerenderMail() {
-        console.log('rerender mail');
         this.purge();
         this.render();
     }
@@ -83,7 +82,6 @@ export class Mail extends Component {
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
         });
-        console.log(microEvents);
     }
 
     /**

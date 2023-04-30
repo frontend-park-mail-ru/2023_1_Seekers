@@ -12,12 +12,14 @@ import {dispatcher} from "@utils/dispatcher";
 import {actionCreateNewMail} from "@actions/newMail";
 import {FolderName} from "@uikits/folder-name/folder-name";
 import {reducerFolder} from "@stores/FolderStore";
+import {NavbarUserInfo} from "@uikits/navbar-user-info/navbar-user-info";
 
 export interface Navbar {
     state: {
         element: Element,
         profileButton: Element,
         sidebar: AccountSidebar,
+        userInfo: Element,
     },
 }
 
@@ -84,7 +86,6 @@ export class Navbar extends Component {
         document.getElementById('navbar__send-mail')!.classList.remove('navbar__send-mail__hide');
 
         document.getElementById('navbar__back-left-mail')!.classList.remove('navbar__back-left-mail__show');
-        document.getElementById('navbar__actions')!.classList.remove('navbar__actions__show');
     }
 
     onSendMailClick = (e: Event) => {
@@ -135,10 +136,9 @@ export class Navbar extends Component {
             {
                 menu: config.navbar.menu,
                 send: config.navbar.send,
-                profile: reducerUser._storage.get(reducerUser._storeNames.profile), //why
+                userInfo: NavbarUserInfo.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
                 backRight: config.navbar.backRight,
                 backLeft: config.navbar.backLeft,
-                actions: config.navbar.actions,
                 profileButton: ProfileButton.renderTemplate(
                     reducerUser._storage.get(reducerUser._storeNames.profile)),
                 folderName: FolderName.renderTemplate({
@@ -149,6 +149,7 @@ export class Navbar extends Component {
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
+        this.state.userInfo = document.getElementsByClassName('user-info')[0];
 
         this.state.sidebar = new AccountSidebar({
             parent: this.state.element as HTMLElement,
@@ -166,6 +167,14 @@ export class Navbar extends Component {
         );
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
         this.state.profileButton.addEventListener('click', this.eventCatcher);
+
+        // this.state.userInfo.remove();
+        document.getElementById('navbar__email')!.insertAdjacentHTML(
+            'afterbegin',
+            NavbarUserInfo.renderTemplate(reducerUser._storage.get(reducerUser._storeNames.profile)),
+        );
+        this.state.userInfo = document.getElementsByClassName('user-info')[0];
+
     };
 
     rerenderFolderName = () => {
@@ -173,7 +182,7 @@ export class Navbar extends Component {
         this.state.element.getElementsByClassName('navbar__frame__center')[0].insertAdjacentHTML(
             'afterbegin',
             FolderName.renderTemplate({
-                text: reducerFolder.getCurrentFolderName(), // FIXIT:
+                text: reducerFolder.getCurrentFolderName(),
             }),
         );
     };

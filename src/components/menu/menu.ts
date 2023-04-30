@@ -223,5 +223,6 @@ export class Menu extends Component {
     rerender() {
         this.purge();
         this.render();
+        document.getElementsByClassName('menu')[0].classList.add('menu__show');
     }
 }

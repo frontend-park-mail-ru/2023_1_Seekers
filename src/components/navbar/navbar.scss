@@ -43,7 +43,7 @@
   &__frame__center {
     display: none;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     height: 100%;
     padding: 0 10px;
@@ -70,8 +70,7 @@
   &__menu-button,
   &__send-mail,
   &__back-right-mail,
-  &__back-left-mail,
-  &__actions{
+  &__back-left-mail{
     display: none;
 
     &__icon {
@@ -132,8 +131,7 @@
 
     &__back-right-mail,
     &__back-left-mail,
-    &__email,
-    &__actions{
+    &__email{
       display: none;
 
       &__show {

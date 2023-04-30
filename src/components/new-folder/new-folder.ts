@@ -97,7 +97,6 @@ export class NewFolder extends Component {
         switch (answerStatus) {
         case responseStatuses.OK:
             showNotification('Папка создана успешно!');
-            document.getElementsByClassName('menu')[0].classList.add('menu__show');
             this.purge();
             return;
         case responseStatuses.BadRequest:

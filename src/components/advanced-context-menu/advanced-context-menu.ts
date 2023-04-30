@@ -49,8 +49,8 @@ export class AdvancedContextMenu extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             default:
-                console.log(currentTarget.dataset.section);
                 dispatcher.dispatch(actionTransmitToFolder(currentTarget.dataset.section.split('/')[1]));
+                document.getElementsByClassName('context-letter')[0]!.classList.remove('context-letter__hide');
             }
         }
     };

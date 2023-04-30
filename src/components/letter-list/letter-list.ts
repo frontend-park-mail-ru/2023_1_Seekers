@@ -131,7 +131,6 @@ export class LetterList extends Component {
                 document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
 
                 document.getElementById('navbar__back-left-mail')!.classList.add('navbar__back-left-mail__show');
-                document.getElementById('navbar__actions')!.classList.add('navbar__actions__show');
             }
         }
     };
@@ -279,7 +278,6 @@ export class LetterList extends Component {
             document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
 
             document.getElementById('navbar__back-left-mail')!.classList.add('navbar__back-left-mail__show');
-            document.getElementById('navbar__actions')!.classList.add('navbar__actions__show');
         }
     };
 

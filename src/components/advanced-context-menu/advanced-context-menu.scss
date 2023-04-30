@@ -46,3 +46,16 @@
     flex-grow: 0;
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .advanced-context-menu {
+    top: unset !important;
+    left: unset !important;
+    bottom: 0 !important;
+    right: unset !important;
+    width: 100vw;
+    &__area {
+      zoom: 3;
+    }
+  }
+}

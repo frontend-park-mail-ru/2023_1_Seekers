@@ -49,9 +49,6 @@
             </svg>
         </div>
         <div class="navbar__email" id="navbar__email">
-            <p class="font-title-2 mail-content__text_color">
-                {{this.profile.email}}
-            </p>
         </div>
         <div class="navbar__back-left-mail" id="navbar__back-left-mail">
             <svg class="navbar__back-left-mail__icon navbar__back-left-mail__icon__color navbar__back-left-mail__icon__size"
@@ -83,16 +80,6 @@
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {{#if this.backRight.img includeZero=true}}
                     {{{ this.backRight.img }}}
-                {{/if}}
-            </svg>
-        </div>
-
-        <div class="navbar__actions" id="navbar__actions">
-            <svg class="navbar__actions__icon navbar__actions__icon__color navbar__actions__icon__size"
-                 fill="none"
-                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                {{#if this.actions.img includeZero=true}}
-                    {{{ this.actions.img }}}
                 {{/if}}
             </svg>
         </div>
