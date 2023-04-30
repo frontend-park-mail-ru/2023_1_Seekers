@@ -146,7 +146,6 @@ export class LetterList extends Component {
             if (currentTarget.dataset.section) {
                 await dispatcher.dispatch(actionSelectDraft(currentTarget.dataset.section));
                 e.stopPropagation();
-                currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
 
                 const letterState = currentTarget.getElementsByClassName(
                     'letter-frame__read-state')[0] as HTMLElement;

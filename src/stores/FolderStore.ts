@@ -96,6 +96,11 @@ class FolderStore extends BaseStore {
         if (mailHref !== '/undefined') {
             reducerLetters.showMail(mailHref);
         }
+
+        if (reducerLetters.getCurrentContextMail()?.message_id == reducerLetters.getCurrentShownMailId()) {
+            reducerLetters._storage.set(reducerLetters._storeNames.shownMail, undefined);
+            microEvents.trigger('mailChanged');
+        }
         // }
     };
 
@@ -114,6 +119,13 @@ class FolderStore extends BaseStore {
             }).then(([status, answer]) => {
                 i++;
                 if (i === len) {
+                    if (reducerLetters.getSelectedLetters().find((letter) => {
+                        return letter.toString() === reducerLetters.getCurrentShownMailId();
+                    })) {
+                        reducerLetters._storage.set(reducerLetters._storeNames.shownMail, undefined);
+                        microEvents.trigger('mailChanged');
+                    }
+
                     reducerLetters.clearSelectedLetter();
                     console.log(answer);
                     console.log(status);
@@ -144,7 +156,7 @@ class FolderStore extends BaseStore {
             microEvents.trigger('folderDeleted');
 
             if (this.getCtxFolder() === reducerLetters.getCurrentLettersName()) {
-                reducerLetters.getLetters('/inbox');
+                reducerLetters.getLetters(reducerLetters.getCurrentLettersName());
             }
         });
     }

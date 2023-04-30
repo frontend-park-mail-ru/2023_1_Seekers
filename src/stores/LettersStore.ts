@@ -300,6 +300,10 @@ class LettersStore extends BaseStore {
             }
         });
     }
+
+    getCurrentShownMailId() {
+        return this._storage.get(this._storeNames.shownMail);
+    }
 }
 
 
