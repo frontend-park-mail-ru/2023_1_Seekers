@@ -56,6 +56,8 @@ export class Navbar extends Component {
         document.getElementById('navbar__email')!.classList.add('navbar__email__show');
 
         document.getElementById('footer-button')!.classList.add('footer-button__show');
+
+        document.getElementById('navbar__frame__center')!.classList.add('navbar__frame__center__hide');
     }
 
     onBackRightClick = (e: Event) => {
@@ -70,6 +72,8 @@ export class Navbar extends Component {
         document.getElementById('navbar__email')!.classList.remove('navbar__email__show');
 
         document.getElementById('footer-button')!.classList.remove('footer-button__show');
+
+        document.getElementById('navbar__frame__center')!.classList.remove('navbar__frame__center__hide');
     }
 
     onBackLeftClick = (e: Event) => {

@@ -152,6 +152,10 @@
 
     &__frame__center {
       display: flex;
+
+      &__hide {
+        display: none;
+      }
     }
   }
 }
