@@ -40,6 +40,22 @@
     align-self: stretch;
   }
 
+  &__frame__center {
+    display: none;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    gap: 32px;
+    flex: 1;
+    align-self: stretch;
+
+    &__folderName {
+
+    }
+  }
+
   &__emblem-button {
     text-decoration: none;
     cursor: pointer;
@@ -130,5 +146,12 @@
 @media only screen and (max-width: 991px) {
   .profile-button {
     display: none;
+  }
+
+  .navbar {
+
+    &__frame__center {
+      display: flex;
+    }
   }
 }

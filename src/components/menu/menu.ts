@@ -69,6 +69,8 @@ export class Menu extends Component {
                 this.state.activeButton.classList.remove('menu-button_color-active');
                 this.state.activeButton = currentTarget;
                 this.state.activeButton.classList.add('menu-button_color-active');
+
+                document.getElementById('navbar__back-right-mail')!.click();
             }
         }
     };
