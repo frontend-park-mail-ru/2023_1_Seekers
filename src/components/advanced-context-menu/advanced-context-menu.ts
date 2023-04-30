@@ -121,7 +121,7 @@ export class AdvancedContextMenu extends Component {
             advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 
-        [...document.getElementsByClassName('advanced-context-menu__area')].forEach((ctxMenu) => {
+        [...document.getElementsByClassName('advanced-context-menu')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {
                     child.removeEventListener('click', this.buttonsClicked);
@@ -138,7 +138,7 @@ export class AdvancedContextMenu extends Component {
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
         console.log('im here!');
-        this.state.area = this.parent.getElementsByClassName('advanced-context-menu__area')[0];
+        this.state.area = this.parent.getElementsByClassName('advanced-context-menu')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;

@@ -1,7 +1,5 @@
 .advanced-context-menu {
   position: absolute;
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +18,7 @@
     align-items: stretch;
     justify-content: space-between;
     padding: 10px;
-    position: absolute;
+    position: relative;
     order: 4;
     flex: 1;
     border-radius: 6px;
