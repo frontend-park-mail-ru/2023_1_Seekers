@@ -1,5 +1,5 @@
 import {Connector} from '@utils/ajax';
-import {config} from '@config/config';
+import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerLetters} from '@stores/LettersStore';
@@ -14,6 +14,8 @@ class NewMailStore extends BaseStore {
         recipients: 'recipients',
         answerStatus: 'answerStatus',
         answerBody: 'answerBody',
+        isDraft: 'isDraft',
+        draftId: 'draftId',
     };
 
     /**
@@ -32,6 +34,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.recipients, '');
         this._storage.set(this._storeNames.answerBody, '');
         this._storage.set(this._storeNames.answerStatus, '');
+        this._storage.set(this._storeNames.isDraft, false);
 
         microEvents.trigger('createNewMail');
     };
@@ -48,6 +51,7 @@ class NewMailStore extends BaseStore {
         );
         this._storage.set(this._storeNames.recipients, '');
 
+        this._storage.set(this._storeNames.isDraft, false);
         microEvents.trigger('createNewMail');
     };
 
@@ -70,7 +74,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(
             this._storeNames.recipients, email,
         );
-
+        this._storage.set(this._storeNames.isDraft, false);
         microEvents.trigger('createNewMail');
     };
 
@@ -78,8 +82,8 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to forward mail
      */
     selectDraft = async (draftHref: string) => {
-        const mail = reducerLetters.
-            getLetterByFolderAndId('drafts', parseInt(draftHref.split('/').pop()!))!;
+        this._storage.set(this._storeNames.draftId, parseInt(draftHref.split('/').pop()!));
+        const mail = reducerLetters.getLetterByFolderAndId('drafts', this._storage.get(this._storeNames.draftId))!;
         let recipientsStr = '';
 
         console.log(mail);
@@ -95,7 +99,7 @@ class NewMailStore extends BaseStore {
             this._storeNames.text, mail.text,
         );
         this._storage.set(this._storeNames.recipients, recipientsStr);
-
+        this._storage.set(this._storeNames.isDraft, true);
         microEvents.trigger('createNewMail');
     };
 
@@ -107,17 +111,42 @@ class NewMailStore extends BaseStore {
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
+            console.log('sendMail');
+
+            if (this.isDraft()) {
+                console.log('isDraft');
+                reducerLetters.deleteMailRequest(this.getDraftId()).then(() =>
+                    reducerLetters.getLetters(reducerLetters.getCurrentLettersName()));
+            }
+
             microEvents.trigger('mailSent');
         });
     };
 
     sendDraft = async (draft: MailToSend) => {
-        Connector.makePostRequest(config.api.sendDraft, draft).then(([status, body]) => {
-            this._storage.set(this._storeNames.answerBody, body);
-            this._storage.set(this._storeNames.answerStatus, status);
-            microEvents.trigger('mailSent');
-        });
+        const promise = Connector.makePostRequest(config.api.sendDraft, draft)
+        const [status, body] = await promise;
+
+        this._storage.set(this._storeNames.answerBody, body);
+        this._storage.set(this._storeNames.answerStatus, status);
+
+        if (status == responseStatuses.OK) {
+            if (this.isDraft()) {
+                reducerLetters.deleteMailRequest(this.getDraftId()).then(() =>
+                    reducerLetters.getLetters(reducerLetters.getCurrentLettersName()));
+            }
+        }
+        microEvents.trigger('draftSent');
+        return promise;
     };
+
+    getDraftId() {
+        return this._storage.get(this._storeNames.draftId);
+    }
+
+    isDraft() {
+        return this._storage.get(this._storeNames.isDraft);
+    }
 }
 
 export const reducerNewMail = new NewMailStore();

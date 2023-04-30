@@ -49,6 +49,7 @@ export class AdvancedContextMenu extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             default:
+                console.log(currentTarget.dataset.section);
                 dispatcher.dispatch(actionTransmitToFolder(currentTarget.dataset.section.split('/')[1]));
             }
         }
@@ -114,7 +115,9 @@ export class AdvancedContextMenu extends Component {
         const advancedMenuButtons: object[] = [];
 
         reducerFolder._storage.get(reducerFolder._storeNames.menu).forEach((menuButton: Folder) => {
-            menuButton.folder_slug = '/to_' + menuButton.folder_slug;
+            if (!menuButton.folder_slug.includes('to_')){
+                menuButton.folder_slug = '/to_' + menuButton.folder_slug.split('/')[1];
+            }
             advancedMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 

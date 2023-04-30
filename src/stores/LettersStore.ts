@@ -65,6 +65,8 @@ class LettersStore extends BaseStore {
                         microEvents.trigger('letterListChanged');
                         microEvents.trigger('mailChanged');
                     }
+                } else if (status === responseStatuses.NotFound) {
+                    microEvents.trigger('folderNotFound');
                 }
             });
         this._storage.set(this._storeNames.currentLetters, folderName);
@@ -77,8 +79,7 @@ class LettersStore extends BaseStore {
      * function that makes request to log out user
      */
     async deleteMailRequest(id: string) {
-        await Connector.makeDeleteRequest(config.api.deleteMail + id);
-        console.log('deleted');
+        return Connector.makeDeleteRequest(config.api.deleteMail + id);
     }
 
     deleteMail = async () => {

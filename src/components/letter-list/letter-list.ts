@@ -62,6 +62,7 @@ export class LetterList extends Component {
         };
 
         this.rerender = this.rerender.bind(this);
+        this.renderNotFound = this.renderNotFound.bind(this);
     }
 
     showLetterContext = async (e: Event) => {
@@ -328,9 +329,7 @@ export class LetterList extends Component {
         this.state.unchooseAllButton = this.state.element
             .getElementsByClassName('letter-list-header__b-area__unselect')[0]!;
 
-        this.state.unchooseAllButton.classList.add('element-hidden');
-
-        console.log(this.state.chooseAllButton);
+        this.state.unchooseAllButton?.classList.add('element-hidden');
 
         this.state.filterButton = this.state.element
             .getElementsByClassName('letter-list-header__b-area__sort')[0]!;
@@ -356,6 +355,18 @@ export class LetterList extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('letterList')[0];
+        this.registerEventListener();
+    }
+
+    renderNotFound() {
+        this.purge();
+        this.parent.insertAdjacentHTML('afterbegin', template(
+            {
+                notFound: true,
+            },
+        ));
+        this.state.element = this.parent.getElementsByClassName('letterList')[0];
+        this.state.letters = [];
         this.registerEventListener();
     }
 
@@ -389,23 +400,23 @@ export class LetterList extends Component {
             this.registerDefaultListeners();
             break;
         }
+        if (this.state.letters.length) {
+            this.state.chooseAllButton.addEventListener('click', this.selectAll);
+            this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
+        }
+
+        microEvents.bind('letterListChanged', this.rerender);
+        microEvents.bind('folderNotFound', this.renderNotFound);
+        // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     registerDefaultListeners() {
-        console.log('============================LETTERLIST=============================');
         this.state.letters.forEach((letter) => {
             letter.letterElement.addEventListener('click', this.chooseLetter);
             letter.letterElement.addEventListener('contextmenu', this.showLetterContext);
             letter.stateElement.addEventListener('click', this.changeState);
             letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
-        if (this.state.letters) {
-            this.state.chooseAllButton.addEventListener('click', this.selectAll);
-            this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
-        }
-
-        microEvents.bind('letterListChanged', this.rerender);
-        // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     registerDraftListeners() {
@@ -415,14 +426,6 @@ export class LetterList extends Component {
             letter.stateElement.addEventListener('click', this.changeState);
             letter.checkbox_area.addEventListener('click', this.selectLetter);
         });
-
-        if (this.state.letters) {
-            this.state.chooseAllButton.addEventListener('click', this.selectAll);
-            this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
-        }
-
-        microEvents.bind('letterListChanged', this.rerender);
-        // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
     /**
@@ -430,17 +433,25 @@ export class LetterList extends Component {
      * will unregister listeners for each letter-frame in letter-list
      */
     unregisterEventListener() {
-        this.unregisterDefaultListeners();
-        this.unregisterDraftListeners();
-    }
-
-    unregisterDefaultListeners() {
         microEvents.unbind('letterListChanged', this.rerender);
+        microEvents.unbind('folderNotFound', this.renderNotFound);
         // microEvents.unbind('mailChanged', this.changeLetterToActive);
-        if (this.state.letters) {
+        if (this.state.letters.length) {
             this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);
             this.state.chooseAllButton.removeEventListener('click', this.selectAll);
         }
+
+        switch (this.state.currentLetters) {
+        case config.buttons.commonMenuButtons.drafts.folder_slug:
+            this.unregisterDraftListeners();
+            break;
+        default:
+            this.unregisterDefaultListeners();
+            break;
+        }
+    }
+
+    unregisterDefaultListeners() {
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.chooseLetter);
             letter.letterElement.removeEventListener('contextmenu', this.showLetterContext);
@@ -450,12 +461,6 @@ export class LetterList extends Component {
     }
 
     unregisterDraftListeners() {
-        microEvents.unbind('letterListChanged', this.rerender);
-        // microEvents.unbind('mailChanged', this.changeLetterToActive);
-        if (this.state.letters) {
-            this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);
-            this.state.chooseAllButton.removeEventListener('click', this.selectAll);
-        }
         this.state.letters.forEach((letter) => {
             letter.letterElement.removeEventListener('click', this.chooseDraft);
             letter.letterElement.removeEventListener('contextmenu', this.showDraftContext);

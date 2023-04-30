@@ -34,6 +34,7 @@ export const privateRoutes = [
     {path: '/profile', view: mailboxPage},
     {path: '/security', view: mailboxPage},
     {path: '/drafts', view: mailboxPage},
+    {path: '/number', view: mailboxPage},
 ];
 
 export const privateActions = [
@@ -45,6 +46,7 @@ export const privateActions = [
     {path: '/drafts', action: actionGetMailboxPage},
     {path: '/profile', action: actionGetAccountPage},
     {path: '/security', action: actionGetAccountPage},
+    {path: '/number', action: actionGetMailboxPage},
 ];
 
 
@@ -435,6 +437,10 @@ export const config = {
                 send: {
                     href: '/send',
                     text: 'Отправить',
+                },
+                save: {
+                    href: '/save',
+                    text: 'Сохранить',
                 },
                 cancel: {
                     href: '/cancel',

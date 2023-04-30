@@ -135,7 +135,8 @@
     flex: 1;
     flex-direction: row;
     position: relative;
-    max-width: 90px
+    width: 0;
+    max-width: 90px;
   }
 
   &__bottom-actions {

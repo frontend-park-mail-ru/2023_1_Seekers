@@ -55,6 +55,10 @@ class FolderStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
+            (response.folders as Folder[]).forEach((folder) => {
+                folder.folder_slug = '/' + folder.folder_slug;
+            });
+
             this._storage.set(this._storeNames.menu, response.folders);
             console.log(this._storage.get(this._storeNames.menu));
             microEvents.trigger('menuChanged');
@@ -138,6 +142,10 @@ class FolderStore extends BaseStore {
         Connector.makeDeleteRequest(config.api.deleteFolder + '/' + folder).then(() => {
             this.getMenu();
             microEvents.trigger('folderDeleted');
+
+            if (this.getCtxFolder() === reducerLetters.getCurrentLettersName()) {
+                reducerLetters.getLetters('/inbox');
+            }
         });
     }
 

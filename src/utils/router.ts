@@ -103,7 +103,9 @@ class Router {
             if (target.dataset.section) {
                 const matchedHref = this.matchHref(target.dataset.section);
 
-                if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
+                if (this.views.get(matchedHref[0]) ||
+                    this.privateViews.get(matchedHref[0]) ||
+                    RegExp('^(\\/\\d+)').test(matchedHref[0])) {
                     e.preventDefault();
 
                     this.navigate({path: target.dataset.section, props: '', pushState: true});
@@ -136,14 +138,21 @@ class Router {
             this.currentPage.purge();
         }
 
-        this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
-
-        this.currentPage.render();
         const path = stateObject.path;
+        let actionPath = stateObject.path;
         const props = stateObject.props;
 
+        this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
+        console.log(this.currentPage);
+        if (!this.currentPage && RegExp('^(\\/\\d+)').test(stateObject.path)) {
+            actionPath = '/number';
+            this.currentPage = this.privateViews.get(actionPath);
+        }
+
+        this.currentPage.render();
+
         if (stateObject.path !== '/login' && stateObject.path !== '/signup') {
-            dispatcher.dispatch(this.privateActions.get(stateObject.path)!(stateObject));
+            dispatcher.dispatch(this.privateActions.get(actionPath)!(stateObject));
         }
 
         this.navigate({path, props, pushState});
@@ -189,7 +198,9 @@ class Router {
         const href = this.redirectHandle(window.location.pathname);
         console.log(href);
         const matchedHref = this.matchHref(href);
-        if (this.views.get(matchedHref[0]) || this.privateViews.get(matchedHref[0])) {
+        if (this.views.get(matchedHref[0]) ||
+            this.privateViews.get(matchedHref[0]) ||
+            RegExp('^(\\/\\d+)').test(matchedHref[0])) {
             this.open({
                 path: matchedHref[0],
                 props: matchedHref[1],

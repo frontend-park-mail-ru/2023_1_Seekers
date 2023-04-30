@@ -14,6 +14,7 @@ import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
 import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
+import {reducerLetters} from '@stores/LettersStore';
 
 
 export interface SendMail {
@@ -70,6 +71,11 @@ export class SendMail extends Component {
                 await this.sendMail();
                 break;
 
+            case config.buttons.newMailButtons.footerButtons.save.href:
+                const draft = this.getMailInputs();
+                dispatcher.dispatch(actionSendDraft(draft));
+                break;
+
             case config.buttons.newMailButtons.footerButtons.cancel.href:
                 this.purge();
                 break;
@@ -77,7 +83,7 @@ export class SendMail extends Component {
         }
     };
 
-    getMailInputs () {
+    getMailInputs() {
         return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
@@ -105,21 +111,45 @@ export class SendMail extends Component {
     /**
      * function that triggers when the answer got from the backend
      */
-    getResponse = () => {
+    getSendResponse = () => {
+        const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
+        const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
+
+        switch (answerStatus) {
+        case responseStatuses.OK:
+            showNotification('Письмо отправлено успешно!');
+            this.purge();
+            return;
+        case responseStatuses.BadRequest:
+            showNotification('В списке получателей нет ни одного существующего!');
+            break;
+        case responseStatuses.Forbidden:
+            showNotification('Заполните поля!');
+            break;
+        default:
+            showNotification(answerBody.message);
+        }
+        const sendButton = this.state.footerButtons.find((button) => {
+            return (button as HTMLElement).dataset.section ===
+                config.buttons.newMailButtons.footerButtons.send.href;
+        });
+
+        sendButton?.classList.remove('skeleton__block');
+        sendButton?.classList.remove('contrast-button_disabled');
+    };
+
+    /**
+     * function that triggers when the answer got from the backend
+     */
+    getDraftResponse = () => {
         const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
             case responseStatuses.OK:
-                showNotification('Письмо отправлено успешно!');
+                showNotification('Черновик сохранён.');
                 this.purge();
                 return;
-            case responseStatuses.BadRequest:
-                showNotification('В списке получателей нет ни одного существующего!');
-                break;
-            case responseStatuses.Forbidden:
-                showNotification('Заполните поля!');
-                break;
             default:
                 showNotification(answerBody.message);
         }
@@ -142,9 +172,9 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-                case config.buttons.newMailButtons.closeButton.href:
-                    this.purge();
-                    break;
+            case config.buttons.newMailButtons.closeButton.href:
+                this.purge();
+                break;
             }
         }
     };
@@ -238,7 +268,8 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
-        microEvents.bind('mailSent', this.getResponse);
+        microEvents.bind('mailSent', this.getSendResponse);
+        microEvents.bind('draftSent', this.getDraftResponse);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
         this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
@@ -256,7 +287,8 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
-        microEvents.unbind('mailSent', this.getResponse);
+        microEvents.unbind('draftSent', this.getDraftResponse);
+        microEvents.unbind('mailSent', this.getSendResponse);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
         this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
@@ -309,6 +341,14 @@ export class SendMail extends Component {
         this.registerEventListener();
         this.setInputsState();
 
+        if (reducerLetters.getCurrentLettersName() !== '/drafts') {
+            const saveButton = this.state.footerButtons.find((button) => {
+                return (button as HTMLElement).dataset.section ===
+                    config.buttons.newMailButtons.footerButtons.save.href;
+            });
+            saveButton?.classList.add('element-hidden');
+        }
+
         this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
@@ -322,7 +362,6 @@ export class SendMail extends Component {
             if (this.state.element === e.target as HTMLElement) {
                 const draft = this.getMailInputs();
                 dispatcher.dispatch(actionSendDraft(draft));
-                this.purge();
             }
         }
     };
