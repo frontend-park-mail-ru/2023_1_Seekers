@@ -56,7 +56,6 @@ export class Menu extends Component {
         if (!e.isTrusted) {
             return;
         }
-
         e.preventDefault();
         const {currentTarget} = e;
         // e.target = currentTarget;

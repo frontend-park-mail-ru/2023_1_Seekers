@@ -195,6 +195,23 @@ class FolderStore extends BaseStore {
     getCtxFolder() {
         return this._storage.get(this._storeNames.contextFolder);
     }
+
+    getCurrentFolderName() {
+        const folder = Object.values(config.buttons.commonMenuButtons).find((button) => {
+            return button.folder_slug === reducerLetters.getCurrentLettersName();
+        });
+        if (folder) {
+            return folder.name;
+        }
+
+        const advFolder = (this.getAdvancedMenu() as Folder[]).find((button) => {
+            return button.folder_slug === reducerLetters.getCurrentLettersName();
+        });
+
+        if (advFolder) {
+            return advFolder.name;
+        }
+    }
 }
 
 export const reducerFolder = new FolderStore();
