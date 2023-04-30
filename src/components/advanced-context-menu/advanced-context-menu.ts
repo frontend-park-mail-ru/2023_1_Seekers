@@ -154,6 +154,14 @@ export class AdvancedContextMenu extends Component {
             y = y - ctxHeight;
         }
 
+        if (y < 0) {
+            y = 30;
+        }
+
+        if((windowHeight < y)) {
+            y = windowHeight;
+        }
+
         (this.state.area as HTMLDivElement).style.top = y.toString() + 'px';
         (this.state.area as HTMLDivElement).style.left = x.toString() + 'px';
 
