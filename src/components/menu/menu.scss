@@ -14,9 +14,9 @@
     &_size {
         padding: 10px;
         gap: 5px;
-        min-width: 200px;
-        width: 200px;
-        height: fit-content;
+        max-height: 100%;
+        max-width: 600px;
+        min-width: 100px;
     }
 
     &__button-compose {
