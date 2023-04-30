@@ -11,12 +11,14 @@ import {config} from "@config/config";
 import {dispatcher} from "@utils/dispatcher";
 import {actionCreateNewMail} from "@actions/newMail";
 import {FolderName} from "@uikits/folder-name/folder-name";
+import {reducerFolder} from "@stores/FolderStore";
 
 export interface Navbar {
     state: {
         element: Element,
         profileButton: Element,
         sidebar: AccountSidebar,
+        folderName: Element,
     },
 }
 
@@ -98,7 +100,8 @@ export class Navbar extends Component {
      */
     registerEventListener() {
         microEvents.bind('profileChanged', this.rerenderProfileButton);
-        microEvents.bind('folderNameChanged', this.rerenderFolderName);
+        microEvents.bind('letterListChanged', this.rerenderFolderName);
+
         this.state.profileButton.addEventListener('click', this.eventCatcher);
 
         document.getElementById('navbar__menu-button')!.addEventListener('click', this.onMenuButtonClick);
@@ -112,7 +115,7 @@ export class Navbar extends Component {
      */
     unregisterEventListener() {
         microEvents.unbind('profileChanged', this.rerenderProfileButton);
-        microEvents.unbind('folderNameChanged', this.rerenderFolderName);
+        microEvents.unbind('letterListChanged', this.rerenderFolderName);
         this.state.profileButton.removeEventListener('click', this.eventCatcher);
 
         document.getElementById('navbar__menu-button')!.removeEventListener('click', this.onMenuButtonClick);
@@ -142,8 +145,8 @@ export class Navbar extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('navbar')[0];
-
         this.state.profileButton = this.state.element.getElementsByClassName('profile-button')[0];
+        this.state.folderName = this.state.element.getElementsByClassName('folderName')[0];
 
         this.state.sidebar = new AccountSidebar({
             parent: this.state.element as HTMLElement,
@@ -168,7 +171,7 @@ export class Navbar extends Component {
         this.state.element.getElementsByClassName('navbar__frame__center')[0].insertAdjacentHTML(
             'afterbegin',
             FolderName.renderTemplate({
-                text: {}, // FIXIT:
+                text: reducerFolder.getCurrentFolderName(), // FIXIT:
             }),
         );
     };
