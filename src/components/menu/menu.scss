@@ -5,7 +5,6 @@
     position: relative;
     border-radius: 6px;
     order: 0;
-    overflow: auto;
 
     &_color {
         background: var(--menu-color);
@@ -14,9 +13,14 @@
     &_size {
         padding: 10px;
         gap: 5px;
+        min-width: 200px;
         max-height: 100%;
         max-width: 600px;
-        min-width: 100px;
+    }
+
+    &__advanced-buttons {
+        max-height: 100%;
+        overflow: auto;
     }
 
     &__button-compose {

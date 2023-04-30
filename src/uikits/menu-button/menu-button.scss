@@ -7,11 +7,13 @@
     cursor: pointer;
     text-decoration: none;
     align-self: stretch;
+    overflow: hidden;
 
     &_size {
         gap: 15px;
         width: 100%;
-        height: 25px;
+        min-height: 25px;
+        max-height: 25px;
     }
 
     &_color {
