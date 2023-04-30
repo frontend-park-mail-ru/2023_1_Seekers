@@ -29,8 +29,9 @@
 .footer-button {
   position: absolute;
   bottom: 0;
-  left: 0;
-  padding: 0 0 10px 10px;
+  right: 0;
+  padding-right: 15px;
+  padding-bottom: 10px;
   display: none;
 
   &__icon {
