@@ -1,9 +1,11 @@
-<div class="mailbox__context context-letter__area context-letter__area_size context-letter__area_color">
-    {{#each this.mailActionButtons}}
-        {{{this}}}
-    {{/each}}
-    <div class="context-menu__delimiter"></div>
-    {{#each this.folderActionButtons}}
-        {{{this}}}
-    {{/each}}
+<div class="context-letter">
+    <div class="mailbox__context context-letter__area context-letter__area_size context-letter__area_color">
+        {{#each this.mailActionButtons}}
+            {{{this}}}
+        {{/each}}
+        <div class="context-menu__delimiter"></div>
+        {{#each this.folderActionButtons}}
+            {{{this}}}
+        {{/each}}
+    </div>
 </div>
