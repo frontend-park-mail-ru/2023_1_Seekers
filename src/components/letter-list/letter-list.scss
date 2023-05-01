@@ -11,7 +11,7 @@
 
     &_size {
         gap: 5px;
-        max-height: inherit;
+        max-height: 100%;
         max-width: 600px;
         min-width: 100px;
     }
@@ -52,10 +52,6 @@
 @media only screen and (max-width: 991px) {
     .letterList {
         border-radius: unset;
-
-        &_size {
-            max-width: unset;
-        }
 
         &__hide {
             display: none;
