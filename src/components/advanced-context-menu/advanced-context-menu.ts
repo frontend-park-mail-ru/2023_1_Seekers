@@ -61,7 +61,7 @@ export class AdvancedContextMenu extends Component {
     getResponse = () => {
         const answerStatus = reducerFolder._storage.get(reducerFolder._storeNames.answerStatus);
         const answerBody = reducerFolder._storage.get(reducerFolder._storeNames.answerBody);
-
+        console.log('123123123123123123')
         switch (answerStatus) {
         case responseStatuses.OK:
             showNotification('Письмо перенесено успешно!');
@@ -137,7 +137,6 @@ export class AdvancedContextMenu extends Component {
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        console.log('im here!');
         this.state.area = this.parent.getElementsByClassName('advanced-context-menu')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
