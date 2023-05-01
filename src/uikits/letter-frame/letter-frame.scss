@@ -274,23 +274,22 @@
         &:hover &__image {
             display: flex;
         }
-    }
-
-    &:hover &__checkbox {
-        display: none;
-        &_area {
+        &:hover &__checkbox {
             display: none;
+            &_area {
+                display: none;
+            }
         }
-    }
 
-    &_selected &__image {
-        display: flex;
-    }
+        &_selected &__image {
+            display: flex;
+        }
 
-    &_selected &__checkbox {
-        display: none;
-        &_area {
+        &_selected &__checkbox {
             display: none;
+            &_area {
+                display: none;
+            }
         }
     }
 }
