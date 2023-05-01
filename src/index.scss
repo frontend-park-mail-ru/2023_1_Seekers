@@ -19,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
 }
 
@@ -28,6 +29,7 @@ body {
     background-color: var(--background-color);
     flex: 1;
     height: 100vh;
+    max-height: 100vh;
     scrollbar-color: var(--delimeters-color) var(--background-color);
     scrollbar-width: thin;
     font-family: "Roboto Thin", sans-serif;
