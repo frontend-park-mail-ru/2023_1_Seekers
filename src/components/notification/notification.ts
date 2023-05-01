@@ -7,7 +7,18 @@ import {ROOT} from '@config/config';
  * @param duration - duration of
  */
 export function showNotification(text = 'Упс, что-то пошло не так...', duration = 4000) {
-    ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+
+    if(window.matchMedia("only screen and (max-width: 991px)").matches)
+    {
+        document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+    }
+    else
+    {
+        document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+
+        ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+    }
+
 
     const content = document.getElementById('error-label');
     setTimeout(() => {

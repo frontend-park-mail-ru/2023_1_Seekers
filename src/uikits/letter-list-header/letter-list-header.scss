@@ -91,6 +91,8 @@
 
 @media only screen and (max-width: 991px) {
   .letter-list-header {
-    display: none;
+    &__b-area{
+      display: none;
+    }
   }
 }
