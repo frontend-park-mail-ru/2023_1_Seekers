@@ -70,7 +70,7 @@
   &__menu-button,
   &__send-mail,
   &__back-right-mail,
-  &__back-left-mail{
+  &__back-left-mail {
     display: none;
 
     &__icon {
@@ -130,7 +130,7 @@
 
     &__back-right-mail,
     &__back-left-mail,
-    &__email{
+    &__email {
       display: none;
 
       &__show {
@@ -145,14 +145,21 @@
     display: none;
   }
 
-  .user-info{
+  .user-info {
 
-    &__show{
+    &__show {
       display: flex !important;
     }
   }
 
   .navbar {
+
+    &__frame-left,
+    &__frame-right {
+      &__hide {
+        display: none;
+      }
+    }
 
     &__frame__center {
       display: flex;

@@ -56,22 +56,22 @@
     }
 }
 
-//@keyframes fadeDel {
-//    5% {
-//        opacity: 1;
-//        visibility: visible;
-//        transform: translateY(0);
-//    }
-//
-//    95% {
-//        opacity: 0;
-//    }
-//
-//    100% {
-//        opacity: 0;
-//        transform: translateY(-30px);
-//    }
-//}
+@keyframes fadeDel {
+    5% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    95% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
 
 @keyframes progress {
     to {
@@ -90,7 +90,8 @@
 @media only screen and (max-width: 991px) {
     .notification-area {
         right: 0;
-        top: 10%;
+        top: 5%;
+
         &__notification {
             max-width: unset;
             width: 100vw;

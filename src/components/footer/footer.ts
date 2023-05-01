@@ -66,8 +66,6 @@ export class Footer extends Component {
                         await dispatcher.dispatch(actionGetSecurityPage());
                         currentTarget.dispatchEvent(
                             new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        // this.purge();
-                        // return;
                         break;
                     case config.buttons.sidebarButtons.logout.href:
                         await dispatcher.dispatch(actionLogout());

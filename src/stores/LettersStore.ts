@@ -17,6 +17,7 @@ class LettersStore extends BaseStore {
         contextMail: 'contextMail',
         currentAccountPage: 'currentAccountPage',
         selectedLetters: 'selectedLetters',
+        accountName: 'accountName',
     };
 
     /**
@@ -191,6 +192,13 @@ class LettersStore extends BaseStore {
      */
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
+
+        if(obj.path == '/profile'){
+            this._storage.set(this._storeNames.accountName, 'Личные данные');
+        }else if(obj.path == '/security'){
+            this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
+        }
+
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
         microEvents.trigger('renderAccountPage');
     };
@@ -199,6 +207,7 @@ class LettersStore extends BaseStore {
      * function that makes requests for all the components of profile
      */
     getProfilePage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Личные данные');
         microEvents.trigger('renderProfilePage');
     };
 
@@ -206,6 +215,7 @@ class LettersStore extends BaseStore {
      * function that makes requests for all the components of security
      */
     getSecurityPage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
         microEvents.trigger('renderSecurityPage');
     };
 
@@ -259,6 +269,10 @@ class LettersStore extends BaseStore {
 
     getCurrentLettersName() {
         return this._storage.get(this._storeNames.currentLetters);
+    }
+
+    getCurrentAccountsName() {
+        return this._storage.get(this._storeNames.accountName);
     }
 
     /**

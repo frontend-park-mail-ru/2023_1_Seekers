@@ -10,12 +10,11 @@ export function showNotification(text = 'Упс, что-то пошло не т�
 
     if(window.matchMedia("only screen and (max-width: 991px)").matches)
     {
-        document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+        //document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+        ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
     }
     else
     {
-        document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
-
         ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
     }
 
