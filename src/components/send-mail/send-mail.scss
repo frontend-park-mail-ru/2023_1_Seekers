@@ -262,3 +262,21 @@ select:-webkit-autofill:focus {
   font-size: 12px;
   letter-spacing: 0.03em;
 }
+
+@media only screen and (max-width: 991px) {
+  .send-mail {
+
+    &__bottom-actions {
+
+
+      &_size {
+        margin: 0 20px 100px;
+        flex-basis: 80px;
+      }
+    }
+
+    &__bottom-button {
+      zoom: 1.5;
+    }
+  }
+}
