@@ -13,6 +13,7 @@ import {actionCreateNewMail} from "@actions/newMail";
 import {FolderName} from "@uikits/folder-name/folder-name";
 import {reducerFolder} from "@stores/FolderStore";
 import {NavbarUserInfo} from "@uikits/navbar-user-info/navbar-user-info";
+import {reducerLetters} from "@stores/LettersStore";
 
 export interface Navbar {
     state: {
@@ -110,6 +111,10 @@ export class Navbar extends Component {
         microEvents.bind('profileChanged', this.rerenderProfileButton);
         microEvents.bind('letterListChanged', this.rerenderFolderName);
 
+        microEvents.bind('renderAccountPage', this.rerenderAccountName);
+        microEvents.bind('renderProfilePage', this.rerenderAccountName);
+        microEvents.bind('renderSecurityPage', this.rerenderAccountName);
+
         this.state.profileButton.addEventListener('click', this.eventCatcher);
 
         document.getElementById('navbar__menu-button')!.addEventListener('click', this.onMenuButtonClick);
@@ -124,6 +129,12 @@ export class Navbar extends Component {
     unregisterEventListener() {
         microEvents.unbind('profileChanged', this.rerenderProfileButton);
         microEvents.unbind('letterListChanged', this.rerenderFolderName);
+
+
+        microEvents.unbind('renderAccountPage', this.rerenderAccountName);
+        microEvents.unbind('renderProfilePage', this.rerenderAccountName);
+        microEvents.unbind('renderSecurityPage', this.rerenderAccountName);
+
         this.state.profileButton.removeEventListener('click', this.eventCatcher);
 
         document.getElementById('navbar__menu-button')!.removeEventListener('click', this.onMenuButtonClick);
@@ -191,6 +202,19 @@ export class Navbar extends Component {
                 text: reducerFolder.getCurrentFolderName(),
             }),
         );
+    };
+
+    rerenderAccountName = () => {
+        document.getElementById('navbar__folderName')!.remove();
+
+        this.state.element.getElementsByClassName('navbar__frame__center')[0].insertAdjacentHTML(
+            'afterbegin',
+            FolderName.renderTemplate({
+                text: reducerLetters.getCurrentAccountsName(),
+            }),
+        );
+        document.getElementById('navbar__frame-left')!.classList.add('navbar__frame-left__hide');
+        document.getElementById('navbar__frame-right')!.classList.add('navbar__frame-right__hide');
     };
 
     /**
