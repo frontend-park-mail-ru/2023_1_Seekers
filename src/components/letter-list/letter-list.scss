@@ -53,6 +53,10 @@
     .letterList {
         border-radius: unset;
 
+        &_size {
+            max-width: unset;
+        }
+
         &__hide {
             display: none;
         }
