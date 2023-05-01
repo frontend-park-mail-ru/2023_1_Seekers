@@ -271,48 +271,27 @@
 
 @media only screen and (max-width: 991px) {
     .letter-frame {
-        &:hover {
-            background: unset;
-            border: unset;
+        &:hover &__image {
+            display: flex;
         }
-
-        //&_selected &__image {
-        //    display: flex;
-        //}
-        //
-        //&_selected &__checkbox {
-        //    display: none;
-        //    &_area {
-        //        display: none;
-        //    }
-        //}
     }
 
-    .letter-frame_color-active,
-    .letter-frame_color-active:hover,
-    .letter-frame_color-active:active {
-        background: unset;
-        border: unset;
+    &:hover &__checkbox {
+        display: none;
+        &_area {
+            display: none;
+        }
     }
 
-    .letter-frame:hover {
-        background-color: unset;
-        border: unset;
+    &_selected &__image {
+        display: flex;
     }
 
-    .letter-frame:hover {
-        background-color: unset;
-        border: unset;
-    }
-
-    .letter-frame_selected {
-        background-color: unset;
-        border: unset;
-    }
-
-    .letter-frame_color-active {
-        background-color: unset;
-        border: unset;
+    &_selected &__checkbox {
+        display: none;
+        &_area {
+            display: none;
+        }
     }
 }
 
