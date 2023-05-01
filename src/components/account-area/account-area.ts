@@ -81,6 +81,11 @@ export class AccountArea extends Component {
             button: config.accountFields.account.profile.button,
         });
         this.state.content.render();
+
+        document.getElementById('navbar__menu-button')!.classList.add('navbar__menu-button__hide');
+        document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
+        document.getElementById('navbar__frame__center')!.classList.add('navbar__frame__center__hide');
+        document.getElementById('footer-button')!.classList.add('footer-button__show');
     };
 
     renderSecurity = () => {
@@ -97,6 +102,11 @@ export class AccountArea extends Component {
             button: config.accountFields.account.security.button,
         });
         this.state.content.render();
+
+        document.getElementById('navbar__menu-button')!.classList.add('navbar__menu-button__hide');
+        document.getElementById('navbar__send-mail')!.classList.add('navbar__send-mail__hide');
+        document.getElementById('navbar__frame__center')!.classList.add('navbar__frame__center__hide');
+        document.getElementById('footer-button')!.classList.add('footer-button__show');
     };
 
     /**

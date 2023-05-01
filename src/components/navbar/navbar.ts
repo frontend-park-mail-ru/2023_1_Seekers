@@ -83,13 +83,13 @@ export class Navbar extends Component {
 
     onBackLeftClick = (e: Event) => {
         e.preventDefault();
-        document.getElementsByClassName('letterList')[0].classList.remove('letterList__hide');
-        document.getElementsByClassName('mail')[0].classList.remove('mail__show');
+        document.getElementsByClassName('letterList')[0]?.classList.remove('letterList__hide');
+        document.getElementsByClassName('mail')[0]?.classList.remove('mail__show');
 
-        document.getElementById('navbar__menu-button')!.classList.remove('navbar__menu-button__hide');
-        document.getElementById('navbar__send-mail')!.classList.remove('navbar__send-mail__hide');
+        document.getElementById('navbar__menu-button')?.classList.remove('navbar__menu-button__hide');
+        document.getElementById('navbar__send-mail')?.classList.remove('navbar__send-mail__hide');
 
-        document.getElementById('navbar__back-left-mail')!.classList.remove('navbar__back-left-mail__show');
+        document.getElementById('navbar__back-left-mail')?.classList.remove('navbar__back-left-mail__show');
     }
 
     onSendMailClick = (e: Event) => {

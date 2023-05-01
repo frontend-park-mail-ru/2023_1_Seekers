@@ -8,6 +8,13 @@
     padding: 10px;
     order: 1;
 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     &__nav {
         display: flex;
         flex-direction: column;
