@@ -213,7 +213,7 @@ export class SendMail extends Component {
             newRecipients.forEach((recipient) => {
                 if (recipient !== '' && !this.state.recipients.has(recipient)) {
                     if (!recipient.includes('@')) {
-                        recipient += '@mailbox.ru';
+                        recipient += '@mailbx.ru';
                     }
 
                     recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({

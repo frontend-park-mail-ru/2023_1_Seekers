@@ -31,7 +31,7 @@ export class Validation {
         if (login.length > 30) {
             return {status: false, message: 'Логин длиннее 30 символов'};
         }
-        const postAtDomain = '@mailbox.ru';
+        const postAtDomain = '@mailbx.ru';
         if (!login.includes(postAtDomain)) {
             if (login.includes('@') || login.includes('.')) {
                 return {status: false, message: 'Логин не может содержать @ или .'};
@@ -45,6 +45,39 @@ export class Validation {
         }
         return {status: true, message: ''};
     };
+
+
+    /**
+     * method validate email
+     * @param login
+     * @return message for error and status
+     */
+    validateEmail = (email: string) => {
+        if (email.length < 3) {
+            return {status: false, message: 'Почта короче 3 символов'};
+        }
+
+        if (email.length > 30) {
+            return {status: false, message: 'Почта длиннее 30 символов'};
+        }
+        const postAtDomain = '@mailbx.ru';
+        if (!email.includes(postAtDomain)) {
+            const emailRegex =
+                new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+            const isValidEmail = emailRegex.test(email);
+            if (!isValidEmail) {
+                return {status: false, message: 'Невалидная почта'};
+            }
+        } else {
+            const idx = email.indexOf(postAtDomain);
+            if (idx + postAtDomain.length < email.length ||
+                email.indexOf('@') < idx || email.indexOf('.') < idx) {
+                return {status: false, message: 'Некорректный логин'};
+            }
+        }
+        return {status: true, message: ''};
+    };
+
 
     /**
      * method validate password
