@@ -12,13 +12,13 @@
 }
 
 html {
-    height: 100vh;
+    height: 100%;
 }
 
 body {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -27,7 +27,7 @@ body {
     flex-direction: column;
     background-color: var(--background-color);
     flex: 1;
-    height: 100vh;
+    height: 100%;
     scrollbar-color: var(--delimeters-color) var(--background-color);
     scrollbar-width: thin;
     font-family: "Roboto Thin", sans-serif;
@@ -84,5 +84,4 @@ body {
 
 .element-hidden {
     display: none !important;
-
 }
