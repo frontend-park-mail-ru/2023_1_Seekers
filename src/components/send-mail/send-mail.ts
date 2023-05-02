@@ -228,7 +228,7 @@ export class SendMail extends Component {
                     })!;
 
                     const validator = new Validation;
-                    if (!validator.validateLogin(recipient).status) {
+                    if (!validator.validateEmail(recipient).status) {
                         foundElement.classList.add('input-form__error__border');
                     }
 
