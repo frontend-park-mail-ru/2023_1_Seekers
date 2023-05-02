@@ -160,6 +160,10 @@
         display: none;
         border-radius: unset;
 
+        &_size {
+            min-width: unset;
+        }
+
         &__bottom-actions {
         }
     }

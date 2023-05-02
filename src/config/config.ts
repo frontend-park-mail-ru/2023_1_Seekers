@@ -654,7 +654,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     maxlenght: '16',
                 },
                 repeatPassword: {
-                    title: 'Повторить пароль',
+                    title: 'Повторите пароль',
                     type: 'password',
                     name: 'repeat_password',
                     maxlenght: '16',
