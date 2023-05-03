@@ -169,8 +169,11 @@ export class Menu extends Component {
             this.state.activeButton = activeButton;
             this.state.activeButton.classList.add('menu-button_color-active');
         }
-
         this.registerEventListener();
+
+        if (document.getElementsByClassName('letterList__hide')[0]) {
+            document.getElementsByClassName('menu')[0].classList.add('menu__show');
+        }
     }
 
     /**
@@ -223,6 +226,8 @@ export class Menu extends Component {
     rerender() {
         this.purge();
         this.render();
-        document.getElementsByClassName('menu')[0].classList.add('menu__show');
+        // if (!document.getElementsByClassName('letterList__hide')[0]) {
+        //     document.getElementsByClassName('menu')[0].classList.add('menu__show');
+        // }
     }
 }

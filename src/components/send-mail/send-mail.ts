@@ -73,6 +73,14 @@ export class SendMail extends Component {
 
             case config.buttons.newMailButtons.footerButtons.save.href:
                 const draft = this.getMailInputs();
+
+                if(draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
+
                 dispatcher.dispatch(actionSendDraft(draft));
                 break;
 
@@ -173,7 +181,15 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
+                const draft = this.getMailInputs();
+
+                if(draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
+                dispatcher.dispatch(actionSendDraft(draft));
                 break;
             }
         }
@@ -209,32 +225,35 @@ export class SendMail extends Component {
             const newRecipients = e.target.value.split(' ');
             e.target.value = '';
             const recipientInput = document.getElementsByClassName(
-                'send-mail__input-form')[0] as HTMLElement;
+                'send-mail__recipients')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
-                if (recipient !== '' && !this.state.recipients.has(recipient)) {
+                if (recipient !== '') {
+
                     if (!recipient.includes('@')) {
                         recipient += '@mailbx.ru';
                     }
 
-                    recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
-                        text: recipient,
-                        closeButton: IconButton.renderTemplate(
-                            config.buttons.newMailButtons.closeButton),
-                    }));
+                    if (!this.state.recipients.has(recipient)) {
+                        recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
+                            text: recipient,
+                            closeButton: IconButton.renderTemplate(
+                                config.buttons.newMailButtons.closeButton),
+                        }));
 
-                    const foundElement = [
-                        ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
-                        return (element as HTMLElement).dataset.section === recipient;
-                    })!;
+                        const foundElement = [
+                            ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
+                            return (element as HTMLElement).dataset.section === recipient;
+                        })!;
 
-                    const validator = new Validation;
-                    if (!validator.validateEmail(recipient).status) {
-                        foundElement.classList.add('input-form__error__border');
+                        const validator = new Validation;
+                        if (!validator.validateEmail(recipient).status) {
+                            foundElement.classList.add('input-form__error__border');
+                        }
+
+                        foundElement.getElementsByClassName('icon-button')[0]
+                            .addEventListener('click', this.onRemoveRecipientClicked);
+                        this.state.recipients.set(recipient, foundElement as HTMLElement);
                     }
-
-                    foundElement.getElementsByClassName('icon-button')[0]
-                        .addEventListener('click', this.onRemoveRecipientClicked);
-                    this.state.recipients.set(recipient, foundElement as HTMLElement);
                 }
             });
         }
@@ -341,14 +360,6 @@ export class SendMail extends Component {
         this.registerEventListener();
         this.setInputsState();
 
-        if (reducerLetters.getCurrentLettersName() !== '/drafts') {
-            const saveButton = this.state.footerButtons.find((button) => {
-                return (button as HTMLElement).dataset.section ===
-                    config.buttons.newMailButtons.footerButtons.save.href;
-            });
-            saveButton?.classList.add('element-hidden');
-        }
-
         this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
@@ -361,6 +372,12 @@ export class SendMail extends Component {
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
                 const draft = this.getMailInputs();
+                if (draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
                 dispatcher.dispatch(actionSendDraft(draft));
             }
         }

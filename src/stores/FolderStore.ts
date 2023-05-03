@@ -99,6 +99,7 @@ class FolderStore extends BaseStore {
 
         if (reducerLetters.getCurrentContextMail()?.message_id == reducerLetters.getCurrentShownMailId()) {
             reducerLetters._storage.set(reducerLetters._storeNames.shownMail, undefined);
+
             microEvents.trigger('mailChanged');
         }
         // }
@@ -175,6 +176,13 @@ class FolderStore extends BaseStore {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
             this.getMenu();
+            if (status === 200) {
+                (this.getAdvancedMenu() as Folder[]).forEach((folder) => {
+                    if(folder.folder_slug === slug) {
+                        folder.name = newName;
+                    }
+                });
+            }
             microEvents.trigger('folderRenamed');
         });
     }

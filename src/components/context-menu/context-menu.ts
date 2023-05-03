@@ -129,7 +129,7 @@ export class ContextMenu extends Component {
         }));
 
         // this.state.element = this.parent.getElementsByClassName('context-menu')[0];
-        this.state.area = this.parent.getElementsByClassName('context-menu__area')[0];
+        this.state.area = this.parent.getElementsByClassName('context-menu')[0];
         this.state.buttons = [...this.state.area.getElementsByClassName('menu-button')];
         const ctxHeight = (this.state.area as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.area as HTMLDivElement).offsetWidth;

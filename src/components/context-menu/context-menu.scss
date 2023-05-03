@@ -1,7 +1,5 @@
 .context-menu {
   position: absolute;
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +18,7 @@
     align-items: stretch;
     justify-content: space-between;
     padding: 10px;
-    position: absolute;
+    position: relative;
     order: 4;
     flex: 1;
     border-radius: 6px;
@@ -42,5 +40,22 @@
     flex: none;
     align-self: stretch;
     flex-grow: 0;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .context-menu {
+    top: 60px !important;
+    left: unset !important;
+    bottom: unset !important;
+    right: unset !important;
+    width: 100vw;
+
+    &__area {
+    }
+
+    &__hide {
+      display: none;
+    }
   }
 }
