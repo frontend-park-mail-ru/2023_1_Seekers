@@ -25,22 +25,22 @@ export class Connector {
      * @return request promise
      */
     static makePostRequest = async (url: string, data: object) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
 
         const options = {
             method: 'post',
@@ -61,22 +61,22 @@ export class Connector {
      * @return request promise
      */
     static makePutRequest = async ({url, data}: { url: string, data: any }, uploadFile = false) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
 
         let headers;
         if (uploadFile) {
-        //     if (csrfToken !== null) {
-        //         headers = {
-        //             'Csrf-Token': csrfToken,
-        //         };
-        //     } else {
+            if (csrfToken !== null) {
+                headers = {
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
                 headers = {};
-            // }
+            }
             const options = {
                 method: 'put',
                 mode: 'cors',
@@ -87,14 +87,14 @@ export class Connector {
             console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
-            // if (csrfToken !== null) {
-            //     headers = {
-            //         ...config.headers,
-            //         'Csrf-Token': csrfToken,
-            //     };
-            // } else {
+            if (csrfToken !== null) {
+                headers = {
+                    ...config.headers,
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
                 headers = config.headers;
-            // }
+            }
 
             const body = JSON.stringify(data);
             const options = {
@@ -116,23 +116,23 @@ export class Connector {
      * @return request promise
      */
     static makeGetRequest = async (url: string) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // console.log(csrfToken)
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        console.log(csrfToken)
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
 
         const options = {
             method: 'get',
@@ -150,22 +150,22 @@ export class Connector {
      * @return request promise
      */
     static makeDeleteRequest = async (url: string) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
         const options = {
             method: 'delete',
             mode: 'cors',
