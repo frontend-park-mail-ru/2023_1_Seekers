@@ -105,6 +105,14 @@ export class Navbar extends Component {
             return;
         }
 
+        const advFolder = (reducerFolder.getAdvancedMenu() as Folder[]).find((button) => {
+            return button.folder_slug === reducerLetters.getCurrentLettersName();
+        });
+
+        if (!advFolder) {
+            return;
+        }
+
         console.log(reducerLetters.getCurrentLettersName());
         const me = e as MouseEvent;
 
