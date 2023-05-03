@@ -154,3 +154,25 @@
         border-radius: 7px;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .mail {
+        display: none;
+        border-radius: unset;
+
+        &_size {
+            min-width: unset;
+        }
+
+        &__bottom-actions {
+        }
+    }
+
+    .mail__show {
+        display: flex !important;
+    }
+
+    .icon-button {
+
+    }
+}

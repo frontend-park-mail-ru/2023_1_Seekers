@@ -4,9 +4,19 @@ export const actionGetLetters = (name: string) => ({
     value: name,
 });
 
-export const actionGetMail = (name: string) => ({
-    type: 'getMail',
+export const actionShowMail = (name: string) => ({
+    type: 'showMail',
     value: name,
+});
+
+export const actionCtxMail = (name: string) => ({
+    type: 'ctxMail',
+    value: name,
+});
+
+export const actionClearCtxMail = () => ({
+    type: 'ctxMail',
+    value: {},
 });
 
 export const actionSignup = (user :user) => ({
@@ -27,4 +37,20 @@ export const actionChangeLetterStateToUnread = (letterId: string) => ({
 export const actionChangeLetterStateToRead = (letterId: string) => ({
     type: 'changeLetterStateToRead',
     value: letterId,
+});
+
+export const actionDeleteMail = (id: number) => ({
+    type: 'deleteMail',
+    value: id,
+});
+
+export const actionAddSelectedLetter = (id: number) => ({
+    type: 'addSelectedLetter',
+    value: id,
+});
+
+
+export const actionDeleteSelectedLetter = (id: number) => ({
+    type: 'deleteSelectedLetter',
+    value: id,
 });

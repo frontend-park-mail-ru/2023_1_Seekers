@@ -8,6 +8,7 @@
     border-bottom: 1px solid #585151;
     border-top: 1px solid #585151;
     border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 
     &_size {
         height: 490px;
@@ -48,5 +49,11 @@
         &_color {
             color: var(--text-main-color);
         }
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .promo-box {
+        display: none;
     }
 }

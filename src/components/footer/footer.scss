@@ -1,0 +1,144 @@
+.footer {
+  position: absolute;
+  width: 100vw;
+  height: 40vh;
+  z-index: 1000;
+  bottom: -434px;
+  scrollbar-width: none;
+  background-color: var(--custom-color-account-sidebar);
+  will-change: bottom;
+  -webkit-animation: slideFooter 0.3s forwards;
+  left: 0;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__delete {
+    transition: transform 0.3s 0s;
+    transform: translateY(800px);
+  }
+
+  &__frame {
+    height: 100%;
+    overflow: auto;
+  }
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    margin-right: 4px;
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+
+    &__active-user {
+      height: 72px !important;
+    }
+
+    &__hover-active {
+      &:hover {
+        background-color: var(--color-transparent--hover);
+      }
+
+      &:active {
+        background-color: var(--color-transparent--active);
+      }
+    }
+  }
+
+  &__avatar-picker {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+  }
+
+  &__avatar-img {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #0a0b0b;
+  }
+
+  &__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-basis: 0;
+    flex-grow: 1;
+    color: var(--primary-text-color);
+  }
+
+  &__title {
+    font-size: 17px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+  }
+
+  &__hr {
+    border: none;
+    border-top: 1px solid var(--color-separator-primary);
+    margin: 16px 12px;
+  }
+}
+
+@-webkit-keyframes slideFooter {
+  100% {
+    bottom: 0;
+  }
+}
+
+.accountsFooter {
+  padding: 0 20px 32px;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 991px) {
+  .accountsFooter {
+  }
+}
+
+.footer-button-close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 10px 0 0;
+
+  &__icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    flex: none;
+    align-self: center;
+
+    &__color {
+      stroke: var(--menu-icons-default-color);
+    }
+
+    &__size {
+      width: 22px;
+      height: 18px;
+    }
+  }
+}

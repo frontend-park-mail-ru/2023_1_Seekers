@@ -1,59 +1,172 @@
 .navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0;
+  position: relative;
+  order: 0;
+
+  &_color {
+    background: var(--navbar-color);
+  }
+
+  &_size {
+    padding: 0;
+    gap: 10px;
+    min-height: 60px;
+    max-height: 60px;
+  }
+
+  &__frame-left {
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex: 0;
+    height: 100%;
+    padding: 0 10px;
+    gap: 10px;
+    flex: 1;
+    align-self: stretch;
+  }
+
+  &__frame-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    gap: 32px;
+    flex: 1;
+    align-self: stretch;
+  }
+
+  &__frame__center {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    gap: 32px;
+    flex: 1;
+    align-self: stretch;
+
+    &__folderName {
+
+    }
+  }
+
+  &__emblem-button {
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
     position: relative;
-    order: 0;
+    align-items: center;
+    background-color: var(--navbar-color);
+    gap: 10px;
+    flex: 0;
+  }
 
+  &__menu-button,
+  &__send-mail,
+  &__back-right-mail,
+  &__back-left-mail {
+    display: none;
+
+    &__icon {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      flex: none;
+      align-self: center;
+
+      &__color {
+        stroke: var(--menu-icons-default-color);
+      }
+
+      &__size {
+        width: 22px;
+        height: 18px;
+      }
+    }
+  }
+
+  &__email {
+    display: none;
+  }
+
+
+  &__text {
     &_color {
-        background: var(--navbar-color);
+      color: var(--menu-text-default-color);
     }
+  }
+}
 
-    &_size {
-        padding: 0;
-        gap: 10px;
-        min-height: 60px;
-        max-height: 60px;
-    }
-
-    &__frame-left {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: 100%;
-        padding: 0 10px;
-        gap: 10px;
-        flex: 1;
-        align-self: stretch;
-    }
-
-    &__frame-right {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        height: 100%;
-        padding: 0 10px;
-        gap: 32px;
-        flex: 1;
-        align-self: stretch;
-    }
+@media only screen and (max-width: 991px) {
+  .navbar {
 
     &__emblem-button {
-        text-decoration: none;
-        cursor: pointer;
-        display: flex;
-        position: relative;
-        align-items: center;
-        background-color: var(--navbar-color);
-        gap: 10px;
-        flex: 0;
+      display: none;
     }
 
-    &__text{
-        &_color {
-            color: var(--menu-text-default-color);
-        }
+    &__menu-button {
+      display: flex;
+
+      &__hide {
+        display: none;
+      }
     }
+
+    &__send-mail {
+      display: flex;
+
+      &__hide {
+        display: none;
+      }
+    }
+
+    &__back-right-mail,
+    &__back-left-mail,
+    &__email {
+      display: none;
+
+      &__show {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .profile-button {
+    display: none;
+  }
+
+  .user-info {
+
+    &__show {
+      display: flex !important;
+    }
+  }
+
+  .navbar {
+
+    &__frame-left,
+    &__frame-right {
+      &__hide {
+        display: none;
+      }
+    }
+
+    &__frame__center {
+      display: flex;
+
+      &__hide {
+        display: none;
+      }
+    }
+  }
 }

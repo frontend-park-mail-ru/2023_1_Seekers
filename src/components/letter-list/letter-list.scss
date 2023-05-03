@@ -12,8 +12,7 @@
     &_size {
         gap: 5px;
         max-height: 100%;
-        max-width: 600px;
-        min-width: 400px;
+        min-width: 100px;
     }
 
     &_order {
@@ -48,3 +47,19 @@
     align-self: center;
     width: 97%;
 }
+
+@media only screen and (max-width: 991px) {
+    .letterList {
+        border-radius: unset;
+
+        &_size {
+            max-width: unset;
+        }
+
+        &__hide {
+            display: none;
+        }
+    }
+
+}
+

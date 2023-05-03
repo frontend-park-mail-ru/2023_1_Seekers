@@ -1,6 +1,6 @@
 import {Component} from '@components/component';
 import {reducerUser} from '@stores/userStore';
-import {NewMailButton} from '@uikits/new-mail-button/new-mail-button';
+import {ContrastButton} from '@uikits/contrast-button/contrast-button';
 
 import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
@@ -8,12 +8,13 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {actionSendMail} from '@actions/newMail';
+import {actionSendDraft, actionSendMail} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
 import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
+import {reducerLetters} from '@stores/LettersStore';
 
 
 export interface SendMail {
@@ -70,6 +71,19 @@ export class SendMail extends Component {
                 await this.sendMail();
                 break;
 
+            case config.buttons.newMailButtons.footerButtons.save.href:
+                const draft = this.getMailInputs();
+
+                if(draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
+
+                dispatcher.dispatch(actionSendDraft(draft));
+                break;
+
             case config.buttons.newMailButtons.footerButtons.cancel.href:
                 this.purge();
                 break;
@@ -77,15 +91,19 @@ export class SendMail extends Component {
         }
     };
 
-    /**
-     * function that dispatches action to send mail
-     */
-    sendMail = async () => {
-        const mail = {
+    getMailInputs() {
+        return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
             text: this.state.text.value,
         } as MailToSend;
+    }
+
+    /**
+     * function that dispatches action to send mail
+     */
+    sendMail = async () => {
+        const mail = this.getMailInputs();
 
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -93,7 +111,7 @@ export class SendMail extends Component {
         });
 
         sendButton?.classList.add('skeleton__block');
-        sendButton?.classList.add('new-mail-button_disabled');
+        sendButton?.classList.add('contrast-button_disabled');
 
         await dispatcher.dispatch(actionSendMail(mail));
     };
@@ -101,7 +119,7 @@ export class SendMail extends Component {
     /**
      * function that triggers when the answer got from the backend
      */
-    getResponse = () => {
+    getSendResponse = () => {
         const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
@@ -125,7 +143,31 @@ export class SendMail extends Component {
         });
 
         sendButton?.classList.remove('skeleton__block');
-        sendButton?.classList.remove('new-mail-button_disabled');
+        sendButton?.classList.remove('contrast-button_disabled');
+    };
+
+    /**
+     * function that triggers when the answer got from the backend
+     */
+    getDraftResponse = () => {
+        const answerStatus = reducerNewMail._storage.get(reducerNewMail._storeNames.answerStatus);
+        const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
+
+        switch (answerStatus) {
+            case responseStatuses.OK:
+                showNotification('Черновик сохранён.');
+                this.purge();
+                return;
+            default:
+                showNotification(answerBody.message);
+        }
+        const sendButton = this.state.footerButtons.find((button) => {
+            return (button as HTMLElement).dataset.section ===
+                config.buttons.newMailButtons.footerButtons.send.href;
+        });
+
+        sendButton?.classList.remove('skeleton__block');
+        sendButton?.classList.remove('contrast-button_disabled');
     };
 
     /**
@@ -139,7 +181,15 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
+                const draft = this.getMailInputs();
+
+                if(draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
+                dispatcher.dispatch(actionSendDraft(draft));
                 break;
             }
         }
@@ -175,32 +225,35 @@ export class SendMail extends Component {
             const newRecipients = e.target.value.split(' ');
             e.target.value = '';
             const recipientInput = document.getElementsByClassName(
-                'send-mail__input-form')[0] as HTMLElement;
+                'send-mail__recipients')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
-                if (recipient !== '' && !this.state.recipients.has(recipient)) {
+                if (recipient !== '') {
+
                     if (!recipient.includes('@')) {
-                        recipient += '@mailbox.ru';
+                        recipient += '@mailbx.ru';
                     }
 
-                    recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
-                        text: recipient,
-                        closeButton: IconButton.renderTemplate(
-                            config.buttons.newMailButtons.closeButton),
-                    }));
+                    if (!this.state.recipients.has(recipient)) {
+                        recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
+                            text: recipient,
+                            closeButton: IconButton.renderTemplate(
+                                config.buttons.newMailButtons.closeButton),
+                        }));
 
-                    const foundElement = [
-                        ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
-                        return (element as HTMLElement).dataset.section === recipient;
-                    })!;
+                        const foundElement = [
+                            ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
+                            return (element as HTMLElement).dataset.section === recipient;
+                        })!;
 
-                    const validator = new Validation;
-                    if (!validator.validateLogin(recipient).status) {
-                        foundElement.classList.add('input-form__error__border');
+                        const validator = new Validation;
+                        if (!validator.validateEmail(recipient).status) {
+                            foundElement.classList.add('input-form__error__border');
+                        }
+
+                        foundElement.getElementsByClassName('icon-button')[0]
+                            .addEventListener('click', this.onRemoveRecipientClicked);
+                        this.state.recipients.set(recipient, foundElement as HTMLElement);
                     }
-
-                    foundElement.getElementsByClassName('icon-button')[0]
-                        .addEventListener('click', this.onRemoveRecipientClicked);
-                    this.state.recipients.set(recipient, foundElement as HTMLElement);
                 }
             });
         }
@@ -234,7 +287,8 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
-        microEvents.bind('mailSent', this.getResponse);
+        microEvents.bind('mailSent', this.getSendResponse);
+        microEvents.bind('draftSent', this.getDraftResponse);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
         this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
@@ -252,7 +306,8 @@ export class SendMail extends Component {
         });
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
-        microEvents.unbind('mailSent', this.getResponse);
+        microEvents.unbind('draftSent', this.getDraftResponse);
+        microEvents.unbind('mailSent', this.getSendResponse);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
         this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
@@ -280,7 +335,7 @@ export class SendMail extends Component {
     render() {
         const actionButtons: object[] = [];
         Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
-            actionButtons.push(NewMailButton.renderTemplate(button));
+            actionButtons.push(ContrastButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
@@ -292,7 +347,7 @@ export class SendMail extends Component {
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
-        this.state.footerButtons = [...this.state.element.getElementsByClassName('new-mail-button')];
+        this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 
         this.state.topic =
@@ -316,7 +371,14 @@ export class SendMail extends Component {
         e.preventDefault();
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
-                this.purge();
+                const draft = this.getMailInputs();
+                if (draft.title === '' &&
+                    draft.recipients.length === 0 &&
+                    draft.text === '') {
+                    this.purge();
+                    return;
+                }
+                dispatcher.dispatch(actionSendDraft(draft));
             }
         }
     };

@@ -21,8 +21,10 @@ class MicroEvent {
      * @param fct - function to bind
      */
     bind(event: string, fct: Function) {
+
         this._events = this._events || {};
         this._events[event] = this._events[event] || [];
+
         this._events[event].push(fct);
     }
 
@@ -36,7 +38,10 @@ class MicroEvent {
         if (!(event in this._events)) {
             return;
         }
-        this._events[event].splice(this._events[event].indexOf(fct), 1);
+        const idx = this._events[event].indexOf(fct);
+        if (idx !== -1) {
+            this._events[event].splice(this._events[event].indexOf(fct), 1);
+        }
     }
 
     /**

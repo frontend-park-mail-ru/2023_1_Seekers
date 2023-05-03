@@ -1,0 +1,43 @@
+<div class="footer" id="footer">
+    <div class="footer__frame">
+        <div class="accountsFooter">
+            <div class="footer-button-close" id="footer-button-close">
+                <svg class="footer-button-close__icon footer-button-close__icon__color footer-button-close__icon__size"
+                     fill="none"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd" d="m4.29289 4.29289c.39053-.39052 1.02369-.39052
+                    1.41422 0l4.29289 4.2929 4.2929-4.2929c.3905-.39052 1.0237-.39052 1.4142 0
+                    .3905.39053.3905 1.02369 0 1.41422l-4.2929 4.29289 4.2929 4.2929c.3905.3905.3905
+                    1.0237 0 1.4142s-1.0237.3905-1.4142 0l-4.2929-4.2929-4.29289
+                    4.2929c-.39053.3905-1.02369.3905-1.41422 0-.39052-.3905-.39052-1.0237
+                    0-1.4142l4.2929-4.2929-4.2929-4.29289c-.39052-.39053-.39052-1.02369 0-1.41422z"
+                          fill-rule="evenodd"/>
+                </svg>
+            </div>
+            <div class="footer__item footer__avatar__active-user">
+
+                <a class="footer__avatar footer__avatar__hover-active" data-section="/profile" aria-label="Сменить аватар">
+
+
+                    <img src={{profile.avatar}} class="footer__avatar-img skeleton__block" alt="">
+
+
+                </a>
+                <div class="footer__text">
+                    <div class="footer__title" >
+                        <div class="footer__name" aria-label="{{profile.firstName}} {{profile.lastName}}">
+                            {{profile.firstName}} {{profile.lastName}}
+                        </div>
+                    </div>
+                    <div class="footer__desc" aria-label="{{profile.email}}">
+                        {{profile.email}}
+                    </div>
+                </div>
+            </div>
+            <hr class="footer__hr" id="footer__hr">
+
+            {{{buttons}}}
+
+        </div>
+    </div>
+</div>

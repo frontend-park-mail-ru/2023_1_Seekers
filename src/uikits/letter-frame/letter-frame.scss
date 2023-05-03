@@ -2,10 +2,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 10px;
-    gap: 10px;
+    padding: 0 10px 0 0;
+    gap: 0;
     position: relative;
-    height: 100px;
+    height: 60px;
     background: var(--secondary-background-color);
     border: 1px solid var(--secondary-background-color);
     border-radius: 6px;
@@ -15,10 +15,6 @@
     cursor: pointer;
     text-decoration: none;
 
-    &:hover {
-        background: var(--delimeters-color);
-        border: 1px solid var(--delimeters-color);
-    }
 
     &__read-state {
         display: flex;
@@ -26,8 +22,9 @@
         justify-content: center;
         align-items: center;
         padding: 0;
-        width: 8px;
-        height: 8px;
+        border: 10px;
+        width: 28px;
+        height: 28px;
         flex: none;
         align-self: center;
         flex-grow: 0;
@@ -36,24 +33,28 @@
 
     &__content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         padding: 10px 0;
         gap: 10px;
         flex: 1;
         order: 1;
+
         align-self: stretch;
+        overflow: hidden;
 
         &__text{
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-between;
             padding: 0;
-            gap: 10px;
-            width: 100%;
+            gap: 0px;
+            //width: 100%;
             height: 100%;
             flex: 1;
             align-self: auto;
+            overflow: hidden;
         }
     }
 
@@ -61,12 +62,14 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: center;
         padding: 0;
         gap: 10px;
         height: 40px;
-        flex: none;
+        flex: 1;
         order: 0;
         align-self: stretch;
+        overflow: hidden;
 
         &__content {
             display: flex;
@@ -74,30 +77,38 @@
             align-items: flex-start;
             padding: 0;
             gap: 0px;
-            flex: available;
+            flex: 1;
             align-self: stretch;
             flex-grow: 1;
+            overflow: hidden;
         }
     }
 
     &__text {
         overflow: hidden;
+        text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        flex: 1;
         align-self: stretch;
 
         &_color {
             color: var(--color-text-secondary);
         }
+
+        &_color-contrast {
+            color: var(--color-text-primary);
+        }
     }
 
     &__name {
         color: var(--letterlist-name-text-color);
-        flex: available;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
         align-self: stretch;
-        flex-grow: 1;
     }
 
     &__title {
@@ -112,9 +123,10 @@
 
         &_text {
             color: var(--letterlist-header-text-color);
-            flex: none;
-            align-self: stretch;
-            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
         }
     }
 
@@ -143,6 +155,83 @@
             border-radius: 90%;
         }
     }
+
+    &__checkbox {
+        display: none;
+        flex-direction: column;
+        padding: 0;
+        //gap: 5px;
+        //width: 35px;
+        flex: 1;
+        flex-grow: 0;
+        pointer-events: none;
+
+        &_area {
+            display: none;
+            flex: available;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 0;
+
+            min-width: 35px;
+
+            height: 35px;
+            overflow: hidden;
+            //border-radius: 90%;
+        }
+
+        &_color {
+            border-radius: 7px;
+            color: var(--secondary-background-color);
+            background-color: var(--primary-active-color);
+
+            &:focus, &:hover {
+                background: #262626;
+                border: 1px solid var(--primary-active-color);
+            }
+
+            &:checked {
+                background: #0a0b0b;
+            }
+            &:active {
+                background: #0a0b0b
+            }
+        }
+
+
+    }
+
+    &:hover {
+        background: var(--delimeters-color);
+        border: 1px solid var(--delimeters-color);
+    }
+
+    &:hover &__image {
+        display: none;
+    }
+
+    &:hover &__checkbox {
+        display: flex;
+        &_area {
+            display: flex;
+        }
+    }
+
+    &_selected {
+        background: var(--letterlist-selected-color);
+        border: 1px solid var(--letterlist-selected-color);
+    }
+
+    &_selected &__image {
+        display: none;
+    }
+
+    &_selected &__checkbox {
+        display: flex;
+        &_area {
+            display: flex;
+        }
+    }
 }
 
 .letter-is-read {
@@ -150,7 +239,7 @@
 
 .letter-is-unread {
     background-color: var(--primary-active-color);
-    border: 1px solid var(--primary-active-color);
+    border: 10px solid var(--secondary-background-color);
 }
 
 .letter-frame_color-active,
@@ -162,4 +251,47 @@
 
 .letter-frame:hover .letter-is-read {
     background-color: var(--mail-state-unread);
+    border: 10px solid var(--delimeters-color);
 }
+
+.letter-frame:hover .letter-is-unread {
+    background-color: var(--primary-active-color);
+    border: 10px solid var(--delimeters-color);
+}
+
+.letter-frame_selected .letter-is-unread {
+    background-color: var(--primary-active-color);
+    border: 10px solid var(--letterlist-selected-color);
+}
+
+.letter-frame_color-active .letter-is-unread {
+    background-color: var(--primary-active-color);
+    border: 10px solid var(--delimeters-color);
+}
+
+@media only screen and (max-width: 991px) {
+    .letter-frame {
+        &:hover &__image {
+            display: flex;
+        }
+        &:hover &__checkbox {
+            display: none;
+            &_area {
+                display: none;
+            }
+        }
+
+        &_selected &__image {
+            display: flex;
+        }
+
+        &_selected &__checkbox {
+            display: none;
+            &_area {
+                display: none;
+            }
+        }
+    }
+}
+
+

@@ -122,10 +122,15 @@ export class AccountSecurity extends Component {
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
         case responseStatuses.OK:
+        case 500:
             showNotification('Пароль успешно изменён');
             break;
         default:
-            showNotification(body);
+            if (body.message) {
+                showNotification(body.message);
+            } else {
+                showNotification('что-то пошло не так');
+            }
         }
     }
 }

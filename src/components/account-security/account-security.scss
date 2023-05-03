@@ -19,3 +19,17 @@
       flex-direction: column;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .account-security {
+        background: unset;
+        border: unset;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .account-security {
+        background: unset;
+        border: unset;
+    }
+}

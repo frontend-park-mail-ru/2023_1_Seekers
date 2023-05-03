@@ -81,6 +81,8 @@ export class AccountArea extends Component {
             button: config.accountFields.account.profile.button,
         });
         this.state.content.render();
+
+        document.getElementById('footer-button')!.classList.add('footer-button__show');
     };
 
     renderSecurity = () => {
@@ -97,6 +99,8 @@ export class AccountArea extends Component {
             button: config.accountFields.account.security.button,
         });
         this.state.content.render();
+
+        document.getElementById('footer-button')!.classList.add('footer-button__show');
     };
 
     /**

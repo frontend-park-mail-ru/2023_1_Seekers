@@ -8,6 +8,13 @@
     padding: 10px;
     order: 1;
 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     &__nav {
         display: flex;
         flex-direction: column;
@@ -19,5 +26,13 @@
         border: none;
         border-top: 1px solid var(--color-separator-secondary);
         margin: 16px 12px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .account-navigation {
+        &__nav {
+            flex-direction: row;
+        }
     }
 }

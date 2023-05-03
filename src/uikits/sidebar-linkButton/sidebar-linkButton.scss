@@ -39,3 +39,11 @@
     stroke: var(--navbar-icons-default-color);
     pointer-events: none;
 }
+
+@media only screen and (max-width: 991px) {
+    .account-sidebar__item {
+        padding-right: 40px;
+    }
+}
+
+

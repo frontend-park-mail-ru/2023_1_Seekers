@@ -45,7 +45,8 @@
     "prod": "cross-env NODE_ENV=production cross-env DOMAIN_DEPLOY=mailbx.ru webpack --mode production",
     "stand": "npm run dev",
     "deploy": "npm run prod",
-    "start": " serve -s -l 8002 ./dist"
+    "start": " serve -s -l 8002 ./dist",
+    "dev-server": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",

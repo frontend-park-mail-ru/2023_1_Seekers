@@ -1,20 +1,35 @@
 <div class="letterList letterList_size letterList_order letterList_color">
-    {{#if this.letterFrames includeZero=false}}
-        {{#each letterFrames}}
-            {{{this}}}
-            <div class="horizontal-line"></div>
-        {{/each}}
-    {{else}}
+    {{#if this.notFound}}
         <div class="letterList__not-chosen">
             <svg class="letterList__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="m3 7v10c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
                 2-2v-8c0-1.10457-.8954-2-2-2h-6l-2-2h-6c-1.10457 0-2 .89543-2 2z"
                       stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
             </svg>
-
-            <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка пустая</p>
+            <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка не найдена</p>
         </div>
+    {{else}}
 
+        {{#if this.letterFrames includeZero=false}}
+            {{{this.letterListHeader}}}
+            {{#each letterFrames}}
+                {{{this}}}
+                {{#unless @last}}
+                    <div class="horizontal-line"></div>
+                {{/unless}}
+
+            {{/each}}
+        {{else}}
+            <div class="letterList__not-chosen">
+                <svg class="letterList__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m3 7v10c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
+                2-2v-8c0-1.10457-.8954-2-2-2h-6l-2-2h-6c-1.10457 0-2 .89543-2 2z"
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>
+
+                <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка пустая</p>
+            </div>
+        {{/if}}
     {{/if}}
 
 

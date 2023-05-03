@@ -76,6 +76,18 @@ class Login extends View {
             await dispatcher.dispatch(actionLogin(user));
         }
     };
+
+    /**
+     * promise handle click password icon
+     * @param  e - event click password icon
+     */
+    onClickPasswordIcon = async (e: SubmitEvent) => {
+        e.preventDefault();
+        const data = document.getElementById('wrapper-access__form') as HTMLElement;
+        const passwordForm = data.querySelector('input[name=password]') as HTMLInputElement;
+
+        passwordForm.insertAdjacentHTML('afterbegin', config.forms.login.passwordIcons.close.img)
+    };
     onRedirectHandler = async (e: MouseEvent) => {
         e.preventDefault();
         await dispatcher.dispatch(actionToSignUp());
@@ -88,7 +100,7 @@ class Login extends View {
         const form = document.getElementById('wrapper-access__form');
 
         form?.addEventListener('submit', this.onSubmitHandler);
-        form?.addEventListener('focusout', this.#validator.focusValidator);
+        form?.addEventListener('input', this.#validator.focusValidator);
 
         const redirect = document.getElementById('redirect-link');
         redirect?.addEventListener('click', this.onRedirectHandler);
@@ -100,7 +112,7 @@ class Login extends View {
     unregisterEvents = () => {
         const form = document.getElementById('wrapper-access__form');
         form?.removeEventListener('submit', this.onSubmitHandler);
-        form?.removeEventListener('focusout', this.#validator.focusValidator);
+        form?.removeEventListener('input', this.#validator.focusValidator);
 
         const redirect = document.getElementById('redirect-link');
         redirect?.removeEventListener('click', this.onRedirectHandler);
@@ -133,6 +145,13 @@ class Login extends View {
             parent: mainContent,
         });
         this.state.promoBox.render();
+
+        const data = document.getElementById('wrapper-access__form') as HTMLElement;
+        const passwordForm = data.querySelector('input[name=password]') as HTMLInputElement;
+
+        passwordForm.insertAdjacentHTML('afterbegin', '<div class="passwordIcon" id="passwordIcon">'
+            + config.forms.login.passwordIcons.close.img
+            + '</div>');
 
         this.registerEvents();
     };

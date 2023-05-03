@@ -12,7 +12,7 @@
 }
 
 html {
-    height: 100vh;
+    height: 100%;
 }
 
 body {
@@ -80,4 +80,8 @@ body {
     to {
         background-position: 200% 0;
     }
+}
+
+.element-hidden {
+    display: none !important;
 }

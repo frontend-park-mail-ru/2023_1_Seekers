@@ -3,6 +3,7 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
+import {reducerFolder} from '@stores/FolderStore';
 
 /**
  * class that implements all possible actions with letters data
@@ -11,10 +12,12 @@ class LettersStore extends BaseStore {
     _storeNames = {
         letters: 'letters',
         mail: 'mail',
-        menu: 'menu',
         currentLetters: 'currentLetters',
-        currentMail: 'currentMail',
+        shownMail: 'shownMail',
+        contextMail: 'contextMail',
         currentAccountPage: 'currentAccountPage',
+        selectedLetters: 'selectedLetters',
+        accountName: 'accountName',
     };
 
     /**
@@ -24,9 +27,10 @@ class LettersStore extends BaseStore {
         super();
         this._storage.set(this._storeNames.letters, new Map());
         this._storage.set(this._storeNames.mail, new Map());
-        this._storage.set(this._storeNames.currentMail, undefined);
-        this._storage.set(this._storeNames.menu, []);
+        this._storage.set(this._storeNames.shownMail, undefined);
+        this._storage.set(this._storeNames.contextMail, undefined);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
+        this._storage.set(this._storeNames.selectedLetters, []);
     }
 
     /**
@@ -34,12 +38,11 @@ class LettersStore extends BaseStore {
      * @param folderName - name of folder
      */
     getLetters = async (folderName: string) => {
+        this.clearSelectedLetter();
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
                     this._storage.get(this._storeNames.letters).set(folderName, []);
-
-
                     body.messages?.forEach((message: any) => {
                         const time = message.created_at.substring(0, 10)
                             .replace('-', '.').replace('-', '.');
@@ -53,6 +56,7 @@ class LettersStore extends BaseStore {
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}` +
                                 `?email=${message.from_user_id.email}`,
+                            recipients: message.recipients,
                         };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
@@ -62,65 +66,120 @@ class LettersStore extends BaseStore {
                         microEvents.trigger('letterListChanged');
                         microEvents.trigger('mailChanged');
                     }
+                } else if (status === responseStatuses.NotFound) {
+                    microEvents.trigger('folderNotFound');
                 }
             });
         this._storage.set(this._storeNames.currentLetters, folderName);
-        this._storage.set(this._storeNames.currentMail, undefined);
+        this._storage.set(this._storeNames.shownMail, undefined);
         microEvents.trigger('letterListChanged');
         microEvents.trigger('mailChanged');
     };
 
     /**
-     * function that makes request to get concrete mail
-     * @param href - href of mail
+     * function that makes request to log out user
      */
-    getMail = async (href: string) => {
-        const mailId = href.split('/').pop();
-        if (!this._storage.get(this._storeNames.mail).get(mailId)) {
-            Connector.makeGetRequest(config.api.getMail + mailId)
-                .then(([status, body]) => {
-                    if (status === responseStatuses.OK) {
-                        const mailData: MailData = body.message;
-                        mailData.created_at = mailData.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
-                        mailData.from_user_id.avatar =
-                            `${config.basePath}/${config.api.avatar}?email=` +
-                            `${body.message.from_user_id.email}`;
+    async deleteMailRequest(id: string) {
+        return Connector.makeDeleteRequest(config.api.deleteMail + id);
+    }
 
-                        this._storage.get(this._storeNames.mail).set(mailId, mailData);
-
-                        if (this._storage.get(this._storeNames.currentMail) === mailId) {
-                            microEvents.trigger('mailChanged');
-                        }
+    deleteMail = async () => {
+        if (this.getSelectedLetters().find((letterId) =>
+            letterId === this.getCurrentContextMail().message_id)) {
+            const len = this.getSelectedLetters().length;
+            let i = 0;
+            this.getSelectedLetters().forEach((id) => {
+                Connector.makeDeleteRequest(config.api.deleteMail + id).then(() => {
+                    i++;
+                    if (i === len) {
+                        this.deleteDone();
                     }
                 });
+            });
+        } else {
+            Connector.makeDeleteRequest(config.api.deleteMail +
+                this.getCurrentContextMail().message_id.toString()).then(() => {
+                this.deleteDone();
+            });
+        }
+    };
 
+    deleteDone = () => {
+        this.clearSelectedLetter();
+        this.getLetters(this._storage.get(this._storeNames.currentLetters));
+        microEvents.trigger('responseFromDelete');
+        const mailHref = '/' +
+            this._storage.get(this._storeNames.shownMail);
+        console.log(mailHref);
+        this.getLetters(
+            this._storage.get(this._storeNames.currentLetters));
+        if (mailHref !== '/undefined') {
+            this.showMail(mailHref);
+        }
+    }
+
+    downloadMail = async (mailId: string) => {
+        Connector.makeGetRequest(config.api.getMail + mailId)
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
+                    const mailData: MailData = body.message;
+                    mailData.created_at = mailData.created_at.substring(0, 10)
+                        .replace('-', '.').replace('-', '.');
+                    mailData.from_user_id.avatar =
+                        `${config.basePath}/${config.api.avatar}?email=` +
+                        `${body.message.from_user_id.email}`;
+
+                    this.getMailArray().set(mailId, mailData);
+                    console.log('mailDownloaded');
+
+                    if (this._storage.get(this._storeNames.shownMail) === mailId) {
+                        console.log('triggering from download');
+                        microEvents.trigger('mailChanged');
+                    }
+                }
+            });
+    };
+
+    /**
+     * function that makes request to show concrete mail
+     * @param href - href of mail
+     */
+    showMail = async (href: string) => {
+        const mailId = href.split('/').pop();
+        if (!this._storage.get(this._storeNames.mail).get(mailId)) {
+            await this.downloadMail(mailId!);
             this._storage.get(this._storeNames.mail).set(mailId, {});
         }
-        this._storage.set(this._storeNames.currentMail, mailId);
+        this._storage.set(this._storeNames.shownMail, mailId);
         microEvents.trigger('mailChanged');
     };
 
     /**
-     * function that makes request to get menu
+     * function that makes request to get mail for context
+     * @param href - href of mail
      */
-    getMenu = async () => {
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
-        const [status, response] = await responsePromise;
-        if (status === responseStatuses.OK) {
-            this._storage.set(this._storeNames.menu, response.folders);
-            microEvents.trigger('menuChanged');
+    getCtxMail = async (href: string) => {
+        const mailId = href.split('/').pop();
+        if (!this.getMailArray().get(mailId)) {
+            await this.downloadMail(mailId!);
+            this.getMailArray().set(mailId, {});
         }
+        this._storage.set(this._storeNames.contextMail, mailId);
+    };
+
+    clearCtxMail = async () => {
+        this._storage.set(this._storeNames.contextMail, undefined);
+        microEvents.trigger('mailChanged');
     };
 
     /**
      * function that makes requests for all the components of mailbox
      */
     getMailboxPage = async (obj: stateObject) => {
-        this.getMenu().then(() => {
+        reducerFolder.getMenu().then(() => {
             this.getLetters(obj.path).then(() => {
                 if (obj.props) {
-                    this.getMail(obj.props);
+                    this.showMail(obj.props);
                 }
                 reducerUser.getProfile();
                 microEvents.trigger('renderMailboxPage');
@@ -133,6 +192,13 @@ class LettersStore extends BaseStore {
      */
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
+
+        if(obj.path == '/profile'){
+            this._storage.set(this._storeNames.accountName, 'Личные данные');
+        }else if(obj.path == '/security'){
+            this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
+        }
+
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
         microEvents.trigger('renderAccountPage');
     };
@@ -141,6 +207,7 @@ class LettersStore extends BaseStore {
      * function that makes requests for all the components of profile
      */
     getProfilePage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Личные данные');
         microEvents.trigger('renderProfilePage');
     };
 
@@ -148,6 +215,7 @@ class LettersStore extends BaseStore {
      * function that makes requests for all the components of security
      */
     getSecurityPage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
         microEvents.trigger('renderSecurityPage');
     };
 
@@ -173,13 +241,81 @@ class LettersStore extends BaseStore {
         }
     };
 
+    addSelectedLetter = (id: number) => {
+        if (!this.getSelectedLetters().find((letter) => letter === id)) {
+            this.getSelectedLetters().push(id);
+        }
+    };
+
+    deleteSelectedLetter = (id: number) => {
+        if (this.getSelectedLetters().find((letter) => letter === id)) {
+            this.getSelectedLetters()
+                .splice(this.getSelectedLetters().indexOf(id), 1);
+        }
+    };
+
+    clearSelectedLetter = () => {
+        this.getSelectedLetters().splice(0, this.getSelectedLetters().length);
+    };
+
     /**
      * function that gets current mail from this store
      * @returns current mail
      */
     getCurrentMail() {
         return this._storage.get(this._storeNames.mail)
-            .get(this._storage.get(this._storeNames.currentMail));
+            .get(this._storage.get(this._storeNames.shownMail));
+    }
+
+    getCurrentLettersName() {
+        return this._storage.get(this._storeNames.currentLetters);
+    }
+
+    getCurrentAccountsName() {
+        return this._storage.get(this._storeNames.accountName);
+    }
+
+    /**
+     * function that gets current mail from this store
+     * @returns []Object array of current lettters
+     */
+    getCurrentLettersArray() {
+        return this._storage.get(this._storeNames.letters)
+            .get(this._storage.get(this._storeNames.currentLetters)) as LetterFrameData[];
+    }
+
+    getCurrentMailPath() {
+        return this._storage.get(this._storeNames.currentLetters) + '/' +
+            this._storage.get(this._storeNames.shownMail);
+    }
+
+    getCurrentContextMail() {
+        return this._storage.get(this._storeNames.mail)
+            .get(this._storage.get(this._storeNames.contextMail)) as MailData;
+    }
+
+    getMailArray() {
+        return this._storage.get(this._storeNames.mail);
+    }
+
+    getSelectedLetters() {
+        return this._storage.get(this._storeNames.selectedLetters) as number[];
+    }
+
+    getLetterByFolderAndId(folder: string, id: number) {
+        console.log(folder);
+        console.log(id);
+
+        return (this._storage.get(this._storeNames.letters)
+            .get('/' + folder) as MailData[]).find((letterFrame) => {
+            if (letterFrame.message_id === id) {
+                return letterFrame;
+            }
+        });
+    }
+
+    getCurrentShownMailId() {
+        return this._storage.get(this._storeNames.shownMail);
     }
 }
 

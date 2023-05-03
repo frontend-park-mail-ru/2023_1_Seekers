@@ -1,0 +1,21 @@
+<div class="rename-folder">
+    <div class="rename-folder__area rename-folder__area_size rename-folder__area_color">
+        <div class="rename-folder__header rename-folder__header_size">
+            <p class="font-normal-0 new-folder__text_color">Переименовать папку</p>
+            {{{ this.closeButton }}}
+        </div>
+            <div class="rename-folder__input-form rename-folder__input-form__indent">
+            <input class="rename-folder__input-form__size rename-folder__input-form__color" type="{{this.input.type}}" name="{{this.input.name}}"
+                   maxlength="{{this.input.maxlenght}}" id="{{this.input.name}}" required/>
+            <span class="rename-folder__input-form__span rename-folder__input-form__span__indent rename-folder__input-form__span__size rename-folder__input-form__span__animation rename-folder__input-form__span__color">{{this.input.title}}</span>
+            </div>
+
+        <div class="rename-folder__bottom-actions rename-folder__bottom-actions_size rename-folder__bottom-actions_color">
+            {{#each this.actionButtons}}
+                <div class="rename-folder__bottom-button">
+                    {{{this}}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

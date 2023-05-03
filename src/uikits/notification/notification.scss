@@ -86,3 +86,15 @@
 .notification-warning {
     background-color: var(--warning-input);
 }
+
+@media only screen and (max-width: 991px) {
+    .notification-area {
+        right: 0;
+        top: 5%;
+
+        &__notification {
+            max-width: unset;
+            width: 100vw;
+        }
+    }
+}
