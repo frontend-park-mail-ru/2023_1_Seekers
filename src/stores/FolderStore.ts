@@ -83,7 +83,8 @@ class FolderStore extends BaseStore {
         const responsePromise = Connector.makePutRequest({
             url: config.api.moveToFolder +
                 reducerLetters.getCurrentContextMail().message_id.toString() +
-                config.api.moveToFolder_post + folder,
+                config.api.moveToFolder_to + folder +
+                config.api.moveToFolder_from + reducerLetters.getCurrentLettersName().split('/')[1],
             data: {},
         });
         const [status, response] = await responsePromise;

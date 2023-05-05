@@ -175,7 +175,6 @@ class Login extends View {
         case responseStatuses.OK:
             this.unregisterEvents();
             this.purge();
-            console.log('dispatching redirect to inbox');
             dispatcher.dispatch(actionRedirect( '/inbox', true, false));
             break;
         case 401:

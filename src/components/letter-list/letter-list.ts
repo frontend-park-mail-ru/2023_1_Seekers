@@ -87,7 +87,6 @@ export class LetterList extends Component {
             return;
         }
         const me = e as MouseEvent;
-        console.log(me.clientX, me.clientY);
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
