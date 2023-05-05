@@ -84,7 +84,6 @@ export class Connector {
                 headers,
                 body: data,
             };
-            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
             if (csrfToken !== null) {
@@ -104,7 +103,6 @@ export class Connector {
                 headers,
                 body,
             };
-            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         }
     };
@@ -124,7 +122,6 @@ export class Connector {
 
         let headers;
         const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        console.log(csrfToken)
         if (csrfToken !== null) {
             headers = {
                 ...config.headers,
@@ -172,7 +169,6 @@ export class Connector {
             credentials: 'include',
             headers,
         };
-        console.log(`${config.basePath}/${url}`);
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 }

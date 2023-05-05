@@ -86,8 +86,6 @@ class NewMailStore extends BaseStore {
         const mail = reducerLetters.getLetterByFolderAndId('drafts', this._storage.get(this._storeNames.draftId))!;
         let recipientsStr = '';
 
-        console.log(mail);
-
         mail.recipients?.forEach((recipient) => {
             recipientsStr = recipientsStr + recipient.email + ' ';
         });
@@ -111,10 +109,8 @@ class NewMailStore extends BaseStore {
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
-            console.log('sendMail');
 
             if (this.isDraft()) {
-                console.log('isDraft');
                 reducerLetters.deleteMailRequest(this.getDraftId()).then(() =>
                     reducerLetters.getLetters(reducerLetters.getCurrentLettersName()));
             }

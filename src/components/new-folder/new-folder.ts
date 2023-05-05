@@ -52,7 +52,6 @@ export class NewFolder extends Component {
      */
     bottomButtonsClicked = async (e: Event) => {
         e.preventDefault();
-        console.log('bottom clicked');
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
@@ -72,17 +71,12 @@ export class NewFolder extends Component {
      * function that dispatches action to send mail
      */
     createFolder = async () => {
-        console.log('create folder');
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
                 config.buttons.newFolderButtons.footerButtons.send.href;
         });
-        console.log(sendButton);
         sendButton?.classList.add('contrast-button_disabled');
         sendButton?.classList.add('skeleton__block');
-
-        console.log(this.state.folderInput.value!);
-        console.log(this.state.folderInput);
 
         await dispatcher.dispatch(actionSendFolderToCreate(this.state.folderInput.value!));
     };

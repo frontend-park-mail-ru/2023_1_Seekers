@@ -114,7 +114,6 @@ class LettersStore extends BaseStore {
         microEvents.trigger('responseFromDelete');
         const mailHref = '/' +
             this._storage.get(this._storeNames.shownMail);
-        console.log(mailHref);
         this.getLetters(
             this._storage.get(this._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
@@ -134,10 +133,10 @@ class LettersStore extends BaseStore {
                         `${body.message.from_user_id.email}`;
 
                     this.getMailArray().set(mailId, mailData);
-                    console.log('mailDownloaded');
+
 
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
-                        console.log('triggering from download');
+
                         microEvents.trigger('mailChanged');
                     }
                 }
@@ -309,8 +308,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetterByFolderAndId(folder: string, id: number) {
-        console.log(folder);
-        console.log(id);
 
         return (this._storage.get(this._storeNames.letters)
             .get('/' + folder) as MailData[]).find((letterFrame) => {

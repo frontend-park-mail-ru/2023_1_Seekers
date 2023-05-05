@@ -61,7 +61,6 @@ export class AdvancedContextMenu extends Component {
     getResponse = () => {
         const answerStatus = reducerFolder._storage.get(reducerFolder._storeNames.answerStatus);
         const answerBody = reducerFolder._storage.get(reducerFolder._storeNames.answerBody);
-        console.log('123123123123123123')
         switch (answerStatus) {
         case responseStatuses.OK:
             showNotification('Письмо перенесено успешно!');

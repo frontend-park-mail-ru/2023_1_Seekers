@@ -60,7 +60,6 @@ class FolderStore extends BaseStore {
             });
 
             this._storage.set(this._storeNames.menu, response.folders);
-            console.log(this._storage.get(this._storeNames.menu));
             microEvents.trigger('menuChanged');
         }
     };
@@ -92,7 +91,6 @@ class FolderStore extends BaseStore {
         this._storage.set(this._storeNames.answerStatus, status);
         microEvents.trigger('responseFromTransmitFolder');
         const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
-        console.log(mailHref);
         reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
             reducerLetters.showMail(mailHref);
@@ -130,14 +128,12 @@ class FolderStore extends BaseStore {
                     }
 
                     reducerLetters.clearSelectedLetter();
-                    console.log(answer);
-                    console.log(status);
                     this._storage.set(this._storeNames.answerBody, answer);
                     this._storage.set(this._storeNames.answerStatus, status);
                     microEvents.trigger('responseFromTransmitFolder');
                     const mailHref = '/' +
                         reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
-                    console.log(mailHref);
+
                     reducerLetters.getLetters(
                         reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
                     if (mailHref !== '/undefined') {

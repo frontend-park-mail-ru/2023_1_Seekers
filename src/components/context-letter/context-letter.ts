@@ -156,7 +156,6 @@ export class ContextLetter extends Component {
             ctxMenu.remove();
         });
 
-        console.log(x, y);
         const mailActionButtons: object[] = [];
         Object.values(config.buttons.contextLetterButtons.mailActions).forEach((button) => {
             mailActionButtons.push(MenuButton.renderTemplate(button));

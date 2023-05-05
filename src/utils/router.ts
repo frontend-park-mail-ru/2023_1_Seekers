@@ -142,7 +142,7 @@ class Router {
         const props = stateObject.props;
 
         this.currentPage = this.views.get(stateObject.path) || this.privateViews.get(stateObject.path);
-        console.log(this.currentPage);
+
         if (!this.currentPage && RegExp('^(\\/\\d+)').test(stateObject.path)) {
             actionPath = '/number';
             this.currentPage = this.privateViews.get(actionPath);
@@ -193,9 +193,7 @@ class Router {
      * between pages
      */
     refresh(redirect = false) {
-        console.log(window.location.pathname);
         const href = this.redirectHandle(window.location.pathname);
-        console.log(href);
         const matchedHref = this.matchHref(href);
         if (this.views.get(matchedHref[0]) ||
             this.privateViews.get(matchedHref[0]) ||
@@ -215,7 +213,6 @@ class Router {
     start() {
         document.addEventListener('click', this.onClickEvent);
         window.addEventListener('popstate', this.onPopStateEvent);
-        console.log('start');
         this.currentPage = loaderPage;
         this.currentPage.render();
         this.refresh();
