@@ -116,7 +116,8 @@ class FolderStore extends BaseStore {
         reducerLetters.getSelectedLetters().forEach((id) => {
             Connector.makePutRequest({
                 url: config.api.moveToFolder + id.toString() +
-                    config.api.moveToFolder_post + folder,
+                    config.api.moveToFolder_to + folder +
+                    config.api.moveToFolder_from + reducerLetters.getCurrentLettersName().split('/')[1],
                 data: {},
             }).then(([status, answer]) => {
                 i++;

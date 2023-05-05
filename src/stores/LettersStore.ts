@@ -80,7 +80,8 @@ class LettersStore extends BaseStore {
      * function that makes request to log out user
      */
     async deleteMailRequest(id: string) {
-        return Connector.makeDeleteRequest(config.api.deleteMail + id);
+        return Connector.makeDeleteRequest(config.api.deleteMail + id +
+            config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1]);
     }
 
     deleteMail = async () => {
