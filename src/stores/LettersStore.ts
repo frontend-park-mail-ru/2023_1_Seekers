@@ -101,7 +101,8 @@ class LettersStore extends BaseStore {
             });
         } else {
             Connector.makeDeleteRequest(config.api.deleteMail +
-                this.getCurrentContextMail().message_id.toString()).then(() => {
+                this.getCurrentContextMail().message_id.toString() +
+                config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1]).then(() => {
                 this.deleteDone();
             });
         }
