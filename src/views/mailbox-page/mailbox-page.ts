@@ -136,7 +136,6 @@ export class MailBox extends View {
      * method that triggers whem page is closing
      */
     closePage = () => {
-        console.log('close page');
         dispatcher.dispatch(actionRedirect('/login', false, false));
     };
 

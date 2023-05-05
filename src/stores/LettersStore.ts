@@ -89,12 +89,14 @@ class LettersStore extends BaseStore {
             const len = this.getSelectedLetters().length;
             let i = 0;
             this.getSelectedLetters().forEach((id) => {
-                Connector.makeDeleteRequest(config.api.deleteMail + id).then(() => {
-                    i++;
-                    if (i === len) {
-                        this.deleteDone();
-                    }
-                });
+                Connector.makeDeleteRequest(config.api.deleteMail + id +
+                    config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1])
+                    .then(() => {
+                        i++;
+                        if (i === len) {
+                            this.deleteDone();
+                        }
+                    });
             });
         } else {
             Connector.makeDeleteRequest(config.api.deleteMail +
@@ -116,7 +118,7 @@ class LettersStore extends BaseStore {
         if (mailHref !== '/undefined') {
             this.showMail(mailHref);
         }
-    }
+    };
 
     downloadMail = async (mailId: string) => {
         Connector.makeGetRequest(config.api.getMail + mailId)
@@ -193,9 +195,9 @@ class LettersStore extends BaseStore {
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
 
-        if(obj.path == '/profile'){
+        if (obj.path == '/profile') {
             this._storage.set(this._storeNames.accountName, 'Личные данные');
-        }else if(obj.path == '/security'){
+        } else if (obj.path == '/security') {
             this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
         }
 
@@ -223,7 +225,8 @@ class LettersStore extends BaseStore {
      * function that makes requests for changing letter state
      */
     changeLetterStateToRead = async (letterId: string) => {
-        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read', {});
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read' +
+            '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
@@ -234,7 +237,8 @@ class LettersStore extends BaseStore {
      * function that makes requests for changing letter state
      */
     changeLetterStateToUnread = async (letterId: string) => {
-        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread' +
+            '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');

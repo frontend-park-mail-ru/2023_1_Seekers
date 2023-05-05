@@ -89,7 +89,6 @@ export class Mail extends Component {
      * unregister listeners for current object
      */
     unregisterEventListener() {
-        console.log('unregister events');
         microEvents.unbind('mailChanged', this.rerenderMail);
         this.state.actionButtons.forEach((button) => {
             button.removeEventListener('click', this.letterAction);
