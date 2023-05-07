@@ -13,6 +13,7 @@ class UserStore extends BaseStore {
         password: 'password',
         status: 'status',
         body: 'body',
+        localRecipients: 'localRecipients',
     };
 
     /**
@@ -23,6 +24,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.name, undefined);
         this._storage.set(this._storeNames.password, undefined);
         this._storage.set(this._storeNames.profile, undefined);
+        this._storage.set(this._storeNames.localRecipients, new Map());
     }
 
     /**
@@ -157,6 +159,13 @@ class UserStore extends BaseStore {
      */
     getLoginPage = async () => {
         microEvents.trigger('renderLogin');
+    };
+
+    /**
+     * function that get local recipients
+     */
+    getLocalRecipients = async () => {
+        return this._storage.get(this._storeNames.localRecipients);
     };
 }
 

@@ -4,6 +4,8 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
+import {RecipientForm} from "@uikits/recipient-form/recipient-form";
+import {IconButton} from "@uikits/icon-button/icon-button";
 
 /**
  * class that implements all possible actions with letters data
@@ -18,6 +20,7 @@ class LettersStore extends BaseStore {
         currentAccountPage: 'currentAccountPage',
         selectedLetters: 'selectedLetters',
         accountName: 'accountName',
+        emailToPaste: 'emailToPaste',
     };
 
     /**
@@ -74,6 +77,58 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.shownMail, undefined);
         microEvents.trigger('letterListChanged');
         microEvents.trigger('mailChanged');
+    };
+
+    /**
+     * function that makes request to get all the letters from folder
+     */
+    getLettersAfterSearch = async () => {
+        console.log('getLettersAfterSearch')
+        // this.clearSelectedLetter();
+        // Connector.makeGetRequest(config.api.search )
+        //     .then(([status, body]) => {
+        //         if (status === responseStatuses.OK) {
+        //             body.messages?.forEach((message: any) => {
+        //                 const time = message.created_at.substring(0, 10)
+        //                     .replace('-', '.').replace('-', '.');
+        //                 const letterFrame: LetterFrameData = {
+        //                     message_id: message.message_id,
+        //                     seen: message.seen,
+        //                     from_user_email: message.from_user_id.email,
+        //                     title: message.title,
+        //                     text: message.text,
+        //                     created_at: time,
+        //                     href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
+        //                     avatar: `${config.basePath}/${config.api.avatar}` +
+        //                         `?email=${message.from_user_id.email}`,
+        //                     recipients: message.recipients,
+        //                 };
+        //
+        //                 // this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
+        //             });
+        //
+        //             // if (folderName === this._storage.get(this._storeNames.currentLetters)) {
+        //             //     microEvents.trigger('letterListChanged');
+        //             //     microEvents.trigger('mailChanged');
+        //             // }
+        //         } else if (status === responseStatuses.NotFound) {
+        //             microEvents.trigger('folderNotFound');
+        //         }
+        //     });
+        // // this._storage.set(this._storeNames.currentLetters, folderName);
+        // this._storage.set(this._storeNames.shownMail, undefined);
+        // microEvents.trigger('letterListChanged');
+        // microEvents.trigger('mailChanged');
+    };
+
+    pasteEmail = async (email: string) => {
+        this._storage.set(this._storeNames.emailToPaste, email);
+        microEvents.trigger('pasteEmailInRecipient');
+    };
+
+    showPasteEmail = async (email: string) => {
+        this._storage.set(this._storeNames.emailToPaste, email);
+        microEvents.trigger('showPasteEmailInRecipient');
     };
 
     /**
@@ -170,7 +225,7 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.contextMail, mailId);
     };
 
-    clearCtxMail = async () => {
+    clearCtxMail = async () => { // почему не используется??
         this._storage.set(this._storeNames.contextMail, undefined);
         microEvents.trigger('mailChanged');
     };
@@ -319,6 +374,10 @@ class LettersStore extends BaseStore {
 
     getCurrentShownMailId() {
         return this._storage.get(this._storeNames.shownMail);
+    }
+
+    getEmailToPaste() {
+        return this._storage.get(this._storeNames.emailToPaste);
     }
 }
 

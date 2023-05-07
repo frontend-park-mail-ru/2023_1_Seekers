@@ -20,6 +20,11 @@ type MailToSend = {
     'text': string,
 }
 
+type SearchMessage = {
+    recipients?: string[],
+    'text': string,
+}
+
 type LetterFrameData = {
     message_id: number,
     seen: bool,

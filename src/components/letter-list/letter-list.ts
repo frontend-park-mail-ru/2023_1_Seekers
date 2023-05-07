@@ -8,7 +8,7 @@ import {microEvents} from '@utils/microevents';
 import {
     actionAddSelectedLetter,
     actionChangeLetterStateToRead,
-    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteMail, actionDeleteSelectedLetter,
+    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteMail, actionDeleteSelectedLetter, actionSearch,
     actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
@@ -17,6 +17,7 @@ import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
 import {config} from '@config/config';
 import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
 import {ContextDraft} from '@components/context-draft/context-draft';
+import {Form} from "@uikits/form/form";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -36,6 +37,7 @@ export interface LetterList {
         filterButton: Element;
 
         selectedLettersCount: number;
+        search: HTMLInputElement;
     },
 }
 
@@ -59,6 +61,7 @@ export class LetterList extends Component {
             unchooseAllButton: document.createElement('div'),
             filterButton: document.createElement('div'),
             selectedLettersCount: 0,
+            search: document.createElement('input') as HTMLInputElement,
         };
 
         this.rerender = this.rerender.bind(this);
@@ -96,6 +99,27 @@ export class LetterList extends Component {
                 ctxMenu.render(me.clientX, me.clientY);
                 e.stopPropagation();
             }
+        }
+    };
+
+    getMessageInputs() {
+        return {
+            recipients: {}, // если будет поиск по пользователям - нужно сделать
+            text: this.state.search.value,
+        } as SearchMessage;
+    }
+
+    onIconSearch = async (e: Event) => {
+        e.preventDefault();
+        const message = this.getMessageInputs();
+        await dispatcher.dispatch(actionSearch(message));
+    }
+
+    onSearch = async (e: KeyboardEvent) => {
+        if(e.key === 'Enter'){
+            e.preventDefault();
+            const message = this.getMessageInputs();
+            await dispatcher.dispatch(actionSearch(message));
         }
     };
 
@@ -338,6 +362,7 @@ export class LetterList extends Component {
 
         this.state.filterButton = this.state.element
             .getElementsByClassName('letter-list-header__b-area__sort')[0]!;
+        this.state.search = document.getElementById('search')! as HTMLInputElement;
         this.changeLetterToActive();
 
         this.registerEventListener();
@@ -412,6 +437,10 @@ export class LetterList extends Component {
 
         microEvents.bind('letterListChanged', this.rerender);
         microEvents.bind('folderNotFound', this.renderNotFound);
+
+        this.state.search.addEventListener('keypress', this.onSearch);
+        document.getElementsByClassName('search-form__icon')[0]!
+            .addEventListener('click', this.onIconSearch);
         // microEvents.bind('mailChanged', this.changeLetterToActive);
     }
 
@@ -454,6 +483,9 @@ export class LetterList extends Component {
             this.unregisterDefaultListeners();
             break;
         }
+        this.state.search.removeEventListener('keypress', this.onSearch);
+        document.getElementsByClassName('search-form__icon')[0]!
+            .removeEventListener('click', this.onIconSearch);
     }
 
     unregisterDefaultListeners() {

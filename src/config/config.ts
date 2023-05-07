@@ -51,7 +51,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'https://mailbx.ru',
+    basePath: 'http://127.0.0.1:8001',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -87,6 +87,7 @@ export const config = {
         deleteFolder: `${prefixApi}folder`,
         renameFolder: `${prefixApi}folder`,
         renameFolder_post: '/edit',
+        search: `${prefixApi}/search?q=`,
     },
 
     navbar: {
@@ -332,6 +333,74 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 img: `<path d="m6 18 12-12m-12 0 12 12" 
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             }
+        },
+
+        DELETETHISBUTTONS: {
+            elem1: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Александр',
+                lastName: 'Вяткин',
+                },
+
+            elem2: {
+                avatar: '',
+                email: 'test@maasdasdasilbox.ru',
+                firstName: 'Олег',
+                lastName: 'Котков',
+            },
+            elem3: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Максим',
+                lastName: 'Власов',
+            },
+
+            elem4: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Валерий',
+                lastName: 'Винокуршин',
+            },
+            elem5: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Александр',
+                lastName: 'Цветков',
+            },
+
+            elem6: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Михаил',
+                lastName: 'Волынов',
+            },
+            elem7: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Александр',
+                lastName: 'Сарафанников',
+            },
+
+            elem8: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Василий',
+                lastName: 'Романов',
+            },
+            elem9: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Дмитрий',
+                lastName: 'Дорофеев',
+            },
+
+            elem10: {
+                avatar: '',
+                email: 'test@mailbox.ru',
+                firstName: 'Антон',
+                lastName: 'Сулаев',
+            },
         },
 
         renameFolderButtons: {

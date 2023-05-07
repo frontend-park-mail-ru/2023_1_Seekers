@@ -1,36 +1,56 @@
 <div class="letterList letterList_size letterList_order letterList_color">
-    {{#if this.notFound}}
-        <div class="letterList__not-chosen">
-            <svg class="letterList__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="m3 7v10c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
-                2-2v-8c0-1.10457-.8954-2-2-2h-6l-2-2h-6c-1.10457 0-2 .89543-2 2z"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <div class="letterList__top__area letterList__top__area_color">
+        {{{this.letterListHeader}}}
+        <div class="search-form search-form__indent">
+            <input class="search-form__size search-form__color" type="text" name="search"
+                   maxlength="60" id="search" autocomplete="off"/>
+            <svg class="search-form__icon search-form__icon__color search-form__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#7c7c7d" stroke-linecap="round" stroke-linejoin="round"
+                   stroke-width="2"><path d="m10.3246 4.31731c.4264-1.75641 2.9244-1.75641 3.3508
+               0 .2754 1.13462 1.5753 1.67307 2.5724 1.06554 1.5435-.94046 3.3098.82585
+               2.3694 2.36933-.6076.99707-.0691 2.29702 1.0655 2.57242 1.7564.4264 1.7564 2.9244
+               0 3.3508-1.1346.2754-1.6731 1.5753-1.0655 2.5724.9404 1.5435-.8259 3.3098-2.3694
+               2.3694-.9971-.6076-2.297-.0691-2.5724 1.0655-.4264 1.7564-2.9244 1.7564-3.3508
+               0-.2754-1.1346-1.57534-1.6731-2.57241-1.0655-1.54349.9404-3.3098-.8259-2.36934-2.3694.60753-.9971.06908-2.297-1.06554-2.5724-1.75641-.4264-1.75641-2.9244
+               0-3.3508 1.13462-.2754 1.67306-1.57534 1.06554-2.57242-.94046-1.54348.82585-3.30979 2.36934-2.36933.99707.60752 2.29701.06908 2.57241-1.06554z"/>
+                    <path  fill="#7c7c7d" d="m15 12c0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3 3 1.3431 3 3z"/>
+                </g>
             </svg>
-            <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка не найдена</p>
         </div>
-    {{else}}
-
-        {{#if this.letterFrames includeZero=false}}
-            {{{this.letterListHeader}}}
-            {{#each letterFrames}}
-                {{{this}}}
-                {{#unless @last}}
-                    <div class="horizontal-line"></div>
-                {{/unless}}
-
-            {{/each}}
-        {{else}}
+    </div>
+    <div class="letterList__scrollable letterList__scrollable_size letterList__scrollable_color">
+        {{#if this.notFound}}
             <div class="letterList__not-chosen">
                 <svg class="letterList__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="m3 7v10c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
                 2-2v-8c0-1.10457-.8954-2-2-2h-6l-2-2h-6c-1.10457 0-2 .89543-2 2z"
                           stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                 </svg>
-
-                <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка пустая</p>
+                <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка не найдена</p>
             </div>
+        {{else}}
+
+            {{#if this.letterFrames includeZero=false}}
+                {{#each letterFrames}}
+                    {{{this}}}
+                    {{#unless @last}}
+                        <div class="horizontal-line"></div>
+                    {{/unless}}
+
+                {{/each}}
+            {{else}}
+                <div class="letterList__not-chosen">
+                    <svg class="letterList__icon" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m3 7v10c0 1.1046.89543 2 2 2h14c1.1046 0 2-.8954
+                2-2v-8c0-1.10457-.8954-2-2-2h-6l-2-2h-6c-1.10457 0-2 .89543-2 2z"
+                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+
+                    <p class="font-normal-0" style="color: var(--menu-icons-default-color)">Папка пустая</p>
+                </div>
+            {{/if}}
         {{/if}}
-    {{/if}}
-
-
+    </div>
 </div>

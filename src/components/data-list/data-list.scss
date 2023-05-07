@@ -1,0 +1,21 @@
+.data-list{
+  left: 160px;
+  top: 60px;
+  position: absolute;
+  z-index: 100;
+
+  &__area {
+    max-height: 250px;
+    min-width: 200px;
+    max-width: 250px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--menu-buttons-default-fill-color);
+  }
+  //width: 100%; - к профиль баттон
+}
