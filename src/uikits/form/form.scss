@@ -36,7 +36,7 @@
         }
 
         &:focus ~ span, &:valid ~ span {
-            transform: translateX(-10px) translateY(-4px);
+            transform: translateX(10px) translateY(-4px);
             font-size: 0.70em;
             padding: 0 10px;
             background: #2E2E2E;
@@ -52,7 +52,6 @@
         font-size: 12px;
         letter-spacing: 0.03em;
         color: var(--text-main-color);
-        right: 0;
 
 
         &__indent {
@@ -70,6 +69,21 @@
         &__color {
             color: var(--helpers-text-color) !important;
 
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        right: 10px;
+        top: 18px;
+
+        &__color {
+            stroke: var(--menu-icons-default-color);
+        }
+
+        &__size {
+            width: 22px;
+            height: 18px;
         }
     }
 }

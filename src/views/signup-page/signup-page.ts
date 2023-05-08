@@ -95,6 +95,19 @@ class Signup extends View {
         await dispatcher.dispatch(actionToLogin());
     };
 
+    showPassword = () => {
+        const password_input = document.getElementById('password') as HTMLInputElement;
+
+        if (password_input.type === 'password')
+        {
+            password_input.type = 'text';
+        }
+        else if(password_input.type === 'text')
+        {
+            password_input.type = 'password';
+        }
+    }
+
     /**
      * method register events button submit/input focus/redirect link
      */
@@ -106,6 +119,7 @@ class Signup extends View {
 
         const redirect = document.getElementById('redirect-link');
         redirect?.addEventListener('click', this.onRedirectHandler);
+        document.getElementById('passwordEye')?.addEventListener('click', this.showPassword);
     };
 
     /**
@@ -118,6 +132,8 @@ class Signup extends View {
 
         const redirect = document.getElementById('redirect-link');
         redirect?.removeEventListener('click', this.onRedirectHandler);
+
+        document.getElementById('passwordEye')?.removeEventListener('click', this.showPassword);
     };
 
     /**

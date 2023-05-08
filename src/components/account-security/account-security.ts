@@ -68,6 +68,7 @@ export class AccountSecurity extends Component {
         }
     };
 
+
     /**
      * method register events button submit/input focus/redirect link
      */
