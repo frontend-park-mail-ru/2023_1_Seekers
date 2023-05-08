@@ -7,6 +7,7 @@ import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
 import {actionLogout, actionGetAccountPage,
     actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
+import {showNotification} from "@components/notification/notification";
 
 export interface AccountSidebar {
     state: {
@@ -78,6 +79,19 @@ export class AccountSidebar extends Component {
         }
     };
 
+    saveOnEmailClick = (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
+                        showNotification('Скопировано!');
+                    }
+                );
+            }
+        }
+    }
+
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);
 
@@ -86,6 +100,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.addEventListener('transitionend', this.waitSidebarTransition);
+        document.getElementById('account-sidebar__desc')?.addEventListener('click', this.saveOnEmailClick);
     };
 
     /**
@@ -99,6 +114,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.removeEventListener('transitionend', this.waitSidebarTransition);
+        document.getElementById('account-sidebar__desc')?.removeEventListener('click', this.saveOnEmailClick);
     };
 
     /**

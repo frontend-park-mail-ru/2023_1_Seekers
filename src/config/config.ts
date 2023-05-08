@@ -815,7 +815,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             folderInput: {
                 name: 'new-folder',
                 type: 'text',
-                maxlenght: '10',
+                maxlenght: '32',
                 title: 'Название папки',
             },
         },

@@ -6,22 +6,21 @@ import {ROOT} from '@config/config';
  * @param text - text of the notification
  * @param duration - duration of
  */
-export function showNotification(text = 'Упс, что-то пошло не так...', duration = 4000) {
+export function showNotification(text = 'Упс, что-то пошло не так...', duration = 5000) {
+    ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
 
-    if(window.matchMedia("only screen and (max-width: 991px)").matches)
-    {
-        //document.getElementById('letter-list-header')!.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
-        ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
+    const deleteOnClick = (e: Event) => {
+        const content = document.getElementById('error-label');
+        content?.classList.add('notification-area__deletion');
+        setTimeout(() => content?.remove(), 1000);
+        content?.removeEventListener('click', deleteOnClick)
     }
-    else
-    {
-        ROOT.insertAdjacentHTML('afterbegin', Notification.renderTemplate({notification: text}));
-    }
-
 
     const content = document.getElementById('error-label');
+    content?.addEventListener('click', deleteOnClick)
     setTimeout(() => {
         content!.classList.add('notification-area__deletion');
-        setTimeout(() =>content?.remove(), 1000 );
+        setTimeout(() => content?.remove(), 1000);
+        content?.removeEventListener('click', deleteOnClick)
     }, duration);
 }

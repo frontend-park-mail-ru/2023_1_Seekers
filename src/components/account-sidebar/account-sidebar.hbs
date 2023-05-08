@@ -2,18 +2,23 @@
     <div class="account-sidebar__frame">
         <div class="accounts">
             <div class="account-sidebar__item account-sidebar__avatar__active-user">
-                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" data-section="/profile" aria-label="Сменить аватар">
-                        <img src={{profile.avatar}} class="account-sidebar__avatar-img skeleton__block" alt="">
+                <a class="account-sidebar__avatar account-sidebar__avatar__hover-active" data-section="/profile"
+                   aria-label="Сменить аватар">
+                    <img src={{profile.avatar}} class="account-sidebar__avatar-img skeleton__block" alt="">
                 </a>
                 <div class="account-sidebar__text">
-                    <div class="account-sidebar__title" >
+                    <div class="account-sidebar__title">
                         <div class="account-sidebar__name" aria-label="{{profile.firstName}} {{profile.lastName}}">
                             {{profile.firstName}} {{profile.lastName}}
                         </div>
                     </div>
-                    <div class="account-sidebar__desc" aria-label="{{profile.email}}">
-                        {{profile.email}}
+                    <div class="clickable__email" title="Скопировать" id="account-sidebar__desc"
+                         data-section="{{profile.email}}">
+                        <div class="account-sidebar__desc" aria-label="{{profile.email}}">
+                            {{profile.email}}
+                        </div>
                     </div>
+
                 </div>
             </div>
             <hr class="account-sidebar__hr" id="account-sidebar__hr">

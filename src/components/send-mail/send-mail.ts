@@ -190,7 +190,7 @@ export class SendMail extends Component {
                         this.purge();
                         return;
                     }
-                    dispatcher.dispatch(actionSendDraft(draft));
+                   // dispatcher.dispatch(actionSendDraft(draft));
                     break;
             }
         }
@@ -232,7 +232,9 @@ export class SendMail extends Component {
         if (e.target) {
             if (!(document.getElementById('data-list') === e.target as HTMLElement ||
                 document.getElementById('data-list')?.contains(e.target as HTMLElement))) {
-                this.datalist.purge()
+                this.datalist?.purge()
+                const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement
+                recipientInput.value = '';
             }
         }
     }

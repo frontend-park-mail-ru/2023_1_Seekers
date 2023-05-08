@@ -1,7 +1,8 @@
 :root {
     --primary-background-color: #0a0b0b;
     --secondary-background-color: #202020;
-    --primary-elements-color: #7c7c7d;
+    --primary-elements-color: #ffffff;
+    --primary-elements-color-clicked: #ffffffbb;
     --primary-delimeters-color: #3E3E3E;
     --primary-active-color: #5060EC;
     --primary-text-color: #FFF;
@@ -82,8 +83,6 @@
     --send-mail-background: #2d2d2e;
     --letterlist-selected-color: #2F2F30;
     --input-selected-color: #262626;
-
     --mail-state-unread: #7c7c7d;
-
     --resize-mobile: 1000px;
 }
