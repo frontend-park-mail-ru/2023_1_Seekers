@@ -187,16 +187,17 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.newMailButtons.closeButton.href:
-                const draft = this.getMailInputs();
-
-                if (draft.title === '' &&
-                        draft.recipients.length === 0 &&
-                        draft.text === '') {
-                        this.purge();
-                        return;
-                    }
-                   // dispatcher.dispatch(actionSendDraft(draft));
-                    break;
+                this.purge();
+                [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
+                    [...ctxMenu.children].forEach((child) => {
+                        if (child.classList.contains('profile-data__item')) {
+                            child.removeEventListener('click', this.buttonsClicked);
+                            child.removeEventListener('mouseover', this.mouseOverButton);
+                        }
+                    });
+                    ctxMenu.remove();
+                });
+                return;
             }
         }
     };
