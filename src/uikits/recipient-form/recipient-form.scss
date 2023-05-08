@@ -19,6 +19,39 @@
     justify-content: center;
     align-self: center;
     padding: 0 6px 0 6px;
+    &:focus {
+        outline: 0 solid transparent;
+    }
+  }
+  &__input {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    position: relative;
+
+    flex: 1;
+    overflow: hidden;
+    flex-wrap: wrap;
+
+    &_size {
+      display: flex;
+      flex: 1;
+      gap: 5px;
+      outline: none;
+      width: fit-content;
+      max-width: 100%;
+      padding-left: 5px;
+      min-height: 25px;
+      //width: 80%;
+    }
+
+    &_color {
+      backdrop-filter: blur(30px);
+      border-radius: 7px;
+      //border: 1px solid;
+      //color: var(--secondary-text-color);
+      background: var(--input-default-fill-color);
+    }
   }
 }
 

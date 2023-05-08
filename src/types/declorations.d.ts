@@ -67,4 +67,11 @@ type Folder = {
     img?: string
 }
 
+type Recipient = {
+    firstName: string,
+    lastName: string,
+    email: string,
+    avatar?: string
+}
+
 type CustomPages = LoginPage;

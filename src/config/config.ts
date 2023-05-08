@@ -87,7 +87,9 @@ export const config = {
         deleteFolder: `${prefixApi}folder`,
         renameFolder: `${prefixApi}folder`,
         renameFolder_post: '/edit',
-        search: `${prefixApi}/search?q=`,
+        search: `${prefixApi}messages/search?folder=`,
+        search_post: '&filter=',
+        recipientsSearch: `${prefixApi}recipients/search`,
     },
 
     navbar: {

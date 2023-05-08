@@ -55,11 +55,12 @@ class FolderStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
-            (response.folders as Folder[]).forEach((folder) => {
-                folder.folder_slug = '/' + folder.folder_slug;
-            });
-
-            this._storage.set(this._storeNames.menu, response.folders);
+            if (response.folders) {
+                (response.folders as Folder[])?.forEach((folder) => {
+                    folder.folder_slug = '/' + folder.folder_slug;
+                });
+                this._storage.set(this._storeNames.menu, response.folders);
+            }
             microEvents.trigger('menuChanged');
         }
     };

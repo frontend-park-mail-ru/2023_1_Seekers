@@ -38,6 +38,7 @@ export interface LetterList {
 
         selectedLettersCount: number;
         search: HTMLInputElement;
+        searchString: string;
     },
 }
 
@@ -62,6 +63,7 @@ export class LetterList extends Component {
             filterButton: document.createElement('div'),
             selectedLettersCount: 0,
             search: document.createElement('input') as HTMLInputElement,
+            searchString: '',
         };
 
         this.rerender = this.rerender.bind(this);
@@ -109,6 +111,12 @@ export class LetterList extends Component {
         } as SearchMessage;
     }
 
+    searchDone = () => {
+        this.purge();
+        this.renderLetterFrames(reducerLetters.getSearchedLetters());
+        this.state.search.value = this.state.searchString;
+    };
+
     onIconSearch = async (e: Event) => {
         e.preventDefault();
         const message = this.getMessageInputs();
@@ -116,9 +124,10 @@ export class LetterList extends Component {
     }
 
     onSearch = async (e: KeyboardEvent) => {
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
             e.preventDefault();
             const message = this.getMessageInputs();
+            this.state.searchString = message.text;
             await dispatcher.dispatch(actionSearch(message));
         }
     };
@@ -314,7 +323,7 @@ export class LetterList extends Component {
             reducerLetters._storage.get(reducerLetters._storeNames.currentLetters);
 
         if (letterObjs) {
-            this.renderLetterFrames();
+            this.renderLetterFrames(letterObjs);
         } else {
             this.renderLoader();
         }
@@ -324,10 +333,8 @@ export class LetterList extends Component {
      * A method that draws a letter list into a parent HTML element
      * according to a given template and context
      */
-    renderLetterFrames() {
+    renderLetterFrames(letterObjs: LetterFrameData[]) {
         const letterList: object[] = [];
-        const letterObjs = reducerLetters.getCurrentLettersArray();
-
 
         if (letterObjs) {
             letterObjs.forEach((letter: any) => {
@@ -435,6 +442,7 @@ export class LetterList extends Component {
             this.state.unchooseAllButton.addEventListener('click', this.unselectAll);
         }
 
+        microEvents.bind('searchDone', this.searchDone);
         microEvents.bind('letterListChanged', this.rerender);
         microEvents.bind('folderNotFound', this.renderNotFound);
 
@@ -469,6 +477,7 @@ export class LetterList extends Component {
     unregisterEventListener() {
         microEvents.unbind('letterListChanged', this.rerender);
         microEvents.unbind('folderNotFound', this.renderNotFound);
+        microEvents.unbind('searchDone', this.searchDone);
         // microEvents.unbind('mailChanged', this.changeLetterToActive);
         if (this.state.letters.length) {
             this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);

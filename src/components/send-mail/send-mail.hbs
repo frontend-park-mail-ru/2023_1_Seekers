@@ -7,18 +7,12 @@
             <div class="send-mail__header_details">
                 <div class="send-mail__author">
                     <p class="send-mail__to font-normal-0 send-mail__text_color">Кому:</p>
+                    <div class="send-mail__recipients send-mail__input-form send-mail__input-form_indent">
 
-                    <div class="send-mail__recipients">
-
-                        {{{this.datalist}}}
+                        <input class="send-mail__text_color send-mail__input-form_size send-mail__input-form_color" type="{{this.inputs.recipients.type}}"
+                               name="{{this.inputs.recipients.name}}" maxlength="{{this.inputs.recipients.maxlength}}"
+                               id="{{this.inputs.recipients.name}}" required/>
                     </div>
-
-                    <!--                    <div class="">-->
-                    <input class="send-mail__input-form send-mail__input-form_indent send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
-                           type="{{this.inputs.recipients.type}}"
-                           name="{{this.inputs.recipients.name}}" maxlength="{{this.inputs.recipients.maxlength}}"
-                           id="{{this.inputs.recipients.name}}" required/>
-                    <!--                    </div>-->
                     {{{ this.closeButton }}}
                 </div>
 

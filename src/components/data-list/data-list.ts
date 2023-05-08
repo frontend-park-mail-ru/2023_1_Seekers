@@ -8,6 +8,7 @@ import {ProfileData} from "@uikits/profile-data/profile-data";
 import {dispatcher} from "@utils/dispatcher";
 import {actionCreateFolder} from "@actions/folders";
 import {actionPasteEmail, actionShowPasteEmail} from "@actions/letters";
+import {reducerUser} from "@stores/userStore";
 
 
 export interface DataList {
@@ -90,13 +91,20 @@ export class DataList extends Component {
     /**
      * method insert sidebar to HTML
      */
-    render() {
-        if (this.state.isRendered) {
-            // this.removeDataList();
-            return;
-        }
+    render(x: number, y: number) {
+        [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
+            [...ctxMenu.children].forEach((child) => {
+                if (child.classList.contains('profile-data__item')) {
+                    child.removeEventListener('click', this.buttonsClicked);
+                    child.removeEventListener('mouseover', this.mouseOverButton);
+                }
+            });
+            ctxMenu.remove();
+        });
+
+
         const menuActionButtons: object[] = [];
-        Object.values(config.buttons.DELETETHISBUTTONS).forEach((button) => { // fix
+        reducerUser.getLocalRecipients().forEach((button) => { // fix
             menuActionButtons.push(ProfileData.renderTemplate(button));
         });
 
@@ -108,6 +116,23 @@ export class DataList extends Component {
 
         this.state.element = document.getElementById('data-list') as HTMLElement;
         this.state.buttons = [...document.getElementsByClassName('profile-data__item')];
+
+        const ctxHeight = (this.state.element as HTMLDivElement).offsetHeight;
+        const ctxWidth = (this.state.element as HTMLDivElement).offsetWidth;
+
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if ((windowWidth - x) < ctxWidth) {
+            x = x - ctxWidth;
+        }
+
+        if ((windowHeight - y) < ctxHeight) {
+            y = y - ctxHeight;
+        }
+
+        (this.state.element as HTMLDivElement).style.top = y.toString() + 'px';
+        (this.state.element as HTMLDivElement).style.left = x.toString() + 'px';
 
         this.state.isRendered = true;
 

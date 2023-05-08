@@ -24,7 +24,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.name, undefined);
         this._storage.set(this._storeNames.password, undefined);
         this._storage.set(this._storeNames.profile, undefined);
-        this._storage.set(this._storeNames.localRecipients, new Map());
+        this._storage.set(this._storeNames.localRecipients, []);
     }
 
     /**
@@ -133,6 +133,24 @@ class UserStore extends BaseStore {
     }
 
     /**
+     * function that makes request to change user avatar
+     */
+    async getRecipients() {
+        const responsePromise = Connector.makeGetRequest(
+            config.api.recipientsSearch);
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            const recipients: Recipient[] = [];
+            body.users.forEach((user: Recipient) => {
+                user.avatar = `${config.basePath}/${config.api.avatar}` +
+                    `?email=${user.email}&t=${new Date().getTime()}`;
+                recipients.push(user);
+            });
+            this._storage.set(this._storeNames.localRecipients, recipients);
+        }
+    }
+
+    /**
      * function that checks if user is authenticated
      */
     checkAuth() {
@@ -164,8 +182,8 @@ class UserStore extends BaseStore {
     /**
      * function that get local recipients
      */
-    getLocalRecipients = async () => {
-        return this._storage.get(this._storeNames.localRecipients);
+    getLocalRecipients = () => {
+        return this._storage.get(this._storeNames.localRecipients) as Recipient[];
     };
 }
 

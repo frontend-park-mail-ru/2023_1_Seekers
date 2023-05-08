@@ -60,7 +60,6 @@ export const actionShowPasteEmail = (email: string) => ({
 });
 
 
-
 export const actionDeleteSelectedLetter = (id: number) => ({
     type: 'deleteSelectedLetter',
     value: id,

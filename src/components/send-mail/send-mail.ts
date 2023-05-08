@@ -15,7 +15,8 @@ import {Validation} from '@utils/validation';
 import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
-import {DataList} from "@components/data-list/data-list";
+import {DataList} from '@components/data-list/data-list';
+import {actionSearch} from '@actions/letters';
 
 
 export interface SendMail {
@@ -29,6 +30,8 @@ export interface SendMail {
         recipientsInput: HTMLInputElement,
         recipients: Map<string, HTMLElement>,
         text: HTMLTextAreaElement,
+
+        editRecipient: HTMLElement
     },
     datalist: DataList,
 
@@ -55,6 +58,8 @@ export class SendMail extends Component {
             recipientsInput: document.createElement('input') as HTMLInputElement,
             text: document.createElement('textarea') as HTMLTextAreaElement,
             recipients: new Map(),
+
+            editRecipient: document.createElement('div'),
         };
     }
 
@@ -68,26 +73,26 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-                case config.buttons.newMailButtons.footerButtons.send.href:
-                    await this.sendMail();
-                    break;
+            case config.buttons.newMailButtons.footerButtons.send.href:
+                await this.sendMail();
+                break;
 
-                case config.buttons.newMailButtons.footerButtons.save.href:
-                    const draft = this.getMailInputs();
+            case config.buttons.newMailButtons.footerButtons.save.href:
+                const draft = this.getMailInputs();
 
-                    if (draft.title === '' &&
+                if (draft.title === '' &&
                         draft.recipients.length === 0 &&
                         draft.text === '') {
-                        this.purge();
-                        return;
-                    }
-
-                    dispatcher.dispatch(actionSendDraft(draft));
-                    break;
-
-                case config.buttons.newMailButtons.footerButtons.cancel.href:
                     this.purge();
-                    break;
+                    return;
+                }
+
+                dispatcher.dispatch(actionSendDraft(draft));
+                break;
+
+            case config.buttons.newMailButtons.footerButtons.cancel.href:
+                this.purge();
+                break;
             }
         }
     };
@@ -125,18 +130,18 @@ export class SendMail extends Component {
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
-            case responseStatuses.OK:
-                showNotification('Письмо отправлено успешно!');
-                this.purge();
-                return;
-            case responseStatuses.BadRequest:
-                showNotification('В списке получателей нет ни одного существующего!');
-                break;
-            case responseStatuses.Forbidden:
-                showNotification('Заполните поля!');
-                break;
-            default:
-                showNotification(answerBody.message);
+        case responseStatuses.OK:
+            showNotification('Письмо отправлено успешно!');
+            this.purge();
+            return;
+        case responseStatuses.BadRequest:
+            showNotification('В списке получателей нет ни одного существующего!');
+            break;
+        case responseStatuses.Forbidden:
+            showNotification('Заполните поля!');
+            break;
+        default:
+            showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -155,12 +160,12 @@ export class SendMail extends Component {
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
-            case responseStatuses.OK:
-                showNotification('Черновик сохранён.');
-                this.purge();
-                return;
-            default:
-                showNotification(answerBody.message);
+        case responseStatuses.OK:
+            showNotification('Черновик сохранён.');
+            this.purge();
+            return;
+        default:
+            showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -181,10 +186,10 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-                case config.buttons.newMailButtons.closeButton.href:
-                    const draft = this.getMailInputs();
+            case config.buttons.newMailButtons.closeButton.href:
+                const draft = this.getMailInputs();
 
-                    if (draft.title === '' &&
+                if (draft.title === '' &&
                         draft.recipients.length === 0 &&
                         draft.text === '') {
                         this.purge();
@@ -201,6 +206,7 @@ export class SendMail extends Component {
      * @param e - event
      */
     onRemoveRecipientClicked = async (e: Event) => {
+        e.preventDefault();
         if (e.currentTarget) {
             let element: any = undefined;
             this.state.recipients.forEach((recipient, key) => {
@@ -211,33 +217,92 @@ export class SendMail extends Component {
 
             if (element) {
                 e.currentTarget.removeEventListener('click', this.onRemoveRecipientClicked);
+                element.removeEventListener('click', this.onRecipientClicked);
                 this.state.recipients.delete(element.dataset.section);
                 element.remove();
+                e.stopPropagation();
+            }
+        }
+    };
+
+    onRecipientClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement && currentTarget.dataset.section) {
+
+            currentTarget.getElementsByClassName('recipient-form__span')[0].classList.add('element-hidden');
+            const input = currentTarget.getElementsByClassName('recipient-form__input')[0] as HTMLInputElement;
+
+            input.classList.remove('element-hidden');
+            input.focus();
+            input.setSelectionRange(0, input.value.length);
+
+            this.state.recipients.delete(currentTarget.dataset.section);
+
+            currentTarget.removeEventListener('click', this.onRecipientClicked);
+            input.addEventListener('keypress', this.editRecipient);
+            input.addEventListener('focusout', this.focusOutRecipient);
+            input.value = currentTarget.dataset.section;
+
+            this.state.editRecipient = currentTarget as HTMLElement;
+        }
+    };
+
+    editRecipient = async (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            this.changeRecipient(e);
+        }
+    };
+
+    focusOutRecipient = async (e: Event) => {
+        this.changeRecipient(e);
+    };
+
+    changeRecipient = (e: Event) => {
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLInputElement) {
+            e.preventDefault();
+            const input = currentTarget as HTMLInputElement;
+
+            const span = this.state.editRecipient.getElementsByClassName('recipient-form__span')[0];
+            input.removeEventListener('keypress', this.editRecipient);
+            input.removeEventListener('focusout', this.focusOutRecipient);
+
+            input.classList.add('element-hidden');
+            span.classList.remove('element-hidden');
+            if (input.value.length === 0 || this.state.recipients.has(input.value)) {
+                this.state.editRecipient.getElementsByClassName('icon-button')[0]
+                    .removeEventListener('click', this.onRemoveRecipientClicked);
+                this.state.editRecipient.remove();
+                e.stopPropagation();
+            } else {
+                this.state.recipients.set(input.value, this.state.editRecipient);
+                this.state.editRecipient.dataset.section = input.value;
+                span.textContent = input.value;
+                this.state.editRecipient.addEventListener('click', this.onRecipientClicked);
             }
         }
     };
 
     showDataList = (e: Event) => {
         e.preventDefault();
-        this.datalist = new DataList({
-            parent: document.getElementsByClassName(
-                'send-mail__author')[0] as HTMLElement,
-        })
-        e.stopPropagation()
-        this.datalist.render()
-    }
+        const me = e as MouseEvent;
+        this.datalist = new DataList({parent: document.getElementById('root')!});
+        e.stopPropagation();
+        this.datalist.render(me.clientX, me.clientY);
+    };
 
     removeDataList = (e: Event) => {
         e.preventDefault();
         if (e.target) {
             if (!(document.getElementById('data-list') === e.target as HTMLElement ||
                 document.getElementById('data-list')?.contains(e.target as HTMLElement))) {
-                this.datalist?.purge()
+                this.datalist?.purge();
                 const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement
                 recipientInput.value = '';
             }
         }
-    }
+    };
 
     _addRecipient = (recipient: string, recipientInput: HTMLElement) => {
         if (!this.state.recipients.has(recipient)) {
@@ -259,8 +324,10 @@ export class SendMail extends Component {
             foundElement.getElementsByClassName('icon-button')[0]
                 .addEventListener('click', this.onRemoveRecipientClicked);
             this.state.recipients.set(recipient, foundElement as HTMLElement);
+
+            (foundElement as HTMLElement).addEventListener('click', this.onRecipientClicked);
         }
-    }
+    };
 
     /**
      * function that adds new recipients to input
@@ -288,15 +355,15 @@ export class SendMail extends Component {
             'send-mail__recipients')[0] as HTMLElement;
         this._addRecipient(reducerLetters.getEmailToPaste(), recipientForm);
         this.datalist.purge();
-        const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement
+        const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
         recipientInput.value = '';
         document.getElementById('new-mail-recipients')?.focus();
-    }
+    };
 
     showPasteEmailToRecipient = () => {
-        const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement
+        const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
         recipientInput.value = reducerLetters.getEmailToPaste();
-    }
+    };
 
     /**
      * function that triggered when recipient input changed
@@ -304,6 +371,7 @@ export class SendMail extends Component {
      */
     onContentChanged = async (e: Event) => {
         if (e.target instanceof HTMLInputElement) {
+            this.datalist.purge();
             if (e.target.value.includes(' ')) {
                 if (e.target.value.length === 1) {
                     e.target.value = '';
@@ -333,10 +401,10 @@ export class SendMail extends Component {
 
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
-       // this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
+        // this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
 
-        document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList)
-        this.state.element.addEventListener('click', this.removeDataList)
+        document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
+        this.state.element.addEventListener('click', this.removeDataList);
     };
 
     /**
@@ -357,15 +425,16 @@ export class SendMail extends Component {
         microEvents.unbind('showPasteEmailInRecipient', this.showPasteEmailToRecipient);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
-       // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
+        // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
 
         this.state.recipients.forEach((element, key) => {
             element.getElementsByClassName('icon-button')[0]
                 .removeEventListener('click', this.onRemoveRecipientClicked);
+            element.removeEventListener('click', this.onRecipientClicked);
         });
 
-        document.getElementById('new-mail-recipients')?.removeEventListener('click', this.showDataList)
-        this.state.element.removeEventListener('click', this.removeDataList)
+        document.getElementById('new-mail-recipients')?.removeEventListener('click', this.showDataList);
+        this.state.element.removeEventListener('click', this.removeDataList);
     };
 
     /**
@@ -410,7 +479,7 @@ export class SendMail extends Component {
         this.registerEventListener();
         this.setInputsState();
 
-        //this.state.recipientsInput.dispatchEvent(new Event('focusout'));
+        // this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
     /**
