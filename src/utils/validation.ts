@@ -1,6 +1,8 @@
 /**
  * class implementing validation
  */
+import {hrefRegExp, validatorRegExp} from "@config/regs";
+
 export class Validation {
     /**
      * method insert error in HTML
@@ -31,6 +33,11 @@ export class Validation {
         if (login.length > 30) {
             return {status: false, message: 'Логин длиннее 30 символов'};
         }
+
+        if (validatorRegExp.emojis.test(login)) {
+            return {status: false, message: 'Логин не может содержать эмодзи'};
+        }
+
         const postAtDomain = '@mailbx.ru';
         if (!login.includes(postAtDomain)) {
             if (login.includes('@') || login.includes('.')) {
@@ -60,6 +67,11 @@ export class Validation {
         if (email.length > 30) {
             return {status: false, message: 'Почта длиннее 30 символов'};
         }
+
+        if (validatorRegExp.emojis.test(email)) {
+            return {status: false, message: 'Почта не может содержать эмодзи'};
+        }
+
         const postAtDomain = '@mailbx.ru';
         if (!email.includes(postAtDomain)) {
             const emailRegex =
@@ -113,6 +125,11 @@ export class Validation {
         if (data.length < 1) {
             return {status: false, message: 'Заполните поле'};
         }
+
+        if (validatorRegExp.emojis.test(data)) {
+            return {status: false, message: 'Поле не может содержать эмодзи'};
+        }
+
         return {status: true, message: ''};
     };
 

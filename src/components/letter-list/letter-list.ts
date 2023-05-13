@@ -120,6 +120,7 @@ export class LetterList extends Component {
     onIconSearch = async (e: Event) => {
         e.preventDefault();
         const message = this.getMessageInputs();
+        this.state.searchString = message.text;
         await dispatcher.dispatch(actionSearch(message));
     }
 

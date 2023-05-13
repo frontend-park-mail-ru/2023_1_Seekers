@@ -4,3 +4,7 @@ export const hrefRegExp = {
     // host: /^\w+:.*?(:)\d|^\w+:\/\/\w+.\w+/,
     localhost: /^\w+:.*?(:)\d*/,
 };
+
+export const validatorRegExp = {
+    emojis: /\p{Extended_Pictographic}/u,
+};
