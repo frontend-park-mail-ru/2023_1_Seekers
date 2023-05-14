@@ -92,6 +92,10 @@ export class DataList extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
+        if( reducerUser.getLocalRecipients().length === 0){
+            return;
+        }
+        
         [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('profile-data__item')) {
@@ -104,7 +108,7 @@ export class DataList extends Component {
 
 
         const menuActionButtons: object[] = [];
-        reducerUser.getLocalRecipients().forEach((button) => { // fix
+        reducerUser.getLocalRecipients().forEach((button) => {
             menuActionButtons.push(ProfileData.renderTemplate(button));
         });
 

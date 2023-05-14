@@ -1,0 +1,36 @@
+.attachment-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &__area{
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    overflow: auto;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 30px;
+
+    &__info {
+      color: var(--menu-text-default-color);
+      cursor: default;
+    }
+
+    &__action {
+
+      &__download {
+        text-decoration: none;
+        color: var(--button-default-color);
+      }
+
+      &__span {
+        color: var(--color-text-secondary);
+        cursor: default;
+      }
+    }
+  }
+}

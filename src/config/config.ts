@@ -51,10 +51,76 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'https://mailbx.ru',
+    basePath: 'http://127.0.0.1:8001',
     headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json',
+    },
+    DELETETHISATTACHES: {
+        one: {
+            icon: `<path d="m28.806 3h-19.101a1.192 1.192 0 0 0 -1.193 1.191v5.309l11.069 3.25 10.419-3.25v-5.309a1.192 1.192 0 0 0 -1.194-1.191z"
+          fill="#41a5ee"/>
+    <path d="m30 9.5h-21.488v6.5l11.069 1.95 10.419-1.95z" fill="#2b7cd3"/>
+    <path d="m8.512 16v6.5l10.418 1.3 11.07-1.3v-6.5z" fill="#185abd"/>
+    <path d="m9.705 29h19.1a1.192 1.192 0 0 0 1.195-1.191v-5.309h-21.488v5.309a1.192 1.192 0 0 0 1.193 1.191z"
+          fill="#103f91"/>
+    <path d="m16.434 8.2h-7.922v16.25h7.922a1.2 1.2 0 0 0 1.194-1.191v-13.868a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".1"/>
+    <path d="m15.783 8.85h-7.271v16.25h7.271a1.2 1.2 0 0 0 1.194-1.191v-13.868a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".2"/>
+    <path d="m15.783 8.85h-7.271v14.95h7.271a1.2 1.2 0 0 0 1.194-1.191v-12.568a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".2"/>
+    <path d="m15.132 8.85h-6.62v14.95h6.62a1.2 1.2 0 0 0 1.194-1.191v-12.568a1.2 1.2 0 0 0 -1.194-1.191z" opacity=".2"/>
+    <path d="m3.194 8.85h11.938a1.193 1.193 0 0 1 1.194 1.191v11.918a1.193 1.193 0 0 1 -1.194 1.191h-11.938a1.192 1.192 0 0 1 -1.194-1.191v-11.918a1.192 1.192 0 0 1 1.194-1.191z"
+          fill="url(#a)"/>
+    <path d="m6.9 17.988c.023.184.039.344.046.481h.028c.01-.13.032-.287.065-.47s.062-.338.089-.465l1.255-5.407h1.624l1.3 5.326a7.761 7.761 0 0 1 .162 1h.022a7.6 7.6 0 0 1 .135-.975l1.039-5.358h1.477l-1.824 7.748h-1.727l-1.237-5.126q-.054-.222-.122-.578t-.084-.52h-.021q-.021.189-.084.561c-.042.249-.075.432-.1.552l-1.163 5.114h-1.756l-1.834-7.744h1.5l1.131 5.418a4.469 4.469 0 0 1 .079.443z"
+          fill="#fff"/>`,
+            text: 'Вяткин.РК4.2023',
+            downloadImg: `<path stroke-width="2" stroke-linejoin="round" stroke-linecap="round" 
+                    d="m19,11l-14,0m14,0c1.1046,0 2,0.8954 2,2l0,6c0,1.1046 -0.8954,2 
+                    -2,2l-14,0c-1.10457,0 -2,-0.8954 -2,-2l0,-6c0,-1.1046 0.89543,-2 
+                    2,-2m14,0l0,-2c0,-1.10457 -0.8954,-2 -2,-2m-12,4l0,-2c0,-1.10457 
+                    0.89543,-2 2,-2m0,0l0,-2c0,-1.10457 0.89543,-2 2,-2l6,0c1.1046,0 
+                    2,0.89543 2,2l0,2m-10,0l10,0"/>
+                    <line stroke-linecap="round" stroke-linejoin="round"
+                    y2="17.873972" x2="11.285716" y1="16.11573" x1="9.197804" 
+                    fill-opacity="null" stroke-opacity="null" stroke-width="2" fill="none"/>
+                    <line stroke-linecap="round" stroke-linejoin="round" 
+                    y2="18.203642" x2="11.615386" y1="13.808037" x1="15.901101" 
+                    fill-opacity="null" stroke-opacity="null" stroke-width="2" fill="none"/>`
+        },
+        two: {
+            icon: `<path d="m28.806 3h-19.101a1.192 1.192 0 0 0 -1.193 1.191v5.309l11.069 3.25 10.419-3.25v-5.309a1.192 1.192 0 0 0 -1.194-1.191z"
+          fill="#41a5ee"/>
+    <path d="m30 9.5h-21.488v6.5l11.069 1.95 10.419-1.95z" fill="#2b7cd3"/>
+    <path d="m8.512 16v6.5l10.418 1.3 11.07-1.3v-6.5z" fill="#185abd"/>
+    <path d="m9.705 29h19.1a1.192 1.192 0 0 0 1.195-1.191v-5.309h-21.488v5.309a1.192 1.192 0 0 0 1.193 1.191z"
+          fill="#103f91"/>
+    <path d="m16.434 8.2h-7.922v16.25h7.922a1.2 1.2 0 0 0 1.194-1.191v-13.868a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".1"/>
+    <path d="m15.783 8.85h-7.271v16.25h7.271a1.2 1.2 0 0 0 1.194-1.191v-13.868a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".2"/>
+    <path d="m15.783 8.85h-7.271v14.95h7.271a1.2 1.2 0 0 0 1.194-1.191v-12.568a1.2 1.2 0 0 0 -1.194-1.191z"
+          opacity=".2"/>
+    <path d="m15.132 8.85h-6.62v14.95h6.62a1.2 1.2 0 0 0 1.194-1.191v-12.568a1.2 1.2 0 0 0 -1.194-1.191z" opacity=".2"/>
+    <path d="m3.194 8.85h11.938a1.193 1.193 0 0 1 1.194 1.191v11.918a1.193 1.193 0 0 1 -1.194 1.191h-11.938a1.192 1.192 0 0 1 -1.194-1.191v-11.918a1.192 1.192 0 0 1 1.194-1.191z"
+          fill="url(#a)"/>
+    <path d="m6.9 17.988c.023.184.039.344.046.481h.028c.01-.13.032-.287.065-.47s.062-.338.089-.465l1.255-5.407h1.624l1.3 5.326a7.761 7.761 0 0 1 .162 1h.022a7.6 7.6 0 0 1 .135-.975l1.039-5.358h1.477l-1.824 7.748h-1.727l-1.237-5.126q-.054-.222-.122-.578t-.084-.52h-.021q-.021.189-.084.561c-.042.249-.075.432-.1.552l-1.163 5.114h-1.756l-1.834-7.744h1.5l1.131 5.418a4.469 4.469 0 0 1 .079.443z"
+          fill="#fff"/>`,
+            text: 'Вяткин.РК4.2023',
+            downloadImg: `<path stroke-width="2" stroke-linejoin="round" stroke-linecap="round" 
+                    d="m19,11l-14,0m14,0c1.1046,0 2,0.8954 2,2l0,6c0,1.1046 -0.8954,2 
+                    -2,2l-14,0c-1.10457,0 -2,-0.8954 -2,-2l0,-6c0,-1.1046 0.89543,-2 
+                    2,-2m14,0l0,-2c0,-1.10457 -0.8954,-2 -2,-2m-12,4l0,-2c0,-1.10457 
+                    0.89543,-2 2,-2m0,0l0,-2c0,-1.10457 0.89543,-2 2,-2l6,0c1.1046,0 
+                    2,0.89543 2,2l0,2m-10,0l10,0"/>
+                    <line stroke-linecap="round" stroke-linejoin="round"
+                    y2="17.873972" x2="11.285716" y1="16.11573" x1="9.197804" 
+                    fill-opacity="null" stroke-opacity="null" stroke-width="2" fill="none"/>
+                    <line stroke-linecap="round" stroke-linejoin="round" 
+                    y2="18.203642" x2="11.615386" y1="13.808037" x1="15.901101" 
+                    fill-opacity="null" stroke-opacity="null" stroke-width="2" fill="none"/>`
+        },
     },
     href: {
         main: '/',
@@ -110,7 +176,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             img: `<path d="m10 19-7-7m0 0 7-7m-7 7h18" 
                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
         },
-        actions:{
+        actions: {
             img: `<path clip-rule="evenodd" d="m4.29289 4.29289c.39053-.39052 1.02369-.39052 
                     1.41422 0l4.29289 4.2929 4.2929-4.2929c.3905-.39052 1.0237-.39052 1.4142 0 
                     .3905.39053.3905 1.02369 0 1.41422l-4.2929 4.29289 4.2929 4.2929c.3905.3905.3905 
@@ -336,75 +402,6 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             }
         },
-
-        DELETETHISBUTTONS: {
-            elem1: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Александр',
-                lastName: 'Вяткин',
-                },
-
-            elem2: {
-                avatar: '',
-                email: 'test@maasdasdasilbox.ru',
-                firstName: 'Олег',
-                lastName: 'Котков',
-            },
-            elem3: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Максим',
-                lastName: 'Власов',
-            },
-
-            elem4: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Валерий',
-                lastName: 'Винокуршин',
-            },
-            elem5: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Александр',
-                lastName: 'Цветков',
-            },
-
-            elem6: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Михаил',
-                lastName: 'Волынов',
-            },
-            elem7: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Александр',
-                lastName: 'Сарафанников',
-            },
-
-            elem8: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Василий',
-                lastName: 'Романов',
-            },
-            elem9: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Дмитрий',
-                lastName: 'Дорофеев',
-            },
-
-            elem10: {
-                avatar: '',
-                email: 'test@mailbox.ru',
-                firstName: 'Антон',
-                lastName: 'Сулаев',
-            },
-        },
-
         renameFolderButtons: {
             footerButtons: {
                 rename: {
@@ -623,7 +620,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 },
             },
             windowData: {
-                title: 'Вход в «MailBox»',
+                title: 'Вход в «MailBx»',
                 bottomText: 'Мы еще не знакомы?',
                 bottomLink: '/signup',
                 bottomLinkText: 'Регистрация',
@@ -633,7 +630,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 redirect: '/',
             },
             promoBox: {
-                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                title: 'Сервис «MailBx» – быстрый и безопасный обмен письмами',
                 fields: {
                     first: {
                         text: 'Фильтрация писем в соответствии с заданными параметрами',
@@ -716,7 +713,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 },
             },
             windowData: {
-                title: 'Регистрация в «MailBox»',
+                title: 'Регистрация в «MailBx»',
                 bottomText: 'Мы уже знакомы?',
                 bottomLink: '/login',
                 bottomLinkText: 'Войти',
@@ -726,7 +723,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 redirect: '/',
             },
             promoBox: {
-                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                title: 'Сервис «MailBx» – быстрый и безопасный обмен письмами',
                 fields: {
                     first: {
                         text: 'Фильтрация писем в соответствии с заданными параметрами',

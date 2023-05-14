@@ -11,12 +11,14 @@ import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
 import {actionCtxMail, actionShowPasteEmail} from '@actions/letters';
 import {ContextLetter} from '@components/context-letter/context-letter';
 import {showNotification} from "@components/notification/notification";
+import {AttachmentList} from "@components/attachment-list/attachment-list";
 
 
 export interface Mail {
     state: {
         element: Element,
         actionButtons: Element[],
+        attachmentsList: any,
     },
 }
 
@@ -33,6 +35,7 @@ export class Mail extends Component {
         this.state = {
             element: document.createElement('div'),
             actionButtons: [],
+            attachmentsList: null,
         };
 
         this.rerenderMail = this.rerenderMail.bind(this);
@@ -63,6 +66,14 @@ export class Mail extends Component {
 
             this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
             this.state.element.classList.add('mail__show');
+
+            if(document.getElementById('attachment-list')) {
+                this.state.attachmentsList = new AttachmentList({
+                    parent: document.getElementById('attachment-list')!
+                });
+
+                this.state.attachmentsList.render();
+            }
         }
         this.registerEventListener();
     }

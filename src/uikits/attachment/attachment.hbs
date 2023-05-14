@@ -1,0 +1,43 @@
+<div class="attachment">
+    <div class="attachment__elem">
+        <div class="attachment__tooltip">
+            <div class="attachment__tooltip__header">
+                <div class="attachment__tooltip__header__icon">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="4.494" x2="13.832" y1="7.914"
+                                        y2="24.086">
+                            <stop offset="0" stop-color="#2368c4"/>
+                            <stop offset=".5" stop-color="#1a5dbe"/>
+                            <stop offset="1" stop-color="#1146ac"/>
+                        </linearGradient>
+                        {{{this.icon}}}
+                    </svg>
+
+                </div>
+                <div class="attachment__tooltip__header__text">
+                    {{this.text}}
+                </div>
+            </div>
+            <div class="attachment__tooltip__preview">
+                <div class="attachment__tooltip__preview__image">
+
+                </div>
+            </div>
+        </div>
+        <div class="attachment__footer">
+            <svg class="attachment__footer__icon attachment__footer__icon__color attachment__footer__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.select.img includeZero=true}}
+                    {{{ this.downloadImg }}}
+                {{else}}
+                    <path d="m2 6c0-1.10457.89543-2 2-2h5l2 2h5c1.1046 0 2 .89543 2
+                2v6c0 1.1046-.8954 2-2 2h-12c-1.10457 0-2-.8954-2-2z"
+                          stroke-width="2px" stroke-linecap="round" stroke-linejoin="round"/>
+                {{/if}}
+            </svg>
+            <p class="font-caption-0 attachment__footer__text">Скачать</p>
+        </div>
+    </div>
+</div>

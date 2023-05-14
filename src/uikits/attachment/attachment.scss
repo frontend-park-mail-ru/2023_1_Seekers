@@ -1,0 +1,91 @@
+.attachment {
+  margin-right: 12px;
+  margin-top: 12px;
+
+
+  &__elem {
+    white-space: nowrap;
+    margin-bottom: 8px;
+    cursor: pointer;
+    background-color: var(--color_background_secondary_alpha);
+    overflow: hidden;
+    border-radius: 12px;
+    width: 232px;
+    border: 1px solid var(--attach-border);
+  }
+
+  &__tooltip {
+    height: 100%;
+
+    &__header {
+      padding: 12px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+
+      &__icon {
+        height: 30px;
+        width: 30px;
+      }
+
+      &__text {
+        color: var(--menu-text-default-color);
+        overflow: hidden;
+      }
+    }
+
+    &__previev {
+      &__image {
+
+      }
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    opacity: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-left:  12px;
+    border-radius:  12px;
+    padding-right:  12px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), #2c2c2d, #2c2c2d 90%);
+    transition-delay: 0s;
+    transition-duration:  0.1s;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.3, 0.3, 0.5, 1);
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &__text {
+      color: var(--menu-text-default-color);
+      cursor: pointer;
+    }
+
+    &__icon {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      flex: none;
+      align-self: center;
+
+      &__color {
+        stroke: var(--menu-icons-default-color);
+      }
+
+      &__size {
+        width: 22px;
+        height: 18px;
+      }
+    }
+  }
+}

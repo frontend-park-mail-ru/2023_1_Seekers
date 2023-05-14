@@ -11,7 +11,8 @@
 
                 <div class="mail__header__details">
                     <div class="mail__author">
-                        <div class="clickable__email" title="Скопировать" id="mail__contact" data-section="{{ this.mail.from_user_id.email }}">
+                        <div class="clickable__email" title="Скопировать" id="mail__contact"
+                             data-section="{{ this.mail.from_user_id.email }}">
                             <p class="mail__contact font-normal-0 mail__text_color">{{ this.mail.from_user_id.email }}</p>
                         </div>
                         <p class="mail__date font-normal-0 mail__text_color">{{ this.mail.created_at }}</p>
@@ -27,6 +28,7 @@
                 </div>
 
             </div>
+            <div class="mail__attach-list" id="attachment-list"></div>
             <div class="mail__content mail__content_color">
                 {{{ this.mailContent }}}
             </div>
@@ -37,9 +39,7 @@
             </div>
         {{else}}
             <div class="mail__header mail__header_size">
-
                 <div class="mail__image skeleton__block"></div>
-
                 <div class="mail__header__details skeleton__block"></div>
             </div>
             <div class="mail__content mail__content_color"></div>
