@@ -24,6 +24,7 @@ type MailToSend = {
     title: string,
     text: string,
     attachments: AttachToSend[],
+    from_user: string,
 }
 
 type SearchMessage = {
@@ -47,7 +48,7 @@ type MailData = {
     message_id: number,
     from_user_id: ProfileData,
     recipients: ProfileData[],
-    attachments: Attachment[],
+    attachments: AttachmentData[],
     title: string,
     created_at: string,
     text: string,
@@ -55,6 +56,7 @@ type MailData = {
     seen: boolean,
     favorite: string,
     is_draft: boolean,
+    attachmentsSize: string,
 
 }
 
@@ -74,10 +76,12 @@ type ProfileData = {
     avatar?: string
 }
 
-type Attachment = {
+type AttachmentData = {
     attachID: number,
     fileName: string,
     type: string,
+    sizeStr: string,
+    sizeCount: number,
 }
 
 type CustomPages = LoginPage;

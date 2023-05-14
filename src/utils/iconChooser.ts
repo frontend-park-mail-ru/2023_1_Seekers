@@ -2,7 +2,7 @@ import {icons} from '@config/icons';
 
 
 class IconChooser {
-    choose = async (fileName: string) => {
+    choose = (fileName: string) => {
         const extention = fileName.split('.').pop();
 
         if (extention) {

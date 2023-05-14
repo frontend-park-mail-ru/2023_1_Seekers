@@ -54,7 +54,7 @@ export const config = {
     basePath: 'http://127.0.0.1:8001',
     headers: {
         'Content-Type': 'application/json',
-        'accept': 'application/json',
+        // 'accept': 'application/json',
     },
     href: {
         main: '/',

@@ -3,6 +3,7 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerLetters} from '@stores/LettersStore';
+import {reducerUser} from "@stores/userStore";
 
 /**
  * class that implements all possible actions with sent mail
@@ -108,6 +109,7 @@ class NewMailStore extends BaseStore {
      * @param mail - mail to send
      */
     sendMail = async (mail: MailToSend) => {
+        mail.from_user = reducerUser.getMyProfile().email;
         mail.attachments = this._storage.get(this._storeNames.attachments);
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
@@ -122,6 +124,7 @@ class NewMailStore extends BaseStore {
     };
 
     sendDraft = async (draft: MailToSend) => {
+        draft.from_user = reducerUser.getMyProfile().email;
         const promise = Connector.makePostRequest(config.api.sendDraft, draft);
         const [status, body] = await promise;
 

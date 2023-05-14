@@ -1,4 +1,4 @@
-<div class="attachment" data-section="{{ this.id }}">
+<div class="attachment" data-section="{{ this.attachID }}">
     <div class="attachment__elem" title="{{this.fileName}}">
         <div class="attachment__tooltip">
             <div class="attachment__tooltip__header">
@@ -10,12 +10,6 @@
                 <div class="attachment__tooltip__preview__icon">
                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="4.494" x2="13.832" y1="7.914"
-                                        y2="24.086">
-                            <stop offset="0" stop-color="#2368c4"/>
-                            <stop offset=".5" stop-color="#1a5dbe"/>
-                            <stop offset="1" stop-color="#1146ac"/>
-                        </linearGradient>
                         {{{this.icon}}}
                     </svg>
 
@@ -25,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="attachment__footer" data-section="{{ this.id }}">
+        <div class="attachment__footer" data-section="{{ this.attachID }}">
             <svg class="attachment__footer__icon attachment__footer__icon__color attachment__footer__icon__size"
                  fill="none"
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -180,6 +180,13 @@ class UserStore extends BaseStore {
     };
 
     /**
+     * function that triggers login render
+     */
+    getMyProfile = () => {
+        return this._storage.get(this._storeNames.profile) as ProfileData;
+    };
+
+    /**
      * function that get local recipients
      */
     getLocalRecipients = () => {

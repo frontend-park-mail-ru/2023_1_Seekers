@@ -6,6 +6,7 @@ import {Attachment} from "@uikits/attachment/attachment";
 import {reducerLetters} from "@stores/LettersStore";
 import {dispatcher} from "@utils/dispatcher";
 import {actionGetLetters} from "@actions/letters";
+import {iconChooser} from "@utils/iconChooser";
 
 
 export interface AttachmentList {
@@ -38,32 +39,40 @@ export class AttachmentList extends Component {
      */
     render() {
         const attachmentList: object[] = [];
-        reducerLetters.getCurrentMail().attachments.forEach((attach: object) => {
-            attachmentList.push(Attachment.renderTemplate(attach));
+        reducerLetters.getCurrentMail().attachments.forEach((attach: AttachmentData) => {
+            const attachShow = {
+                attachID: attach.attachID,
+                fileName: attach.fileName,
+                icon: iconChooser.choose(attach.fileName),
+            };
+            attachmentList.push(Attachment.renderTemplate(attachShow));
         });
 
 
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
                 attachments: attachmentList,
+                filecount: attachmentList.length,
+                commonFileSize: reducerLetters.getCurrentMail().attachmentsSize,
             },
         ));
 
         this.state.element = document.getElementById('attachment-list')!;
 
-        this.state.attachments =  [...this.state.element.getElementsByClassName('attachment')];
-        this.state.actionButtons =  [...this.state.element.getElementsByClassName('attachment__footer')];
+        this.state.attachments = [...this.state.element.getElementsByClassName('attachment')];
+        this.state.actionButtons = [...this.state.element.getElementsByClassName('attachment__footer')];
 
         this.registerEventListener();
     }
 
     saveAttachment = (e: Event) => {
-        console.log('asdas')
+        console.log('asdas');
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                dispatcher.dispatch(reducerLetters.getAttachment(currentTarget.dataset.section))
+                console.log(currentTarget.dataset.section);
+                dispatcher.dispatch(reducerLetters.getAttachment(currentTarget.dataset.section));
             }
         }
     }

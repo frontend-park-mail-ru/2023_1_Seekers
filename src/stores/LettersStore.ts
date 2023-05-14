@@ -203,7 +203,9 @@ class LettersStore extends BaseStore {
     };
 
     getAttachment = async (attachId: string) => {
-        await Connector.makeGetRequest(config.api.getAttach + attachId);
+        const link = document.createElement('a');
+        link.href = config.basePath + '/' + config.api.getAttach + attachId;
+        link.click();
     };
 
     /**
@@ -333,7 +335,7 @@ class LettersStore extends BaseStore {
      */
     getCurrentMail() {
         return this._storage.get(this._storeNames.mail)
-            .get(this._storage.get(this._storeNames.shownMail));
+            .get(this._storage.get(this._storeNames.shownMail)) as MailData;
     }
 
     getCurrentLettersName() {
