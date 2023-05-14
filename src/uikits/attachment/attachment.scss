@@ -32,15 +32,15 @@
     }
 
     &__preview {
-      padding: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
 
       &__icon {
         height: 100%;
-        width: 30px;
-      }
-
-      &__image {
-
+        width: 50px;
       }
     }
   }

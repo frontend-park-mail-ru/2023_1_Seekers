@@ -44,6 +44,7 @@ export class AttachmentList extends Component {
                 attachID: attach.attachID,
                 fileName: attach.fileName,
                 icon: iconChooser.choose(attach.fileName),
+                filesize: attach.sizeStr
             };
             attachmentList.push(Attachment.renderTemplate(attachShow));
         });
