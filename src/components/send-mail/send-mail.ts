@@ -17,6 +17,7 @@ import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
 import {DataList} from '@components/data-list/data-list';
 import {actionSearch} from '@actions/letters';
+import {fileDownloader} from "@utils/fileDownloader";
 
 
 export interface SendMail {
@@ -119,8 +120,11 @@ export class SendMail extends Component {
         sendButton?.classList.add('skeleton__block');
         sendButton?.classList.add('contrast-button_disabled');
 
-        await dispatcher.dispatch(actionSendMail(mail));
+        // await dispatcher.dispatch(actionSendMail(mail));
+
+        await fileDownloader.download('hello.txt', '0L/RgNC40LLQtdGC');
     };
+
 
     /**
      * function that triggers when the answer got from the backend

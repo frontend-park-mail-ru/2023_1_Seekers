@@ -192,14 +192,18 @@ class LettersStore extends BaseStore {
                         `${body.message.from_user_id.email}`;
 
                     this.getMailArray().set(mailId, mailData);
-
-
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
-
+                        mailData.attachments.forEach((attachment) => {
+                            console.log(attachment);
+                        });
                         microEvents.trigger('mailChanged');
                     }
                 }
             });
+    };
+
+    getAttachment = async (attachId: number) => {
+        await Connector.makeGetRequest(config.api.getAttach + attachId.toString());
     };
 
     /**

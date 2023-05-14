@@ -140,8 +140,8 @@ class UserStore extends BaseStore {
             config.api.recipientsSearch);
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
-            const recipients: Recipient[] = [];
-            body.users.forEach((user: Recipient) => {
+            const recipients: ProfileData[] = [];
+            body.users.forEach((user: ProfileData) => {
                 user.avatar = `${config.basePath}/${config.api.avatar}` +
                     `?email=${user.email}&t=${new Date().getTime()}`;
                 recipients.push(user);
@@ -183,7 +183,7 @@ class UserStore extends BaseStore {
      * function that get local recipients
      */
     getLocalRecipients = () => {
-        return this._storage.get(this._storeNames.localRecipients) as Recipient[];
+        return this._storage.get(this._storeNames.localRecipients) as ProfileData[];
     };
 }
 

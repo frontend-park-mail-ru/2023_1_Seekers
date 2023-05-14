@@ -35,28 +35,22 @@ type LetterFrameData = {
     created_at: string,
     href: string,
     avatar: string,
-    recipients?: any[],
-}
-
-type ProfileData = {
-    email: string,
-    firstName: string,
-    lastName: string,
-    avatar: string,
+    recipients?: ProfileData[],
 }
 
 type MailData = {
-    created_at: string,
-    deleted: string,
-    favorite: string,
-    from_user_id: any,
     message_id: number,
-    recipients: any[],
-    length: number,
-    reply_to: any,
-    seen: boolean,
-    text: string,
+    from_user_id: ProfileData,
+    recipients: ProfileData[],
+    attachments: Attachment[],
     title: string,
+    created_at: string,
+    text: string,
+    reply_to: MailData,
+    seen: boolean,
+    favorite: string,
+    is_draft: boolean,
+
 }
 
 type Folder = {
@@ -68,11 +62,17 @@ type Folder = {
     img?: string
 }
 
-type Recipient = {
+type ProfileData = {
     firstName: string,
     lastName: string,
     email: string,
     avatar?: string
+}
+
+type Attachment = {
+    attachID: number,
+    fileName: string,
+    type: string,
 }
 
 type CustomPages = LoginPage;

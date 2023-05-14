@@ -31,6 +31,7 @@ const handlers = [
     {type: 'search', method: reducerLetters.getLettersAfterSearch.bind(reducerLetters)},
     {type: 'pasteEmail', method: reducerLetters.pasteEmail.bind(reducerLetters)},
     {type: 'showPasteEmail', method: reducerLetters.showPasteEmail.bind(reducerLetters)},
+    {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},

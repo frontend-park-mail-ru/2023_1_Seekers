@@ -69,3 +69,8 @@ export const actionSearch = (message: SearchMessage) => ({
     type: 'search',
     value: message,
 });
+
+export const actionGetAttach = (attachId: number) => ({
+    type: 'getAttach',
+    value: attachId,
+});
