@@ -19,6 +19,8 @@ import {DataList} from '@components/data-list/data-list';
 import {actionSearch} from '@actions/letters';
 import {fileDownloader} from '@utils/fileDownloader';
 import {MenuButton} from '@uikits/menu-button/menu-button';
+import {Attachment} from "@uikits/attachment/attachment";
+import {iconChooser} from "@utils/iconChooser";
 
 
 export interface SendMail {
@@ -384,6 +386,39 @@ export class SendMail extends Component {
         }
     };
 
+    /**
+     * function that adds new attachment
+     */
+    addAttachment = async () => {
+        const area = document.getElementById('send-attachment-list__area');
+        const attachShow = {
+            fileName: reducerNewMail.getAttachName(),
+            icon: iconChooser.choose(reducerNewMail.getAttachName()),
+            filesize: reducerNewMail.getAttachSize(),
+            closeButton: IconButton.renderTemplate(
+                config.buttons.newMailButtons.closeButton)
+        };
+        area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow))
+
+        // TODO: вот такую же херню пиздани пж(на удаление)((еще в css было бы славно закоменченный параметр расскоментить и сделать нормально))
+        // const foundElement = [
+        //     ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
+        //     return (element as HTMLElement).dataset.section === recipient;
+        // })!;
+        //
+        // const validator = new Validation;
+        // if (!validator.validateEmail(recipient).status) {
+        //     foundElement.classList.add('input-form__error__border');
+        // }
+        //
+        // foundElement.getElementsByClassName('icon-button')[0]
+        //     .addEventListener('click', this.onRemoveRecipientClicked);
+        // this.state.recipients.set(recipient, foundElement as HTMLElement);
+        //
+        // (foundElement as HTMLElement).addEventListener('click', this.onRecipientClicked);
+
+    };
+
     pasteEmailToRecipient = () => {
         const recipientForm = document.getElementsByClassName(
             'send-mail__recipients')[0] as HTMLElement;
@@ -436,7 +471,7 @@ export class SendMail extends Component {
         microEvents.bind('draftSent', this.getDraftResponse);
         microEvents.bind('pasteEmailInRecipient', this.pasteEmailToRecipient);
         microEvents.bind('showPasteEmailInRecipient', this.showPasteEmailToRecipient);
-
+        microEvents.bind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
         // this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
@@ -465,6 +500,7 @@ export class SendMail extends Component {
         microEvents.unbind('mailSent', this.getSendResponse);
         microEvents.unbind('pasteEmailInRecipient', this.pasteEmailToRecipient);
         microEvents.unbind('showPasteEmailInRecipient', this.showPasteEmailToRecipient);
+        microEvents.unbind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
         // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);

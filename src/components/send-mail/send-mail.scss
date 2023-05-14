@@ -295,6 +295,20 @@ select:-webkit-autofill:focus {
   letter-spacing: 0.03em;
 }
 
+.send-attachment-list {
+  display: flex;
+  overflow: auto;
+  margin: 0 20px 0;
+
+  &__area{
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    overflow: auto;
+    max-height: 240px;
+  }
+}
+
 @media only screen and (max-width: 991px) {
   .send-mail {
 

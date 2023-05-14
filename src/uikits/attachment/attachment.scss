@@ -2,6 +2,14 @@
   margin-right: 12px;
   margin-top: 12px;
 
+  &__close-button {
+    z-index: 1;
+    top: 0;
+    right: 0;
+    position: absolute;
+    //transform: translateX(25%) translateY(-25%);
+  }
+
 
   &__elem {
     position: relative;

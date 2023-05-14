@@ -18,6 +18,8 @@ class NewMailStore extends BaseStore {
         isDraft: 'isDraft',
         draftId: 'draftId',
         attachments: 'attachments',
+        lastAttachName: 'lastAttachName',
+        lastAttachSize: 'lastAttachSize',
     };
 
     /**
@@ -144,13 +146,17 @@ class NewMailStore extends BaseStore {
     addAttachment(file: File) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
+
+        this._storage.set(this._storeNames.lastAttachName, file.name);
+        this._storage.set(this._storeNames.lastAttachSize, file.size);
+
         reader.onload = function() {
             const attach: AttachToSend = {
                 fileName: file.name,
                 fileData: (reader.result as string).split(',')[1],
             };
             reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
-            console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
+            microEvents.trigger('addAttachmentToSendMail')
         };
     }
 
@@ -160,6 +166,14 @@ class NewMailStore extends BaseStore {
 
     getDraftId() {
         return this._storage.get(this._storeNames.draftId);
+    }
+
+    getAttachName() {
+        return this._storage.get(this._storeNames.lastAttachName);
+    }
+
+    getAttachSize() {
+        return this._storage.get(this._storeNames.lastAttachSize);
     }
 
     isDraft() {
