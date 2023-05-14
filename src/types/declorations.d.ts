@@ -16,8 +16,9 @@ type Profile = {
 
 type MailToSend = {
     recipients: string[],
-    'title': string,
-    'text': string,
+    title: string,
+    text: string,
+    attachments: string[],
 }
 
 type SearchMessage = {
