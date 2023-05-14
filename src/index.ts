@@ -3,6 +3,7 @@
 import '@/index.scss';
 import {dispatcher} from '@utils/dispatcher';
 import {actionStart} from '@actions/user';
+import {socket} from '@utils/webSocket';
 
 // let isMobile = false;
 //
@@ -26,4 +27,5 @@ dispatcher.dispatch(actionStart()).then(() => {
         });
     }
 });
+
 

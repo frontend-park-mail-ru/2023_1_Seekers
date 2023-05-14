@@ -91,6 +91,7 @@ export const config = {
         search_post: '&filter=',
         recipientsSearch: `${prefixApi}recipients/search`,
         getAttach: `${prefixApi}attach/`,
+        webSocket: `${prefixApi}ws`,
     },
 
     navbar: {

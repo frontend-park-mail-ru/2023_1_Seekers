@@ -7,6 +7,7 @@ import {reducerFolder} from '@stores/FolderStore';
 import {RecipientForm} from "@uikits/recipient-form/recipient-form";
 import {IconButton} from "@uikits/icon-button/icon-button";
 import {LetterFrameLoader} from "@uikits/letter-frame-loader/letter-frame-loader";
+import {socket} from "@utils/webSocket";
 
 /**
  * class that implements all possible actions with letters data
@@ -249,7 +250,9 @@ class LettersStore extends BaseStore {
                 if (obj.props) {
                     this.showMail(obj.props);
                 }
-                reducerUser.getProfile();
+                reducerUser.getProfile().then(() => {
+                    socket.init();
+                });
                 reducerUser.getRecipients();
                 microEvents.trigger('renderMailboxPage');
             });
