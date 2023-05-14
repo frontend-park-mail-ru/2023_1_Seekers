@@ -1,4 +1,4 @@
-export const icons: [
+export const icons = [
     {
         ext: 'default',
         svg: `<path d="m20.414 2h-15.414v28h22v-21.414zm-13.414 26v-24h12v6h6v18z" fill="#c5c5c5"/>`
