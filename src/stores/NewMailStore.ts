@@ -146,32 +146,13 @@ class NewMailStore extends BaseStore {
                 fileName: file.name,
                 fileData: (reader.result as string).split(',')[1],
             };
-
-            const foundFile = reducerNewMail._storage.get(reducerNewMail._storeNames.attachments)
-                .find((iterFile: AttachToSend) => iterFile === attach);
-            if (!foundFile) {
-                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
-                console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
-            }
+            reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
+            console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
         };
     }
 
-    removeAttachment(file: File) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-            const attach: AttachToSend = {
-                fileName: file.name,
-                fileData: (reader.result as string).split(',')[1],
-            };
-
-            const foundFile = reducerNewMail._storage.get(reducerNewMail._storeNames.attachments)
-                .find((iterFile: AttachToSend) => iterFile === attach);
-            if (foundFile) {
-                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).remove(foundFile);
-                console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
-            }
-        };
+    removeAttachment(id: number) {
+        reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).splice(id, 1);
     }
 
     getDraftId() {

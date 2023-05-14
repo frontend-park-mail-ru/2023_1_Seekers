@@ -67,11 +67,11 @@ export class Mail extends Component {
             this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
             this.state.element.classList.add('mail__show');
 
-            if(document.getElementById('attachment-list')) {
+            if (document.getElementById('attachment-list') &&
+                reducerLetters.getCurrentMail().attachments.length != 0) {
                 this.state.attachmentsList = new AttachmentList({
-                    parent: document.getElementById('attachment-list')!
+                    parent: document.getElementById('attachment-list')!,
                 });
-
                 this.state.attachmentsList.render();
             }
         }

@@ -3,6 +3,7 @@ import '@components/attachment-list/attachment-list.scss';
 import template from "@components/attachment-list/attachment-list.hbs";
 import {config} from "@config/config";
 import {Attachment} from "@uikits/attachment/attachment";
+import {reducerLetters} from "@stores/LettersStore";
 
 
 export interface AttachmentList {
@@ -35,7 +36,7 @@ export class AttachmentList extends Component {
      */
     render() {
         const attachmentList: object[] = [];
-        Object.values(config.DELETETHISATTACHES).forEach((attach: object) => {
+        reducerLetters.getCurrentMail().attachments.forEach((attach: object) => {
             attachmentList.push(Attachment.renderTemplate(attach));
         });
 
