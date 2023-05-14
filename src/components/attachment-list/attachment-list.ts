@@ -4,13 +4,15 @@ import template from "@components/attachment-list/attachment-list.hbs";
 import {config} from "@config/config";
 import {Attachment} from "@uikits/attachment/attachment";
 import {reducerLetters} from "@stores/LettersStore";
+import {dispatcher} from "@utils/dispatcher";
+import {actionGetLetters} from "@actions/letters";
 
 
 export interface AttachmentList {
     state: {
         element: Element,
         actionButtons: Element[],
-        attachments: [],
+        attachments: Element[],
     },
 }
 
@@ -47,6 +49,23 @@ export class AttachmentList extends Component {
             },
         ));
 
+        this.state.element = document.getElementById('attachment-list')!;
+
+        this.state.attachments =  [...this.state.element.getElementsByClassName('attachment')];
+        this.state.actionButtons =  [...this.state.element.getElementsByClassName('attachment__footer')];
+
+        this.registerEventListener();
+    }
+
+    saveAttachment = (e: Event) => {
+        console.log('asdas')
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                dispatcher.dispatch(reducerLetters.getAttachment(currentTarget.dataset.section))
+            }
+        }
     }
 
     /**
@@ -54,7 +73,9 @@ export class AttachmentList extends Component {
      * register listeners for current object
      */
     registerEventListener() {
-
+        this.state.actionButtons.forEach((attach) => {
+            attach.addEventListener('click', this.saveAttachment);
+        })
     }
 
     /**
@@ -62,7 +83,9 @@ export class AttachmentList extends Component {
      * unregister listeners for current object
      */
     unregisterEventListener() {
-
+        this.state.actionButtons.forEach((attach) => {
+            attach.removeEventListener('click', this.saveAttachment);
+        })
     }
 
     /**

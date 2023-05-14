@@ -202,8 +202,8 @@ class LettersStore extends BaseStore {
             });
     };
 
-    getAttachment = async (attachId: number) => {
-        await Connector.makeGetRequest(config.api.getAttach + attachId.toString());
+    getAttachment = async (attachId: string) => {
+        await Connector.makeGetRequest(config.api.getAttach + attachId);
     };
 
     /**

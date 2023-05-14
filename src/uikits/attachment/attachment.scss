@@ -4,13 +4,14 @@
 
 
   &__elem {
+    position: relative;
     white-space: nowrap;
     margin-bottom: 8px;
     cursor: pointer;
     background-color: var(--color_background_secondary_alpha);
     overflow: hidden;
     border-radius: 12px;
-    width: 232px;
+    width: 100px;
     border: 1px solid var(--attach-border);
   }
 
@@ -24,18 +25,20 @@
       align-items: center;
       gap: 10px;
 
-      &__icon {
-        height: 30px;
-        width: 30px;
-      }
-
       &__text {
         color: var(--menu-text-default-color);
         overflow: hidden;
       }
     }
 
-    &__previev {
+    &__preview {
+      padding: 10px;
+
+      &__icon {
+        height: 100%;
+        width: 30px;
+      }
+
       &__image {
 
       }
@@ -51,17 +54,19 @@
     opacity: 0;
     overflow: hidden;
     box-sizing: border-box;
-    padding-left:  12px;
-    border-radius:  12px;
-    padding-right:  12px;
+    padding-left: 12px;
+    border-radius: 12px;
+    padding-right: 12px;
     background-image: linear-gradient(rgba(255, 255, 255, 0), #2c2c2d, #2c2c2d 90%);
     transition-delay: 0s;
-    transition-duration:  0.1s;
+    transition-duration: 0.1s;
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.3, 0.3, 0.5, 1);
+    position: absolute;
+    bottom: 0;
 
     &:hover {
-        opacity: 1;
+      opacity: 1;
     }
 
     &__text {
