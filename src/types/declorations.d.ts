@@ -14,11 +14,16 @@ type Profile = {
     avatar: string | Blob,
 };
 
+type AttachToSend = {
+    fileName: string,
+    fileData: string,
+}
+
 type MailToSend = {
     recipients: string[],
     title: string,
     text: string,
-    attachments: string[],
+    attachments: AttachToSend[],
 }
 
 type SearchMessage = {

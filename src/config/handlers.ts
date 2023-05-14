@@ -39,6 +39,8 @@ const handlers = [
     {type: 'sendMail', method: reducerNewMail.sendMail.bind(reducerNewMail)},
     {type: 'sendDraft', method: reducerNewMail.sendDraft.bind(reducerNewMail)},
     {type: 'selectDraft', method: reducerNewMail.selectDraft.bind(reducerNewMail)},
+    {type: 'removeAttachment', method: reducerNewMail.removeAttachment.bind(reducerNewMail)},
+    {type: 'addAttachment', method: reducerNewMail.addAttachment.bind(reducerNewMail)},
 
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},

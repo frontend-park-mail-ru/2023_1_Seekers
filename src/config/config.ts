@@ -156,6 +156,7 @@ export const config = {
         search: `${prefixApi}messages/search?folder=`,
         search_post: '&filter=',
         recipientsSearch: `${prefixApi}recipients/search`,
+        getAttach: `${prefixApi}attach/`,
     },
 
     navbar: {
@@ -487,7 +488,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     1.0237
                     0 1.4142-.39053.3905-1.02369.3905-1.41422 0l-4-3.99999c-.39052-.39053-.39052-1.02369 
                     0-1.41422l4-4c.39053-.39052 1.02369-.39052 1.41422 0z" fill-rule="evenodd"/>`,
-                text: "Ответить",
+                text: 'Ответить',
             },
             more: {
                 href: '/more',
@@ -496,10 +497,23 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 -1,-1s0.44772,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1z"/>`,
-                text: "Еще",
+                text: 'Еще',
             },
         },
         newMailButtons: {
+            actionButtons: {
+                attach: {
+                    folder_slug: '/attach',
+                    name: 'Прикрепить',
+                    img: `<path d="m15.1716 7-6.58581 6.5858c-.78105.781-.78105 2.0474 0 
+                        2.8284.78105.7811 2.04741.7811 
+                        2.82841 0l6.4142-6.58577c1.5621-1.5621 1.5621-4.09476 
+                        0-5.65686-1.5621-1.56209-4.0947-1.56209-5.6568 
+                        0l-6.41424 6.58583c-2.34315 2.3431-2.34315 
+                        6.1421 0 8.4852 2.34314 2.3432 6.14214 2.3432 8.48524 0l6.2574-6.2426" 
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+                },
+            },
             footerButtons: {
                 send: {
                     href: '/send',

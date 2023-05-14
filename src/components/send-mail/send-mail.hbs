@@ -30,6 +30,13 @@
             </div>
 
         </div>
+        <div class="send-mail__actions">
+            {{#each this.actionButtons}}
+                <div class="send-mail__actions__button">
+                    {{{this}}}
+                </div>
+            {{/each}}
+        </div>
         <div class="send-mail__content send-mail__content_color">
                 <textarea class="send-mail__textarea send-mail__textarea_text-color send-mail__textarea_size
                 send-mail__textarea_color" name="{{this.inputs.mailText.name}}"
@@ -38,7 +45,7 @@
 
         </div>
         <div class="send-mail__bottom-actions send-mail__bottom-actions_size send-mail__bottom-actions_color">
-            {{#each this.actionButtons}}
+            {{#each this.footerButtons}}
                 <div class="send-mail__bottom-button">
                     {{{this}}}
                 </div>

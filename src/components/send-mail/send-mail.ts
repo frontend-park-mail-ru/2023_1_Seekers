@@ -8,7 +8,7 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {actionSendDraft, actionSendMail} from '@actions/newMail';
+import {actionAddAttachment, actionSendDraft, actionSendMail} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
@@ -17,13 +17,15 @@ import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
 import {DataList} from '@components/data-list/data-list';
 import {actionSearch} from '@actions/letters';
-import {fileDownloader} from "@utils/fileDownloader";
+import {fileDownloader} from '@utils/fileDownloader';
+import {MenuButton} from '@uikits/menu-button/menu-button';
 
 
 export interface SendMail {
     state: {
         element: Element,
         area: Element,
+        actionButtons: Element[],
         footerButtons: Element[],
         iconButton: Element,
 
@@ -53,6 +55,7 @@ export class SendMail extends Component {
             element: document.createElement('div'),
             area: document.createElement('div'),
             footerButtons: [],
+            actionButtons: [],
             iconButton: document.createElement('div'),
 
             topic: document.createElement('input') as HTMLInputElement,
@@ -98,6 +101,33 @@ export class SendMail extends Component {
         }
     };
 
+    actionButtonsClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement &&
+            currentTarget.dataset.section) {
+            switch (currentTarget.dataset.section) {
+            case config.buttons.newMailButtons.actionButtons.attach.folder_slug:
+                const input = document.createElement('input');
+                input.type = 'file';
+
+                input.onchange = (e: Event) => {
+                    if (e.target) {
+                        const files = (<HTMLInputElement>e.target).files;
+                        if (files) {
+                            [...files].forEach((file) => {
+                                dispatcher.dispatch(actionAddAttachment(file));
+                            });
+                        }
+                    }
+                };
+
+                input.click();
+                break;
+            }
+        }
+    };
+
     getMailInputs() {
         return {
             title: this.state.topic.value,
@@ -120,9 +150,9 @@ export class SendMail extends Component {
         sendButton?.classList.add('skeleton__block');
         sendButton?.classList.add('contrast-button_disabled');
 
-        // await dispatcher.dispatch(actionSendMail(mail));
+        await dispatcher.dispatch(actionSendMail(mail));
 
-        await fileDownloader.download('hello.txt', '0L/RgNC40LLQtdGC');
+        // await fileDownloader.download('hello.txt', '0L/RgNC40LLQtdGC');
     };
 
 
@@ -234,7 +264,6 @@ export class SendMail extends Component {
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement && currentTarget.dataset.section) {
-
             currentTarget.getElementsByClassName('recipient-form__span')[0].classList.add('element-hidden');
             const input = currentTarget.getElementsByClassName('recipient-form__input')[0] as HTMLInputElement;
 
@@ -303,7 +332,7 @@ export class SendMail extends Component {
             if (!(document.getElementById('data-list') === e.target as HTMLElement ||
                 document.getElementById('data-list')?.contains(e.target as HTMLElement))) {
                 this.datalist?.purge();
-                const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement
+                const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
                 recipientInput.value = '';
             }
         }
@@ -394,6 +423,10 @@ export class SendMail extends Component {
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);
 
+        this.state.actionButtons.forEach((button: Element) => {
+            button.addEventListener('click', this.actionButtonsClicked);
+        });
+
         this.state.footerButtons.forEach((button: Element) => {
             button.addEventListener('click', this.bottomButtonsClicked);
         });
@@ -421,6 +454,10 @@ export class SendMail extends Component {
 
         this.state.footerButtons.forEach((button: Element) => {
             button.removeEventListener('click', this.bottomButtonsClicked);
+        });
+
+        this.state.actionButtons.forEach((button: Element) => {
+            button.removeEventListener('click', this.actionButtonsClicked);
         });
 
         this.state.iconButton.removeEventListener('click', this.closeButtonClicked);
@@ -457,20 +494,27 @@ export class SendMail extends Component {
      * method insert sidebar to HTML
      */
     render() {
-        const actionButtons: object[] = [];
+        const footerButtons: object[] = [];
         Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
-            actionButtons.push(ContrastButton.renderTemplate(button));
+            footerButtons.push(ContrastButton.renderTemplate(button));
+        });
+
+        const actionButtons: object[] = [];
+        Object.values(config.buttons.newMailButtons.actionButtons).forEach((button) => {
+            actionButtons.push(MenuButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
             profile: reducerUser._storage.get(reducerUser._storeNames.profile),
             inputs: config.forms.newMail,
             actionButtons: actionButtons,
+            footerButtons: footerButtons,
             closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
         }));
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
+        this.state.actionButtons = [...this.state.element.getElementsByClassName('menu-button')];
         this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 

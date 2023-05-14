@@ -16,6 +16,7 @@ class NewMailStore extends BaseStore {
         answerBody: 'answerBody',
         isDraft: 'isDraft',
         draftId: 'draftId',
+        attachments: 'attachments',
     };
 
     /**
@@ -35,6 +36,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.answerBody, '');
         this._storage.set(this._storeNames.answerStatus, '');
         this._storage.set(this._storeNames.isDraft, false);
+        this._storage.set(this._storeNames.attachments, []);
 
         microEvents.trigger('createNewMail');
     };
@@ -106,6 +108,7 @@ class NewMailStore extends BaseStore {
      * @param mail - mail to send
      */
     sendMail = async (mail: MailToSend) => {
+        mail.attachments = this._storage.get(this._storeNames.attachments);
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
@@ -114,13 +117,12 @@ class NewMailStore extends BaseStore {
                 reducerLetters.deleteMailRequest(this.getDraftId()).then(() =>
                     reducerLetters.getLetters(reducerLetters.getCurrentLettersName()));
             }
-
             microEvents.trigger('mailSent');
         });
     };
 
     sendDraft = async (draft: MailToSend) => {
-        const promise = Connector.makePostRequest(config.api.sendDraft, draft)
+        const promise = Connector.makePostRequest(config.api.sendDraft, draft);
         const [status, body] = await promise;
 
         this._storage.set(this._storeNames.answerBody, body);
@@ -135,6 +137,42 @@ class NewMailStore extends BaseStore {
         microEvents.trigger('draftSent');
         return promise;
     };
+
+    addAttachment(file: File) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+            const attach: AttachToSend = {
+                fileName: file.name,
+                fileData: (reader.result as string).split(',')[1],
+            };
+
+            const foundFile = reducerNewMail._storage.get(reducerNewMail._storeNames.attachments)
+                .find((iterFile: AttachToSend) => iterFile === attach);
+            if (!foundFile) {
+                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
+                console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
+            }
+        };
+    }
+
+    removeAttachment(file: File) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+            const attach: AttachToSend = {
+                fileName: file.name,
+                fileData: (reader.result as string).split(',')[1],
+            };
+
+            const foundFile = reducerNewMail._storage.get(reducerNewMail._storeNames.attachments)
+                .find((iterFile: AttachToSend) => iterFile === attach);
+            if (foundFile) {
+                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).remove(foundFile);
+                console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.attachments));
+            }
+        };
+    }
 
     getDraftId() {
         return this._storage.get(this._storeNames.draftId);
