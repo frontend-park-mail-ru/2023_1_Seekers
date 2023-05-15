@@ -39,7 +39,7 @@ class WebSocketMessage {
 
     init = () => {
         console.log('hello!');
-        const sock = new WebSocket('ws://127.0.0.1:8001' + '/' + config.api.webSocket + '?email=' + reducerUser.getMyProfile().email);
+        const sock = new WebSocket('ws://mailbx.ru' + '/' + config.api.webSocket + '?email=' + reducerUser.getMyProfile().email);
         sock.onmessage = this.onMessage;
         sock.onclose = this.onClose;
         sock.onerror = this.onError;
