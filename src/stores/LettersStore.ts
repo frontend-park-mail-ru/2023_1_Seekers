@@ -24,6 +24,7 @@ class LettersStore extends BaseStore {
         accountName: 'accountName',
         emailToPaste: 'emailToPaste',
         searchedLetters: 'searchedLetters',
+        mailToAppend: 'mailToAppend',
     };
 
     /**
@@ -38,6 +39,7 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.currentLetters, '/inbox');
         this._storage.set(this._storeNames.selectedLetters, []);
         this._storage.set(this._storeNames.searchedLetters, []);
+        this._storage.set(this._storeNames.mailToAppend, undefined);
     }
 
     /**
@@ -223,6 +225,22 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+
+    appendMessage(sockMsg: MessageFromSocket) {
+        const message = sockMsg.mailData;
+
+        if (this.getCurrentLettersName() !== sockMsg.folder) {
+            return;
+        }
+        this._storage.set(this._storeNames.mailToAppend, this.getLetterFrameFromMailData(message));
+        this.getCurrentLettersArray().unshift(this.getLetterFrameFromMailData(message));
+        if (this.getCurrentLettersArray().length === 0) {
+            return;
+        }
+        console.log(this.getCurrentLettersName());
+        microEvents.trigger('newMailReceived');
+    }
+
     /**
      * function that makes request to get mail for context
      * @param href - href of mail
@@ -386,6 +404,26 @@ class LettersStore extends BaseStore {
         });
     }
 
+    getLetterFrameFromMailData(message: MailData) {
+        console.log(message);
+        console.log(message.created_at);
+        const time = message.created_at.substring(0, 10)
+            .replace('-', '.').replace('-', '.');
+        const letterFrame: LetterFrameData = {
+            message_id: message.message_id,
+            seen: message.seen,
+            from_user_email: message.from_user_id.email,
+            title: message.title,
+            text: message.text,
+            created_at: time,
+            href: this.getCurrentLettersName() + '/' + message.message_id,
+            avatar: `${config.basePath}/${config.api.avatar}` +
+                `?email=${message.from_user_id.email}`,
+            recipients: message.recipients,
+        };
+        return letterFrame;
+    }
+
     getCurrentShownMailId() {
         return this._storage.get(this._storeNames.shownMail);
     }
@@ -396,6 +434,10 @@ class LettersStore extends BaseStore {
 
     getSearchedLetters() {
         return this._storage.get(this._storeNames.searchedLetters);
+    }
+
+    getNewMail() {
+        return this._storage.get(this._storeNames.mailToAppend) as LetterFrameData;
     }
 }
 

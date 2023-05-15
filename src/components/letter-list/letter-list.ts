@@ -18,6 +18,7 @@ import {config} from '@config/config';
 import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
 import {ContextDraft} from '@components/context-draft/context-draft';
 import {Form} from "@uikits/form/form";
+import {loginPage} from "@views/login-page/login-page";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -130,6 +131,30 @@ export class LetterList extends Component {
             const message = this.getMessageInputs();
             this.state.searchString = message.text;
             await dispatcher.dispatch(actionSearch(message));
+        }
+    };
+
+    appendNewLetter = () => {
+        const letter = reducerLetters.getNewMail();
+        if (letter) {
+            const line = document.createElement('div');
+            line.classList.add('horizontal-line');
+            const letterList = this.state.element.getElementsByClassName('letterList__scrollable')[0]!;
+            letterList.insertAdjacentHTML('afterbegin', LetterFrame.renderTemplate(letter));
+            const letterFrame = document.getElementById(`letter-frame-id-${letter.message_id}`)!;
+            this.state.letters.unshift(
+                {
+                    letterElement: letterFrame,
+                    stateElement: letterFrame.getElementsByClassName('letter-frame__read-state')[0],
+                    checkbox_area: letterFrame.getElementsByClassName('letter-frame__checkbox_area')[0],
+                });
+            letterFrame.parentNode!.insertBefore(line, letterFrame.nextSibling);
+            // letterList.prepend(line);
+
+            this.state.letters[0].letterElement.addEventListener('click', this.chooseLetter);
+            this.state.letters[0].letterElement.addEventListener('contextmenu', this.showLetterContext);
+            this.state.letters[0].stateElement.addEventListener('click', this.changeState);
+            this.state.letters[0].checkbox_area.addEventListener('click', this.selectLetter);
         }
     };
 
@@ -446,6 +471,7 @@ export class LetterList extends Component {
         microEvents.bind('searchDone', this.searchDone);
         microEvents.bind('letterListChanged', this.rerender);
         microEvents.bind('folderNotFound', this.renderNotFound);
+        microEvents.bind('newMailReceived', this.appendNewLetter);
 
         this.state.search.addEventListener('keypress', this.onSearch);
         document.getElementsByClassName('search-form__icon')[0]!
@@ -479,6 +505,7 @@ export class LetterList extends Component {
         microEvents.unbind('letterListChanged', this.rerender);
         microEvents.unbind('folderNotFound', this.renderNotFound);
         microEvents.unbind('searchDone', this.searchDone);
+        microEvents.unbind('newMailReceived', this.appendNewLetter);
         // microEvents.unbind('mailChanged', this.changeLetterToActive);
         if (this.state.letters.length) {
             this.state.unchooseAllButton.removeEventListener('click', this.unselectAll);

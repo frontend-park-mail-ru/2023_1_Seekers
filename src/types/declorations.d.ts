@@ -3,6 +3,8 @@ declare module '*.hbs' {
     export default _;
 }
 
+declare module '*.mp3';
+
 type HandlebarsTemplateDelegate<T = any> = Handlebars.TemplateDelegate<T>;
 
 declare const DOMAIN: string;
@@ -82,6 +84,11 @@ type AttachmentData = {
     type: string,
     sizeStr: string,
     sizeCount: number,
+}
+
+type MessageFromSocket = {
+    mailData: MailData,
+    folder: string,
 }
 
 type CustomPages = LoginPage;

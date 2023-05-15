@@ -79,7 +79,7 @@ export const config = {
         auth: `${prefixApi}auth`,
         csrf: `${prefixApi}csrf`,
         createFolder: `${prefixApi}folder/create`,
-        moveToFolder: `${prefixApi}/message/`,
+        moveToFolder: `${prefixApi}message/`,
         moveToFolder_to: '/move?toFolder=',
         moveToFolder_from: '&fromFolder=',
         deleteMail: `${prefixApi}message/`,

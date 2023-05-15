@@ -13,6 +13,7 @@
       "@stores/*":  ["src/stores/*"],
       "@styles/*":  ["src/styles/*"],
       "@uikits/*":  ["src/uikits/*"],
+      "@sound/*":  ["src/sound/*"]
     },
     "strict": true,
     "module": "ES6",

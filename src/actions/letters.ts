@@ -74,3 +74,8 @@ export const actionGetAttach = (attachId: number) => ({
     type: 'getAttach',
     value: attachId,
 });
+
+export const actionAppendMessage = (message: MessageFromSocket) => ({
+    type: 'appendMessage',
+    value: message,
+});
