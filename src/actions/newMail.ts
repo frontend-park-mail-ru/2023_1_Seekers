@@ -34,7 +34,12 @@ export const actionAddAttachment = (file: File) => ({
     value: file,
 });
 
-export const actionRemoveAttachment = (file: File) => ({
+export const actionRemoveAttachment = (attachID: number) => ({
     type: 'removeAttachment',
-    value: file,
+    value: attachID,
+});
+
+export const actionDownloadAttachFromSend = (attachID: number) => ({
+    type: 'downloadAttachFromSend',
+    value: attachID,
 });

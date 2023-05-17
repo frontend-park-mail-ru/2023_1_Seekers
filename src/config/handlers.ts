@@ -43,6 +43,8 @@ const handlers = [
     {type: 'removeAttachment', method: reducerNewMail.removeAttachment.bind(reducerNewMail)},
     {type: 'addAttachment', method: reducerNewMail.addAttachment.bind(reducerNewMail)},
 
+    {type: 'downloadAttachFromSend', method: reducerNewMail.downloadAttachment.bind(reducerNewMail)},
+
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},
     {type: 'transmitToFolder', method: reducerFolder.transmitToFolder.bind(reducerFolder)},

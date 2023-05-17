@@ -17,6 +17,7 @@ type Profile = {
 };
 
 type AttachToSend = {
+    attachID?: number,
     fileName: string,
     fileData: string,
 }

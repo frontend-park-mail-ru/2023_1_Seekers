@@ -4,6 +4,8 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerLetters} from '@stores/LettersStore';
 import {reducerUser} from "@stores/userStore";
+import {Attachment} from "@uikits/attachment/attachment";
+import {fileDownloader} from "@utils/fileDownloader";
 
 /**
  * class that implements all possible actions with sent mail
@@ -20,6 +22,7 @@ class NewMailStore extends BaseStore {
         attachments: 'attachments',
         lastAttachName: 'lastAttachName',
         lastAttachSize: 'lastAttachSize',
+        lastAttachID: 'lastAttachID',
     };
 
     /**
@@ -29,10 +32,7 @@ class NewMailStore extends BaseStore {
         super();
     }
 
-    /**
-     * function that sets initial state of the store
-     */
-    createNewMail = async () => {
+    setEmptyMail = () => {
         this._storage.set(this._storeNames.title, '');
         this._storage.set(this._storeNames.text, '');
         this._storage.set(this._storeNames.recipients, '');
@@ -40,7 +40,14 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.answerStatus, '');
         this._storage.set(this._storeNames.isDraft, false);
         this._storage.set(this._storeNames.attachments, []);
+        this._storage.set(this._storeNames.lastAttachID, 0);
+    }
 
+    /**
+     * function that sets initial state of the store
+     */
+    createNewMail = async () => {
+        this.setEmptyMail();
         microEvents.trigger('createNewMail');
     };
 
@@ -48,6 +55,7 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to forward mail
      */
     forwardMail = async () => {
+        this.setEmptyMail();
         this._storage.set(
             this._storeNames.title, reducerLetters.getCurrentContextMail().title,
         );
@@ -64,6 +72,7 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to reply to mail
      */
     replyToMail = async () => {
+        this.setEmptyMail();
         const email = reducerLetters.getCurrentContextMail().from_user_id.email;
         const text = reducerLetters.getCurrentContextMail().text;
         const title = reducerLetters.getCurrentContextMail().title;
@@ -113,6 +122,9 @@ class NewMailStore extends BaseStore {
     sendMail = async (mail: MailToSend) => {
         mail.from_user = reducerUser.getMyProfile().email;
         mail.attachments = this._storage.get(this._storeNames.attachments);
+        mail.attachments.forEach((attach) => {
+            delete attach.attachID;
+        });
         Connector.makePostRequest(config.api.sendMail, mail).then(([status, body]) => {
             this._storage.set(this._storeNames.answerBody, body);
             this._storage.set(this._storeNames.answerStatus, status);
@@ -150,18 +162,31 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.lastAttachName, file.name);
         this._storage.set(this._storeNames.lastAttachSize, file.size);
 
+
         reader.onload = function() {
+            reducerNewMail._storage
+                .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
+            console.log(reducerNewMail.getAttachID());
             const attach: AttachToSend = {
+                attachID: reducerNewMail.getAttachID(),
                 fileName: file.name,
                 fileData: (reader.result as string).split(',')[1],
             };
             reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
-            microEvents.trigger('addAttachmentToSendMail')
+            microEvents.trigger('addAttachmentToSendMail');
         };
     }
 
     removeAttachment(id: number) {
-        reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).splice(id, 1);
+        this.getAttachList()
+            .splice(this.getAttachList().indexOf(this.getAttachList().find((attach) =>
+                attach.attachID === id)!), 1);
+        console.log(this.getAttachList());
+    }
+
+    downloadAttachment(id: number) {
+        const file = this.getAttachList().find((attach) => attach.attachID === id)!;
+        fileDownloader.download(file.fileName, file.fileData);
     }
 
     getDraftId() {
@@ -174,6 +199,14 @@ class NewMailStore extends BaseStore {
 
     getAttachSize() {
         return this._storage.get(this._storeNames.lastAttachSize);
+    }
+
+    getAttachList() {
+        return this._storage.get(this._storeNames.attachments) as AttachToSend[];
+    }
+
+    getAttachID() {
+        return this._storage.get(this._storeNames.lastAttachID);
     }
 
     isDraft() {

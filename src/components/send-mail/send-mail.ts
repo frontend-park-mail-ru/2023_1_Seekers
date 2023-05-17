@@ -8,7 +8,13 @@ import {dispatcher} from '@utils/dispatcher';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {actionAddAttachment, actionSendDraft, actionSendMail} from '@actions/newMail';
+import {
+    actionAddAttachment,
+    actionDownloadAttachFromSend,
+    actionRemoveAttachment,
+    actionSendDraft,
+    actionSendMail
+} from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {Validation} from '@utils/validation';
@@ -36,7 +42,8 @@ export interface SendMail {
         recipients: Map<string, HTMLElement>,
         text: HTMLTextAreaElement,
 
-        editRecipient: HTMLElement
+        editRecipient: HTMLElement,
+        attachList: Element[],
     },
     datalist: DataList,
 
@@ -66,6 +73,7 @@ export class SendMail extends Component {
             recipients: new Map(),
 
             editRecipient: document.createElement('div'),
+            attachList: [],
         };
     }
 
@@ -112,12 +120,14 @@ export class SendMail extends Component {
             case config.buttons.newMailButtons.actionButtons.attach.folder_slug:
                 const input = document.createElement('input');
                 input.type = 'file';
+                input.multiple = true;
 
                 input.onchange = (e: Event) => {
                     if (e.target) {
                         const files = (<HTMLInputElement>e.target).files;
                         if (files) {
                             [...files].forEach((file) => {
+                                console.log(file);
                                 dispatcher.dispatch(actionAddAttachment(file));
                             });
                         }
@@ -395,28 +405,48 @@ export class SendMail extends Component {
             fileName: reducerNewMail.getAttachName(),
             icon: iconChooser.choose(reducerNewMail.getAttachName()),
             filesize: reducerNewMail.getAttachSize(),
+            attachID: reducerNewMail.getAttachID(),
             closeButton: IconButton.renderTemplate(
-                config.buttons.newMailButtons.closeButton)
+                config.buttons.newMailButtons.closeButton),
         };
-        area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow))
+        area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow));
+        console.log(reducerNewMail.getAttachID());
+        const curAttach = ([...area!.getElementsByClassName('attachment')]as HTMLElement[])
+            .find((attach) => attach.dataset.section! === reducerNewMail.getAttachID().toString());
+        this.state.attachList.push(curAttach as Element);
 
-        // TODO: вот такую же херню пиздани пж(на удаление)((еще в css было бы славно закоменченный параметр расскоментить и сделать нормально))
-        // const foundElement = [
-        //     ...recipientInput.getElementsByClassName('recipient-form')].find((element) => {
-        //     return (element as HTMLElement).dataset.section === recipient;
-        // })!;
-        //
-        // const validator = new Validation;
-        // if (!validator.validateEmail(recipient).status) {
-        //     foundElement.classList.add('input-form__error__border');
-        // }
-        //
-        // foundElement.getElementsByClassName('icon-button')[0]
-        //     .addEventListener('click', this.onRemoveRecipientClicked);
-        // this.state.recipients.set(recipient, foundElement as HTMLElement);
-        //
-        // (foundElement as HTMLElement).addEventListener('click', this.onRecipientClicked);
+        curAttach!.getElementsByClassName('attachment__close-button')[0]
+            .addEventListener('click', this.removeAttachment);
 
+        curAttach!.getElementsByClassName('attachment__footer')[0]
+            .addEventListener('click', this.downloadAttachment);
+    };
+
+    removeAttachment = async (e: Event) => {
+        if (e.currentTarget) {
+            const closeButton = e.currentTarget as HTMLElement;
+
+            let attach: HTMLElement = closeButton;
+
+            while (!attach.classList.contains('attachment')) {
+                attach = attach.parentElement!;
+            }
+            attach = (this.state.attachList as HTMLElement[]).find((iter) =>
+                iter.dataset.section == (attach as HTMLElement).dataset.section)!;
+
+            closeButton.removeEventListener('click', this.removeAttachment);
+            await dispatcher.dispatch(actionRemoveAttachment(Number(attach.dataset.section)));
+
+            this.state.attachList.splice(this.state.attachList.indexOf(attach), 1);
+            attach.remove();
+        }
+    };
+
+    downloadAttachment = async (e: Event) => {
+        if (e.currentTarget) {
+            const downloadButton = e.currentTarget as HTMLElement;
+            dispatcher.dispatch(actionDownloadAttachFromSend(Number(downloadButton.dataset.section!)));
+        }
     };
 
     pasteEmailToRecipient = () => {
@@ -489,6 +519,13 @@ export class SendMail extends Component {
 
         this.state.footerButtons.forEach((button: Element) => {
             button.removeEventListener('click', this.bottomButtonsClicked);
+        });
+
+        this.state.attachList.forEach((button: Element) => {
+            button.getElementsByClassName('attachment__close-button')[0]!
+                .removeEventListener('click', this.removeAttachment);
+            button.getElementsByClassName('attachment__footer')[0]!
+                .removeEventListener('click', this.downloadAttachment);
         });
 
         this.state.actionButtons.forEach((button: Element) => {

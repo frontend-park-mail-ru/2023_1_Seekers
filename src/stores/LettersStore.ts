@@ -196,9 +196,6 @@ class LettersStore extends BaseStore {
 
                     this.getMailArray().set(mailId, mailData);
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
-                        mailData.attachments.forEach((attachment) => {
-                            console.log(attachment);
-                        });
                         microEvents.trigger('mailChanged');
                     }
                 }
