@@ -504,7 +504,7 @@ export class SendMail extends Component {
         microEvents.bind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
+        this.state.recipientsInput.addEventListener('focusout', this.pasteEmailToRecipient);
 
         document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
         this.state.element.addEventListener('click', this.removeDataList);
@@ -537,10 +537,10 @@ export class SendMail extends Component {
         microEvents.unbind('mailSent', this.getSendResponse);
         microEvents.unbind('pasteEmailInRecipient', this.pasteEmailToRecipient);
         microEvents.unbind('showPasteEmailInRecipient', this.showPasteEmailToRecipient);
-        microEvents.unbind('addAttachmentToSendMail', this.addAttachment);
+        microEvents.unbind('addAttachmentToSendMail', this.pasteEmailToRecipient);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
+        this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
 
         this.state.recipients.forEach((element, key) => {
             element.getElementsByClassName('icon-button')[0]
