@@ -208,6 +208,13 @@ class LettersStore extends BaseStore {
         link.click();
     };
 
+    openAttachment = async (attachId: number) => {
+        const link = document.createElement('a');
+        window
+            .open(config.basePath + '/' + config.api.openAttach + attachId + config.api.openAttach_post);
+        link.click();
+    };
+
     /**
      * function that makes request to show concrete mail
      * @param href - href of mail

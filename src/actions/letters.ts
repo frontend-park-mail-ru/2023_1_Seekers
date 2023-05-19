@@ -75,6 +75,11 @@ export const actionGetAttach = (attachId: number) => ({
     value: attachId,
 });
 
+export const actionOpenAttach = (attachId: number) => ({
+    type: 'openAttach',
+    value: attachId,
+});
+
 export const actionAppendMessage = (message: MessageFromSocket) => ({
     type: 'appendMessage',
     value: message,

@@ -33,6 +33,7 @@ const handlers = [
     {type: 'showPasteEmail', method: reducerLetters.showPasteEmail.bind(reducerLetters)},
     {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},
     {type: 'appendMessage', method: reducerLetters.appendMessage.bind(reducerLetters)},
+    {type: 'openAttach', method: reducerLetters.openAttachment.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},

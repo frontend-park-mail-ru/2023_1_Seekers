@@ -5,7 +5,7 @@ import {config} from "@config/config";
 import {Attachment} from "@uikits/attachment/attachment";
 import {reducerLetters} from "@stores/LettersStore";
 import {dispatcher} from "@utils/dispatcher";
-import {actionGetLetters} from "@actions/letters";
+import {actionCtxMail, actionGetAttach, actionGetLetters, actionOpenAttach} from "@actions/letters";
 import {iconChooser} from "@utils/iconChooser";
 
 
@@ -67,13 +67,23 @@ export class AttachmentList extends Component {
     }
 
     saveAttachment = (e: Event) => {
-        console.log('asdas');
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                console.log(currentTarget.dataset.section);
-                dispatcher.dispatch(reducerLetters.getAttachment(currentTarget.dataset.section));
+                e.stopPropagation();
+                dispatcher.dispatch(actionGetAttach(Number(currentTarget.dataset.section)));
+            }
+        }
+    }
+
+    openAttachment = (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                e.stopPropagation();
+                dispatcher.dispatch(actionOpenAttach(Number(currentTarget.dataset.section)));
             }
         }
     }
@@ -85,7 +95,11 @@ export class AttachmentList extends Component {
     registerEventListener() {
         this.state.actionButtons.forEach((attach) => {
             attach.addEventListener('click', this.saveAttachment);
-        })
+        });
+
+        this.state.attachments.forEach((attach) => {
+            attach.addEventListener('click', this.openAttachment);
+        });
     }
 
     /**
@@ -95,7 +109,11 @@ export class AttachmentList extends Component {
     unregisterEventListener() {
         this.state.actionButtons.forEach((attach) => {
             attach.removeEventListener('click', this.saveAttachment);
-        })
+        });
+
+        this.state.attachments.forEach((attach) => {
+            attach.removeEventListener('click', this.openAttachment);
+        });
     }
 
     /**
