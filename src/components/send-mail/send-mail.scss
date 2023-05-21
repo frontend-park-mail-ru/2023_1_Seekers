@@ -131,16 +131,12 @@
   }
 
   &__content {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
     flex: 1;
     margin: 0 20px 0;
     overflow: auto;
     padding: 10px 10px 0 10px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    gap: 10px;
 
     &_color {
       background-color: var(--mail-text-background-color);
