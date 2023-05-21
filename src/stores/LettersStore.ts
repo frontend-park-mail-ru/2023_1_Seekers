@@ -57,7 +57,8 @@ class LettersStore extends BaseStore {
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
-                            text: message.text,
+                            text: '',
+                            preview: message.preview,
                             created_at: time,
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}` +
@@ -100,7 +101,8 @@ class LettersStore extends BaseStore {
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
-                            text: message.text,
+                            text: '',
+                            preview: message.preview,
                             created_at: time,
                             href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
                             avatar: `${config.basePath}/${config.api.avatar}` +
@@ -419,6 +421,7 @@ class LettersStore extends BaseStore {
             from_user_email: message.from_user_id.email,
             title: message.title,
             text: message.text,
+            preview: '',
             created_at: time,
             href: this.getCurrentLettersName() + '/' + message.message_id,
             avatar: `${config.basePath}/${config.api.avatar}` +

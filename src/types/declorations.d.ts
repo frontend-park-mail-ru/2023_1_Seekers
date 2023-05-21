@@ -41,6 +41,7 @@ type LetterFrameData = {
     from_user_email: string,
     title: string,
     text: string,
+    preview: string,
     created_at: string,
     href: string,
     avatar: string,
