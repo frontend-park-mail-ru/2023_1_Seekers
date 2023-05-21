@@ -206,7 +206,6 @@ class LettersStore extends BaseStore {
     };
 
     getArchiveAttachment = async (href: string) => {
-        console.log(reducerLetters.getCurrentContextMail().message_id)
         const mailId = href.split('/').pop();
         console.log(mailId)
         // const link = document.createElement('a');
