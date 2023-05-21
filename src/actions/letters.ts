@@ -85,7 +85,7 @@ export const actionAppendMessage = (message: MessageFromSocket) => ({
     value: message,
 });
 
-export const actionDownloadArchiveAttach = (messageID: number) => ({
+export const actionDownloadArchiveAttach = () => ({
     type: 'downloadArchiveAttach',
-    value: messageID,
+    value: {},
 });

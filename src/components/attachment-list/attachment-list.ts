@@ -84,7 +84,7 @@ export class AttachmentList extends Component {
     downloadArchiveAttachment = (e: Event) => {
         e.preventDefault();
         dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-       // dispatcher.dispatch(actionDownloadArchiveAttach());
+        dispatcher.dispatch(actionDownloadArchiveAttach());
     }
 
     openAttachment = (e: Event) => {
@@ -110,6 +110,8 @@ export class AttachmentList extends Component {
         this.state.attachments.forEach((attach) => {
             attach.addEventListener('click', this.openAttachment);
         });
+
+        document.getElementsByClassName('attachment-list__controls__action')[0].addEventListener('click', this.downloadArchiveAttachment)
     }
 
     /**
@@ -124,6 +126,8 @@ export class AttachmentList extends Component {
         this.state.attachments.forEach((attach) => {
             attach.removeEventListener('click', this.openAttachment);
         });
+
+        document.getElementsByClassName('attachment-list__controls__action')[0].removeEventListener('click', this.downloadArchiveAttachment)
     }
 
     /**
