@@ -84,7 +84,7 @@ export class AttachmentList extends Component {
     downloadArchiveAttachment = (e: Event) => {
         e.preventDefault();
         dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-        dispatcher.dispatch(actionDownloadArchiveAttach());
+       // dispatcher.dispatch(actionDownloadArchiveAttach());
     }
 
     openAttachment = (e: Event) => {

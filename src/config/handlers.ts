@@ -34,7 +34,7 @@ const handlers = [
     {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},
     {type: 'appendMessage', method: reducerLetters.appendMessage.bind(reducerLetters)},
     {type: 'openAttach', method: reducerLetters.openAttachment.bind(reducerLetters)},
-    //{type: 'actionDownloadArchiveAttach', method: reducerNewMail.downloadArchiveAttachment.bind(reducerNewMail)},
+    {type: 'actionDownloadArchiveAttach', method: reducerLetters.getArchiveAttachment.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
