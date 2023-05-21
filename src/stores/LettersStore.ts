@@ -207,11 +207,10 @@ class LettersStore extends BaseStore {
 
     getArchiveAttachment = async (href: string) => {
         const mailId = href.split('/').pop();
-        console.log(mailId)
-        // const link = document.createElement('a');
-        // link.href = config.basePath + '/' + config.api.getArchiveAttach
-        //     + reducerLetters.getCurrentContextMail().message_id + '/attaches';
-        // link.click();
+        const link = document.createElement('a');
+        link.href = config.basePath + '/' + config.api.getArchiveAttach
+            + mailId + '/attaches';
+        link.click();
     };
 
     openAttachment = async (attachId: number) => {
