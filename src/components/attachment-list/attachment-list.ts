@@ -5,7 +5,11 @@ import {config} from "@config/config";
 import {Attachment} from "@uikits/attachment/attachment";
 import {reducerLetters} from "@stores/LettersStore";
 import {dispatcher} from "@utils/dispatcher";
-import {actionCtxMail, actionGetAttach, actionGetLetters, actionOpenAttach} from "@actions/letters";
+import {
+    actionCtxMail, actionDownloadArchiveAttach,
+    actionGetAttach,
+    actionOpenAttach
+} from "@actions/letters";
 import {iconChooser} from "@utils/iconChooser";
 
 
@@ -75,6 +79,12 @@ export class AttachmentList extends Component {
                 dispatcher.dispatch(actionGetAttach(Number(currentTarget.dataset.section)));
             }
         }
+    }
+
+    downloadArchiveAttachment = (e: Event) => {
+        e.preventDefault();
+        dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
+        dispatcher.dispatch(actionDownloadArchiveAttach());
     }
 
     openAttachment = (e: Event) => {

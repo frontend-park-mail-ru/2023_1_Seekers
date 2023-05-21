@@ -17,7 +17,6 @@
     margin-bottom: 8px;
     cursor: pointer;
     background-color: var(--color_background_secondary_alpha);
-    //overflow: hidden;
     border-radius: 12px;
     width: 100px;
     border: 1px solid var(--attach-border);
@@ -99,6 +98,14 @@
         width: 22px;
         height: 18px;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .attachment {
+    &__footer {
+      opacity: 1;
     }
   }
 }

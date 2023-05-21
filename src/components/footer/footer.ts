@@ -80,6 +80,7 @@ export class Footer extends Component {
         document.getElementById('footer-button-close')!.addEventListener('click', this.onFooterClick);
 
         this.state.children.forEach((button: Element) => {
+            console.log(button)
             button.addEventListener('click', this.localEventCatcher);
         });
 
@@ -115,11 +116,10 @@ export class Footer extends Component {
         ));
 
         this.state.element = this.parent.getElementsByClassName('footer')[0];
-        this.state.children = [...this.state.element.getElementsByClassName('footer__item')];
+        this.state.children = [...this.state.element.getElementsByClassName('account-sidebar__item')];
 
         this.state.children.push(
             this.state.element.getElementsByClassName('footer__avatar')[0]);
-
         this.registerEventListener();
         this.state.isRendered = true;
     }

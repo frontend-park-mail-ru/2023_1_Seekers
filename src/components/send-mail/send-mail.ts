@@ -127,7 +127,6 @@ export class SendMail extends Component {
                         const files = (<HTMLInputElement>e.target).files;
                         if (files) {
                             [...files].forEach((file) => {
-                                console.log(file);
                                 dispatcher.dispatch(actionAddAttachment(file));
                             });
                         }
@@ -537,7 +536,7 @@ export class SendMail extends Component {
         microEvents.unbind('mailSent', this.getSendResponse);
         microEvents.unbind('pasteEmailInRecipient', this.pasteEmailToRecipient);
         microEvents.unbind('showPasteEmailInRecipient', this.showPasteEmailToRecipient);
-        microEvents.unbind('addAttachmentToSendMail', this.pasteEmailToRecipient);
+        microEvents.unbind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
         // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);

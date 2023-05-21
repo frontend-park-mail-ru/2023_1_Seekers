@@ -139,6 +139,11 @@ class NewMailStore extends BaseStore {
 
     sendDraft = async (draft: MailToSend) => {
         draft.from_user = reducerUser.getMyProfile().email;
+        draft.attachments = this._storage.get(this._storeNames.attachments);
+        draft.attachments.forEach((attach) => {
+            delete attach.attachID;
+        });
+        console.log('asasdasdasdasd')
         const promise = Connector.makePostRequest(config.api.sendDraft, draft);
         const [status, body] = await promise;
 
@@ -161,7 +166,6 @@ class NewMailStore extends BaseStore {
 
         this._storage.set(this._storeNames.lastAttachName, file.name);
         this._storage.set(this._storeNames.lastAttachSize, file.size);
-
 
         reader.onload = function() {
             reducerNewMail._storage

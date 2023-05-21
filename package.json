@@ -46,7 +46,8 @@
     "stand": "npm run dev",
     "deploy": "npm run prod",
     "start": " serve -s -l 8002 ./dist",
-    "dev-server": "webpack-dev-server --mode development"
+    "dev-server": "webpack-dev-server --mode development",
+    "prod-server": "webpack-dev-server --mode production"
   },
   "repository": {
     "type": "git",
