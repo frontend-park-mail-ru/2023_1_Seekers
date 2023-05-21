@@ -86,7 +86,6 @@ class LettersStore extends BaseStore {
      * function that makes request to get all the letters from folder
      */
     getLettersAfterSearch = async (message: SearchMessage) => {
-        console.log('getLettersAfterSearch');
         this.clearSelectedLetter();
         Connector.makeGetRequest(config.api.search + this.getCurrentLettersName().split('/').pop() +
             config.api.search_post + message.text)
@@ -111,7 +110,6 @@ class LettersStore extends BaseStore {
 
                         searchedLetters.push(letterFrame);
                     });
-                    console.log(searchedLetters);
                     this._storage.set(this._storeNames.searchedLetters, searchedLetters);
                     // if (folderName === this._storage.get(this._storeNames.currentLetters)) {
                     microEvents.trigger('searchDone');
@@ -246,7 +244,6 @@ class LettersStore extends BaseStore {
         if (this.getCurrentLettersArray().length === 0) {
             return;
         }
-        console.log(this.getCurrentLettersName());
         microEvents.trigger('newMailReceived');
     }
 
@@ -414,8 +411,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetterFrameFromMailData(message: MailData) {
-        console.log(message);
-        console.log(message.created_at);
         const time = message.created_at.substring(0, 10)
             .replace('-', '.').replace('-', '.');
         const letterFrame: LetterFrameData = {

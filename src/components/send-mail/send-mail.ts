@@ -412,7 +412,6 @@ export class SendMail extends Component {
                 config.buttons.newMailButtons.closeButton),
         };
         area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow));
-        console.log(reducerNewMail.getAttachID());
         const curAttach = ([...area!.getElementsByClassName('attachment')]as HTMLElement[])
             .find((attach) => attach.dataset.section! === reducerNewMail.getAttachID().toString());
         this.state.attachList.push(curAttach as Element);
@@ -561,7 +560,6 @@ export class SendMail extends Component {
         this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
         this.state.recipientsInput.value =
             reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
-        console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.text))
         this.state.text.insertAdjacentHTML('beforeend', reducerNewMail._storage.get(reducerNewMail._storeNames.text))
     }
 

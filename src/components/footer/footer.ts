@@ -80,7 +80,6 @@ export class Footer extends Component {
         document.getElementById('footer-button-close')!.addEventListener('click', this.onFooterClick);
 
         this.state.children.forEach((button: Element) => {
-            console.log(button)
             button.addEventListener('click', this.localEventCatcher);
         });
 

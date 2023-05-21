@@ -83,7 +83,6 @@ export class AttachmentList extends Component {
 
     downloadArchiveAttachment = (e: Event) => {
         e.preventDefault();
-        console.log('downloadArchiveAttachment')
         dispatcher.dispatch(actionDownloadArchiveAttach(reducerLetters.getCurrentMailPath()));
     }
 

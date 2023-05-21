@@ -76,7 +76,6 @@ class NewMailStore extends BaseStore {
         const email = reducerLetters.getCurrentContextMail().from_user_id.email;
         const text = reducerLetters.getCurrentContextMail().text;
         const title = reducerLetters.getCurrentContextMail().title;
-        console.log(text)
         this._storage.set(
             this._storeNames.title, 'RE: ' + title,
         );
@@ -143,7 +142,6 @@ class NewMailStore extends BaseStore {
         draft.attachments.forEach((attach) => {
             delete attach.attachID;
         });
-        console.log('asasdasdasdasd')
         const promise = Connector.makePostRequest(config.api.sendDraft, draft);
         const [status, body] = await promise;
 
@@ -170,7 +168,6 @@ class NewMailStore extends BaseStore {
         reader.onload = function() {
             reducerNewMail._storage
                 .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
-            console.log(reducerNewMail.getAttachID());
             const attach: AttachToSend = {
                 attachID: reducerNewMail.getAttachID(),
                 fileName: file.name,
@@ -185,7 +182,6 @@ class NewMailStore extends BaseStore {
         this.getAttachList()
             .splice(this.getAttachList().indexOf(this.getAttachList().find((attach) =>
                 attach.attachID === id)!), 1);
-        console.log(this.getAttachList());
     }
 
     downloadAttachment(id: number) {
