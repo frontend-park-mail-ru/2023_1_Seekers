@@ -143,7 +143,7 @@ export class SendMail extends Component {
     getMailInputs() {
         let text = '';
         [...this.state.text.children].forEach((str) => {
-            text += str.outerHTML
+            text += str.outerHTML.replace('"', '\"')
         })
         return {
             title: this.state.topic.value,
