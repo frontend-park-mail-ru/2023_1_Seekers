@@ -1,4 +1,4 @@
-.mail-content {
+.mail-content div {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -6,8 +6,5 @@
     position: relative;
     gap: 20px;
     padding: 0;
-
-    &__text_color {
-        color: var(--menu-text-default-color);
-    }
+    color: var(--menu-text-default-color);
 }

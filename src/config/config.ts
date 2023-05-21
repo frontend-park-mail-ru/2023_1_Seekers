@@ -51,7 +51,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'https://mailbx.ru',
+    basePath: 'http://127.0.0.1:8001',
     headers: {
         'Content-Type': 'application/json',
         // 'accept': 'application/json',
@@ -735,10 +735,6 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 name: 'new-mail-topic',
                 type: 'text',
                 maxlenght: '50',
-            },
-            mailText: {
-                name: 'new-mail-text',
-                maxlenght: '1000',
             },
         },
         newFolder: {

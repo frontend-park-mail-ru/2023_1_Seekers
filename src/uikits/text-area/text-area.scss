@@ -1,0 +1,26 @@
+.text-area {
+  line-height: 140%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  word-wrap: break-word;
+  width: 100%;
+  font-size: 15px;
+  cursor: text;
+  outline: none;
+  text-align: left;
+  box-sizing: border-box;
+  white-space: normal;
+  color: var(--menu-text-default-color);
+
+  &_size {
+    resize: none;
+  }
+}
+
+.text-area div {
+  -webkit-user-modify: read-write;
+  overflow-wrap: break-word;
+  -webkit-line-break: after-white-space;
+  unicode-bidi: isolate;
+  display: block;
+}

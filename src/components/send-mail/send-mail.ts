@@ -27,6 +27,7 @@ import {fileDownloader} from '@utils/fileDownloader';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {Attachment} from "@uikits/attachment/attachment";
 import {iconChooser} from "@utils/iconChooser";
+import {TextArea} from "@uikits/text-area/text-area";
 
 
 export interface SendMail {
@@ -40,7 +41,7 @@ export interface SendMail {
         topic: HTMLInputElement,
         recipientsInput: HTMLInputElement,
         recipients: Map<string, HTMLElement>,
-        text: HTMLTextAreaElement,
+        text: Element,
 
         editRecipient: HTMLElement,
         attachList: Element[],
@@ -69,7 +70,7 @@ export class SendMail extends Component {
 
             topic: document.createElement('input') as HTMLInputElement,
             recipientsInput: document.createElement('input') as HTMLInputElement,
-            text: document.createElement('textarea') as HTMLTextAreaElement,
+            text: document.createElement('div'),
             recipients: new Map(),
 
             editRecipient: document.createElement('div'),
@@ -140,10 +141,14 @@ export class SendMail extends Component {
     };
 
     getMailInputs() {
+        let text = '';
+        [...this.state.text.children].forEach((str) => {
+            text += str.outerHTML
+        })
         return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
-            text: this.state.text.value,
+            text: text,
         } as MailToSend;
     }
 
@@ -162,8 +167,6 @@ export class SendMail extends Component {
         sendButton?.classList.add('contrast-button_disabled');
 
         await dispatcher.dispatch(actionSendMail(mail));
-
-        // await fileDownloader.download('hello.txt', '0L/RgNC40LLQtdGC');
     };
 
 
@@ -558,8 +561,9 @@ export class SendMail extends Component {
         this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
         this.state.recipientsInput.value =
             reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
-        this.state.text.value = reducerNewMail._storage.get(reducerNewMail._storeNames.text);
-    };
+        console.log(reducerNewMail._storage.get(reducerNewMail._storeNames.text))
+        this.state.text.insertAdjacentHTML('beforeend', reducerNewMail._storage.get(reducerNewMail._storeNames.text))
+    }
 
 
     /**
@@ -582,6 +586,7 @@ export class SendMail extends Component {
             actionButtons: actionButtons,
             footerButtons: footerButtons,
             closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
+            textArea: TextArea.renderTemplate({})
         }));
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
@@ -595,8 +600,7 @@ export class SendMail extends Component {
         this.state.recipientsInput = this.state.element.getElementsByTagName('input')
             .namedItem(config.forms.newMail.recipients.name)!;
 
-        this.state.text = this.state.element.getElementsByTagName('textarea')[0];
-
+        this.state.text = this.state.element.getElementsByClassName('text-area')[0];
         this.registerEventListener();
         this.setInputsState();
 

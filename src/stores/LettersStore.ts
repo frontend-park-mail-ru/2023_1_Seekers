@@ -4,9 +4,6 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
-import {RecipientForm} from "@uikits/recipient-form/recipient-form";
-import {IconButton} from "@uikits/icon-button/icon-button";
-import {LetterFrameLoader} from "@uikits/letter-frame-loader/letter-frame-loader";
 import {socket} from "@utils/webSocket";
 
 /**

@@ -147,23 +147,6 @@
     }
   }
 
-  &__textarea {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    padding: 0;
-
-    &_size {
-      resize: none;
-    }
-
-    &_text-color {
-      color: var(--menu-text-default-color);
-    }
-  }
-
   &__bottom-button {
     display: flex;
     flex: 1;

@@ -76,13 +76,13 @@ class NewMailStore extends BaseStore {
         const email = reducerLetters.getCurrentContextMail().from_user_id.email;
         const text = reducerLetters.getCurrentContextMail().text;
         const title = reducerLetters.getCurrentContextMail().title;
-
+        console.log(text)
         this._storage.set(
             this._storeNames.title, 'RE: ' + title,
         );
         this._storage.set(
-            this._storeNames.text, '\n\n\n\n\n\n' + email +
-            ' написал(а) ' + 'ВРЕМЯ(с датой):' + '\n' + text,
+            this._storeNames.text, '<div>' + email +
+            ' написал(а) ' + 'ВРЕМЯ(с датой):' + '</div>' + text,
         );
 
         this._storage.set(
