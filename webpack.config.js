@@ -22,10 +22,7 @@ const optimization = () => {
     if (isProd) {
         config.minimizer = [
             new CssMinimizerPlugin(),
-            new TerserWebpackPlugin({
-                cache: true,
-                parallel: true
-            }),
+            new TerserWebpackPlugin(),
         ];
     }
 
