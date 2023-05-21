@@ -82,6 +82,7 @@ export class AttachmentList extends Component {
     }
 
     downloadArchiveAttachment = (e: Event) => {
+        console.log('downloadArchiveAttachment')
         e.preventDefault();
         dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
         dispatcher.dispatch(actionDownloadArchiveAttach());
@@ -111,7 +112,7 @@ export class AttachmentList extends Component {
             attach.addEventListener('click', this.openAttachment);
         });
 
-        document.getElementsByClassName('attachment-list__controls__action')[0].addEventListener('click', this.downloadArchiveAttachment)
+        document.getElementsByClassName('attachment-list__controls__action')[0]?.addEventListener('click', this.downloadArchiveAttachment)
     }
 
     /**
@@ -127,7 +128,7 @@ export class AttachmentList extends Component {
             attach.removeEventListener('click', this.openAttachment);
         });
 
-        document.getElementsByClassName('attachment-list__controls__action')[0].removeEventListener('click', this.downloadArchiveAttachment)
+        document.getElementsByClassName('attachment-list__controls__action')[0]?.removeEventListener('click', this.downloadArchiveAttachment)
     }
 
     /**
