@@ -1,5 +1,4 @@
 import {Connector} from '@utils/ajax';
-import {Buffer} from 'buffer';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
@@ -57,9 +56,6 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to forward mail
      */
     forwardMail = async () => {
-
-
-
         this.setEmptyMail();
         this._storage.set(
             this._storeNames.title, reducerLetters.getCurrentContextMail().title,
@@ -71,6 +67,7 @@ class NewMailStore extends BaseStore {
 
         this._storage.set(this._storeNames.isDraft, false);
         microEvents.trigger('createNewMail');
+
         if (reducerLetters.getCurrentContextMail().attachments) {
             console.log(reducerLetters.getCurrentContextMail().attachments);
             reducerLetters.getCurrentContextMail().attachments.forEach((attach) => {
@@ -86,7 +83,9 @@ class NewMailStore extends BaseStore {
             const reader = request.body.getReader();
             reader.read().then((buffer: any) => {
                 const fileContent = new TextDecoder().decode(buffer.value);
-                const b64File = Buffer.from(fileContent, 'base64').toString().split(',')[1];
+                const b64File = window.btoa(unescape(encodeURIComponent(fileContent)));
+                console.log(b64File);
+
 
                 reducerNewMail._storage
                     .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
@@ -96,26 +95,12 @@ class NewMailStore extends BaseStore {
                     fileData: b64File,
                 };
                 console.log(attach);
-                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(newAttach);
+                this._storage.get(reducerNewMail._storeNames.attachments).push(newAttach);
                 this._storage.set(this._storeNames.lastAttachName, newAttach.fileName);
                 this._storage.set(this._storeNames.lastAttachSize, attach.sizeStr);
                 microEvents.trigger('addAttachmentToSendMail');
             });
         });
-
-        // // read text from URL location
-        // const request = new XMLHttpRequest();
-        // request.open('GET', config.api.getAttach + file, true);
-        // request.send(null);
-        // request.onreadystatechange = function () {
-        //     if (request.readyState === 4 && request.status === 200) {
-        //         var type = request.getResponseHeader('Content-Type');
-        //         if (type.indexOf("text") !== 1) {
-        //             return request.responseText;
-        //         }
-        //     }
-        //
-        // }
     }
 
     /**
@@ -139,12 +124,20 @@ class NewMailStore extends BaseStore {
         );
         this._storage.set(this._storeNames.isDraft, false);
         microEvents.trigger('createNewMail');
+
+        if (reducerLetters.getCurrentContextMail().attachments) {
+            console.log(reducerLetters.getCurrentContextMail().attachments);
+            reducerLetters.getCurrentContextMail().attachments.forEach((attach) => {
+                this.getFileContent(attach);
+            });
+        }
     };
 
     /**
      * function that sets initial state of the store when need to forward mail
      */
     selectDraft = async (draftHref: string) => {
+        this.setEmptyMail();
         this._storage.set(this._storeNames.draftId, parseInt(draftHref.split('/').pop()!));
         const mail = reducerLetters.getLetterByFolderAndId('drafts', this._storage.get(this._storeNames.draftId))!;
         let recipientsStr = '';
@@ -162,6 +155,12 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.recipients, recipientsStr);
         this._storage.set(this._storeNames.isDraft, true);
         microEvents.trigger('createNewMail');
+
+        if (mail.attachments) {
+            mail.attachments.forEach((attach) => {
+                this.getFileContent(attach);
+            });
+        }
     };
 
     /**

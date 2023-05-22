@@ -46,6 +46,7 @@ type LetterFrameData = {
     href: string,
     avatar: string,
     recipients?: ProfileData[],
+    attachments?: AttachmentData[],
 }
 
 type MailData = {

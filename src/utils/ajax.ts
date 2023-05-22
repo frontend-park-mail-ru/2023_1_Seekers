@@ -14,11 +14,9 @@ export class Connector {
         return fetch(url, options)
             .then((response) => response.json()
                 .then((data) => {
-                    console.log(response);
                     return [response.status, data];
                 } )
                 .catch((error) => {
-                    console.log(error);
                     return [response.status, {}];
                 }))
             .catch((error) => [500, error]) as anyObject;

@@ -64,6 +64,7 @@ class LettersStore extends BaseStore {
                             avatar: `${config.basePath}/${config.api.avatar}` +
                                 `?email=${message.from_user_id.email}`,
                             recipients: message.recipients,
+                            attachments: message.attachments,
                         };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
