@@ -1,13 +1,5 @@
-.mail-content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    gap: 20px;
-    padding: 0;
-
-    &__text_color {
-        color: var(--menu-text-default-color);
-    }
+.mail-content div {
+    -webkit-line-break: after-white-space;
+    overflow-wrap: break-word;
+    unicode-bidi: isolate;
 }

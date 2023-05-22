@@ -54,6 +54,10 @@
   }
 }
 
+.clickable__email {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 991px) {
   .mailbox-area {
     padding: unset !important;

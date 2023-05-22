@@ -79,12 +79,10 @@ export class Menu extends Component {
             return;
         }
         const me = e as MouseEvent;
-        console.log(me.clientX, me.clientY);
         e.preventDefault();
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                console.log(currentTarget.dataset.section);
                 await dispatcher.dispatch(actionCtxFolder(currentTarget.dataset.section));
                 const ctxMenu = new ContextMenu({parent: document.getElementById('root')!});
                 ctxMenu.render(me.clientX, me.clientY);

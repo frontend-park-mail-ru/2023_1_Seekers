@@ -269,6 +269,22 @@
     border: 10px solid var(--delimeters-color);
 }
 
+// FIXIT
+.letter-frame__content__text div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    align-self: stretch;
+    color: var(--color-text-secondary);
+
+    font-family: Helvetica, sans-serif; //this font 0
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+}
+
 @media only screen and (max-width: 991px) {
     .letter-frame {
         &:hover &__image {

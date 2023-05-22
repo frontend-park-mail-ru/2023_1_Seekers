@@ -1,0 +1,36 @@
+<div class="attachment" data-section="{{ this.attachID }}">
+    <div class="attachment__elem" title="{{this.fileName}} ({{this.filesize}})">
+        <div class="attachment__tooltip">
+            <div class="attachment__tooltip__header">
+                <div class="attachment__tooltip__header__text">
+                    {{this.fileName}}
+                </div>
+            </div>
+            <div class="attachment__tooltip__preview">
+                <div class="attachment__tooltip__preview__icon">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                        {{{this.icon}}}
+                    </svg>
+
+                </div>
+            </div>
+        </div>
+        <div class="attachment__footer" data-section="{{ this.attachID }}">
+            <svg class="attachment__footer__icon attachment__footer__icon__color attachment__footer__icon__size"
+                 fill="none"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{#if this.select.img includeZero=true}}
+                    {{{ this.downloadImg }}}
+                {{else}}
+                    ><path d="m4 16v1c0 1.6569 1.34315 3 3 3h10c1.6569 0 3-1.3431 3-3v-1m-4-4-4 4m0 0-4-4m4 4v-12"
+                           stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                {{/if}}
+            </svg>
+            <p class="font-caption-0 attachment__footer__text">Скачать</p>
+        </div>
+        <div class="attachment__close-button">
+            {{{ this.closeButton }}}
+        </div>
+    </div>
+</div>

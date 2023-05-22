@@ -59,6 +59,7 @@ export class MailBox extends View {
         microEvents.bind('loggedOut', this.closePage);
 
         document.getElementById('footer-button')!.addEventListener('click', this.onFooterButtonClick);
+        document.getElementById('navbar__email')!.addEventListener('click', this.onFooterButtonClick);
     };
 
 
@@ -72,6 +73,7 @@ export class MailBox extends View {
         microEvents.unbind('loggedOut', this.closePage);
 
         document.getElementById('footer-button')!.removeEventListener('click', this.onFooterButtonClick);
+        document.getElementById('navbar__email')!.removeEventListener('click', this.onFooterButtonClick);
     };
 
     onFooterButtonClick = (e: Event) => {
@@ -136,7 +138,6 @@ export class MailBox extends View {
      * method that triggers whem page is closing
      */
     closePage = () => {
-        console.log('close page');
         dispatcher.dispatch(actionRedirect('/login', false, false));
     };
 

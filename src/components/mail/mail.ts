@@ -8,14 +8,17 @@ import {config} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {dispatcher} from '@utils/dispatcher';
 import {actionForwardMail, actionReplyToMail} from '@actions/newMail';
-import {actionCtxMail} from '@actions/letters';
+import {actionCtxMail, actionShowPasteEmail} from '@actions/letters';
 import {ContextLetter} from '@components/context-letter/context-letter';
+import {showNotification} from "@components/notification/notification";
+import {AttachmentList} from "@components/attachment-list/attachment-list";
 
 
 export interface Mail {
     state: {
         element: Element,
         actionButtons: Element[],
+        attachmentsList: any,
     },
 }
 
@@ -32,6 +35,7 @@ export class Mail extends Component {
         this.state = {
             element: document.createElement('div'),
             actionButtons: [],
+            attachmentsList: null,
         };
 
         this.rerenderMail = this.rerenderMail.bind(this);
@@ -51,6 +55,7 @@ export class Mail extends Component {
             });
             this.parent.insertAdjacentHTML('afterbegin', template(
                 {
+                    title: reducerLetters.getCurrentMail().title,
                     mail: reducerLetters.getCurrentMail(),
                     mailContent: MailContent.renderTemplate(reducerLetters.getCurrentMail()),
                     actionButtons: actionButtons,
@@ -61,6 +66,14 @@ export class Mail extends Component {
 
             this.state.actionButtons = [...this.state.element.getElementsByClassName('icon-button')];
             this.state.element.classList.add('mail__show');
+
+            if (document.getElementById('attachment-list') &&
+                reducerLetters.getCurrentMail().attachments.length != 0) {
+                this.state.attachmentsList = new AttachmentList({
+                    parent: document.getElementById('attachment-list')!,
+                });
+                this.state.attachmentsList.render();
+            }
         }
         this.registerEventListener();
     }
@@ -73,6 +86,19 @@ export class Mail extends Component {
         this.render();
     }
 
+    saveOnEmailClick = (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
+                        showNotification('Скопировано!');
+                    }
+                );
+            }
+        }
+    }
+
     /**
      * method registerEventListener
      * register listeners for current object
@@ -82,6 +108,7 @@ export class Mail extends Component {
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
         });
+        document.getElementById('mail__contact')?.addEventListener('click', this.saveOnEmailClick);
     }
 
     /**
@@ -89,11 +116,11 @@ export class Mail extends Component {
      * unregister listeners for current object
      */
     unregisterEventListener() {
-        console.log('unregister events');
         microEvents.unbind('mailChanged', this.rerenderMail);
         this.state.actionButtons.forEach((button) => {
             button.removeEventListener('click', this.letterAction);
         });
+        document.getElementById('mail__contact')?.removeEventListener('click', this.saveOnEmailClick);
     }
 
     /**
@@ -105,7 +132,6 @@ export class Mail extends Component {
         this.unregisterEventListener();
         this.state.element.remove();
     }
-
 
 
     /**
@@ -121,21 +147,21 @@ export class Mail extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 switch (currentTarget.dataset.section) {
-                case config.buttons.mailActionButtons.forward.href:
-                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-                    dispatcher.dispatch(actionForwardMail());
-                    break;
+                    case config.buttons.mailActionButtons.forward.href:
+                        dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
+                        dispatcher.dispatch(actionForwardMail());
+                        break;
 
-                case config.buttons.mailActionButtons.reply.href:
-                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-                    dispatcher.dispatch(actionReplyToMail());
-                    break;
+                    case config.buttons.mailActionButtons.reply.href:
+                        dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
+                        dispatcher.dispatch(actionReplyToMail());
+                        break;
 
-                case config.buttons.mailActionButtons.more.href:
-                    dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
-                    const ctxMenu = new ContextLetter({parent: document.getElementById('root')!});
-                    ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
-                    break;
+                    case config.buttons.mailActionButtons.more.href:
+                        dispatcher.dispatch(actionCtxMail(reducerLetters.getCurrentMailPath()));
+                        const ctxMenu = new ContextLetter({parent: document.getElementById('root')!});
+                        ctxMenu.render((e as MouseEvent).clientX, (e as MouseEvent).clientY);
+                        break;
                 }
                 e.stopPropagation();
                 // currentTarget.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));

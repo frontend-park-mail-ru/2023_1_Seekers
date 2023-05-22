@@ -4,6 +4,7 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
+import {socket} from "@utils/webSocket";
 
 /**
  * class that implements all possible actions with letters data
@@ -18,6 +19,9 @@ class LettersStore extends BaseStore {
         currentAccountPage: 'currentAccountPage',
         selectedLetters: 'selectedLetters',
         accountName: 'accountName',
+        emailToPaste: 'emailToPaste',
+        searchedLetters: 'searchedLetters',
+        mailToAppend: 'mailToAppend',
     };
 
     /**
@@ -31,6 +35,8 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.contextMail, undefined);
         this._storage.set(this._storeNames.currentLetters, '/inbox');
         this._storage.set(this._storeNames.selectedLetters, []);
+        this._storage.set(this._storeNames.searchedLetters, []);
+        this._storage.set(this._storeNames.mailToAppend, undefined);
     }
 
     /**
@@ -51,7 +57,8 @@ class LettersStore extends BaseStore {
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
-                            text: message.text,
+                            text: '',
+                            preview: message.preview,
                             created_at: time,
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}` +
@@ -77,10 +84,63 @@ class LettersStore extends BaseStore {
     };
 
     /**
+     * function that makes request to get all the letters from folder
+     */
+    getLettersAfterSearch = async (message: SearchMessage) => {
+        this.clearSelectedLetter();
+        Connector.makeGetRequest(config.api.search + this.getCurrentLettersName().split('/').pop() +
+            config.api.search_post + message.text)
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
+                    const searchedLetters: LetterFrameData[] = [];
+                    body.messages?.forEach((message: any) => {
+                        const time = message.created_at.substring(0, 10)
+                            .replace('-', '.').replace('-', '.');
+                        const letterFrame: LetterFrameData = {
+                            message_id: message.message_id,
+                            seen: message.seen,
+                            from_user_email: message.from_user_id.email,
+                            title: message.title,
+                            text: '',
+                            preview: message.preview,
+                            created_at: time,
+                            href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
+                            avatar: `${config.basePath}/${config.api.avatar}` +
+                                `?email=${message.from_user_id.email}`,
+                            recipients: message.recipients,
+                        };
+
+                        searchedLetters.push(letterFrame);
+                    });
+                    this._storage.set(this._storeNames.searchedLetters, searchedLetters);
+                    // if (folderName === this._storage.get(this._storeNames.currentLetters)) {
+                    microEvents.trigger('searchDone');
+                    //     microEvents.trigger('mailChanged');
+                    // }
+                }
+            });
+        // this._storage.set(this._storeNames.currentLetters, folderName);
+        // this._storage.set(this._storeNames.shownMail, undefined);
+        // microEvents.trigger('letterListChanged');
+        // microEvents.trigger('mailChanged');
+    };
+
+    pasteEmail = async (email: string) => {
+        this._storage.set(this._storeNames.emailToPaste, email);
+        microEvents.trigger('pasteEmailInRecipient');
+    };
+
+    showPasteEmail = async (email: string) => {
+        this._storage.set(this._storeNames.emailToPaste, email);
+        microEvents.trigger('showPasteEmailInRecipient');
+    };
+
+    /**
      * function that makes request to log out user
      */
     async deleteMailRequest(id: string) {
-        return Connector.makeDeleteRequest(config.api.deleteMail + id);
+        return Connector.makeDeleteRequest(config.api.deleteMail + id +
+            config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1]);
     }
 
     deleteMail = async () => {
@@ -89,16 +149,19 @@ class LettersStore extends BaseStore {
             const len = this.getSelectedLetters().length;
             let i = 0;
             this.getSelectedLetters().forEach((id) => {
-                Connector.makeDeleteRequest(config.api.deleteMail + id).then(() => {
-                    i++;
-                    if (i === len) {
-                        this.deleteDone();
-                    }
-                });
+                Connector.makeDeleteRequest(config.api.deleteMail + id +
+                    config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1])
+                    .then(() => {
+                        i++;
+                        if (i === len) {
+                            this.deleteDone();
+                        }
+                    });
             });
         } else {
             Connector.makeDeleteRequest(config.api.deleteMail +
-                this.getCurrentContextMail().message_id.toString()).then(() => {
+                this.getCurrentContextMail().message_id.toString() +
+                config.api.deleteMail_from + reducerLetters.getCurrentLettersName().split('/')[1]).then(() => {
                 this.deleteDone();
             });
         }
@@ -110,13 +173,12 @@ class LettersStore extends BaseStore {
         microEvents.trigger('responseFromDelete');
         const mailHref = '/' +
             this._storage.get(this._storeNames.shownMail);
-        console.log(mailHref);
         this.getLetters(
             this._storage.get(this._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
             this.showMail(mailHref);
         }
-    }
+    };
 
     downloadMail = async (mailId: string) => {
         Connector.makeGetRequest(config.api.getMail + mailId)
@@ -130,14 +192,32 @@ class LettersStore extends BaseStore {
                         `${body.message.from_user_id.email}`;
 
                     this.getMailArray().set(mailId, mailData);
-                    console.log('mailDownloaded');
-
                     if (this._storage.get(this._storeNames.shownMail) === mailId) {
-                        console.log('triggering from download');
                         microEvents.trigger('mailChanged');
                     }
                 }
             });
+    };
+
+    getAttachment = async (attachId: string) => {
+        const link = document.createElement('a');
+        link.href = config.basePath + '/' + config.api.getAttach + attachId;
+        link.click();
+    };
+
+    getArchiveAttachment = async (href: string) => {
+        const mailId = href.split('/').pop();
+        const link = document.createElement('a');
+        link.href = config.basePath + '/' + config.api.getArchiveAttach
+            + mailId + '/attaches';
+        link.click();
+    };
+
+    openAttachment = async (attachId: number) => {
+        const link = document.createElement('a');
+        window
+            .open(config.basePath + '/' + config.api.openAttach + attachId + config.api.openAttach_post);
+        link.click();
     };
 
     /**
@@ -154,6 +234,21 @@ class LettersStore extends BaseStore {
         microEvents.trigger('mailChanged');
     };
 
+
+    appendMessage(sockMsg: MessageFromSocket) {
+        const message = sockMsg.mailData;
+
+        if (this.getCurrentLettersName() !== sockMsg.folder) {
+            return;
+        }
+        this._storage.set(this._storeNames.mailToAppend, this.getLetterFrameFromMailData(message));
+        this.getCurrentLettersArray().unshift(this.getLetterFrameFromMailData(message));
+        if (this.getCurrentLettersArray().length === 0) {
+            return;
+        }
+        microEvents.trigger('newMailReceived');
+    }
+
     /**
      * function that makes request to get mail for context
      * @param href - href of mail
@@ -167,7 +262,7 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.contextMail, mailId);
     };
 
-    clearCtxMail = async () => {
+    clearCtxMail = async () => { // почему не используется??
         this._storage.set(this._storeNames.contextMail, undefined);
         microEvents.trigger('mailChanged');
     };
@@ -181,7 +276,10 @@ class LettersStore extends BaseStore {
                 if (obj.props) {
                     this.showMail(obj.props);
                 }
-                reducerUser.getProfile();
+                reducerUser.getProfile().then(() => {
+                    socket.init();
+                });
+                reducerUser.getRecipients();
                 microEvents.trigger('renderMailboxPage');
             });
         });
@@ -193,9 +291,9 @@ class LettersStore extends BaseStore {
     getAccountPage = async (obj: stateObject) => {
         await reducerUser.getProfile();
 
-        if(obj.path == '/profile'){
+        if (obj.path == '/profile') {
             this._storage.set(this._storeNames.accountName, 'Личные данные');
-        }else if(obj.path == '/security'){
+        } else if (obj.path == '/security') {
             this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
         }
 
@@ -223,7 +321,8 @@ class LettersStore extends BaseStore {
      * function that makes requests for changing letter state
      */
     changeLetterStateToRead = async (letterId: string) => {
-        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read', {});
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/read' +
+            '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
@@ -234,7 +333,8 @@ class LettersStore extends BaseStore {
      * function that makes requests for changing letter state
      */
     changeLetterStateToUnread = async (letterId: string) => {
-        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread', {});
+        const responsePromise = Connector.makePostRequest(config.api.getMail + letterId + '/unread' +
+            '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
             // microEvents.trigger('letterStateChanged');
@@ -264,7 +364,7 @@ class LettersStore extends BaseStore {
      */
     getCurrentMail() {
         return this._storage.get(this._storeNames.mail)
-            .get(this._storage.get(this._storeNames.shownMail));
+            .get(this._storage.get(this._storeNames.shownMail)) as MailData;
     }
 
     getCurrentLettersName() {
@@ -303,8 +403,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetterByFolderAndId(folder: string, id: number) {
-        console.log(folder);
-        console.log(id);
 
         return (this._storage.get(this._storeNames.letters)
             .get('/' + folder) as MailData[]).find((letterFrame) => {
@@ -314,8 +412,39 @@ class LettersStore extends BaseStore {
         });
     }
 
+    getLetterFrameFromMailData(message: MailData) {
+        const time = message.created_at.substring(0, 10)
+            .replace('-', '.').replace('-', '.');
+        const letterFrame: LetterFrameData = {
+            message_id: message.message_id,
+            seen: message.seen,
+            from_user_email: message.from_user_id.email,
+            title: message.title,
+            text: message.text,
+            preview: '',
+            created_at: time,
+            href: this.getCurrentLettersName() + '/' + message.message_id,
+            avatar: `${config.basePath}/${config.api.avatar}` +
+                `?email=${message.from_user_id.email}`,
+            recipients: message.recipients,
+        };
+        return letterFrame;
+    }
+
     getCurrentShownMailId() {
         return this._storage.get(this._storeNames.shownMail);
+    }
+
+    getEmailToPaste() {
+        return this._storage.get(this._storeNames.emailToPaste);
+    }
+
+    getSearchedLetters() {
+        return this._storage.get(this._storeNames.searchedLetters);
+    }
+
+    getNewMail() {
+        return this._storage.get(this._storeNames.mailToAppend) as LetterFrameData;
     }
 }
 

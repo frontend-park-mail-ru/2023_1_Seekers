@@ -2,6 +2,17 @@
     <div class="input-form input-form__indent">
         <input class="input-form__size input-form__color" type="{{this.type}}" name="{{this.name}}"
                maxlength="{{this.maxlenght}}" id="{{this.name}}" required/>
+    {{#if this.icon includeZero=true}}
+        <svg class="input-form__icon input-form__icon__color input-form__icon__size" id="{{this.iconName}}"
+             fill="none"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#7c7c7d" stroke-linecap="round" stroke-linejoin="round"
+               stroke-width="2">{{{this.icon}}}
+                <path  fill="#7c7c7d" d="m15 12c0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3 3 1.3431 3 3z"/>
+            </g>
+        </svg>
+    {{/if}}
+
         <span class="input-form__span input-form__span__indent input-form__span__size input-form__span__animation input-form__span__color">{{this.title}}</span>
     </div>
 {{/each}}

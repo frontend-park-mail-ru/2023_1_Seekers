@@ -1,14 +1,20 @@
 <div class="mail mail_size mail_color">
+    <div class="mail__title">
+        <h2 class="mail__title__text font-title-2 mail-content__text_color">{{{this.title}}}</h2>
+    </div>
     {{#if this.mail includeZero=false}}
-        {{#if this.mail.text includeZero=false}}
+        {{#if this.mail.from_user_id includeZero=false}}
             <div class="mail__header mail__header_size">
 
 
-                    <img src='{{this.mail.from_user_id.avatar}}' class="mail__image skeleton__block" alt="">
+                <img src='{{this.mail.from_user_id.avatar}}' class="mail__image skeleton__block" alt="">
 
                 <div class="mail__header__details">
                     <div class="mail__author">
-                        <p class="mail__contact font-normal-0 mail__text_color">{{ this.mail.from_user_id.email }}</p>
+                        <div class="clickable__email" title="Скопировать" id="mail__contact"
+                             data-section="{{ this.mail.from_user_id.email }}">
+                            <p class="mail__contact font-normal-0 mail__text_color">{{ this.mail.from_user_id.email }}</p>
+                        </div>
                         <p class="mail__date font-normal-0 mail__text_color">{{ this.mail.created_at }}</p>
                     </div>
                     <div class="mail__recipients">
@@ -22,6 +28,7 @@
                 </div>
 
             </div>
+            <div class="mail__attach-list" id="attachment-list"></div>
             <div class="mail__content mail__content_color">
                 {{{ this.mailContent }}}
             </div>
@@ -31,14 +38,12 @@
                 {{/each}}
             </div>
         {{else}}
-                <div class="mail__header mail__header_size">
-
-                    <div class="mail__image skeleton__block"></div>
-
-                    <div class="mail__header__details skeleton__block"></div>
-                </div>
-                <div class="mail__content mail__content_color"></div>
-                <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color skeleton__block"></div>
+            <div class="mail__header mail__header_size">
+                <div class="mail__image skeleton__block"></div>
+                <div class="mail__header__details skeleton__block"></div>
+            </div>
+            <div class="mail__content mail__content_color"></div>
+            <div class="mail__bottom-actions mail__bottom-actions_size mail__bottom-actions_color skeleton__block"></div>
 
         {{/if}}
     {{else}}

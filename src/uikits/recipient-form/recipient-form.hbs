@@ -1,6 +1,8 @@
 <div class="recipient-form" data-section="{{this.text}}">
     <div class="recipient-form__container">
-        <span class="recipient-form__text">{{this.text}}</span>
+        <span class="recipient-form__text recipient-form__span">{{this.text}}</span>
+        <input class="recipient-form__text recipient-form__input recipient-form__input_size recipient-form__input_color element-hidden" type="text"
+               maxlength="30"/>
         {{{ this.closeButton }}}
     </div>
 </div>

@@ -13,6 +13,7 @@ class UserStore extends BaseStore {
         password: 'password',
         status: 'status',
         body: 'body',
+        localRecipients: 'localRecipients',
     };
 
     /**
@@ -23,6 +24,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.name, undefined);
         this._storage.set(this._storeNames.password, undefined);
         this._storage.set(this._storeNames.profile, undefined);
+        this._storage.set(this._storeNames.localRecipients, []);
     }
 
     /**
@@ -131,6 +133,24 @@ class UserStore extends BaseStore {
     }
 
     /**
+     * function that makes request to change user avatar
+     */
+    async getRecipients() {
+        const responsePromise = Connector.makeGetRequest(
+            config.api.recipientsSearch);
+        const [status, body] = await responsePromise;
+        if (status === responseStatuses.OK) {
+            const recipients: ProfileData[] = [];
+            body.users.forEach((user: ProfileData) => {
+                user.avatar = `${config.basePath}/${config.api.avatar}` +
+                    `?email=${user.email}&t=${new Date().getTime()}`;
+                recipients.push(user);
+            });
+            this._storage.set(this._storeNames.localRecipients, recipients);
+        }
+    }
+
+    /**
      * function that checks if user is authenticated
      */
     checkAuth() {
@@ -157,6 +177,20 @@ class UserStore extends BaseStore {
      */
     getLoginPage = async () => {
         microEvents.trigger('renderLogin');
+    };
+
+    /**
+     * function that triggers login render
+     */
+    getMyProfile = () => {
+        return this._storage.get(this._storeNames.profile) as ProfileData;
+    };
+
+    /**
+     * function that get local recipients
+     */
+    getLocalRecipients = () => {
+        return this._storage.get(this._storeNames.localRecipients) as ProfileData[];
     };
 }
 

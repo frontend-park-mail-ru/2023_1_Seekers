@@ -3,6 +3,8 @@ declare module '*.hbs' {
     export default _;
 }
 
+declare module '*.mp3';
+
 type HandlebarsTemplateDelegate<T = any> = Handlebars.TemplateDelegate<T>;
 
 declare const DOMAIN: string;
@@ -14,9 +16,22 @@ type Profile = {
     avatar: string | Blob,
 };
 
+type AttachToSend = {
+    attachID?: number,
+    fileName: string,
+    fileData: string,
+}
+
 type MailToSend = {
     recipients: string[],
-    'title': string,
+    title: string,
+    text: string,
+    attachments: AttachToSend[],
+    from_user: string,
+}
+
+type SearchMessage = {
+    recipients?: string[],
     'text': string,
 }
 
@@ -26,31 +41,27 @@ type LetterFrameData = {
     from_user_email: string,
     title: string,
     text: string,
+    preview: string,
     created_at: string,
     href: string,
     avatar: string,
-    recipients?: any[],
-}
-
-type ProfileData = {
-    email: string,
-    firstName: string,
-    lastName: string,
-    avatar: string,
+    recipients?: ProfileData[],
 }
 
 type MailData = {
-    created_at: string,
-    deleted: string,
-    favorite: string,
-    from_user_id: any,
     message_id: number,
-    recipients: any[],
-    length: number,
-    reply_to: any,
-    seen: boolean,
-    text: string,
+    from_user_id: ProfileData,
+    recipients: ProfileData[],
+    attachments: AttachmentData[],
     title: string,
+    created_at: string,
+    text: string,
+    reply_to: MailData,
+    seen: boolean,
+    favorite: string,
+    is_draft: boolean,
+    attachmentsSize: string,
+
 }
 
 type Folder = {
@@ -60,6 +71,26 @@ type Folder = {
     messages_unseen: number,
     name: string,
     img?: string
+}
+
+type ProfileData = {
+    firstName: string,
+    lastName: string,
+    email: string,
+    avatar?: string
+}
+
+type AttachmentData = {
+    attachID: number,
+    fileName: string,
+    type: string,
+    sizeStr: string,
+    sizeCount: number,
+}
+
+type MessageFromSocket = {
+    mailData: MailData,
+    folder: string,
 }
 
 type CustomPages = LoginPage;

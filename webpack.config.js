@@ -132,6 +132,8 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['babel-loader', 'ts-loader'],
             },
+
+
         ],
     },
     plugins: addPlugins(),

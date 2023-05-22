@@ -50,7 +50,7 @@
 
     &_size {
       padding: 20px 20px 0 20px;
-      max-width: 100%;
+      //max-width: 100%;
     }
 
     &_details {
@@ -66,17 +66,32 @@
     }
   }
 
-  &__recipients {
+  &__actions {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+    gap: 5px;
+    border-radius: 6px;
     flex: none;
-    padding: 0;
-    max-width: 40%;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-      height: 5px;
+    padding: 10px 20px;
+    &__button {
+      display: flex;
+      width: 150px;
     }
+  }
+
+  &__recipients {
+    //display: flex;
+    //flex-direction: row;
+    //flex: 1;
+    //padding: 0;
+    //max-width: 40%;
+    ////overflow: auto;
+    //
+    //&::-webkit-scrollbar {
+    //  height: 5px;
+    //}
 
     //&::-webkit-scrollbar {
     //  display: none;
@@ -93,6 +108,7 @@
   &__to {
     width: 60px;
     padding-top: 5px;
+    flex-basis: fit-content;
   }
 
   &__image {
@@ -115,36 +131,15 @@
   }
 
   &__content {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
     flex: 1;
-    margin: 20px 20px 0;
+    margin: 0 20px 0;
     overflow: auto;
     padding: 10px 10px 0 10px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    gap: 10px;
 
     &_color {
       background-color: var(--mail-text-background-color);
-    }
-  }
-
-  &__textarea {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    padding: 0;
-
-    &_size {
-      resize: none;
-    }
-
-    &_text-color {
-      color: var(--menu-text-default-color);
     }
   }
 
@@ -194,11 +189,12 @@
     }
 
     &_size {
-      //min-width: 180px;
+      display: flex;
+      flex: 1;
       gap: 5px;
       outline: none;
       max-width: 100%;
-      padding-left: 15px;
+      padding-left: 5px;
       min-height: 27px;
       //width: 80%;
     }
@@ -272,10 +268,24 @@ select:-webkit-autofill:focus {
   bottom: -6px;
   padding-left: 10px;
   color: var(--error-input);
-  font-family: "Roboto Thin", sans-serif;
+  font-family: Helvetica, sans-serif;
   font-style: normal;
   font-size: 12px;
   letter-spacing: 0.03em;
+}
+
+.send-attachment-list {
+  display: flex;
+  overflow: auto;
+  margin: 0 20px 0;
+
+  &__area{
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    overflow: auto;
+    max-height: 240px;
+  }
 }
 
 @media only screen and (max-width: 991px) {

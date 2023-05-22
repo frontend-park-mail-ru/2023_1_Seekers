@@ -28,3 +28,18 @@ export const actionSelectDraft = (draftHref: string) => ({
     type: 'selectDraft',
     value: draftHref,
 });
+
+export const actionAddAttachment = (file: File) => ({
+    type: 'addAttachment',
+    value: file,
+});
+
+export const actionRemoveAttachment = (attachID: number) => ({
+    type: 'removeAttachment',
+    value: attachID,
+});
+
+export const actionDownloadAttachFromSend = (attachID: number) => ({
+    type: 'downloadAttachFromSend',
+    value: attachID,
+});

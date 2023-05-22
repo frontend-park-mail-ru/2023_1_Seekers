@@ -52,7 +52,6 @@ export class RenameFolder extends Component {
      */
     bottomButtonsClicked = async (e: Event) => {
         e.preventDefault();
-        console.log('bottom clicked');
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
@@ -76,12 +75,8 @@ export class RenameFolder extends Component {
             return (button as HTMLElement).dataset.section ===
                 config.buttons.renameFolderButtons.footerButtons.rename.href;
         });
-        console.log(renameButton);
         renameButton?.classList.add('contrast-button_disabled');
         renameButton?.classList.add('skeleton__block');
-
-        console.log(this.state.folderInput.value!);
-        console.log(this.state.folderInput);
 
         await dispatcher.dispatch(actionRenameFolderByCtx(this.state.folderInput.value!));
     };

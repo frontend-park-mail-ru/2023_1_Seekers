@@ -28,6 +28,13 @@ const handlers = [
     {type: 'deleteMail', method: reducerLetters.deleteMail.bind(reducerLetters)},
     {type: 'addSelectedLetter', method: reducerLetters.addSelectedLetter.bind(reducerLetters)},
     {type: 'deleteSelectedLetter', method: reducerLetters.deleteSelectedLetter.bind(reducerLetters)},
+    {type: 'search', method: reducerLetters.getLettersAfterSearch.bind(reducerLetters)},
+    {type: 'pasteEmail', method: reducerLetters.pasteEmail.bind(reducerLetters)},
+    {type: 'showPasteEmail', method: reducerLetters.showPasteEmail.bind(reducerLetters)},
+    {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},
+    {type: 'appendMessage', method: reducerLetters.appendMessage.bind(reducerLetters)},
+    {type: 'openAttach', method: reducerLetters.openAttachment.bind(reducerLetters)},
+    {type: 'downloadArchiveAttach', method: reducerLetters.getArchiveAttachment.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
@@ -35,6 +42,10 @@ const handlers = [
     {type: 'sendMail', method: reducerNewMail.sendMail.bind(reducerNewMail)},
     {type: 'sendDraft', method: reducerNewMail.sendDraft.bind(reducerNewMail)},
     {type: 'selectDraft', method: reducerNewMail.selectDraft.bind(reducerNewMail)},
+    {type: 'removeAttachment', method: reducerNewMail.removeAttachment.bind(reducerNewMail)},
+    {type: 'addAttachment', method: reducerNewMail.addAttachment.bind(reducerNewMail)},
+
+    {type: 'downloadAttachFromSend', method: reducerNewMail.downloadAttachment.bind(reducerNewMail)},
 
     {type: 'sendFolderToCreate', method: reducerFolder.sendFolderToCreate.bind(reducerFolder)},
     {type: 'createFolder', method: reducerFolder.createNewFolder.bind(reducerFolder)},

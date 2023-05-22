@@ -54,7 +54,7 @@ export const config = {
     basePath: 'https://mailbx.ru',
     headers: {
         'Content-Type': 'application/json',
-        'accept': 'application/json',
+        // 'accept': 'application/json',
     },
     href: {
         main: '/',
@@ -79,12 +79,22 @@ export const config = {
         auth: `${prefixApi}auth`,
         csrf: `${prefixApi}csrf`,
         createFolder: `${prefixApi}folder/create`,
-        moveToFolder: `${prefixApi}/message/`,
-        moveToFolder_post: '/move?folderSlug=',
+        moveToFolder: `${prefixApi}message/`,
+        moveToFolder_to: '/move?toFolder=',
+        moveToFolder_from: '&fromFolder=',
         deleteMail: `${prefixApi}message/`,
+        deleteMail_from: '?fromFolder=',
         deleteFolder: `${prefixApi}folder`,
         renameFolder: `${prefixApi}folder`,
         renameFolder_post: '/edit',
+        search: `${prefixApi}messages/search?folder=`,
+        search_post: '&filter=',
+        recipientsSearch: `${prefixApi}recipients/search`,
+        getAttach: `${prefixApi}attach/`,
+        getArchiveAttach: `${prefixApi}message/`,
+        openAttach: `${prefixApi}attach/`,
+        openAttach_post: '/preview',
+        webSocket: `${prefixApi}ws`,
     },
 
     navbar: {
@@ -105,7 +115,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             img: `<path d="m10 19-7-7m0 0 7-7m-7 7h18" 
                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
         },
-        actions:{
+        actions: {
             img: `<path clip-rule="evenodd" d="m4.29289 4.29289c.39053-.39052 1.02369-.39052 
                     1.41422 0l4.29289 4.2929 4.2929-4.2929c.3905-.39052 1.0237-.39052 1.4142 0 
                     .3905.39053.3905 1.02369 0 1.41422l-4.2929 4.29289 4.2929 4.2929c.3905.3905.3905 
@@ -331,7 +341,6 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             }
         },
-
         renameFolderButtons: {
             footerButtons: {
                 rename: {
@@ -417,7 +426,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     1.0237
                     0 1.4142-.39053.3905-1.02369.3905-1.41422 0l-4-3.99999c-.39052-.39053-.39052-1.02369 
                     0-1.41422l4-4c.39053-.39052 1.02369-.39052 1.41422 0z" fill-rule="evenodd"/>`,
-                text: "Ответить",
+                text: 'Ответить',
             },
             more: {
                 href: '/more',
@@ -426,10 +435,23 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 -1,-1s0.44772,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1z"/>`,
-                text: "Еще",
+                text: 'Еще',
             },
         },
         newMailButtons: {
+            actionButtons: {
+                attach: {
+                    folder_slug: '/attach',
+                    name: 'Прикрепить',
+                    img: `<path d="m15.1716 7-6.58581 6.5858c-.78105.781-.78105 2.0474 0 
+                        2.8284.78105.7811 2.04741.7811 
+                        2.82841 0l6.4142-6.58577c1.5621-1.5621 1.5621-4.09476 
+                        0-5.65686-1.5621-1.56209-4.0947-1.56209-5.6568 
+                        0l-6.41424 6.58583c-2.34315 2.3431-2.34315 
+                        6.1421 0 8.4852 2.34314 2.3432 6.14214 2.3432 8.48524 0l6.2574-6.2426" 
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
+                },
+            },
             footerButtons: {
                 send: {
                     href: '/send',
@@ -539,10 +561,17 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     type: 'password',
                     name: 'password',
                     maxlenght: '16',
+                    iconName: 'passwordEye',
+                    icon: `<g stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="m14.9998 12c0 1.6569-1.3432 3-3 3-1.6569 
+                        0-3.00004-1.3431-3.00004-3s1.34314-3 3.00004-3c1.6568 0 3 1.3431 3 3z"/>
+                        <path d="m2.45801 12c1.27427-4.05712 5.06456-7 9.54219-7 4.4776 0 8.2679 
+                        2.94291 9.5422 7-1.2743 4.0571-5.0646 7-9.5422 7-4.47764 
+                        0-8.26794-2.9429-9.54219-7z"/></g>`,
                 },
             },
             windowData: {
-                title: 'Вход в «MailBox»',
+                title: 'Вход в «MailBx»',
                 bottomText: 'Мы еще не знакомы?',
                 bottomLink: '/signup',
                 bottomLinkText: 'Регистрация',
@@ -552,7 +581,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 redirect: '/',
             },
             promoBox: {
-                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                title: 'Сервис «MailBx» – быстрый и безопасный обмен письмами',
                 fields: {
                     first: {
                         text: 'Фильтрация писем в соответствии с заданными параметрами',
@@ -592,40 +621,6 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     },
                 },
             },
-            passwordIcons: {
-                open: {
-                    img: `<svg class="favicon" height=100% viewBox="0 0 232 138" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="232" height="138" fill="#5336C7"/>
-                    <path d="M71 48.3282L8 123.214V9.85715L71 48.3282Z" fill="#88BDFD"/>
-                    <path d="M78.0847 52.4928L116.199 75.9069L154.716 52.2429L219 129.129H14L78.0847 52.4928Z"
-                          fill="#88BDFD"/>
-                    <path d="M161 47.9892L224 9.85715V122.229L161 47.9892Z" fill="#88BDFD"/>
-                    <path d="M223 4.92856H9L116 67.0286L223 4.92856Z" fill="#88BDFD"/>
-                    <path d="M221.484 133.071L152 48.688L158.516 43.3714L228 127.755L221.484 133.071Z" fill="#393939"/>
-                    <path d="M115.943 76.8857L0 8.04905V0L115.943 66.8803L232 0V8.04905L115.943 76.8857Z"
-                          fill="#393939"/>
-                    <path d="M232 138H116.511H0V0H232L223.406 5.58124H8.5926V128.802H223.406V5.58124L232 0V138Z"
-                          fill="#393939"/>
-                    <path d="M10.6016 133.071L4 127.755L74.3979 43.3714L81 48.688L10.6016 133.071Z" fill="#393939"/>
-                </svg>`,
-                },
-                close: {
-                    img: `<svg class="favicon" height=100% viewBox="0 0 232 138" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="232" height="138" fill="#5336C7"/>
-                    <path d="M71 48.3282L8 123.214V9.85715L71 48.3282Z" fill="#88BDFD"/>
-                    <path d="M78.0847 52.4928L116.199 75.9069L154.716 52.2429L219 129.129H14L78.0847 52.4928Z"
-                          fill="#88BDFD"/>
-                    <path d="M161 47.9892L224 9.85715V122.229L161 47.9892Z" fill="#88BDFD"/>
-                    <path d="M223 4.92856H9L116 67.0286L223 4.92856Z" fill="#88BDFD"/>
-                    <path d="M221.484 133.071L152 48.688L158.516 43.3714L228 127.755L221.484 133.071Z" fill="#393939"/>
-                    <path d="M115.943 76.8857L0 8.04905V0L115.943 66.8803L232 0V8.04905L115.943 76.8857Z"
-                          fill="#393939"/>
-                    <path d="M232 138H116.511H0V0H232L223.406 5.58124H8.5926V128.802H223.406V5.58124L232 0V138Z"
-                          fill="#393939"/>
-                    <path d="M10.6016 133.071L4 127.755L74.3979 43.3714L81 48.688L10.6016 133.071Z" fill="#393939"/>
-                </svg>`,
-                }
-            }
         },
         signup: {
             fields: {
@@ -652,6 +647,13 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     type: 'password',
                     name: 'password',
                     maxlenght: '16',
+                    iconName: 'passwordEye',
+                    icon: `<g stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="m14.9998 12c0 1.6569-1.3432 3-3 3-1.6569 
+                        0-3.00004-1.3431-3.00004-3s1.34314-3 3.00004-3c1.6568 0 3 1.3431 3 3z"/>
+                        <path d="m2.45801 12c1.27427-4.05712 5.06456-7 9.54219-7 4.4776 0 8.2679 
+                        2.94291 9.5422 7-1.2743 4.0571-5.0646 7-9.5422 7-4.47764 
+                        0-8.26794-2.9429-9.54219-7z"/></g>`,
                 },
                 repeatPassword: {
                     title: 'Повторите пароль',
@@ -661,7 +663,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 },
             },
             windowData: {
-                title: 'Регистрация в «MailBox»',
+                title: 'Регистрация в «MailBx»',
                 bottomText: 'Мы уже знакомы?',
                 bottomLink: '/login',
                 bottomLinkText: 'Войти',
@@ -671,7 +673,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 redirect: '/',
             },
             promoBox: {
-                title: 'Сервис «MailBox» – быстрый и безопасный обмен письмами',
+                title: 'Сервис «MailBx» – быстрый и безопасный обмен письмами',
                 fields: {
                     first: {
                         text: 'Фильтрация писем в соответствии с заданными параметрами',
@@ -735,16 +737,12 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 type: 'text',
                 maxlenght: '50',
             },
-            mailText: {
-                name: 'new-mail-text',
-                maxlenght: '1000',
-            },
         },
         newFolder: {
             folderInput: {
                 name: 'new-folder',
                 type: 'text',
-                maxlenght: '10',
+                maxlenght: '32',
                 title: 'Название папки',
             },
         },

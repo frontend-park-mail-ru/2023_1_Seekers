@@ -13,8 +13,14 @@ export class Connector {
     static makeRequest = (url: string, options: object) => {
         return fetch(url, options)
             .then((response) => response.json()
-                .then((data) => [response.status, data])
-                .catch((error) => [response.status, {}]))
+                .then((data) => {
+                    console.log(response);
+                    return [response.status, data];
+                } )
+                .catch((error) => {
+                    console.log(error);
+                    return [response.status, {}];
+                }))
             .catch((error) => [500, error]) as anyObject;
     };
 
@@ -25,22 +31,22 @@ export class Connector {
      * @return request promise
      */
     static makePostRequest = async (url: string, data: object) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
 
         const options = {
             method: 'post',
@@ -61,22 +67,22 @@ export class Connector {
      * @return request promise
      */
     static makePutRequest = async ({url, data}: { url: string, data: any }, uploadFile = false) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
 
         let headers;
         if (uploadFile) {
-        //     if (csrfToken !== null) {
-        //         headers = {
-        //             'Csrf-Token': csrfToken,
-        //         };
-        //     } else {
+            if (csrfToken !== null) {
+                headers = {
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
                 headers = {};
-            // }
+            }
             const options = {
                 method: 'put',
                 mode: 'cors',
@@ -84,17 +90,16 @@ export class Connector {
                 headers,
                 body: data,
             };
-            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         } else {
-            // if (csrfToken !== null) {
-            //     headers = {
-            //         ...config.headers,
-            //         'Csrf-Token': csrfToken,
-            //     };
-            // } else {
+            if (csrfToken !== null) {
+                headers = {
+                    ...config.headers,
+                    'Csrf-Token': csrfToken,
+                };
+            } else {
                 headers = config.headers;
-            // }
+            }
 
             const body = JSON.stringify(data);
             const options = {
@@ -104,7 +109,6 @@ export class Connector {
                 headers,
                 body,
             };
-            console.log(options)
             return this.makeRequest(`${config.basePath}/${url}`, options) as any;
         }
     };
@@ -116,23 +120,22 @@ export class Connector {
      * @return request promise
      */
     static makeGetRequest = async (url: string) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // console.log(csrfToken)
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
 
         const options = {
             method: 'get',
@@ -145,34 +148,72 @@ export class Connector {
 
 
     /**
+     * method implementing request get
+     * @param url - path url
+     * @return request promise
+     */
+    static downloadFileRequest = async (url: string) => {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
+            headers = config.headers;
+        }
+
+        const options = {
+            method: 'get',
+            mode: 'cors',
+            credentials: 'include',
+            headers,
+        };
+        return fetch(url, options as object)
+            .then((response) => {
+                return response;
+            })
+            .catch((error) => {
+                return error;
+            });
+    };
+
+
+    /**
      * method implementing request delete
      * @param url - path url
      * @return request promise
      */
     static makeDeleteRequest = async (url: string) => {
-        // const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
-        //     method: 'get',
-        //     headers: new Headers(config.headers),
-        //     credentials: 'include',
-        // });
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
 
         let headers;
-        // const csrfToken = csrfResponse.headers.get('Csrf-Token');
-        // if (csrfToken !== null) {
-        //     headers = {
-        //         ...config.headers,
-        //         'Csrf-Token': csrfToken,
-        //     };
-        // } else {
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
             headers = config.headers;
-        // }
+        }
         const options = {
             method: 'delete',
             mode: 'cors',
             credentials: 'include',
             headers,
         };
-        console.log(`${config.basePath}/${url}`);
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
     };
 }

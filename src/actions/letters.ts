@@ -49,8 +49,43 @@ export const actionAddSelectedLetter = (id: number) => ({
     value: id,
 });
 
+export const actionPasteEmail = (email: string) => ({
+    type: 'pasteEmail',
+    value: email,
+});
+
+export const actionShowPasteEmail = (email: string) => ({
+    type: 'showPasteEmail',
+    value: email,
+});
+
 
 export const actionDeleteSelectedLetter = (id: number) => ({
     type: 'deleteSelectedLetter',
     value: id,
+});
+
+export const actionSearch = (message: SearchMessage) => ({
+    type: 'search',
+    value: message,
+});
+
+export const actionGetAttach = (attachId: number) => ({
+    type: 'getAttach',
+    value: attachId,
+});
+
+export const actionOpenAttach = (attachId: number) => ({
+    type: 'openAttach',
+    value: attachId,
+});
+
+export const actionAppendMessage = (message: MessageFromSocket) => ({
+    type: 'appendMessage',
+    value: message,
+});
+
+export const actionDownloadArchiveAttach = (href: string) => ({
+    type: 'downloadArchiveAttach',
+    value: href,
 });

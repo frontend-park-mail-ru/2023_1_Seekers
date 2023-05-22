@@ -55,12 +55,12 @@ class FolderStore extends BaseStore {
         const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
-            (response.folders as Folder[]).forEach((folder) => {
-                folder.folder_slug = '/' + folder.folder_slug;
-            });
-
-            this._storage.set(this._storeNames.menu, response.folders);
-            console.log(this._storage.get(this._storeNames.menu));
+            if (response.folders) {
+                (response.folders as Folder[])?.forEach((folder) => {
+                    folder.folder_slug = '/' + folder.folder_slug;
+                });
+                this._storage.set(this._storeNames.menu, response.folders);
+            }
             microEvents.trigger('menuChanged');
         }
     };
@@ -83,7 +83,8 @@ class FolderStore extends BaseStore {
         const responsePromise = Connector.makePutRequest({
             url: config.api.moveToFolder +
                 reducerLetters.getCurrentContextMail().message_id.toString() +
-                config.api.moveToFolder_post + folder,
+                config.api.moveToFolder_to + folder +
+                config.api.moveToFolder_from + reducerLetters.getCurrentLettersName().split('/')[1],
             data: {},
         });
         const [status, response] = await responsePromise;
@@ -91,7 +92,6 @@ class FolderStore extends BaseStore {
         this._storage.set(this._storeNames.answerStatus, status);
         microEvents.trigger('responseFromTransmitFolder');
         const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
-        console.log(mailHref);
         reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
             reducerLetters.showMail(mailHref);
@@ -115,7 +115,8 @@ class FolderStore extends BaseStore {
         reducerLetters.getSelectedLetters().forEach((id) => {
             Connector.makePutRequest({
                 url: config.api.moveToFolder + id.toString() +
-                    config.api.moveToFolder_post + folder,
+                    config.api.moveToFolder_to + folder +
+                    config.api.moveToFolder_from + reducerLetters.getCurrentLettersName().split('/')[1],
                 data: {},
             }).then(([status, answer]) => {
                 i++;
@@ -128,14 +129,12 @@ class FolderStore extends BaseStore {
                     }
 
                     reducerLetters.clearSelectedLetter();
-                    console.log(answer);
-                    console.log(status);
                     this._storage.set(this._storeNames.answerBody, answer);
                     this._storage.set(this._storeNames.answerStatus, status);
                     microEvents.trigger('responseFromTransmitFolder');
                     const mailHref = '/' +
                         reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
-                    console.log(mailHref);
+
                     reducerLetters.getLetters(
                         reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
                     if (mailHref !== '/undefined') {

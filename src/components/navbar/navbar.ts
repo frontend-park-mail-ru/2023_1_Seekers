@@ -113,7 +113,6 @@ export class Navbar extends Component {
             return;
         }
 
-        console.log(reducerLetters.getCurrentLettersName());
         const me = e as MouseEvent;
 
         dispatcher.dispatch(actionCtxFolder(reducerLetters.getCurrentLettersName()));
@@ -137,7 +136,6 @@ export class Navbar extends Component {
      * unregister listeners for each button in letter-list
      */
     registerEventListener() {
-        console.log('navbar register');
         microEvents.bind('profileChanged', this.rerenderProfileButton);
         microEvents.bind('letterListChanged', this.rerenderFolderName);
 
@@ -167,7 +165,6 @@ export class Navbar extends Component {
      * method unregisterEventListener unregister events click on navbar
      */
     unregisterEventListener() {
-        console.log('navbar unregister');
         microEvents.unbind('folderRenamed', this.rerenderFolderName);
         microEvents.unbind('profileChanged', this.rerenderProfileButton);
         microEvents.unbind('letterListChanged', this.rerenderFolderName);
