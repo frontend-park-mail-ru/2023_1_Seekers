@@ -105,7 +105,7 @@ class NewMailStore extends BaseStore {
         );
         this._storage.set(
             this._storeNames.text, '<div>' + email +
-            ' написал(а) ' + 'ВРЕМЯ(с датой):' + '</div>' + text,
+            ' написал(а) ' + reducerLetters.getCurrentContextMail().created_at + ':' + '</div>' + text,
         );
 
         this._storage.set(
