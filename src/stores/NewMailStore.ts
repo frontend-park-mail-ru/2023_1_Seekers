@@ -3,10 +3,10 @@ import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerLetters} from '@stores/LettersStore';
-import {reducerUser} from "@stores/userStore";
-import {Attachment} from "@uikits/attachment/attachment";
-import {fileDownloader} from "@utils/fileDownloader";
-import {loginPage} from "@views/login-page/login-page";
+import {reducerUser} from '@stores/userStore';
+import {Attachment} from '@uikits/attachment/attachment';
+import {fileDownloader} from '@utils/fileDownloader';
+import {loginPage} from '@views/login-page/login-page';
 
 /**
  * class that implements all possible actions with sent mail
@@ -42,7 +42,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.isDraft, false);
         this._storage.set(this._storeNames.attachments, []);
         this._storage.set(this._storeNames.lastAttachID, 0);
-    }
+    };
 
     /**
      * function that sets initial state of the store
@@ -69,38 +69,27 @@ class NewMailStore extends BaseStore {
         microEvents.trigger('createNewMail');
 
         if (reducerLetters.getCurrentContextMail().attachments) {
-            console.log(reducerLetters.getCurrentContextMail().attachments);
             reducerLetters.getCurrentContextMail().attachments.forEach((attach) => {
                 this.getFileContent(attach);
             });
         }
     };
 
-    getFileContent (attach: AttachmentData) {
-        Connector.downloadFileRequest(config.basePath + '/' + config.api.getAttach + attach.attachID.toString()).then((request) => {
-            console.log(request);
-
-            const reader = request.body.getReader();
-            reader.read().then((buffer: any) => {
-                const fileContent = new TextDecoder().decode(buffer.value);
-                const b64File = window.btoa(unescape(encodeURIComponent(fileContent)));
-                console.log(b64File);
-
-
+    getFileContent(attach: AttachmentData) {
+        Connector.makeGetRequest(config.api.getAttach + attach.attachID.toString() + config.api.openAttach_post_b64)
+            .then(([status, body]) => {
                 reducerNewMail._storage
                     .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
                 const newAttach: AttachToSend = {
                     attachID: reducerNewMail.getAttachID(),
                     fileName: attach.fileName,
-                    fileData: b64File,
+                    fileData: body.fileData,
                 };
-                console.log(attach);
                 this._storage.get(reducerNewMail._storeNames.attachments).push(newAttach);
                 this._storage.set(this._storeNames.lastAttachName, newAttach.fileName);
                 this._storage.set(this._storeNames.lastAttachSize, attach.sizeStr);
                 microEvents.trigger('addAttachmentToSendMail');
             });
-        });
     }
 
     /**
@@ -126,7 +115,6 @@ class NewMailStore extends BaseStore {
         microEvents.trigger('createNewMail');
 
         if (reducerLetters.getCurrentContextMail().attachments) {
-            console.log(reducerLetters.getCurrentContextMail().attachments);
             reducerLetters.getCurrentContextMail().attachments.forEach((attach) => {
                 this.getFileContent(attach);
             });
@@ -149,6 +137,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(
             this._storeNames.title, mail.title,
         );
+
         this._storage.set(
             this._storeNames.text, mail.text,
         );

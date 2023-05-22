@@ -94,6 +94,7 @@ export const config = {
         getArchiveAttach: `${prefixApi}message/`,
         openAttach: `${prefixApi}attach/`,
         openAttach_post: '/preview',
+        openAttach_post_b64: '/b64',
         webSocket: `${prefixApi}ws`,
     },
 

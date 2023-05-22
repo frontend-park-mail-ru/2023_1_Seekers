@@ -57,7 +57,7 @@ class LettersStore extends BaseStore {
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
-                            text: '',
+                            text: message.text,
                             preview: message.preview,
                             created_at: time,
                             href: folderName + '/' + message.message_id,
@@ -404,7 +404,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetterByFolderAndId(folder: string, id: number) {
-
         return (this._storage.get(this._storeNames.letters)
             .get('/' + folder) as MailData[]).find((letterFrame) => {
             if (letterFrame.message_id === id) {

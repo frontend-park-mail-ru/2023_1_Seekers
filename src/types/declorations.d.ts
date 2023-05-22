@@ -62,7 +62,6 @@ type MailData = {
     favorite: string,
     is_draft: boolean,
     attachmentsSize: string,
-
 }
 
 type Folder = {
