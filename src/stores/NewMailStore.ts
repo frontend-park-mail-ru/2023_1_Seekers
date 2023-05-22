@@ -1,4 +1,5 @@
 import {Connector} from '@utils/ajax';
+import {Buffer} from 'buffer';
 import {config, responseStatuses} from '@config/config';
 import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
@@ -6,6 +7,7 @@ import {reducerLetters} from '@stores/LettersStore';
 import {reducerUser} from "@stores/userStore";
 import {Attachment} from "@uikits/attachment/attachment";
 import {fileDownloader} from "@utils/fileDownloader";
+import {loginPage} from "@views/login-page/login-page";
 
 /**
  * class that implements all possible actions with sent mail
@@ -55,6 +57,9 @@ class NewMailStore extends BaseStore {
      * function that sets initial state of the store when need to forward mail
      */
     forwardMail = async () => {
+
+
+
         this.setEmptyMail();
         this._storage.set(
             this._storeNames.title, reducerLetters.getCurrentContextMail().title,
@@ -66,7 +71,52 @@ class NewMailStore extends BaseStore {
 
         this._storage.set(this._storeNames.isDraft, false);
         microEvents.trigger('createNewMail');
+        if (reducerLetters.getCurrentContextMail().attachments) {
+            console.log(reducerLetters.getCurrentContextMail().attachments);
+            reducerLetters.getCurrentContextMail().attachments.forEach((attach) => {
+                this.getFileContent(attach);
+            });
+        }
     };
+
+    getFileContent (attach: AttachmentData) {
+        Connector.downloadFileRequest(config.basePath + '/' + config.api.getAttach + attach.attachID.toString()).then((request) => {
+            console.log(request);
+
+            const reader = request.body.getReader();
+            reader.read().then((buffer: any) => {
+                const fileContent = new TextDecoder().decode(buffer.value);
+                const b64File = Buffer.from(fileContent, 'base64').toString().split(',')[1];
+
+                reducerNewMail._storage
+                    .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
+                const newAttach: AttachToSend = {
+                    attachID: reducerNewMail.getAttachID(),
+                    fileName: attach.fileName,
+                    fileData: b64File,
+                };
+                console.log(attach);
+                reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(newAttach);
+                this._storage.set(this._storeNames.lastAttachName, newAttach.fileName);
+                this._storage.set(this._storeNames.lastAttachSize, attach.sizeStr);
+                microEvents.trigger('addAttachmentToSendMail');
+            });
+        });
+
+        // // read text from URL location
+        // const request = new XMLHttpRequest();
+        // request.open('GET', config.api.getAttach + file, true);
+        // request.send(null);
+        // request.onreadystatechange = function () {
+        //     if (request.readyState === 4 && request.status === 200) {
+        //         var type = request.getResponseHeader('Content-Type');
+        //         if (type.indexOf("text") !== 1) {
+        //             return request.responseText;
+        //         }
+        //     }
+        //
+        // }
+    }
 
     /**
      * function that sets initial state of the store when need to reply to mail

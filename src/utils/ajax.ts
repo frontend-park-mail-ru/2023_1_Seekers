@@ -13,8 +13,14 @@ export class Connector {
     static makeRequest = (url: string, options: object) => {
         return fetch(url, options)
             .then((response) => response.json()
-                .then((data) => [response.status, data])
-                .catch((error) => [response.status, {}]))
+                .then((data) => {
+                    console.log(response);
+                    return [response.status, data];
+                } )
+                .catch((error) => {
+                    console.log(error);
+                    return [response.status, {}];
+                }))
             .catch((error) => [500, error]) as anyObject;
     };
 
@@ -138,6 +144,45 @@ export class Connector {
             headers,
         };
         return this.makeRequest(`${config.basePath}/${url}`, options) as any;
+    };
+
+
+    /**
+     * method implementing request get
+     * @param url - path url
+     * @return request promise
+     */
+    static downloadFileRequest = async (url: string) => {
+        const csrfResponse = await fetch(`${config.basePath}/${config.api.csrf}`, {
+            method: 'get',
+            headers: new Headers(config.headers),
+            credentials: 'include',
+        });
+
+        let headers;
+        const csrfToken = csrfResponse.headers.get('Csrf-Token');
+        if (csrfToken !== null) {
+            headers = {
+                ...config.headers,
+                'Csrf-Token': csrfToken,
+            };
+        } else {
+            headers = config.headers;
+        }
+
+        const options = {
+            method: 'get',
+            mode: 'cors',
+            credentials: 'include',
+            headers,
+        };
+        return fetch(url, options as object)
+            .then((response) => {
+                return response;
+            })
+            .catch((error) => {
+                return error;
+            });
     };
 
 
