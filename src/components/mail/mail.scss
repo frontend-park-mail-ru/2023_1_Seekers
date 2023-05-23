@@ -25,11 +25,18 @@
     height: 80px;
     align-items: center;
     cursor: default;
+    overflow: hidden;
 
     &__text {
       flex-grow: 1;
       flex-shrink: 1;
       overflow-wrap: break-word;
+
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
       width: 100%;
     }
   }
