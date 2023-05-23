@@ -7,7 +7,7 @@ import {config, responseStatuses} from '@config/config';
 import {ProfileData} from "@uikits/profile-data/profile-data";
 import {dispatcher} from "@utils/dispatcher";
 import {actionCreateFolder} from "@actions/folders";
-import {actionPasteEmail, actionShowPasteEmail} from "@actions/letters";
+import {actionFreePasteEmail, actionPasteEmail, actionShowPasteEmail} from "@actions/letters";
 import {reducerUser} from "@stores/userStore";
 
 
@@ -66,6 +66,22 @@ export class DataList extends Component {
     };
 
     /**
+     * method handle click on navbar
+     * @param e - event that goes from one of childs of current element
+     */
+    mouseOutButton = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                await dispatcher.dispatch(actionFreePasteEmail());
+                (document.getElementById('new-mail-recipients') as HTMLInputElement)
+                    .value = '';
+            }
+        }
+    };
+
+    /**
      * method registerEventListener
      * register listeners for each action that may happen in send mail
      */
@@ -73,6 +89,7 @@ export class DataList extends Component {
         this.state.buttons.forEach((button) => {
             button.addEventListener('click', this.buttonsClicked);
             button.addEventListener('mouseover', this.mouseOverButton);
+            button.addEventListener('mouseout', this.mouseOutButton);
 
         })
     };
@@ -85,6 +102,7 @@ export class DataList extends Component {
         this.state.buttons.forEach((button) => {
             button.removeEventListener('click', this.buttonsClicked);
             button.removeEventListener('mouseover', this.mouseOverButton);
+            button.removeEventListener('mouseout', this.mouseOutButton);
         })
     };
 
@@ -95,12 +113,13 @@ export class DataList extends Component {
         if( reducerUser.getLocalRecipients().length === 0){
             return;
         }
-        
+
         [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('profile-data__item')) {
                     child.removeEventListener('click', this.buttonsClicked);
                     child.removeEventListener('mouseover', this.mouseOverButton);
+                    child.removeEventListener('mouseout', this.mouseOutButton);
                 }
             });
             ctxMenu.remove();

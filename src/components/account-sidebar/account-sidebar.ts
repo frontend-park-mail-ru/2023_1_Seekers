@@ -100,7 +100,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.addEventListener('transitionend', this.waitSidebarTransition);
-        document.getElementById('account-sidebar__desc')?.addEventListener('click', this.saveOnEmailClick);
+        document.getElementById('account-sidebar__desc')?.addEventListener('contextmenu', this.saveOnEmailClick);
     };
 
     /**
@@ -114,7 +114,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.removeEventListener('transitionend', this.waitSidebarTransition);
-        document.getElementById('account-sidebar__desc')?.removeEventListener('click', this.saveOnEmailClick);
+        document.getElementById('account-sidebar__desc')?.removeEventListener('contextmenu', this.saveOnEmailClick);
     };
 
     /**

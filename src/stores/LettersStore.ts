@@ -131,6 +131,11 @@ class LettersStore extends BaseStore {
         microEvents.trigger('pasteEmailInRecipient');
     };
 
+    freePasteEmail = async () => {
+        console.log('hello!');
+        this._storage.set(this._storeNames.emailToPaste, '');
+    };
+
     showPasteEmail = async (email: string) => {
         this._storage.set(this._storeNames.emailToPaste, email);
         microEvents.trigger('showPasteEmailInRecipient');

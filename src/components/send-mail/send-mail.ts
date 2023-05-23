@@ -22,7 +22,7 @@ import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
 import {DataList} from '@components/data-list/data-list';
-import {actionSearch} from '@actions/letters';
+import {actionFreePasteEmail, actionSearch} from '@actions/letters';
 import {fileDownloader} from '@utils/fileDownloader';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {Attachment} from "@uikits/attachment/attachment";
@@ -353,6 +353,9 @@ export class SendMail extends Component {
     };
 
     _addRecipient = (recipient: string, recipientInput: HTMLElement) => {
+        if (recipient === '') {
+            return;
+        }
         if (!this.state.recipients.has(recipient)) {
             recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
                 text: recipient,
@@ -388,6 +391,7 @@ export class SendMail extends Component {
             const recipientInput = document.getElementsByClassName(
                 'send-mail__recipients')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
+                console.log(recipient);
                 if (recipient !== '') {
                     if (!recipient.includes('@')) {
                         recipient += '@mailbx.ru';
@@ -457,6 +461,8 @@ export class SendMail extends Component {
         this.datalist.purge();
         const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
         recipientInput.value = '';
+
+        dispatcher.dispatch(actionFreePasteEmail());
         document.getElementById('new-mail-recipients')?.focus();
     };
 
@@ -505,7 +511,7 @@ export class SendMail extends Component {
         microEvents.bind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.addEventListener('focusout', this.pasteEmailToRecipient);
+        this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
 
         document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
         this.state.element.addEventListener('click', this.removeDataList);
@@ -541,7 +547,7 @@ export class SendMail extends Component {
         microEvents.unbind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
+        this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
 
         this.state.recipients.forEach((element, key) => {
             element.getElementsByClassName('icon-button')[0]
@@ -602,7 +608,7 @@ export class SendMail extends Component {
         this.registerEventListener();
         this.setInputsState();
 
-        // this.state.recipientsInput.dispatchEvent(new Event('focusout'));
+        this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
     /**
