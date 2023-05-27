@@ -18,3 +18,9 @@
     background-color: var(--delimeters-color);
   }
 }
+
+@media only screen and (max-width: 991px) {
+  .formatter-line {
+    opacity: 0;
+  }
+}
