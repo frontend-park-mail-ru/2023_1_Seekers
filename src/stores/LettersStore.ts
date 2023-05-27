@@ -5,6 +5,7 @@ import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
 import {socket} from "@utils/webSocket";
+import {dateUtil} from "@utils/dateUtil";
 
 /**
  * class that implements all possible actions with letters data
@@ -48,10 +49,23 @@ class LettersStore extends BaseStore {
         Connector.makeGetRequest(config.api.getLetters + folderName)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
+                    const curDate = new Date();
                     this._storage.get(this._storeNames.letters).set(folderName, []);
                     body.messages?.forEach((message: any) => {
-                        const time = message.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
+                        console.log(message.created_at);
+                        const date = new Date(message.created_at);
+
+                        let time: string = '';
+
+                        if(curDate.getDate() === date.getDate() &&
+                           curDate.getMonth() === date.getMonth() &&
+                           curDate.getFullYear() === date.getFullYear()) {
+                            time = 'сегодня, '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        } else {
+                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        }
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
