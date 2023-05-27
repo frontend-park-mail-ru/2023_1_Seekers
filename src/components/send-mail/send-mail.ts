@@ -131,11 +131,51 @@ export class SendMail extends Component {
                     break;
 
                 case config.buttons.mailFormatterButtons.cursive.href:
-                    console.log(currentTarget.dataset.section)
+                    document.execCommand("italic");
                     break;
 
                 case config.buttons.mailFormatterButtons.underlined.href:
-                    console.log(currentTarget.dataset.section)
+                    document.execCommand("underline");
+                    break;
+
+                case config.buttons.mailFormatterButtons.strike.href:
+                    document.execCommand("strikeThrough");
+                    break;
+
+                case config.buttons.mailFormatterButtons.subscript.href:
+                    document.execCommand("subscript");
+                    break;
+
+                case config.buttons.mailFormatterButtons.superscript.href:
+                    document.execCommand("superscript");
+                    break;
+
+                case config.buttons.mailFormatterButtons.justifyLeft.href:
+                    document.execCommand("justifyLeft");
+                    break;
+
+                case config.buttons.mailFormatterButtons.justifyCenter.href:
+                    document.execCommand("justifyCenter");
+                    break;
+
+                case config.buttons.mailFormatterButtons.justifyRight.href:
+                    document.execCommand("justifyRight");
+                    break;
+
+                case config.buttons.mailFormatterButtons.fonts.href:
+                    alert('Скоро сделаю')
+                    break;
+
+                case config.buttons.mailFormatterButtons.colors.href:
+                    alert('Скоро сделаю')
+                    break;
+
+                case config.buttons.mailFormatterButtons.undo.href:
+                    document.execCommand("undo");
+                    break;
+
+                case config.buttons.mailFormatterButtons.redo.href:
+                    document.execCommand("redo");
                     break;
             }
         }
