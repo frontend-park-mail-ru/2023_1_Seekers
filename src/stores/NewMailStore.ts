@@ -200,10 +200,10 @@ class NewMailStore extends BaseStore {
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
-        this._storage.set(this._storeNames.lastAttachName, file.name);
-        this._storage.set(this._storeNames.lastAttachSize, file.size);
+
 
         reader.onload = function() {
+
             reducerNewMail._storage
                 .set(reducerNewMail._storeNames.lastAttachID, reducerNewMail.getAttachID() + 1);
             const attach: AttachToSend = {
@@ -212,6 +212,8 @@ class NewMailStore extends BaseStore {
                 fileData: (reader.result as string).split(',')[1],
             };
             reducerNewMail._storage.get(reducerNewMail._storeNames.attachments).push(attach);
+            reducerNewMail._storage.set(reducerNewMail._storeNames.lastAttachName, file.name);
+            reducerNewMail._storage.set(reducerNewMail._storeNames.lastAttachSize, file.size);
             microEvents.trigger('addAttachmentToSendMail');
         };
     }
