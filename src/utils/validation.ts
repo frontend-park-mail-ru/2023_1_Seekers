@@ -38,6 +38,10 @@ export class Validation {
             return {status: false, message: 'Логин не может содержать эмодзи'};
         }
 
+        if (validatorRegExp.russianSymbols.test(login)) {
+            return {status: false, message: 'Логин не может содержать кириллицу'};
+        }
+
         const postAtDomain = '@mailbx.ru';
         if (!login.includes(postAtDomain)) {
             if (login.includes('@') || login.includes('.')) {
@@ -70,6 +74,10 @@ export class Validation {
 
         if (validatorRegExp.emojis.test(email)) {
             return {status: false, message: 'Почта не может содержать эмодзи'};
+        }
+
+        if (validatorRegExp.russianSymbols.test(email)) {
+            return {status: false, message: 'Почта не может содержать кириллицу'};
         }
 
         const postAtDomain = '@mailbx.ru';
