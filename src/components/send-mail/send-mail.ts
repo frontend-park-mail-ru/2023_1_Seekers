@@ -177,6 +177,10 @@ export class SendMail extends Component {
                 case config.buttons.mailFormatterButtons.redo.href:
                     document.execCommand("redo");
                     break;
+
+                case config.buttons.mailFormatterButtons.removeFormat.href:
+                    document.execCommand("removeFormat");
+                    break;
             }
         }
     };
