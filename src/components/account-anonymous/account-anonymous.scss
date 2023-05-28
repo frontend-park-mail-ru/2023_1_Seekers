@@ -6,6 +6,24 @@
   border: 1px solid var(--field_border);
   order: 1;
 
+  &__textarea {
+
+    &__text {
+      color: var(--menu-text-default-color);
+      font-family: Helvetica,sans-serif;
+      font-style: normal;
+      letter-spacing: .03em;
+    }
+
+    &__header {
+      font-size: 32px;
+    }
+
+    &__paragraph {
+      font-size: 20px;
+    }
+  }
+
   &__form {
     padding: 12px 16px;
     &__input {
