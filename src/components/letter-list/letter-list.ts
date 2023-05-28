@@ -8,17 +8,17 @@ import {microEvents} from '@utils/microevents';
 import {
     actionAddSelectedLetter,
     actionChangeLetterStateToRead,
-    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteMail, actionDeleteSelectedLetter, actionSearch,
+    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteSelectedLetter, actionSearch,
     actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
 import {ContextLetter} from '@components/context-letter/context-letter';
 import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
 import {config} from '@config/config';
-import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
+import {actionSelectDraft} from '@actions/newMail';
 import {ContextDraft} from '@components/context-draft/context-draft';
-import {Form} from "@uikits/form/form";
-import {loginPage} from "@views/login-page/login-page";
+import {DataList} from "@components/data-list/data-list";
+import {Filter} from "@components/filter/filter";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -433,6 +433,18 @@ export class LetterList extends Component {
         this.registerEventListener();
     }
 
+    onFilterClick= (e: Event) => {
+        e.preventDefault();
+        if(this.filter) {
+            this.filter.purge();
+            this.filter = null;
+            return
+        }
+        this.filter = new Filter({parent: document.getElementById('letterList__top__area')!});
+        e.stopPropagation();
+        this.filter.render();
+    }
+
 
     /**
      * method letterList page clearing
@@ -477,6 +489,8 @@ export class LetterList extends Component {
         document.getElementsByClassName('search-form__icon')[0]!
             .addEventListener('click', this.onIconSearch);
         // microEvents.bind('mailChanged', this.changeLetterToActive);
+
+        document.getElementById('letter-list-filter')?.addEventListener('click', this.onFilterClick);
     }
 
     registerDefaultListeners() {
@@ -523,6 +537,8 @@ export class LetterList extends Component {
         this.state.search.removeEventListener('keypress', this.onSearch);
         document.getElementsByClassName('search-form__icon')[0]!
             .removeEventListener('click', this.onIconSearch);
+
+        document.getElementById('letter-list-filter')?.removeEventListener('click', this.onFilterClick);
     }
 
     unregisterDefaultListeners() {

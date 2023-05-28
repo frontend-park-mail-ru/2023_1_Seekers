@@ -1,0 +1,63 @@
+.filter{
+
+  position: absolute;
+  z-index: 10000;
+  right: 10px;
+  top: 40px;
+
+
+  &__area {
+    max-height: 250px;
+    min-width: 200px;
+    max-width: 250px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--custom-color-account-sidebar);
+
+  }
+  //width: 100%; - к профиль баттон
+
+  &__item {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-radius: 8px;
+    text-decoration: none;
+    min-height: 44px;
+    text-align: center;
+
+    &__out {
+      height: 40px;
+      min-height: 44px;
+      width:  100%;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    &__hover-active:hover {
+      background-color: var(--color-transparent--hover);
+    }
+
+    &__hover-active:active {
+      background-color: var(--color-transparent--active);
+    }
+  }
+
+  &__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-basis: 0;
+    flex-grow: 1;
+    color: var(--primary-text-color);
+  }
+}
