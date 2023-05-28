@@ -33,6 +33,7 @@ export const privateRoutes = [
     {path: '/trash', view: mailboxPage},
     {path: '/profile', view: mailboxPage},
     {path: '/security', view: mailboxPage},
+    {path: '/anonymous', view: mailboxPage},
     {path: '/drafts', view: mailboxPage},
     {path: '/number', view: mailboxPage},
 ];
@@ -46,6 +47,7 @@ export const privateActions = [
     {path: '/drafts', action: actionGetMailboxPage},
     {path: '/profile', action: actionGetAccountPage},
     {path: '/security', action: actionGetAccountPage},
+    {path: '/anonymous', action: actionGetAccountPage},
     {path: '/number', action: actionGetMailboxPage},
 ];
 
