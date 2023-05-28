@@ -58,7 +58,7 @@ export class AccountArea extends Component {
                 this.renderSecurity();
                 break;
             case '/anonymous':
-                this.renderSecurity();
+                this.renderAnonymous();
                 break;
             }
         }
