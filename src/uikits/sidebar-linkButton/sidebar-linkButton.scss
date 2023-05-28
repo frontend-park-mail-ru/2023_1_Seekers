@@ -1,21 +1,21 @@
 .account-sidebar__icon {
     display: flex;
     flex-direction: row-reverse;
-    width: 64px;
+    width: 36px;
     margin-right: 12px;
 }
 
 .account-sidebar__item {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 20px;
     font-family: Helvetica, sans-serif;
     font-weight: 400;
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 30px;
     border-radius: 8px;
     text-decoration: none;
-    min-height: 44px;
+    min-height: 30px;
 
     &__out {
         height: 40px;
