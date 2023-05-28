@@ -71,8 +71,6 @@ export class AccountArea extends Component {
         }
         if (this.state.content) {
             this.state.content.purge();
-            this.state.content = null;
-            return
         }
         const profile = reducerUser._storage.get(reducerUser._storeNames.profile);
 
@@ -97,8 +95,6 @@ export class AccountArea extends Component {
         }
         if (this.state.content) {
             this.state.content.purge();
-            this.state.content = null;
-            return
         }
         this.state.content = new AccountSecurity({
             parent: document.getElementById('account-area__content')!,
@@ -117,8 +113,6 @@ export class AccountArea extends Component {
         }
         if (this.state.content) {
             this.state.content.purge();
-            this.state.content = null;
-            return;
         }
         this.state.content = new AccountAnonymous({
             parent: document.getElementById('account-area__content')!,
