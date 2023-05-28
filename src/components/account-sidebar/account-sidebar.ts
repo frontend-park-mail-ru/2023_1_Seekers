@@ -5,8 +5,10 @@ import {Component} from '@components/component';
 import {config} from '@config/config';
 import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
-import {actionLogout, actionGetAccountPage,
-    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
+import {
+    actionLogout, actionGetAccountPage,
+    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionGetAnonymousPage
+} from '@actions/user';
 import {showNotification} from "@components/notification/notification";
 
 export interface AccountSidebar {
@@ -70,6 +72,14 @@ export class AccountSidebar extends Component {
                     // this.purge();
                     // return;
                     break;
+
+                case config.buttons.sidebarButtons.anonymous.href:
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetAnonymousPage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+
                 case config.buttons.sidebarButtons.logout.href:
                     await dispatcher.dispatch(actionLogout());
                     break;

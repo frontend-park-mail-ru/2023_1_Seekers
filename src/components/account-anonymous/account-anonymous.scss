@@ -1,0 +1,35 @@
+.account-anonymous{
+  padding: 8px;
+  background: var(--background_content);
+  border-radius: 12px;
+  position: relative;
+  border: 1px solid var(--field_border);
+  order: 1;
+
+  &__form {
+    padding: 12px 16px;
+    &__input {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  &__button-area {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .account-security {
+    background: unset;
+    border: unset;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .account-security {
+    background: unset;
+    border: unset;
+  }
+}

@@ -361,6 +361,14 @@ class LettersStore extends BaseStore {
     };
 
     /**
+     * function that makes requests for all the components of anonymous
+     */
+    getAnonymousPage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Анонимный ящик');
+        microEvents.trigger('renderAnonymousPage');
+    };
+
+    /**
      * function that makes requests for changing letter state
      */
     changeLetterStateToRead = async (letterId: string) => {

@@ -19,6 +19,7 @@ const handlers = [
     {type: 'getAccountPage', method: reducerLetters.getAccountPage.bind(reducerLetters)},
     {type: 'getProfilePage', method: reducerLetters.getProfilePage.bind(reducerLetters)},
     {type: 'getSecurityPage', method: reducerLetters.getSecurityPage.bind(reducerLetters)},
+    {type: 'getAnonymousPage', method: reducerLetters.getAnonymousPage.bind(reducerLetters)},
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
     {type: 'changeLetterStateToUnread',
         method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},

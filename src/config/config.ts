@@ -205,6 +205,18 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                  `,
             },
+            anonymous: {
+                href: '/anonymous',
+                text: 'Анонимный ящик',
+                // eslint-disable-next-line max-len
+                img: '<path d="m15 7c1.1046 0 2 .89543 2 2m4 0c0 3.3137-2.6863 6-6 6-.6062 ' +
+                    '0-1.1913-.0899-1.7429-.2571l-2.2571 2.2571h-2v2h-2v2h-3c-.55228 ' +
+                    '0-1-.4477-1-1v-2.5858c0-.2652.10536-.5196.29289-.7071l5.' +
+                    '96418-5.9642c-.16718-.5515-.25707-1.13673-.25707-1.7429 ' + `
+                     0-3.31371 2.6863-6 6-6s6 2.68629 6 6z" 
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                 `,
+            },
             logout: {
                 href: '/logout',
                 text: 'Выйти',
@@ -387,6 +399,18 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             security: {
                 href: '/security',
                 text: 'Пароль и безопасность',
+                img: `
+                 <path d="m15 7c1.1046 0 2 .89543 2 2m4 0c0 3.3137-2.6863 6-6 6-.6062 
+                 0-1.1913-.0899-1.7429-.2571l-2.2571 2.2571h-2v2h-2v2h-3c-.55228 ` +
+                    '0-1-.4477-1-1v-2.5858c0-.2652.10536-.5196.29289-.7071l5.96418-5.' +
+                    `9642c-.16718-.5515-.25707-1.13673-.25707-1.7429 
+                 0-3.31371 2.6863-6 6-6s6 2.68629 6 6z" 
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                 `,
+            },
+            anonymous: {
+                href: '/anonymous',
+                text: 'Анонимный ящик',
                 img: `
                  <path d="m15 7c1.1046 0 2 .89543 2 2m4 0c0 3.3137-2.6863 6-6 6-.6062 
                  0-1.1913-.0899-1.7429-.2571l-2.2571 2.2571h-2v2h-2v2h-3c-.55228 ` +
@@ -873,33 +897,6 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
 
     accountFields: {
         account: {
-            // fields: {
-            //     profile: {
-            //         href: '/profile',
-            //         text: 'Личные данные',
-            //         img: `<path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
-            //      0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
-            //      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
-            //     },
-            //     security: {
-            //         href: '/security',
-            //         text: 'Пароль и безопасность',
-            //         img: `
-            //      <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
-            //      0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
-            //      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            //      `,
-            //     },
-            //     logout: {
-            //         href: '/logout',
-            //         text: 'Выйти',
-            //         img: `
-            //      <path d="m17 16 4-4m0 0-4-4m4 4h-14m6 4v1c0 1.6569-1.3431 3-3 3h-4c-1.65685
-            //      0-3-1.3431-3-3v-10c0-1.65685 1.34315-3 3-3h4c1.6569 0 3 1.34315 3 3v1"
-            //      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            //      `,
-            //     },
-            // },
             profile: {
                 fields: {
                     firstName: {

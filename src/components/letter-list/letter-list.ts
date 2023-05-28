@@ -17,7 +17,6 @@ import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
 import {config} from '@config/config';
 import {actionSelectDraft} from '@actions/newMail';
 import {ContextDraft} from '@components/context-draft/context-draft';
-import {DataList} from "@components/data-list/data-list";
 import {Filter} from "@components/filter/filter";
 
 // import {actionChangeURL} from "@actions/user";

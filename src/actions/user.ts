@@ -55,6 +55,13 @@ export const actionGetSecurityPage = () => ({
     value: {},
 });
 
+export const actionGetAnonymousPage = () => ({
+    type: 'getAnonymousPage',
+    value: {},
+});
+
+
+
 export const actionLogout = () => ({
     type: 'logout',
     value: {},

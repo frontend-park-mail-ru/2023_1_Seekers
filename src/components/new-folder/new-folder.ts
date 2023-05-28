@@ -7,7 +7,6 @@ import '@components/new-folder/new-folder.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {reducerNewMail} from '@stores/NewMailStore';
 import {showNotification} from '@components/notification/notification';
 import {microEvents} from '@utils/microevents';
 import {dispatcher} from "@utils/dispatcher";

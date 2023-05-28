@@ -6,7 +6,7 @@ import template from '@components/account-navigation/account-navigation.hbs';
 
 import '@components/account-navigation/account-navigation.scss';
 import {dispatcher} from '@utils/dispatcher';
-import {actionGetProfilePage, actionGetSecurityPage, actionLogout} from '@actions/user';
+import {actionGetAnonymousPage, actionGetProfilePage, actionGetSecurityPage, actionLogout} from '@actions/user';
 
 export interface AccountNavigation {
     state: {
@@ -50,6 +50,11 @@ export class AccountNavigation extends Component {
                     break;
                 case config.buttons.accountButtons.security.href:
                     dispatcher.dispatch(actionGetSecurityPage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+                case config.buttons.accountButtons.anonymous.href:
+                    dispatcher.dispatch(actionGetAnonymousPage());
                     currentTarget.dispatchEvent(
                         new MouseEvent('click', {bubbles: true, cancelable: true}));
                     break;
