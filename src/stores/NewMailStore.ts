@@ -24,6 +24,7 @@ class NewMailStore extends BaseStore {
         lastAttachName: 'lastAttachName',
         lastAttachSize: 'lastAttachSize',
         lastAttachID: 'lastAttachID',
+        fromUser: 'fromUser',
     };
 
     /**
@@ -42,6 +43,7 @@ class NewMailStore extends BaseStore {
         this._storage.set(this._storeNames.isDraft, false);
         this._storage.set(this._storeNames.attachments, []);
         this._storage.set(this._storeNames.lastAttachID, 0);
+        this._storage.set(this._storeNames.fromUser, reducerUser.getMyProfile().email);
     };
 
     /**
@@ -133,7 +135,9 @@ class NewMailStore extends BaseStore {
         mail.recipients?.forEach((recipient) => {
             recipientsStr = recipientsStr + recipient.email + ' ';
         });
-
+        this._storage.set(
+            this._storeNames.fromUser, mail.from_user_id.email,
+        );
         this._storage.set(
             this._storeNames.title, mail.title,
         );
@@ -157,7 +161,6 @@ class NewMailStore extends BaseStore {
      * @param mail - mail to send
      */
     sendMail = async (mail: MailToSend) => {
-        mail.from_user = reducerUser.getMyProfile().email;
         mail.attachments = this._storage.get(this._storeNames.attachments);
         mail.attachments.forEach((attach) => {
             delete attach.attachID;
@@ -251,6 +254,10 @@ class NewMailStore extends BaseStore {
 
     isDraft() {
         return this._storage.get(this._storeNames.isDraft);
+    }
+
+    getFromEmail() {
+        return this._storage.get(this._storeNames.fromUser);
     }
 }
 

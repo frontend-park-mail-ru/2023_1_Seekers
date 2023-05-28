@@ -14,6 +14,7 @@ class UserStore extends BaseStore {
         status: 'status',
         body: 'body',
         localRecipients: 'localRecipients',
+        emails: 'emails',
     };
 
     /**
@@ -67,6 +68,14 @@ class UserStore extends BaseStore {
 
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
+
+            const emailsPromise = Connector.makeGetRequest(config.api.getAnonymous);
+
+            const [emailsStatus, emailsBody] = await emailsPromise;
+            this._storage.set(this._storeNames.emails, emailsBody);
+
+            console.log(this.getAnonymousEmails());
+
             this._storage.set(this._storeNames.profile,
                 {
                     email: body.email,
@@ -191,6 +200,10 @@ class UserStore extends BaseStore {
      */
     getLocalRecipients = () => {
         return this._storage.get(this._storeNames.localRecipients) as ProfileData[];
+    };
+
+    getAnonymousEmails = () => {
+        return this._storage.get(this._storeNames.emails) as AnonymousEmails;
     };
 }
 
