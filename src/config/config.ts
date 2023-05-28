@@ -98,6 +98,7 @@ export const config = {
         openAttach_post: '/preview',
         openAttach_post_b64: '/b64',
         webSocket: `${prefixApi}ws`,
+        getAnonymous: `${prefixApi}anonymous`,
     },
 
     navbar: {
