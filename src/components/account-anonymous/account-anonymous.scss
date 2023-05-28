@@ -4,7 +4,7 @@
   border-radius: 12px;
   position: relative;
   border: 1px solid var(--field_border);
-  order: 1;
+  overflow: hidden;
 
   &__textarea {
     padding: 20px;
