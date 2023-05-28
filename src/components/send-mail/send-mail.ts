@@ -47,6 +47,8 @@ export interface SendMail {
 
         editRecipient: HTMLElement,
         attachList: Element[],
+
+        fromUser: Element,
     },
     datalist: DataList,
 
@@ -78,6 +80,7 @@ export class SendMail extends Component {
 
             editRecipient: document.createElement('div'),
             attachList: [],
+            fromUser: document.createElement('div'),
         };
     }
 
@@ -112,6 +115,13 @@ export class SendMail extends Component {
                 this.purge();
                 break;
             }
+        }
+    };
+
+    selectFromEmail = (e: Event) => {
+        if (e.currentTarget) {
+            const currentTarget = e.currentTarget as HTMLParagraphElement;
+            currentTarget.textContent = 'changed';
         }
     };
 
@@ -222,10 +232,12 @@ export class SendMail extends Component {
         [...this.state.text.children].forEach((str) => {
             text += str.outerHTML.replace('"', '\"')
         })
+
         return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
             text: text,
+            from_user: reducerNewMail.getFromEmail(),
         } as MailToSend;
     }
 
@@ -593,6 +605,8 @@ export class SendMail extends Component {
             button.addEventListener('click', this.iconButtonsClicked);
         });
 
+        this.state.fromUser.addEventListener('click', this.selectFromEmail);
+
 
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
         microEvents.bind('mailSent', this.getSendResponse);
@@ -622,6 +636,8 @@ export class SendMail extends Component {
         this.state.footerButtons.forEach((button: Element) => {
             button.removeEventListener('click', this.bottomButtonsClicked);
         });
+
+        this.state.fromUser.removeEventListener('click', this.selectFromEmail);
 
         this.state.attachList.forEach((button: Element) => {
             button.getElementsByClassName('attachment__close-button')[0]!
@@ -702,6 +718,7 @@ export class SendMail extends Component {
         this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
         this.state.iconButtons = [...this.state.element.getElementsByClassName('icon-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
+        this.state.fromUser = document.getElementById('send-mail__from')!;
 
         this.state.topic =
             this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
@@ -711,6 +728,8 @@ export class SendMail extends Component {
         this.state.text = this.state.element.getElementsByClassName('text-area')[0];
         this.registerEventListener();
         this.setInputsState();
+
+        this.state.fromUser.textContent = reducerNewMail.getFromEmail();
 
         this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }

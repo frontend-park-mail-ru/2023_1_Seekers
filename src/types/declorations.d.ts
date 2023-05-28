@@ -94,4 +94,9 @@ type MessageFromSocket = {
     folder: string,
 }
 
+type AnonymousEmails = {
+    count: number,
+    emails?: string[],
+}
+
 type CustomPages = LoginPage;
