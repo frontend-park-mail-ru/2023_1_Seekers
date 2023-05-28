@@ -435,7 +435,7 @@ export class LetterList extends Component {
 
     onFilterClick= (e: Event) => {
         e.preventDefault();
-        if(this.filter) {
+        if(document.getElementById('filter')) {
             this.filter.purge();
             this.filter = null;
             return
