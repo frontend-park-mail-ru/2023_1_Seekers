@@ -363,7 +363,10 @@ export class LetterList extends Component {
         const letterList: object[] = [];
 
         if (letterObjs) {
-            letterObjs.forEach((letter: any) => {
+            letterObjs.forEach((letter) => {
+                if (reducerLetters.getCurrentLettersName() === '/outbox') {
+                    letter.showRecipient = true;
+                }
                 letterList.push(LetterFrame.renderTemplate(letter));
             });
         }

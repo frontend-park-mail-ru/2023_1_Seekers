@@ -201,7 +201,11 @@ export class SendMail extends Component {
                         const files = (<HTMLInputElement>e.target).files;
                         if (files) {
                             [...files].forEach((file) => {
-                                dispatcher.dispatch(actionAddAttachment(file));
+                                if (file.size >= 104857600) {
+                                    showNotification('Файл слишком большой!');
+                                } else {
+                                    dispatcher.dispatch(actionAddAttachment(file));
+                                }
                             });
                         }
                     }
@@ -474,7 +478,6 @@ export class SendMail extends Component {
             const recipientInput = document.getElementsByClassName(
                 'send-mail__recipients')[0] as HTMLElement;
             newRecipients.forEach((recipient) => {
-                console.log(recipient);
                 if (recipient !== '') {
                     if (!recipient.includes('@')) {
                         recipient += '@mailbx.ru';

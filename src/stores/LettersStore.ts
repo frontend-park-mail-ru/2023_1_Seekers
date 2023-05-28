@@ -52,7 +52,6 @@ class LettersStore extends BaseStore {
                     const curDate = new Date();
                     this._storage.get(this._storeNames.letters).set(folderName, []);
                     body.messages?.forEach((message: any) => {
-                        console.log(message.created_at);
                         const date = new Date(message.created_at);
 
                         let time: string = '';
@@ -66,6 +65,12 @@ class LettersStore extends BaseStore {
                             time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
                                 + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
                         }
+
+                        (message.recipients as ProfileData[])?.forEach((recipient) => {
+                            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                                `?email=${recipient.email}`;
+                        });
+
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
@@ -107,10 +112,28 @@ class LettersStore extends BaseStore {
             config.api.search_post + message.text)
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
+                    const curDate = new Date();
                     const searchedLetters: LetterFrameData[] = [];
                     body.messages?.forEach((message: any) => {
-                        const time = message.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
+                        const date = new Date(message.created_at);
+
+                        let time: string = '';
+
+                        if(curDate.getDate() === date.getDate() &&
+                            curDate.getMonth() === date.getMonth() &&
+                            curDate.getFullYear() === date.getFullYear()) {
+                            time = 'сегодня, '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        } else {
+                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        }
+
+                        (message.recipients as ProfileData[])?.forEach((recipient) => {
+                            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                                `?email=${recipient.email}`;
+                        });
+
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
@@ -434,6 +457,12 @@ class LettersStore extends BaseStore {
     getLetterFrameFromMailData(message: MailData) {
         const time = message.created_at.substring(0, 10)
             .replace('-', '.').replace('-', '.');
+
+        (message.recipients as ProfileData[])?.forEach((recipient) => {
+            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                `?email=${recipient.email}`;
+        });
+
         const letterFrame: LetterFrameData = {
             message_id: message.message_id,
             seen: message.seen,
