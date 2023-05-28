@@ -1,4 +1,3 @@
-import {Form} from '@uikits/form/form';
 import {Button} from '@uikits/button/button';
 
 import template from '@components/account-anonymous/account-anonymous.hbs';
@@ -8,13 +7,15 @@ import {Component} from '@components/component';
 import {microEvents} from '@utils/microevents';
 import {dispatcher} from '@utils/dispatcher';
 import {reducerUser} from '@stores/userStore';
-import {responseStatuses} from '@config/config';
+import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
+import {FormLocked} from "@uikits/form-locked/form-locked";
 
 export interface AccountAnonymous {
     state: {
         forms: any,
         button: any,
+        inputs: any
         element: Element,
     },
 }
@@ -52,7 +53,9 @@ export class AccountAnonymous extends Component {
      */
     registerEvents = () => {
         const form = document.getElementById('account-anonymous__form');
-
+        this.state.inputs.forEach((emailLocked: any) => {
+            emailLocked.addEventListener('click', this.saveOnEmailClick)
+        })
         form?.addEventListener('submit', this.onSubmitHandler);
     };
 
@@ -61,20 +64,42 @@ export class AccountAnonymous extends Component {
      */
     unregisterEvents = () => {
         const form = document.getElementById('account-anonymous__form');
+        this.state.inputs.forEach((emailLocked: any) => {
+            emailLocked.removeEventListener('click', this.saveOnEmailClick)
+        })
         form?.removeEventListener('submit', this.onSubmitHandler);
     };
+
+    saveOnEmailClick = (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement) {
+            if (currentTarget.dataset.section) {
+                navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
+                        showNotification('Скопировано!');
+                    }
+                );
+            }
+        }
+    }
 
     /**
      * method insert account-anonymous to HTML
      */
     render() {
+        const anonymousItems: object[] = [];
+        Object.values(this.state.forms).forEach((button) => {
+            anonymousItems.push(FormLocked.renderTemplate(button));
+        });
         this.parent.insertAdjacentHTML('afterbegin', template(
             {
+                anonymous: anonymousItems,
                 button: Button.renderTemplate(this.state.button),
             },
         ));
 
         this.state.element = this.parent.getElementsByClassName('account-anonymous')[0];
+        this.state.inputs = [...document.getElementsByClassName('input-form-locked')];
 
         this.registerEvents();
     }

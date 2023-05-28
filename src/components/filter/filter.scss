@@ -8,7 +8,7 @@
 
   &__area {
     max-height: 250px;
-    min-width: 200px;
+    min-width: 160px;
     max-width: 250px;
     overflow: auto;
     overflow-x: hidden;
@@ -29,15 +29,15 @@
     font-weight: 400;
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 30px;
     border-radius: 8px;
     text-decoration: none;
-    min-height: 44px;
+    min-height: 30px;
     text-align: center;
 
     &__out {
-      height: 40px;
-      min-height: 44px;
+      height: 30px;
+      min-height: 30px;
       width:  100%;
       position: absolute;
       cursor: pointer;
