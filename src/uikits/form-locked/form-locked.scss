@@ -23,4 +23,19 @@
     color: var(--secondary-text-color);
     background: var(--input-default-fill-color);
   }
+
+  &__icon {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+
+    &__color {
+      stroke: var(--menu-icons-default-color);
+    }
+
+    &__size {
+      width: 22px;
+      height: 18px;
+    }
+  }
 }
