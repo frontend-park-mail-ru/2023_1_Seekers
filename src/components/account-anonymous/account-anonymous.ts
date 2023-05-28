@@ -65,7 +65,7 @@ export class AccountAnonymous extends Component {
     };
 
     /**
-     * method insert account-profile to HTML
+     * method insert account-anonymous to HTML
      */
     render() {
         this.parent.insertAdjacentHTML('afterbegin', template(
@@ -81,8 +81,8 @@ export class AccountAnonymous extends Component {
 
     /**
      * method purge
-     * account security clearing
-     * will purge all the content in account security
+     * account-anonymous clearing
+     * will purge all the content in account-anonymous
      */
     purge() {
         this.unregisterEvents();

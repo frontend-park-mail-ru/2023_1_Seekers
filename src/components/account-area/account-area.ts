@@ -57,6 +57,9 @@ export class AccountArea extends Component {
             case '/security':
                 this.renderSecurity();
                 break;
+            case '/anonymous':
+                this.renderSecurity();
+                break;
             }
         }
         this.registerEventListener();
