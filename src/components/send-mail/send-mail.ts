@@ -397,10 +397,9 @@ export class SendMail extends Component {
                 this.state.editRecipient.remove();
                 e.stopPropagation();
             } else {
-                this.state.recipients.set(input.value, this.state.editRecipient);
-                this.state.editRecipient.dataset.section = input.value;
-                input.value.replace(' ', '');
-                input.value.trim();
+                input.value = input.value.replace(/\s+/g, '');
+
+                console.log(input.value);
                 if (input.value.length === 0) {
                     this.state.editRecipient.getElementsByClassName('icon-button')[0]
                         .removeEventListener('click', this.onRemoveRecipientClicked);
@@ -408,6 +407,8 @@ export class SendMail extends Component {
                     e.stopPropagation();
                     return;
                 }
+                this.state.recipients.set(input.value, this.state.editRecipient);
+                this.state.editRecipient.dataset.section = input.value;
                 span.textContent = input.value;
                 this.state.editRecipient.addEventListener('click', this.onRecipientClicked);
             }
