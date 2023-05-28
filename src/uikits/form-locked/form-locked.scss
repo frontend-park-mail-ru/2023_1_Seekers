@@ -1,0 +1,38 @@
+.input-form-locked {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  position: relative;
+
+  &__indent {
+    padding: 10px 0;
+  }
+
+  &__size {
+    box-sizing: border-box;
+    outline: none;
+    padding-left: 15px;
+    min-height: 36px;
+    min-width: 80%;
+    border: 1px solid var(--input-default-fill-color);
+  }
+
+  &__color {
+    border-radius: 7px;
+    color: var(--secondary-text-color);
+    background: var(--input-default-fill-color);
+
+    &:focus, &:hover {
+      box-sizing: border-box;
+      min-height: 36px;
+      min-width: 80%;
+      left: 0;
+      right: 0;
+      top: 34.45%;
+      bottom: 0;
+      border-radius: 7px;
+      background: var(--input-selected-color);
+      border: 1px solid var(--field_border);
+    }
+  }
+}

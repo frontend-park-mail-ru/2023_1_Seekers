@@ -943,6 +943,22 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     buttonText: 'Сохранить',
                 },
             },
+            anonymous: {
+                NEEDTODETELE: {
+                    passwordOld: {
+                        value: 'od34156la@mb.ru',
+                    },
+                    passwordNew: {
+                        value: 'ogrebatel@mb.ru',
+                    },
+                    passwordRepeat: {
+                        value: 'dm00n@mb.ru',
+                    },
+                },
+                button: {
+                    buttonText: 'Сгенерировать',
+                },
+            },
         },
     },
 };
