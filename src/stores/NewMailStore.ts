@@ -132,11 +132,13 @@ class NewMailStore extends BaseStore {
         const mail = reducerLetters.getLetterByFolderAndId('drafts', this._storage.get(this._storeNames.draftId))!;
         let recipientsStr = '';
 
+        console.log(mail);
+
         mail.recipients?.forEach((recipient) => {
             recipientsStr = recipientsStr + recipient.email + ' ';
         });
         this._storage.set(
-            this._storeNames.fromUser, mail.from_user_id.email,
+            this._storeNames.fromUser, mail.from_user_email,
         );
         this._storage.set(
             this._storeNames.title, mail.title,

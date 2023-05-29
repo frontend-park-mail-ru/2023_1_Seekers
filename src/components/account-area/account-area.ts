@@ -116,9 +116,6 @@ export class AccountArea extends Component {
         }
         this.state.content = new AccountAnonymous({
             parent: document.getElementById('account-area__content')!,
-        }, {
-            forms: config.accountFields.account.anonymous.NEEDTODETELE,
-            button: config.accountFields.account.anonymous.button,
         });
         this.state.content.render();
 

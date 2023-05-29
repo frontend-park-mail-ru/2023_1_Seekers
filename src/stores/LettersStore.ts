@@ -169,7 +169,6 @@ class LettersStore extends BaseStore {
     };
 
     freePasteEmail = async () => {
-        console.log('hello!');
         this._storage.set(this._storeNames.emailToPaste, '');
     };
 

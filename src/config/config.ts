@@ -99,6 +99,8 @@ export const config = {
         openAttach_post_b64: '/b64',
         webSocket: `${prefixApi}ws`,
         getAnonymous: `${prefixApi}anonymous`,
+        createAnonymous: `${prefixApi}anonymous/create`,
+        deleteAnonymous: `${prefixApi}anonymous?email=`,
     },
 
     navbar: {

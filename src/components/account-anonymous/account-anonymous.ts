@@ -10,6 +10,8 @@ import {reducerUser} from '@stores/userStore';
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
 import {FormLocked} from "@uikits/form-locked/form-locked";
+import {actionCreateAnonymous, actionDeleteAnonymous} from "@actions/user";
+import {loginPage} from "@views/login-page/login-page";
 
 export interface AccountAnonymous {
     state: {
@@ -17,6 +19,7 @@ export interface AccountAnonymous {
         button: any,
         inputs: any
         element: Element,
+        deleteButtons: Element[],
     },
 }
 
@@ -30,12 +33,10 @@ export class AccountAnonymous extends Component {
      * @param context - contains parent element
      * @param state - initialize start state for current object
      */
-    constructor(context: componentContext, state: any) {
+    constructor(context: componentContext) {
         super(context);
-        this.state = state;
-
-        this.subscribeProfileStatus = this.subscribeProfileStatus.bind(this);
-        microEvents.bind('fromSecurity', this.subscribeProfileStatus);
+        this.state.button = config.accountFields.account.anonymous.button;
+        this.rerender = this.rerender.bind(this);
     }
 
     /**
@@ -44,7 +45,24 @@ export class AccountAnonymous extends Component {
      */
     onSubmitHandler = async (e: SubmitEvent) => {
         e.preventDefault();
+        e.stopPropagation();
+        dispatcher.dispatch(actionCreateAnonymous());
+    };
 
+    onDeleteHandler = async (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (e.currentTarget) {
+            const currentTarget = e.currentTarget as Element;
+            if (currentTarget.parentElement) {
+                [...currentTarget.parentElement.children].forEach((child) => {
+                    if (child.tagName.toLowerCase() === 'input') {
+                        dispatcher.dispatch(actionDeleteAnonymous((child as HTMLInputElement).value));
+                    }
+                });
+            }
+        }
     };
 
 
@@ -54,9 +72,27 @@ export class AccountAnonymous extends Component {
     registerEvents = () => {
         const form = document.getElementById('account-anonymous__form');
         this.state.inputs.forEach((emailLocked: any) => {
-            emailLocked.addEventListener('click', this.saveOnEmailClick)
-        })
+            emailLocked.addEventListener('click', this.saveOnEmailClick);
+        });
+
+        this.state.deleteButtons.forEach((button) => {
+            button.addEventListener('click', this.onDeleteHandler);
+        });
+
         form?.addEventListener('submit', this.onSubmitHandler);
+
+        microEvents.bind('anonymousCreated', this.getCreateAnswer);
+        microEvents.bind('anonymousDeleted', this.getDeleteAnswer);
+    };
+
+    getDeleteAnswer = () => {
+        showNotification('email удалён успешно!');
+        this.rerender();
+    };
+
+    getCreateAnswer = () => {
+        showNotification('email создан успешно!');
+        this.rerender();
     };
 
     /**
@@ -66,8 +102,15 @@ export class AccountAnonymous extends Component {
         const form = document.getElementById('account-anonymous__form');
         this.state.inputs.forEach((emailLocked: any) => {
             emailLocked.removeEventListener('click', this.saveOnEmailClick)
-        })
+        });
+
+        this.state.deleteButtons.forEach((button) => {
+            button.removeEventListener('click', this.onDeleteHandler);
+        });
+
         form?.removeEventListener('submit', this.onSubmitHandler);
+        microEvents.unbind('anonymousCreated', this.getCreateAnswer);
+        microEvents.unbind('anonymousDeleted', this.getDeleteAnswer);
     };
 
     saveOnEmailClick = (e: Event) => {
@@ -88,7 +131,11 @@ export class AccountAnonymous extends Component {
      */
     render() {
         const anonymousItems: object[] = [];
-        Object.values(this.state.forms).forEach((button) => {
+        const forms: object[] = [];
+        reducerUser.getAnonymousEmails().emails?.forEach((email) => {
+            forms.push({value: email});
+        });
+        forms.forEach((button) => {
             anonymousItems.push(FormLocked.renderTemplate(button));
         });
         this.parent.insertAdjacentHTML('afterbegin', template(
@@ -100,8 +147,15 @@ export class AccountAnonymous extends Component {
 
         this.state.element = this.parent.getElementsByClassName('account-anonymous')[0];
         this.state.inputs = [...document.getElementsByClassName('input-form-locked')];
+        this.state.deleteButtons =
+            [...this.state.element.getElementsByClassName('input-form-locked__icon')];
 
         this.registerEvents();
+    }
+
+    rerender() {
+        this.purge();
+        this.render();
     }
 
     /**

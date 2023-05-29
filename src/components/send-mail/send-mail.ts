@@ -6,7 +6,7 @@ import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
 import {dispatcher} from '@utils/dispatcher';
 
-import {config, responseStatuses} from '@config/config';
+import {config, responseStatuses, ROOT} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {
     actionAddAttachment,
@@ -29,6 +29,7 @@ import {Attachment} from "@uikits/attachment/attachment";
 import {iconChooser} from "@utils/iconChooser";
 import {TextArea} from "@uikits/text-area/text-area";
 import {FormatterLine} from "@uikits/formatter-line/formatter-line";
+import {DataListFrom} from "@components/data-list-from/data-list-from";
 
 
 export interface SendMail {
@@ -51,6 +52,7 @@ export interface SendMail {
         fromUser: Element,
     },
     datalist: DataList,
+    datalistFrom: DataListFrom,
 
 }
 
@@ -118,12 +120,7 @@ export class SendMail extends Component {
         }
     };
 
-    selectFromEmail = (e: Event) => {
-        if (e.currentTarget) {
-            const currentTarget = e.currentTarget as HTMLParagraphElement;
-            currentTarget.textContent = 'changed';
-        }
-    };
+
 
     /**
      * method handle click on navbar
@@ -237,7 +234,7 @@ export class SendMail extends Component {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
             text: text,
-            from_user: reducerNewMail.getFromEmail(),
+            from_user: (document.getElementById('send-mail__from') as HTMLElement).textContent,
         } as MailToSend;
     }
 
@@ -326,6 +323,16 @@ export class SendMail extends Component {
             case config.buttons.newMailButtons.closeButton.href:
                 this.purge();
                 [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
+                    [...ctxMenu.children].forEach((child) => {
+                        if (child.classList.contains('profile-data__item')) {
+                            child.removeEventListener('click', this.buttonsClicked);
+                            child.removeEventListener('mouseover', this.mouseOverButton);
+                        }
+                    });
+                    ctxMenu.remove();
+                });
+
+                [...document.getElementsByClassName('data-list-from')].forEach((ctxMenu) => {
                     [...ctxMenu.children].forEach((child) => {
                         if (child.classList.contains('profile-data__item')) {
                             child.removeEventListener('click', this.buttonsClicked);
@@ -431,6 +438,14 @@ export class SendMail extends Component {
         }
     };
 
+    selectFromEmail = (e: Event) => {
+        e.preventDefault();
+        const me = e as MouseEvent;
+        this.datalistFrom = new DataListFrom({parent: document.getElementById('root')!});
+        e.stopPropagation();
+        this.datalistFrom.render(me.clientX, me.clientY);
+    };
+
     showDataList = (e: Event) => {
         e.preventDefault();
         const me = e as MouseEvent;
@@ -447,6 +462,11 @@ export class SendMail extends Component {
                 this.datalist?.purge();
                 const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
                 recipientInput.value = '';
+            }
+
+            if (!(document.getElementById('data-list-from') === e.target as HTMLElement ||
+                document.getElementById('data-list-from')?.contains(e.target as HTMLElement))) {
+                this.datalistFrom?.purge();
             }
         }
     };
@@ -619,6 +639,7 @@ export class SendMail extends Component {
         this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
 
         document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
+
         this.state.element.addEventListener('click', this.removeDataList);
     };
 

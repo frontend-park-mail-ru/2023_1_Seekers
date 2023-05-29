@@ -91,3 +91,13 @@ export const actionToLogin = () => ({
     type: 'toLogin',
     value: {},
 });
+
+export const actionCreateAnonymous = () => ({
+    type: 'createAnonymous',
+    value: {},
+});
+
+export const actionDeleteAnonymous = (email: string) => ({
+    type: 'deleteAnonymous',
+    value: email,
+});

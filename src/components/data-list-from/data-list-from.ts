@@ -1,7 +1,7 @@
 import {Component} from '@components/component';
 
-import template from '@components/data-list/data-list.hbs';
-import '@components/data-list/data-list.scss';
+import template from '@components/data-list-from/data-list-from.hbs';
+import '@components/data-list-from/data-list-from.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {ProfileData} from "@uikits/profile-data/profile-data";
@@ -16,13 +16,14 @@ export interface DataList {
         element: Element,
         isRendered: boolean,
         buttons: Element[],
+        emails: string[],
     },
 }
 
 /**
  * class implementing component data-list
  */
-export class DataList extends Component {
+export class DataListFrom extends Component {
     /**
      * Constructor that creates a component class SendMail
      * @param context - HTML element into which
@@ -34,6 +35,7 @@ export class DataList extends Component {
             element: document.createElement('div'),
             isRendered: false,
             buttons: [],
+            emails: [],
         };
     }
 
@@ -46,7 +48,10 @@ export class DataList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                dispatcher.dispatch(actionPasteEmail(currentTarget.dataset.section));
+                (document.getElementById('send-mail__from') as HTMLInputElement)
+                    .textContent = currentTarget.dataset.section;
+                this.purge();
+                e.stopPropagation();
             }
         }
     };
@@ -60,7 +65,8 @@ export class DataList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                dispatcher.dispatch(actionShowPasteEmail(currentTarget.dataset.section));
+                (document.getElementById('send-mail__from') as HTMLInputElement)
+                    .textContent = currentTarget.dataset.section;
             }
         }
     };
@@ -74,9 +80,8 @@ export class DataList extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                await dispatcher.dispatch(actionFreePasteEmail());
-                (document.getElementById('new-mail-recipients') as HTMLInputElement)
-                    .value = '';
+                (document.getElementById('send-mail__from') as HTMLInputElement)
+                    .textContent = reducerUser.getMyProfile().email;
             }
         }
     };
@@ -86,7 +91,7 @@ export class DataList extends Component {
      * register listeners for each action that may happen in send mail
      */
     registerEventListener = () => {
-        this.state.buttons.forEach((button) => {
+        this.state.buttons.forEach((button: any) => {
             button.addEventListener('click', this.buttonsClicked);
             button.addEventListener('mouseover', this.mouseOverButton);
             button.addEventListener('mouseout', this.mouseOutButton);
@@ -99,7 +104,7 @@ export class DataList extends Component {
      * register listeners for each action that may happen in send mail
      */
     unregisterEventListener = () => {
-        this.state.buttons.forEach((button) => {
+        this.state.buttons.forEach((button: any) => {
             button.removeEventListener('click', this.buttonsClicked);
             button.removeEventListener('mouseover', this.mouseOverButton);
             button.removeEventListener('mouseout', this.mouseOutButton);
@@ -110,7 +115,7 @@ export class DataList extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
-        if( reducerUser.getLocalRecipients().length === 0){
+        if (reducerUser.getAnonymousEmails().count === 0) {
             return;
         }
 
@@ -136,9 +141,20 @@ export class DataList extends Component {
             ctxMenu.remove();
         });
 
+        this.state.emails.push({
+            email: reducerUser.getMyProfile().email,
+            avatar: reducerUser.getAvatar(reducerUser.getMyProfile().email),
+        });
+        reducerUser.getAnonymousEmails().emails?.forEach((email) => {
+            this.state.emails.push({
+                email: email,
+                avatar: reducerUser.getAvatar(email),
+            });
+        });
+
 
         const menuActionButtons: object[] = [];
-        reducerUser.getLocalRecipients().forEach((button) => {
+        this.state.emails.forEach((button: any) => {
             menuActionButtons.push(ProfileData.renderTemplate(button));
         });
 
@@ -148,8 +164,8 @@ export class DataList extends Component {
             },
         ));
 
-        this.state.element = document.getElementById('data-list') as HTMLElement;
-        this.state.buttons = [...document.getElementsByClassName('profile-data__item')];
+        this.state.element = document.getElementById('data-list-from') as HTMLElement;
+        this.state.buttons = [...this.state.element.getElementsByClassName('profile-data__item')];
 
         const ctxHeight = (this.state.element as HTMLDivElement).offsetHeight;
         const ctxWidth = (this.state.element as HTMLDivElement).offsetWidth;

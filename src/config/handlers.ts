@@ -3,6 +3,7 @@ import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {reducerFolder} from '@stores/FolderStore';
+import {actionCreateAnonymous} from "@actions/user";
 
 
 const handlers = [
@@ -63,6 +64,8 @@ const handlers = [
 
     {type: 'toSignup', method: reducerUser.getSignupPage.bind(reducerUser)},
     {type: 'toLogin', method: reducerUser.getLoginPage.bind(reducerUser)},
+    {type: 'createAnonymous', method: reducerUser.createAnonymous.bind(reducerUser)},
+    {type: 'deleteAnonymous', method: reducerUser.deleteAnonymous.bind(reducerUser)},
 ];
 
 

@@ -55,6 +55,7 @@ type MailData = {
     from_user_id: ProfileData,
     recipients: ProfileData[],
     attachments: AttachmentData[],
+    from_user_email?: string,
     title: string,
     created_at: string,
     text: string,
