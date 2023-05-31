@@ -87,6 +87,10 @@ body {
     display: none !important;
 }
 
+a {
+    color: var(--active-elements-color);
+}
+
 //[title] {
 //    position: relative;
 //}

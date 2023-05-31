@@ -96,30 +96,29 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newMailButtons.footerButtons.send.href:
-                await this.sendMail();
-                break;
+                case config.buttons.newMailButtons.footerButtons.send.href:
+                    await this.sendMail();
+                    break;
 
-            case config.buttons.newMailButtons.footerButtons.save.href:
-                const draft = this.getMailInputs();
+                case config.buttons.newMailButtons.footerButtons.save.href:
+                    const draft = this.getMailInputs();
 
-                if (draft.title === '' &&
+                    if (draft.title === '' &&
                         draft.recipients.length === 0 &&
                         draft.text === '') {
+                        this.purge();
+                        return;
+                    }
+
+                    dispatcher.dispatch(actionSendDraft(draft));
+                    break;
+
+                case config.buttons.newMailButtons.footerButtons.cancel.href:
                     this.purge();
-                    return;
-                }
-
-                dispatcher.dispatch(actionSendDraft(draft));
-                break;
-
-            case config.buttons.newMailButtons.footerButtons.cancel.href:
-                this.purge();
-                break;
+                    break;
             }
         }
     };
-
 
 
     /**
@@ -169,14 +168,6 @@ export class SendMail extends Component {
                     document.execCommand("justifyRight");
                     break;
 
-                case config.buttons.mailFormatterButtons.fonts.href:
-                    alert('Скоро сделаю')
-                    break;
-
-                case config.buttons.mailFormatterButtons.colors.href:
-                    alert('Скоро сделаю')
-                    break;
-
                 case config.buttons.mailFormatterButtons.undo.href:
                     document.execCommand("undo");
                     break;
@@ -198,28 +189,28 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newMailButtons.actionButtons.attach.folder_slug:
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.multiple = true;
+                case config.buttons.newMailButtons.actionButtons.attach.folder_slug:
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.multiple = true;
 
-                input.onchange = (e: Event) => {
-                    if (e.target) {
-                        const files = (<HTMLInputElement>e.target).files;
-                        if (files) {
-                            [...files].forEach((file) => {
-                                if (file.size >= 104857600) {
-                                    showNotification('Файл слишком большой!');
-                                } else {
-                                    dispatcher.dispatch(actionAddAttachment(file));
-                                }
-                            });
+                    input.onchange = (e: Event) => {
+                        if (e.target) {
+                            const files = (<HTMLInputElement>e.target).files;
+                            if (files) {
+                                [...files].forEach((file) => {
+                                    if (file.size >= 104857600) {
+                                        showNotification('Файл слишком большой!');
+                                    } else {
+                                        dispatcher.dispatch(actionAddAttachment(file));
+                                    }
+                                });
+                            }
                         }
-                    }
-                };
+                    };
 
-                input.click();
-                break;
+                    input.click();
+                    break;
             }
         }
     };
@@ -264,18 +255,18 @@ export class SendMail extends Component {
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
-        case responseStatuses.OK:
-            showNotification('Письмо отправлено успешно!');
-            this.purge();
-            return;
-        case responseStatuses.BadRequest:
-            showNotification('В списке получателей нет ни одного существующего!');
-            break;
-        case responseStatuses.Forbidden:
-            showNotification('Заполните поля!');
-            break;
-        default:
-            showNotification(answerBody.message);
+            case responseStatuses.OK:
+                showNotification('Письмо отправлено успешно!');
+                this.purge();
+                return;
+            case responseStatuses.BadRequest:
+                showNotification('В списке получателей нет ни одного существующего!');
+                break;
+            case responseStatuses.Forbidden:
+                showNotification('Заполните поля!');
+                break;
+            default:
+                showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -294,12 +285,12 @@ export class SendMail extends Component {
         const answerBody = reducerNewMail._storage.get(reducerNewMail._storeNames.answerBody);
 
         switch (answerStatus) {
-        case responseStatuses.OK:
-            showNotification('Черновик сохранён.');
-            this.purge();
-            return;
-        default:
-            showNotification(answerBody.message);
+            case responseStatuses.OK:
+                showNotification('Черновик сохранён.');
+                this.purge();
+                return;
+            default:
+                showNotification(answerBody.message);
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
@@ -320,28 +311,28 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
-                [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
-                    [...ctxMenu.children].forEach((child) => {
-                        if (child.classList.contains('profile-data__item')) {
-                            child.removeEventListener('click', this.buttonsClicked);
-                            child.removeEventListener('mouseover', this.mouseOverButton);
-                        }
+                case config.buttons.newMailButtons.closeButton.href:
+                    this.purge();
+                    [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
+                        [...ctxMenu.children].forEach((child) => {
+                            if (child.classList.contains('profile-data__item')) {
+                                child.removeEventListener('click', this.buttonsClicked);
+                                child.removeEventListener('mouseover', this.mouseOverButton);
+                            }
+                        });
+                        ctxMenu.remove();
                     });
-                    ctxMenu.remove();
-                });
 
-                [...document.getElementsByClassName('data-list-from')].forEach((ctxMenu) => {
-                    [...ctxMenu.children].forEach((child) => {
-                        if (child.classList.contains('profile-data__item')) {
-                            child.removeEventListener('click', this.buttonsClicked);
-                            child.removeEventListener('mouseover', this.mouseOverButton);
-                        }
+                    [...document.getElementsByClassName('data-list-from')].forEach((ctxMenu) => {
+                        [...ctxMenu.children].forEach((child) => {
+                            if (child.classList.contains('profile-data__item')) {
+                                child.removeEventListener('click', this.buttonsClicked);
+                                child.removeEventListener('mouseover', this.mouseOverButton);
+                            }
+                        });
+                        ctxMenu.remove();
                     });
-                    ctxMenu.remove();
-                });
-                return;
+                    return;
             }
         }
     };
@@ -422,7 +413,6 @@ export class SendMail extends Component {
             } else {
                 input.value = input.value.replace(/\s+/g, '');
 
-                console.log(input.value);
                 if (input.value.length === 0) {
                     this.state.editRecipient.getElementsByClassName('icon-button')[0]
                         .removeEventListener('click', this.onRemoveRecipientClicked);
@@ -534,7 +524,7 @@ export class SendMail extends Component {
                 config.buttons.newMailButtons.closeButton),
         };
         area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow));
-        const curAttach = ([...area!.getElementsByClassName('attachment')]as HTMLElement[])
+        const curAttach = ([...area!.getElementsByClassName('attachment')] as HTMLElement[])
             .find((attach) => attach.dataset.section! === reducerNewMail.getAttachID().toString());
         this.state.attachList.push(curAttach as Element);
 
@@ -606,6 +596,14 @@ export class SendMail extends Component {
         }
     };
 
+    onFromClick = () => {
+        const invisible = [...document.getElementsByClassName('send-mail__invisible')];
+
+        invisible.forEach((el) => {
+            el.classList.remove('send-mail__invisible');
+        });
+    };
+
     /**
      * method registerEventListener
      * register listeners for each action that may happen in send mail
@@ -641,6 +639,8 @@ export class SendMail extends Component {
         document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
 
         this.state.element.addEventListener('click', this.removeDataList);
+
+        document.getElementById('send-mail__from')!.addEventListener('click', this.onFromClick);
     };
 
     /**
@@ -689,6 +689,8 @@ export class SendMail extends Component {
 
         document.getElementById('new-mail-recipients')?.removeEventListener('click', this.showDataList);
         this.state.element.removeEventListener('click', this.removeDataList);
+
+        document.getElementById('send-mail__from')!.removeEventListener('click', this.onFromClick);
     };
 
     /**
@@ -699,7 +701,7 @@ export class SendMail extends Component {
         this.state.recipientsInput.value =
             reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
         this.state.text.insertAdjacentHTML('beforeend', reducerNewMail._storage.get(reducerNewMail._storeNames.text))
-    }
+    };
 
 
     /**
@@ -729,8 +731,8 @@ export class SendMail extends Component {
             closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
             textArea: TextArea.renderTemplate({}),
             formatter: FormatterLine.renderTemplate({
-                actionButtons: IconButtons
-            })
+                actionButtons: IconButtons,
+            }),
         }));
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];

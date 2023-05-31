@@ -9,6 +9,22 @@
   background: rgba(0, 0, 0, .58);
   flex: 1;
 
+  &__invisible {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
+  &__from {
+    color: var(--active-elements-color);
+    font-family: Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
   &__text_color {
     color: var(--menu-text-default-color);
   }

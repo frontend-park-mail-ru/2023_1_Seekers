@@ -18,13 +18,13 @@
 
                 <div class="send-mail__delimiter"></div>
 
-                <div class="send-mail__author">
+                <div class="send-mail__author send-mail__invisible">
                     <p class="send-mail__to font-normal-0 send-mail__text_color">От:</p>
                     <p class="send-mail__input-form send-mail__input-form_indent font-normal-0 send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
                            id="send-mail__from"></p>
 
                 </div>
-                <div class="send-mail__delimiter"></div>
+                <div class="send-mail__delimiter send-mail__invisible"></div>
 
                 <div class="send-mail__author">
                     <p class="send-mail__to font-normal-0 send-mail__text_color">Тема:</p>
@@ -32,6 +32,7 @@
                            type="{{this.inputs.topic.type}}"
                            name="{{this.inputs.topic.name}}" maxlength="{{this.inputs.topic.maxlength}}"
                            id="{{this.inputs.topic.name}}" required/>
+                    <div class="send-mail__from" id="send-mail__from">От кого:</div>
 
                 </div>
                 <div class="send-mail__delimiter"></div>
