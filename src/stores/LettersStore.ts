@@ -500,7 +500,7 @@ class LettersStore extends BaseStore {
             from_user_email: message.from_user_id.email,
             title: message.title,
             text: message.text,
-            preview: '',
+            preview: message.preview,
             created_at: time,
             href: this.getCurrentLettersName() + '/' + message.message_id,
             avatar: `${config.basePath}/${config.api.avatar}` +

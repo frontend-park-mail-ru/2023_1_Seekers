@@ -511,7 +511,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             },
             subscript: {
                 href: '/subscript',
-                img: `<path id="svg_1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="transform: scale(1.25);" 
+                img: `<path id="svg_1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" 
                 d="m3,10l0.01,0m6.99,0l0.01,0m6.99,0l0.01,0m-13.01,0c0,0.5523 -0.44772,1 -1,1s-1,-0.4477 
                 -1,-1s0.44772,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
@@ -520,7 +520,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
             },
             superscript: {
                 href: '/superscript',
-                img: `<path id="svg_1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="transform: scale(1.25);"
+                img: `<path id="svg_1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
                 d="m3,10l0.01,0m6.99,0l0.01,0m6.99,0l0.01,0m-13.01,0c0,0.5523 -0.44772,1 -1,1s-1,-0.4477 
                 -1,-1s0.44772,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
                 -1,-1s0.4477,-1 1,-1s1,0.4477 1,1zm7,0c0,0.5523 -0.4477,1 -1,1s-1,-0.4477 
