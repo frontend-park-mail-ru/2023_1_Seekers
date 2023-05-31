@@ -145,6 +145,17 @@ export class ContextLetter extends Component {
      * method insert sidebar to HTML
      */
     render(x: number, y: number) {
+        [...document.getElementsByClassName('advanced-context-menu')].forEach((ctxMenu) => {
+            [...ctxMenu.children].forEach((child) => {
+                if (child.classList.contains('menu-button')) {
+                    child.removeEventListener('click', this.buttonsClicked);
+                }
+            });
+            document.removeEventListener('click', this.onSidebarClick);
+            document.removeEventListener('contextmenu', this.onSidebarClick);
+            ctxMenu.remove();
+        });
+
         [...document.getElementsByClassName('mailbox__context')].forEach((ctxMenu) => {
             [...ctxMenu.children].forEach((child) => {
                 if (child.classList.contains('menu-button')) {

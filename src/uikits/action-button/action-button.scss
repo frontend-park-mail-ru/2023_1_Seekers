@@ -1,4 +1,4 @@
-.contrast-button {
+.action-button {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -18,7 +18,7 @@
     }
 
     &_color {
-        background: var(--button-contrast);
+        background: var(--delimeters-color);
         border: 1px solid var(--delimeters-color);
 
         &:hover {

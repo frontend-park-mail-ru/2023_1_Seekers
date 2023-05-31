@@ -53,7 +53,7 @@ export const privateActions = [
 
 
 export const config = {
-    basePath: 'http://127.0.0.1:8001',
+    basePath: 'https://mailbx.ru',
     headers: {
         'Content-Type': 'application/json',
         // 'accept': 'application/json',
@@ -597,17 +597,21 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 },
             },
             footerButtons: {
-                send: {
-                    href: '/send',
-                    text: 'Отправить',
+                activeButtons: {
+                    save: {
+                        href: '/save',
+                        text: 'Сохранить',
+                    },
+                    cancel: {
+                        href: '/cancel',
+                        text: 'Отменить',
+                    },
                 },
-                save: {
-                    href: '/save',
-                    text: 'Сохранить',
-                },
-                cancel: {
-                    href: '/cancel',
-                    text: 'Отменить',
+                contrastButtons: {
+                    send: {
+                        href: '/send',
+                        text: 'Отправить',
+                    },
                 },
             },
             closeButton: {
@@ -698,7 +702,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     title: 'Логин',
                     type: 'text',
                     name: 'login',
-                    maxlenght: '30',
+                    maxlenght: '16',
                 },
                 password: {
                     title: 'Пароль',
@@ -784,7 +788,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     title: 'Логин',
                     type: 'text',
                     name: 'login',
-                    maxlenght: '30',
+                    maxlenght: '16',
                 },
                 password: {
                     title: 'Пароль',

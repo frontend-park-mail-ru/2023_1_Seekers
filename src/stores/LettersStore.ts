@@ -225,10 +225,23 @@ class LettersStore extends BaseStore {
     downloadMail = async (mailId: string) => {
         Connector.makeGetRequest(config.api.getMail + mailId)
             .then(([status, body]) => {
+
                 if (status === responseStatuses.OK) {
                     const mailData: MailData = body.message;
-                    mailData.created_at = mailData.created_at.substring(0, 10)
-                        .replace('-', '.').replace('-', '.');
+                    const date = new Date(mailData.created_at);
+                    const curDate = new Date();
+                    let time: string = '';
+
+                    if(curDate.getDate() === date.getDate() &&
+                        curDate.getMonth() === date.getMonth() &&
+                        curDate.getFullYear() === date.getFullYear()) {
+                        time = 'сегодня, '
+                            + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    } else {
+                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
+                            + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    }
+                    mailData.created_at = time;
                     mailData.from_user_id.avatar =
                         `${config.basePath}/${config.api.avatar}?email=` +
                         `${body.message.from_user_id.email}`;
@@ -462,8 +475,19 @@ class LettersStore extends BaseStore {
     }
 
     getLetterFrameFromMailData(message: MailData) {
-        const time = message.created_at.substring(0, 10)
-            .replace('-', '.').replace('-', '.');
+        const date = new Date(message.created_at);
+        const curDate = new Date();
+        let time: string = '';
+
+        if(curDate.getDate() === date.getDate() &&
+            curDate.getMonth() === date.getMonth() &&
+            curDate.getFullYear() === date.getFullYear()) {
+            time = 'сегодня, '
+                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+        } else {
+            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
+                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+        }
 
         (message.recipients as ProfileData[])?.forEach((recipient) => {
             recipient.avatar = `${config.basePath}/${config.api.avatar}` +

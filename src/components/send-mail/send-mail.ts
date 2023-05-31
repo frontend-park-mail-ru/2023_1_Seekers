@@ -30,6 +30,7 @@ import {iconChooser} from "@utils/iconChooser";
 import {TextArea} from "@uikits/text-area/text-area";
 import {FormatterLine} from "@uikits/formatter-line/formatter-line";
 import {DataListFrom} from "@components/data-list-from/data-list-from";
+import {ActionButton} from "@uikits/action-button/action-button";
 
 
 export interface SendMail {
@@ -96,11 +97,11 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-                case config.buttons.newMailButtons.footerButtons.send.href:
+                case config.buttons.newMailButtons.footerButtons.contrastButtons.send.href:
                     await this.sendMail();
                     break;
 
-                case config.buttons.newMailButtons.footerButtons.save.href:
+                case config.buttons.newMailButtons.footerButtons.activeButtons.save.href:
                     const draft = this.getMailInputs();
 
                     if (draft.title === '' &&
@@ -113,7 +114,7 @@ export class SendMail extends Component {
                     dispatcher.dispatch(actionSendDraft(draft));
                     break;
 
-                case config.buttons.newMailButtons.footerButtons.cancel.href:
+                case config.buttons.newMailButtons.footerButtons.activeButtons.cancel.href:
                     this.purge();
                     break;
             }
@@ -237,7 +238,7 @@ export class SendMail extends Component {
 
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.add('skeleton__block');
@@ -270,7 +271,7 @@ export class SendMail extends Component {
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
@@ -294,7 +295,7 @@ export class SendMail extends Component {
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
@@ -709,8 +710,12 @@ export class SendMail extends Component {
      */
     render() {
         const footerButtons: object[] = [];
-        Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
+        Object.values(config.buttons.newMailButtons.footerButtons.contrastButtons).forEach((button) => {
             footerButtons.push(ContrastButton.renderTemplate(button));
+        });
+
+        Object.values(config.buttons.newMailButtons.footerButtons.activeButtons).forEach((button) => {
+            footerButtons.push(ActionButton.renderTemplate(button));
         });
 
         const actionButtons: object[] = [];
@@ -738,7 +743,8 @@ export class SendMail extends Component {
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
         this.state.actionButtons = [...this.state.element.getElementsByClassName('menu-button')];
-        this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
+        this.state.footerButtons = [...this.state.element.getElementsByClassName('action-button')];
+        this.state.footerButtons.push(this.state.element.getElementsByClassName('contrast-button')[0]);
         this.state.iconButtons = [...this.state.element.getElementsByClassName('icon-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
         this.state.fromUser = document.getElementById('send-mail__from')!;

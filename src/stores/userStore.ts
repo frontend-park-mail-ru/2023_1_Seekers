@@ -151,7 +151,7 @@ class UserStore extends BaseStore {
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             const recipients: ProfileData[] = [];
-            body.users.forEach((user: ProfileData) => {
+            body.users?.forEach((user: ProfileData) => {
                 user.avatar = `${config.basePath}/${config.api.avatar}` +
                     `?email=${user.email}&t=${new Date().getTime()}`;
                 recipients.push(user);
