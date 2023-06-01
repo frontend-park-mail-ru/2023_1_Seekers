@@ -106,7 +106,9 @@ class NewMailStore extends BaseStore {
             this._storeNames.title, 'RE: ' + title,
         );
         this._storage.set(
-            this._storeNames.text, '<div>' + email +
+            this._storeNames.text,
+            '<div style="display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0;">' + '</div>' +
+            '<div>' + email +
             ' написал(а) ' + reducerLetters.getCurrentContextMail().created_at + ':' + '</div>' + text,
         );
 

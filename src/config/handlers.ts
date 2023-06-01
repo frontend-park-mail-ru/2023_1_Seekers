@@ -31,6 +31,7 @@ const handlers = [
     {type: 'addSelectedLetter', method: reducerLetters.addSelectedLetter.bind(reducerLetters)},
     {type: 'deleteSelectedLetter', method: reducerLetters.deleteSelectedLetter.bind(reducerLetters)},
     {type: 'search', method: reducerLetters.getLettersAfterSearch.bind(reducerLetters)},
+    {type: 'filter', method: reducerLetters.getLettersAfterFilter.bind(reducerLetters)},
     {type: 'pasteEmail', method: reducerLetters.pasteEmail.bind(reducerLetters)},
     {type: 'showPasteEmail', method: reducerLetters.showPasteEmail.bind(reducerLetters)},
     {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},

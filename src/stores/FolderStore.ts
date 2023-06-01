@@ -56,6 +56,7 @@ class FolderStore extends BaseStore {
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
             if (response.folders) {
+                console.log(response.folders);
                 (response.folders as Folder[])?.forEach((folder) => {
                     folder.folder_slug = '/' + folder.folder_slug;
                 });

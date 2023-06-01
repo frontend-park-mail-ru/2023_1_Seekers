@@ -151,16 +151,63 @@ class LettersStore extends BaseStore {
                         searchedLetters.push(letterFrame);
                     });
                     this._storage.set(this._storeNames.searchedLetters, searchedLetters);
-                    // if (folderName === this._storage.get(this._storeNames.currentLetters)) {
                     microEvents.trigger('searchDone');
-                    //     microEvents.trigger('mailChanged');
-                    // }
                 }
             });
-        // this._storage.set(this._storeNames.currentLetters, folderName);
-        // this._storage.set(this._storeNames.shownMail, undefined);
-        // microEvents.trigger('letterListChanged');
-        // microEvents.trigger('mailChanged');
+    };
+
+    /**
+     * function that makes request to get all the letters from folder
+     */
+    getLettersAfterFilter = async (filter: string) => {
+        this.clearSelectedLetter();
+        console.log(filter);
+        Connector.makeGetRequest(config.api.filter + this.getCurrentLettersName().split('/').pop() +
+            config.api.filter_post + filter)
+            .then(([status, body]) => {
+                if (status === responseStatuses.OK) {
+                    const curDate = new Date();
+                    const searchedLetters: LetterFrameData[] = [];
+                    body.messages?.forEach((message: any) => {
+                        const date = new Date(message.created_at);
+
+                        let time: string = '';
+
+                        if(curDate.getDate() === date.getDate() &&
+                            curDate.getMonth() === date.getMonth() &&
+                            curDate.getFullYear() === date.getFullYear()) {
+                            time = 'сегодня, '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        } else {
+                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
+                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        }
+
+                        (message.recipients as ProfileData[])?.forEach((recipient) => {
+                            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                                `?email=${recipient.email}`;
+                        });
+
+                        const letterFrame: LetterFrameData = {
+                            message_id: message.message_id,
+                            seen: message.seen,
+                            from_user_email: message.from_user_id.email,
+                            title: message.title,
+                            text: '',
+                            preview: message.preview,
+                            created_at: time,
+                            href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
+                            avatar: `${config.basePath}/${config.api.avatar}` +
+                                `?email=${message.from_user_id.email}`,
+                            recipients: message.recipients,
+                        };
+
+                        searchedLetters.push(letterFrame);
+                    });
+                    this._storage.set(this._storeNames.searchedLetters, searchedLetters);
+                    microEvents.trigger('searchDone');
+                }
+            });
     };
 
     pasteEmail = async (email: string) => {

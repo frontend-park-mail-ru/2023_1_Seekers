@@ -94,3 +94,8 @@ export const actionFreePasteEmail = () => ({
     type: 'freePasteEmail',
     value: {},
 });
+
+export const actionFilter = (filter: string) => ({
+    type: 'filter',
+    value: filter,
+});

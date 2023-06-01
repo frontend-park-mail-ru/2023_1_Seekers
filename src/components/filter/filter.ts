@@ -4,7 +4,7 @@ import template from '@components/filter/filter.hbs';
 import '@components/filter/filter.scss';
 
 import {dispatcher} from "@utils/dispatcher";
-import {actionPasteEmail} from "@actions/letters";
+import {actionFilter, actionPasteEmail} from "@actions/letters";
 
 
 export interface Filter {
@@ -42,7 +42,7 @@ export class Filter extends Component {
         const {currentTarget} = e;
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
-                //dispatcher.dispatch(actionPasteEmail(currentTarget.dataset.section));
+                dispatcher.dispatch(actionFilter(currentTarget.dataset.section));
             }
         }
     };

@@ -91,6 +91,8 @@ export const config = {
         renameFolder_post: '/edit',
         search: `${prefixApi}messages/search?folder=`,
         search_post: '&filter=',
+        filter: `${prefixApi}messages/filter?folder=`,
+        filter_post: `&sort=`,
         recipientsSearch: `${prefixApi}recipients/search`,
         getAttach: `${prefixApi}attach/`,
         getArchiveAttach: `${prefixApi}message/`,
