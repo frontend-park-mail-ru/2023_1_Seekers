@@ -339,7 +339,7 @@ class LettersStore extends BaseStore {
 
     appendMessage(sockMsg: MessageFromSocket) {
         const message = sockMsg.mailData;
-
+        reducerFolder.getMenu();
         if (this.getCurrentLettersName() !== sockMsg.folder) {
             return;
         }
@@ -349,7 +349,6 @@ class LettersStore extends BaseStore {
             return;
         }
         microEvents.trigger('newMailReceived');
-        reducerFolder.getMenu();
     }
 
     /**
