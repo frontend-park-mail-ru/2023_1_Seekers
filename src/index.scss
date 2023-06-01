@@ -1,5 +1,5 @@
-//@import "@styles/light/theme.scss" (prefers-color-scheme: light);
-@import "@styles/dark/theme.scss";
+@import "@styles/light/theme.scss" (prefers-color-scheme: light);
+@import "@styles/dark/theme.scss"  (prefers-color-scheme: dark);
 @import "@styles/fonts.scss";
 
 
@@ -90,22 +90,3 @@ body {
 a {
     color: var(--active-elements-color);
 }
-
-//[title] {
-//    position: relative;
-//}
-//
-//[title]:after {
-//    content: attr(title);
-//    position: absolute;
-//    left: 50%;
-//    bottom: 100%;
-//    background-color: yellow;
-//    width: max-content;
-//    opacity: 0;
-//    -webkit-transition: opacity 0.1s ease-in-out;
-//}
-//
-//[title]:hover:after {
-//    opacity: 1;
-//}

@@ -16,13 +16,19 @@
     height: 0;
   }
 
-  &__from {
-    color: var(--active-elements-color);
-    font-family: Helvetica, sans-serif;
-    font-style: normal;
-    font-size: 15px;
+  &__fromB {
+    display: flex;
+    height: 100%;
+    align-items: center;
     cursor: pointer;
-    text-decoration: underline;
+
+    &__text {
+      color: var(--active-elements-color);
+      font-family: Helvetica, sans-serif;
+      font-style: normal;
+      font-size: 15px;
+      text-decoration: underline;
+    }
   }
 
   &__text_color {
@@ -91,6 +97,7 @@
     border-radius: 6px;
     flex: none;
     padding: 10px 20px;
+
     &__button {
       display: flex;
       width: 155px;
@@ -254,6 +261,7 @@
     }
   }
 }
+
 .send-mail__textarea_color,
 .send-mail__textarea_color:hover,
 .send-mail__textarea_color:focus {
@@ -296,7 +304,7 @@ select:-webkit-autofill:focus {
   overflow: auto;
   margin: 0 20px 0;
 
-  &__area{
+  &__area {
     flex-direction: row;
     flex-wrap: wrap;
     display: flex;
