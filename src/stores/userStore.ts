@@ -94,6 +94,7 @@ class UserStore extends BaseStore {
      */
     async logout() {
         await Connector.makeDeleteRequest(config.api.logout);
+        window.location.replace(config.basePath);
         microEvents.trigger('loggedOut');
     }
 

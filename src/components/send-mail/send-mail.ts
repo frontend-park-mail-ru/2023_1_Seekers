@@ -31,6 +31,7 @@ import {TextArea} from '@uikits/text-area/text-area';
 import {FormatterLine} from '@uikits/formatter-line/formatter-line';
 import {DataListFrom} from '@components/data-list-from/data-list-from';
 import {ActionButton} from '@uikits/action-button/action-button';
+import {Acceptor} from "@components/acceptor/acceptor";
 
 
 export interface SendMail {
@@ -779,6 +780,7 @@ export class SendMail extends Component {
                     this.purge();
                     return;
                 }
+
                 dispatcher.dispatch(actionSendDraft(draft));
             }
         }
