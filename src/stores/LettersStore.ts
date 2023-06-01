@@ -349,6 +349,7 @@ class LettersStore extends BaseStore {
             return;
         }
         microEvents.trigger('newMailReceived');
+        reducerFolder.getMenu();
     }
 
     /**
@@ -435,7 +436,7 @@ class LettersStore extends BaseStore {
             '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
-            // microEvents.trigger('letterStateChanged');
+            reducerFolder.getMenu();
         }
     };
 
@@ -447,7 +448,7 @@ class LettersStore extends BaseStore {
             '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
-            // microEvents.trigger('letterStateChanged');
+            reducerFolder.getMenu();
         }
     };
 

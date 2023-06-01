@@ -128,7 +128,7 @@ export class Menu extends Component {
         const commonMenuButtons: object[] = [];
         const advancedMenuButtons: object[] = [];
 
-        Object.values(config.buttons.commonMenuButtons).forEach((menuButton) => {
+        reducerFolder._storage.get(reducerFolder._storeNames.commonMenu).forEach((menuButton: Folder) => {
             commonMenuButtons.push(MenuButton.renderTemplate(menuButton));
         });
 

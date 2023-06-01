@@ -12,6 +12,7 @@ class FolderStore extends BaseStore {
         answerStatus: 'answerStatus',
         answerBody: 'answerBody',
         contextFolder: 'contextFolder',
+        commonMenu: 'Menu',
         menu: 'menu',
     };
 
@@ -52,15 +53,38 @@ class FolderStore extends BaseStore {
         if (!this._storage.get(this._storeNames.menu)) {
             this._storage.set(this._storeNames.menu, []);
         }
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
+        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
             if (response.folders) {
-                console.log(response.folders);
+                this._storage.set(this._storeNames.commonMenu, Object.values(config.buttons.commonMenuButtons));
+                console.log(this._storage.get(this._storeNames.commonMenu));
+
                 (response.folders as Folder[])?.forEach((folder) => {
                     folder.folder_slug = '/' + folder.folder_slug;
                 });
-                this._storage.set(this._storeNames.menu, response.folders);
+
+                (this._storage.get(this._storeNames.commonMenu) as Folder[]).forEach((folder) => {
+                    const fFolder = response.folders.find((foundFolder: Folder) => {
+                        return foundFolder.folder_slug === folder.folder_slug;
+                    });
+                    console.log(fFolder);
+                    if (fFolder) {
+                        folder.messages_unseen = fFolder.messages_unseen;
+                    }
+                });
+                console.log(response.folders);
+                (response.folders as Folder[])?.forEach((folder, index, object) => {
+                    const fFolder = (this._storage.get(this._storeNames.commonMenu) as Folder[]).find((foundFolder: Folder) => {
+                        console.log(foundFolder.folder_slug);
+                        console.log(folder.folder_slug);
+                        console.log(foundFolder.folder_slug === folder.folder_slug);
+                        return foundFolder.folder_slug === folder.folder_slug;
+                    });
+                    if (!fFolder) {
+                        this._storage.get(this._storeNames.menu).push(folder);
+                    }
+                });
             }
             microEvents.trigger('menuChanged');
         }
@@ -92,6 +116,7 @@ class FolderStore extends BaseStore {
         this._storage.set(this._storeNames.answerBody, response);
         this._storage.set(this._storeNames.answerStatus, status);
         microEvents.trigger('responseFromTransmitFolder');
+        reducerFolder.getMenu();
         const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
         reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
@@ -133,6 +158,7 @@ class FolderStore extends BaseStore {
                     this._storage.set(this._storeNames.answerBody, answer);
                     this._storage.set(this._storeNames.answerStatus, status);
                     microEvents.trigger('responseFromTransmitFolder');
+                    reducerFolder.getMenu();
                     const mailHref = '/' +
                         reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
 
