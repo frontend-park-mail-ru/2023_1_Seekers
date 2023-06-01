@@ -50,9 +50,8 @@ class FolderStore extends BaseStore {
      * function that makes request to get menu
      */
     getMenu = async () => {
-        if (!this._storage.get(this._storeNames.menu)) {
-            this._storage.set(this._storeNames.menu, []);
-        }
+        this._storage.set(this._storeNames.menu, []);
+
         const responsePromise = Connector.makeGetRequest(config.api.getMenu);
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
@@ -116,7 +115,6 @@ class FolderStore extends BaseStore {
         this._storage.set(this._storeNames.answerBody, response);
         this._storage.set(this._storeNames.answerStatus, status);
         microEvents.trigger('responseFromTransmitFolder');
-        reducerFolder.getMenu();
         const mailHref = '/' + reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
         reducerLetters.getLetters(reducerLetters._storage.get(reducerLetters._storeNames.currentLetters));
         if (mailHref !== '/undefined') {
@@ -128,6 +126,7 @@ class FolderStore extends BaseStore {
 
             microEvents.trigger('mailChanged');
         }
+        reducerFolder.getMenu();
         // }
     };
 
@@ -158,7 +157,6 @@ class FolderStore extends BaseStore {
                     this._storage.set(this._storeNames.answerBody, answer);
                     this._storage.set(this._storeNames.answerStatus, status);
                     microEvents.trigger('responseFromTransmitFolder');
-                    reducerFolder.getMenu();
                     const mailHref = '/' +
                         reducerLetters._storage.get(reducerLetters._storeNames.shownMail);
 
@@ -168,6 +166,8 @@ class FolderStore extends BaseStore {
                         reducerLetters.showMail(mailHref);
                     }
                 }
+
+                reducerFolder.getMenu();
             });
         });
     };
