@@ -60,6 +60,7 @@ class FolderStore extends BaseStore {
 
                 (response.folders as Folder[])?.forEach((folder) => {
                     folder.folder_slug = '/' + folder.folder_slug;
+                    folder.messages_unseen = folder.messages_unseen === 0? '': folder.messages_unseen;
                 });
 
                 (this._storage.get(this._storeNames.commonMenu) as Folder[]).forEach((folder) => {
