@@ -21,6 +21,8 @@
 
 @media only screen and (max-width: 991px) {
   .formatter-line {
+    display: none;
+    position: absolute;
     opacity: 0;
   }
 }
