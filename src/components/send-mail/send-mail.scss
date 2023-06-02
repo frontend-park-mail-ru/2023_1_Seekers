@@ -9,12 +9,6 @@
   background: rgba(0, 0, 0, .58);
   flex: 1;
 
-  &__invisible {
-    display: none;
-    opacity: 0;
-    position: absolute;
-  }
-
   &__fromB {
     display: flex;
     height: 100%;
@@ -337,5 +331,10 @@ select:-webkit-autofill:focus {
 
     &__bottom-button {
     }
+  }
+  &__invisible {
+    display: none;
+    opacity: 0;
+    position: absolute;
   }
 }
