@@ -22,8 +22,7 @@ import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
 import {DataList} from '@components/data-list/data-list';
-import {actionFreePasteEmail, actionSearch} from '@actions/letters';
-import {fileDownloader} from '@utils/fileDownloader';
+import {actionFreePasteEmail} from '@actions/letters';
 import {MenuButton} from '@uikits/menu-button/menu-button';
 import {Attachment} from '@uikits/attachment/attachment';
 import {iconChooser} from '@utils/iconChooser';
@@ -31,7 +30,6 @@ import {TextArea} from '@uikits/text-area/text-area';
 import {FormatterLine} from '@uikits/formatter-line/formatter-line';
 import {DataListFrom} from '@components/data-list-from/data-list-from';
 import {ActionButton} from '@uikits/action-button/action-button';
-import {Acceptor} from "@components/acceptor/acceptor";
 
 
 export interface SendMail {
