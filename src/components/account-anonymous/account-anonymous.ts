@@ -9,9 +9,8 @@ import {dispatcher} from '@utils/dispatcher';
 import {reducerUser} from '@stores/userStore';
 import {config, responseStatuses} from '@config/config';
 import {showNotification} from '@components/notification/notification';
-import {FormLocked} from "@uikits/form-locked/form-locked";
-import {actionCreateAnonymous, actionDeleteAnonymous} from "@actions/user";
-import {loginPage} from "@views/login-page/login-page";
+import {FormLocked} from '@uikits/form-locked/form-locked';
+import {actionCreateAnonymous, actionDeleteAnonymous} from '@actions/user';
 
 export interface AccountAnonymous {
     state: {
@@ -27,7 +26,6 @@ export interface AccountAnonymous {
  * class implementing component account-anonymous
  */
 export class AccountAnonymous extends Component {
-
     /**
      * constructor
      * @param context - contains parent element
@@ -101,7 +99,7 @@ export class AccountAnonymous extends Component {
     unregisterEvents = () => {
         const form = document.getElementById('account-anonymous__form');
         this.state.inputs.forEach((emailLocked: any) => {
-            emailLocked.removeEventListener('click', this.saveOnEmailClick)
+            emailLocked.removeEventListener('click', this.saveOnEmailClick);
         });
 
         this.state.deleteButtons.forEach((button) => {
@@ -119,12 +117,12 @@ export class AccountAnonymous extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
-                        showNotification('Скопировано!');
-                    }
+                    showNotification('Скопировано!');
+                },
                 );
             }
         }
-    }
+    };
 
     /**
      * method insert account-anonymous to HTML
@@ -138,17 +136,30 @@ export class AccountAnonymous extends Component {
         forms.forEach((button) => {
             anonymousItems.push(FormLocked.renderTemplate(button));
         });
-        this.parent.insertAdjacentHTML('afterbegin', template(
-            {
-                anonymous: anonymousItems,
-                button: Button.renderTemplate(this.state.button),
-            },
-        ));
+
+        if (anonymousItems.length === 5) {
+            this.parent.insertAdjacentHTML('afterbegin', template(
+                {
+                    anonymous: anonymousItems,
+                },
+            ));
+        } else {
+            this.parent.insertAdjacentHTML('afterbegin', template(
+                {
+                    anonymous: anonymousItems,
+                    button: Button.renderTemplate({
+                        buttonText: config.accountFields.account.anonymous.button.buttonText,
+                    }),
+                },
+            ));
+        }
+
 
         this.state.element = this.parent.getElementsByClassName('account-anonymous')[0];
         this.state.inputs = [...document.getElementsByClassName('input-form-locked')];
         this.state.deleteButtons =
             [...this.state.element.getElementsByClassName('input-form-locked__icon')];
+        this.state.button = document.getElementById('account-anonymous__button-area');
 
         this.registerEvents();
     }
@@ -176,16 +187,16 @@ export class AccountAnonymous extends Component {
         const status = reducerUser._storage.get(reducerUser._storeNames.status);
         const body = reducerUser._storage.get(reducerUser._storeNames.body);
         switch (status) {
-            case responseStatuses.OK:
-            case 500:
-                showNotification('Пароль успешно изменён');
-                break;
-            default:
-                if (body.message) {
-                    showNotification(body.message);
-                } else {
-                    showNotification('что-то пошло не так');
-                }
+        case responseStatuses.OK:
+        case 500:
+            showNotification('Пароль успешно изменён');
+            break;
+        default:
+            if (body.message) {
+                showNotification(body.message);
+            } else {
+                showNotification('что-то пошло не так');
+            }
         }
     }
 }
