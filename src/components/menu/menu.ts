@@ -169,7 +169,7 @@ export class Menu extends Component {
         }
         this.registerEventListener();
 
-        if (document.getElementsByClassName('letterList__hide')[0]) {
+        if (document.getElementsByClassName('letterList__hide')[0] || !document.getElementsByClassName('mail__show')[0]) {
             document.getElementsByClassName('menu')[0].classList.add('menu__show');
         }
     }
