@@ -98,7 +98,7 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     -webkit-box-shadow: none;
-    -webkit-text-fill-color: #E5E5E5;
+    -webkit-text-fill-color: var(--secondary-text-color);
 }
 
 .input-form__error__border {

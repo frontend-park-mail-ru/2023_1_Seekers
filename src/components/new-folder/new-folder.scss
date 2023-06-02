@@ -49,7 +49,7 @@
         top: 34.45%;
         bottom: 0;
         border-radius: 7px;
-        background: #262626;
+        background: var(--delimeters-color);
         border: 1px solid var(--field_border);
       }
 
@@ -109,7 +109,7 @@
     }
 
     &_color {
-      background-color: var(--secondary-background-color);
+      background-color: var(--background-color);
     }
   }
 
@@ -155,7 +155,7 @@
     }
 
     &_color {
-      background-color: var(--secondary-background-color);
+      background-color: var(--background-color);
     }
   }
 }
