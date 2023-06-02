@@ -121,7 +121,10 @@ class LettersStore extends BaseStore {
             config.api.search + this.getCurrentLettersName().split('/').pop() +
             '&reverse=' + this._storage.get(this._storeNames.reverse):
             config.api.search + this.getCurrentLettersName().split('/').pop() +
-            '&reverse=' + this._storage.get(this._storeNames.reverse) + config.api.search_post + message.text;
+            '&reverse=' + this._storage.get(this._storeNames.reverse) +
+            config.api.search_post + message.text +
+            '&fromUser=' + message.text +
+            '&toUser=' + message.text;
 
         Connector.makeGetRequest(request).then(([status, body]) => {
             if (status === responseStatuses.OK) {
