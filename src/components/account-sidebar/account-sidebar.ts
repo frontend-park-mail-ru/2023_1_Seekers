@@ -7,9 +7,9 @@ import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
 import {
     actionLogout, actionGetAccountPage,
-    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionGetAnonymousPage
+    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionGetAnonymousPage,
 } from '@actions/user';
-import {showNotification} from "@components/notification/notification";
+import {showNotification} from '@components/notification/notification';
 
 export interface AccountSidebar {
     state: {
@@ -69,8 +69,6 @@ export class AccountSidebar extends Component {
                     await dispatcher.dispatch(actionGetSecurityPage());
                     currentTarget.dispatchEvent(
                         new MouseEvent('click', {bubbles: true, cancelable: true}));
-                    // this.purge();
-                    // return;
                     break;
 
                 case config.buttons.sidebarButtons.anonymous.href:
@@ -95,12 +93,12 @@ export class AccountSidebar extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
-                        showNotification('Скопировано!');
-                    }
+                    showNotification('Скопировано!');
+                },
                 );
             }
         }
-    }
+    };
 
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);

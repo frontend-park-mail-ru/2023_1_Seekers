@@ -88,4 +88,28 @@
     --color_background_secondary_alpha: rgba(255, 255, 255, 0.08);
     --attach-border: #8C8E94;
     --button-contrast: #5060EC;
+
+    --profile-button__background_default-color: var(--menu-buttons-default-fill-color);
+    --profile-button__background_hover-color: var(--menu-buttons-hover-fill-color);
+    --profile-button__background_active-color: var(--menu-buttons-active-fill-color);
+    --profile-button__border_default-color: var(--menu-buttons-default-border-color);
+    --profile-button__border_hover-color: var(--menu-buttons-hover-border-color);
+    --profile-button__border_active-color: var(--menu-buttons-active-border-color);
+    --profile-button__text_default-color: var(--menu-text-default-color);
+    --profile-button__text_hover-color: var(--menu-text-hover-color);
+    --profile-button__text_active-color: var(--menu-text-active-color);
+    --profile-button__img_color: var(--navbar-color);
+
+
+    --letterstate-read__background_hover-color: var(--mail-state-unread);
+    --letterstate-read__border_hover-color: var(--delimeters-color);
+
+    --letterstate-unread__background_default-color: var(--primary-active-color);
+    --letterstate-unread__background_hover-color: var(--primary-active-color);
+    --letterstate-unread__background_active-color: var(--primary-active-color);
+    --letterstate-unread__background_selected-color: var(--primary-active-color);
+    --letterstate-unread__border_default-color: var(--secondary-background-color);
+    --letterstate-unread__border_hover-color: var(--delimeters-color);
+    --letterstate-unread__border_active-color: var(--delimeters-color);
+    --letterstate-unread__border_selected-color: var(--letterlist-selected-color);
 }

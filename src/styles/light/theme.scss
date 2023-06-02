@@ -1,20 +1,20 @@
 :root {
-    --primary-background-color: #f1f3f7;
-    --secondary-background-color: #fff;
-    --primary-elements-color: #7c7c7d;
-    --primary-elements-color-clicked: #ffffffbb;
-    --primary-delimeters-color: #1062fa;
-    --primary-active-color: #e7f0ff;
+    --primary-background-color: #edeef0;
+    --secondary-background-color: #ffffff;
+    --primary-elements-color: #000000;
+    --primary-elements-color-clicked: #000044;
+    --primary-delimeters-color: #c8c8c8;
+    --primary-active-color: #000000;
     --primary-text-color: #000;
-    --secondary-text-color: #1062fa;
-    --active-elements-color: #adadae;
+    --secondary-text-color: #000000;
+    --active-elements-color: #edeef0;
     --background-color: var(--primary-background-color);
-    --navbar-color: var(--secondary-background-color);
+    --navbar-color: var(--primary-background-color);
     --menu-color: var(--secondary-background-color);
     --menu-icons-default-color: #000;
     --menu-icons-hover-color: #000;
     --menu-icons-active-color: #1062fa;
-    --menu-text-default-color: var(--secondary-text-color);
+    --menu-text-default-color: #633333;
     --menu-text-hover-color: var(--secondary-text-color);
     --menu-text-active-color: var(--secondary-text-color);
     --menu-buttons-default-fill-color: var(--secondary-background-color);
@@ -42,7 +42,7 @@
     --letterlist-name-text-color: var(--primary-text-color);
     --letterlist-header-text-color: var(--primary-text-color);
     --letterlist-content-text-color: var(--secondary-text-color);
-    --delimeters-color: #88BDFD;
+    --delimeters-color: #edeef0;
     --input-default-fill-color: var(--input-selected-color);
     --input-default-border-color: var(--secondary-background-color);
     --input-hover-fill-color: var(--secondary-background-color);
@@ -80,12 +80,35 @@
     --field_border: #FFFFFF1E;
     --mail-text-background-color: #f2f2f2;
     --send-mail-background: #2d2d2e;
-    --letterlist-selected-color: #2F2F30;
+    --letterlist-selected-color: #f2f2f2;
     --input-selected-color: #f2f2f2;
     --mail-state-unread: #7c7c7d;
     --resize-mobile: 1000px;
     --span-input-color: var(--input-selected-color);
     --color_background_secondary_alpha: rgba(255, 255, 255, 0.08);
     --attach-border: #8C8E94;
-    --button-contrast: #5060EC;
+    --button-contrast: #c8c8c8;
+
+    --profile-button__background_default-color: var(--menu-buttons-default-fill-color);
+    --profile-button__background_hover-color: var(--menu-buttons-hover-fill-color);
+    --profile-button__background_active-color: var(--menu-buttons-active-fill-color);
+    --profile-button__border_default-color: var(--menu-buttons-default-border-color);
+    --profile-button__border_hover-color: var(--menu-buttons-hover-border-color);
+    --profile-button__border_active-color: var(--menu-buttons-active-border-color);
+    --profile-button__text_default-color: var(--menu-text-default-color);
+    --profile-button__text_hover-color: var(--menu-text-hover-color);
+    --profile-button__text_active-color: var(--menu-text-active-color);
+    --profile-button__img_color: var(--navbar-color);
+
+    --letterstate-read__background_hover-color: var(--mail-state-unread);
+    --letterstate-read__border_hover-color: var(--delimeters-color);
+
+    --letterstate-unread__background_default-color: var(--primary-active-color);
+    --letterstate-unread__background_hover-color: var(--primary-active-color);
+    --letterstate-unread__background_active-color: var(--primary-active-color);
+    --letterstate-unread__background_selected-color: var(--primary-active-color);
+    --letterstate-unread__border_default-color: var(--secondary-background-color);
+    --letterstate-unread__border_hover-color: var(--delimeters-color);
+    --letterstate-unread__border_active-color: var(--delimeters-color);
+    --letterstate-unread__border_selected-color: var(--letterlist-selected-color);
 }

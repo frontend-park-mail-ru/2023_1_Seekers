@@ -50,14 +50,13 @@ class FolderStore extends BaseStore {
      * function that makes request to get menu
      */
     getMenu = async () => {
-        this._storage.set(this._storeNames.menu, []);
 
         const responsePromise = Connector.makeGetRequest(config.api.getMenu);
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.menu, []);
             if (response.folders) {
                 this._storage.set(this._storeNames.commonMenu, Object.values(config.buttons.commonMenuButtons));
-                console.log(this._storage.get(this._storeNames.commonMenu));
 
                 (response.folders as Folder[])?.forEach((folder) => {
                     folder.folder_slug = '/' + folder.folder_slug;
@@ -67,17 +66,12 @@ class FolderStore extends BaseStore {
                     const fFolder = response.folders.find((foundFolder: Folder) => {
                         return foundFolder.folder_slug === folder.folder_slug;
                     });
-                    console.log(fFolder);
                     if (fFolder) {
                         folder.messages_unseen = fFolder.messages_unseen;
                     }
                 });
-                console.log(response.folders);
                 (response.folders as Folder[])?.forEach((folder, index, object) => {
                     const fFolder = (this._storage.get(this._storeNames.commonMenu) as Folder[]).find((foundFolder: Folder) => {
-                        console.log(foundFolder.folder_slug);
-                        console.log(folder.folder_slug);
-                        console.log(foundFolder.folder_slug === folder.folder_slug);
                         return foundFolder.folder_slug === folder.folder_slug;
                     });
                     if (!fFolder) {
