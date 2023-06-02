@@ -114,13 +114,13 @@ export class LetterList extends Component {
     searchDone = () => {
         this.purge();
         this.renderLetterFrames(reducerLetters.getSearchedLetters());
-        this.state.search.value = this.state.searchString;
+        this.state.search.value = reducerLetters._storage.get(reducerLetters._storeNames.searchString);
     };
 
     onIconSearch = async (e: Event) => {
         e.preventDefault();
         const message = this.getMessageInputs();
-        this.state.searchString = message.text;
+        // this.state.searchString = message.text;
         await dispatcher.dispatch(actionSearch(message));
     }
 
@@ -128,7 +128,7 @@ export class LetterList extends Component {
         if (e.key === 'Enter') {
             e.preventDefault();
             const message = this.getMessageInputs();
-            this.state.searchString = message.text;
+            // this.state.searchString = message.text;
             await dispatcher.dispatch(actionSearch(message));
         }
     };
