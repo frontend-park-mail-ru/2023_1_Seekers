@@ -397,6 +397,8 @@ class LettersStore extends BaseStore {
             this._storage.set(this._storeNames.accountName, 'Личные данные');
         } else if (obj.path == '/security') {
             this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
+        } else if (obj.path == '/anonymous') {
+            this._storage.set(this._storeNames.accountName, 'Анонимный ящик');
         }
 
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
