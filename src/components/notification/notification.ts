@@ -13,14 +13,14 @@ export function showNotification(text = 'Упс, что-то пошло не т�
         const content = document.getElementById('error-label');
         content?.classList.add('notification-area__deletion');
         setTimeout(() => content?.remove(), 1000);
-        content?.removeEventListener('click', deleteOnClick)
-    }
+        content?.removeEventListener('click', deleteOnClick);
+    };
 
     const content = document.getElementById('error-label');
-    content?.addEventListener('click', deleteOnClick)
+    content?.addEventListener('click', deleteOnClick);
     setTimeout(() => {
         content!.classList.add('notification-area__deletion');
         setTimeout(() => content?.remove(), 1000);
-        content?.removeEventListener('click', deleteOnClick)
+        content?.removeEventListener('click', deleteOnClick);
     }, duration);
 }
