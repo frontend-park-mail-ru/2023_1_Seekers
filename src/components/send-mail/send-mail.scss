@@ -233,6 +233,11 @@
     align-self: stretch;
     flex-grow: 0;
   }
+  &__invisible {
+    display: none;
+    opacity: 0;
+    position: absolute;
+  }
 }
 
 @media only screen and (max-width: 991px) {
@@ -331,10 +336,5 @@ select:-webkit-autofill:focus {
 
     &__bottom-button {
     }
-  }
-  &__invisible {
-    display: none;
-    opacity: 0;
-    position: absolute;
   }
 }
