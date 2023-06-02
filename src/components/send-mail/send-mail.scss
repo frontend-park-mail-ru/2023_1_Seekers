@@ -10,10 +10,9 @@
   flex: 1;
 
   &__invisible {
+    display: none;
     opacity: 0;
     position: absolute;
-    width: 0;
-    height: 0;
   }
 
   &__fromB {
@@ -318,8 +317,8 @@ select:-webkit-autofill:focus {
 
     &__image {
       display: none;
-      height: 0;
-      width: 0;
+      opacity: 0;
+      position: absolute;
     }
 
     &__header {
