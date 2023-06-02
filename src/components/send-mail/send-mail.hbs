@@ -19,16 +19,16 @@
                 <div class="send-mail__delimiter"></div>
 
                 <div class="send-mail__author send-mail__invisible">
-                    <p class="send-mail__to font-normal-0 send-mail__text_color">От:</p>
-                    <p class="send-mail__input-form send-mail__input-form_indent font-normal-0 send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
+                    <p class="send-mail__to send-mail__invisible font-normal-0 send-mail__text_color">От:</p>
+                    <p class="send-mail__input-form send-mail__invisible send-mail__input-form_indent font-normal-0 send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
                            id="send-mail__from"></p>
 
                 </div>
                 <div class="send-mail__delimiter send-mail__invisible"></div>
 
-                <div class="send-mail__author send-mail__invisible">
-                    <p class="send-mail__to font-normal-0 send-mail__text_color send-mail__invisible">Тема:</p>
-                    <input class="send-mail__input-form send-mail__invisible font-normal-0 send-mail__input-form_indent send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
+                <div class="send-mail__author">
+                    <p class="send-mail__to font-normal-0 send-mail__text_color">Тема:</p>
+                    <input class="send-mail__input-form font-normal-0 send-mail__input-form_indent send-mail__text_color send-mail__input-form_size send-mail__input-form_color"
                            type="{{this.inputs.topic.type}}"
                            name="{{this.inputs.topic.name}}" maxlength="{{this.inputs.topic.maxlength}}"
                            id="{{this.inputs.topic.name}}" required/>
