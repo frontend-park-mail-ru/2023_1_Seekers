@@ -689,8 +689,40 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                     0-2-.8954-2-2s.8954-2 2-2m0 4v2m0-6v-10" 
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>`,
                 text: 'Фильтр',
-            }
-        }
+            },
+        },
+        acceptorSaveDraftButtons: {
+            activeButtons: {
+                not_save: {
+                    href: '/not_save',
+                    text: 'Не сохранять',
+                },
+                cancel: {
+                    href: '/cancel',
+                    text: 'Отменить',
+                },
+            },
+            contrastButtons: {
+                send: {
+                    href: '/save',
+                    text: 'Сохранить',
+                },
+            },
+        },
+        acceptorDeleteFolderButtons: {
+            activeButtons: {
+                cancel: {
+                    href: '/cancel',
+                    text: 'Отменить',
+                },
+            },
+            contrastButtons: {
+                delete: {
+                    href: '/delete',
+                    text: 'Удалить',
+                },
+            },
+        },
     },
 
     forms: {

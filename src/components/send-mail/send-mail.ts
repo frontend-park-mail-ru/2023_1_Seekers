@@ -30,6 +30,7 @@ import {TextArea} from '@uikits/text-area/text-area';
 import {FormatterLine} from '@uikits/formatter-line/formatter-line';
 import {DataListFrom} from '@components/data-list-from/data-list-from';
 import {ActionButton} from '@uikits/action-button/action-button';
+import {Acceptor} from "@components/acceptor/acceptor";
 
 
 export interface SendMail {
@@ -311,7 +312,6 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
                 [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
                     [...ctxMenu.children].forEach((child) => {
                         if (child.classList.contains('profile-data__item')) {
@@ -331,6 +331,12 @@ export class SendMail extends Component {
                     });
                     ctxMenu.remove();
                 });
+
+                microEvents.bind('/cancel', this.cancelSaveDraft);
+                microEvents.bind('/not_save', this.notSaveDraft);
+                microEvents.bind('/save', this.saveDraft);
+                const acceptor = new Acceptor({parent: document.getElementById('root')!});
+                acceptor.render('Сохранить черновик?', config.buttons.acceptorSaveDraftButtons);
                 return;
             }
         }
@@ -763,6 +769,28 @@ export class SendMail extends Component {
         this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
 
+    cancelSaveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+    };
+
+    saveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+        const draft = this.getMailInputs();
+        dispatcher.dispatch(actionSendDraft(draft));
+    };
+
+    notSaveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+        this.purge();
+        return;
+    };
+
     /**
      * method that triggers when user click beyond the boundaries of a new letter
      * @param e - event
@@ -771,15 +799,11 @@ export class SendMail extends Component {
         e.preventDefault();
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
-                const draft = this.getMailInputs();
-                if (draft.title === '' &&
-                    draft.recipients.length === 0 &&
-                    draft.text === '') {
-                    this.purge();
-                    return;
-                }
-
-                dispatcher.dispatch(actionSendDraft(draft));
+                microEvents.bind('/cancel', this.cancelSaveDraft);
+                microEvents.bind('/not_save', this.notSaveDraft);
+                microEvents.bind('/save', this.saveDraft);
+                const acceptor = new Acceptor({parent: document.getElementById('root')!});
+                acceptor.render('Сохранить черновик?', config.buttons.acceptorSaveDraftButtons);
             }
         }
     };

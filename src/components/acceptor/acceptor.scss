@@ -2,7 +2,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 100000;
+  z-index: 10000000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +54,7 @@
     flex: 1;
     flex-direction: row;
     position: relative;
-    max-width: 90px
+    width: 90px
   }
 
   &__bottom-actions {
