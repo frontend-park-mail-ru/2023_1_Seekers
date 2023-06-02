@@ -4,8 +4,8 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
-import {socket} from "@utils/webSocket";
-import {dateUtil} from "@utils/dateUtil";
+import {socket} from '@utils/webSocket';
+import {dateUtil} from '@utils/dateUtil';
 
 /**
  * class that implements all possible actions with letters data
@@ -61,16 +61,16 @@ class LettersStore extends BaseStore {
                     body.messages?.forEach((message: any) => {
                         const date = new Date(message.created_at);
 
-                        let time: string = '';
+                        let time = '';
 
-                        if(curDate.getDate() === date.getDate() &&
+                        if (curDate.getDate() === date.getDate() &&
                            curDate.getMonth() === date.getMonth() &&
                            curDate.getFullYear() === date.getFullYear()) {
-                            time = 'сегодня, '
-                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                            time = 'сегодня, ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
                         } else {
-                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
-                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
                         }
 
                         (message.recipients as ProfileData[])?.forEach((recipient) => {
@@ -116,52 +116,57 @@ class LettersStore extends BaseStore {
     getLettersAfterSearch = async (message: SearchMessage) => {
         this._storage.set(this._storeNames.searchString, message.text);
         this.clearSelectedLetter();
-        Connector.makeGetRequest(config.api.search + this.getCurrentLettersName().split('/').pop() +
-            '&reverse=' + this._storage.get(this._storeNames.reverse) + config.api.search_post + message.text)
-    .then(([status, body]) => {
-                if (status === responseStatuses.OK) {
-                    const curDate = new Date();
-                    const searchedLetters: LetterFrameData[] = [];
-                    body.messages?.forEach((message: any) => {
-                        const date = new Date(message.created_at);
 
-                        let time: string = '';
+        const request = this._storage.get(this._storeNames.searchString) === '' ?
+            config.api.search + this.getCurrentLettersName().split('/').pop() +
+            '&reverse=' + this._storage.get(this._storeNames.reverse):
+            config.api.search + this.getCurrentLettersName().split('/').pop() +
+            '&reverse=' + this._storage.get(this._storeNames.reverse) + config.api.search_post + message.text;
 
-                        if(curDate.getDate() === date.getDate() &&
+        Connector.makeGetRequest(request).then(([status, body]) => {
+            if (status === responseStatuses.OK) {
+                const curDate = new Date();
+                const searchedLetters: LetterFrameData[] = [];
+                body.messages?.forEach((message: any) => {
+                    const date = new Date(message.created_at);
+
+                    let time = '';
+
+                    if (curDate.getDate() === date.getDate() &&
                             curDate.getMonth() === date.getMonth() &&
                             curDate.getFullYear() === date.getFullYear()) {
-                            time = 'сегодня, '
-                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
-                        } else {
-                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
-                                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
-                        }
+                        time = 'сегодня, ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    } else {
+                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    }
 
-                        (message.recipients as ProfileData[])?.forEach((recipient) => {
-                            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                    (message.recipients as ProfileData[])?.forEach((recipient) => {
+                        recipient.avatar = `${config.basePath}/${config.api.avatar}` +
                                 `?email=${recipient.email}`;
-                        });
-
-                        const letterFrame: LetterFrameData = {
-                            message_id: message.message_id,
-                            seen: message.seen,
-                            from_user_email: message.from_user_id.email,
-                            title: message.title,
-                            text: '',
-                            preview: message.preview,
-                            created_at: time,
-                            href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
-                            avatar: `${config.basePath}/${config.api.avatar}` +
-                                `?email=${message.from_user_id.email}`,
-                            recipients: message.recipients,
-                        };
-
-                        searchedLetters.push(letterFrame);
                     });
-                    this._storage.set(this._storeNames.searchedLetters, searchedLetters);
-                    microEvents.trigger('searchDone');
-                }
-            });
+
+                    const letterFrame: LetterFrameData = {
+                        message_id: message.message_id,
+                        seen: message.seen,
+                        from_user_email: message.from_user_id.email,
+                        title: message.title,
+                        text: '',
+                        preview: message.preview,
+                        created_at: time,
+                        href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
+                        avatar: `${config.basePath}/${config.api.avatar}` +
+                                `?email=${message.from_user_id.email}`,
+                        recipients: message.recipients,
+                    };
+
+                    searchedLetters.push(letterFrame);
+                });
+                this._storage.set(this._storeNames.searchedLetters, searchedLetters);
+                microEvents.trigger('searchDone');
+            }
+        });
     };
 
     /**
@@ -240,21 +245,20 @@ class LettersStore extends BaseStore {
     downloadMail = async (mailId: string) => {
         Connector.makeGetRequest(config.api.getMail + mailId)
             .then(([status, body]) => {
-
                 if (status === responseStatuses.OK) {
                     const mailData: MailData = body.message;
                     const date = new Date(mailData.created_at);
                     const curDate = new Date();
-                    let time: string = '';
+                    let time = '';
 
-                    if(curDate.getDate() === date.getDate() &&
+                    if (curDate.getDate() === date.getDate() &&
                         curDate.getMonth() === date.getMonth() &&
                         curDate.getFullYear() === date.getFullYear()) {
-                        time = 'сегодня, '
-                            + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        time = 'сегодня, ' +
+                            dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
                     } else {
-                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
-                            + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                            dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
                     }
                     mailData.created_at = time;
                     mailData.from_user_id.avatar =
@@ -278,8 +282,8 @@ class LettersStore extends BaseStore {
     getArchiveAttachment = async (href: string) => {
         const mailId = href.split('/').pop();
         const link = document.createElement('a');
-        link.href = config.basePath + '/' + config.api.getArchiveAttach
-            + mailId + '/attaches';
+        link.href = config.basePath + '/' + config.api.getArchiveAttach +
+            mailId + '/attaches';
         link.click();
     };
 
@@ -494,16 +498,16 @@ class LettersStore extends BaseStore {
     getLetterFrameFromMailData(message: MailData) {
         const date = new Date(message.created_at);
         const curDate = new Date();
-        let time: string = '';
+        let time = '';
 
-        if(curDate.getDate() === date.getDate() &&
+        if (curDate.getDate() === date.getDate() &&
             curDate.getMonth() === date.getMonth() &&
             curDate.getFullYear() === date.getFullYear()) {
-            time = 'сегодня, '
-                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+            time = 'сегодня, ' +
+                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
         } else {
-            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', '
-                + dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
         }
 
         (message.recipients as ProfileData[])?.forEach((recipient) => {
