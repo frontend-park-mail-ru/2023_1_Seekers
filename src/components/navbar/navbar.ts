@@ -142,6 +142,7 @@ export class Navbar extends Component {
         microEvents.bind('renderAccountPage', this.rerenderAccountName);
         microEvents.bind('renderProfilePage', this.rerenderAccountName);
         microEvents.bind('renderSecurityPage', this.rerenderAccountName);
+        microEvents.bind('renderAnonymousPage', this.rerenderAccountName);
 
         microEvents.bind('responseFromTransmitFolder', this.clickBackLeft);
         microEvents.bind('folderRenamed', this.rerenderFolderName);
@@ -172,6 +173,7 @@ export class Navbar extends Component {
         microEvents.unbind('renderAccountPage', this.rerenderAccountName);
         microEvents.unbind('renderProfilePage', this.rerenderAccountName);
         microEvents.unbind('renderSecurityPage', this.rerenderAccountName);
+        microEvents.unbind('renderAnonymousPage', this.rerenderAccountName);
 
         microEvents.unbind('responseFromTransmitFolder', this.clickBackLeft);
 
