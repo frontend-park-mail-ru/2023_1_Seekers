@@ -64,6 +64,10 @@ export class Footer extends Component {
                     document.getElementById('navbar__frame-right')?.classList.remove('navbar__frame-right__hide');
                     document.getElementById('navbar__menu-button')?.classList.remove('navbar__menu-button__hide');
                     document.getElementById('footer-button')?.classList.remove('footer-button__show');
+                    document.getElementById('navbar__back-right-mail')?.classList.remove('navbar__back-right-mail__show');
+                    document.getElementById('navbar__send-mail')?.classList.remove('navbar__send-mail__hide');
+
+
                     await dispatcher.dispatch(actionGetMailboxPage({path: data}));
                     currentTarget.dispatchEvent(
                         new MouseEvent('click', {bubbles: true, cancelable: true}));
