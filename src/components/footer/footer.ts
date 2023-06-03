@@ -5,8 +5,10 @@ import {Component} from '@components/component';
 import {config} from '@config/config';
 import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
-import {actionLogout, actionGetAccountPage,
-    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
+import {
+    actionLogout, actionGetAccountPage,
+    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionGetAnonymousPage,
+} from '@actions/user';
 
 export interface Footer {
     state: {
@@ -48,28 +50,48 @@ export class Footer extends Component {
             if (data) {
                 e.stopPropagation();
                 switch (data) {
-                    case config.buttons.sidebarButtons.profile.href:
-                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
-                        await dispatcher.dispatch(actionGetProfilePage());
-                        currentTarget.dispatchEvent(
-                            new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
+                case config.buttons.sidebarButtons.profile.href:
+                    document.getElementById('navbar__frame__center')?.classList.remove('navbar__frame__center__hide');
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetProfilePage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
 
-                    case config.buttons.sidebarButtons.mailbox.href:
-                        await dispatcher.dispatch(actionGetMailboxPage({path: data}));
-                        currentTarget.dispatchEvent(
-                            new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
+                case config.buttons.sidebarButtons.mailbox.href:
+                    document.getElementById('navbar__frame__center')?.classList.remove('navbar__frame__center__hide');
+                    document.getElementById('navbar__frame-left')?.classList.remove('navbar__frame-left__hide');
+                    document.getElementById('navbar__frame-right')?.classList.remove('navbar__frame-right__hide');
+                    document.getElementById('navbar__menu-button')?.classList.remove('navbar__menu-button__hide');
+                    document.getElementById('footer-button')?.classList.remove('footer-button__show');
+                    document.getElementById('navbar__back-right-mail')?.classList.remove('navbar__back-right-mail__show');
+                    document.getElementById('navbar__send-mail')?.classList.remove('navbar__send-mail__hide');
 
-                    case config.buttons.sidebarButtons.security.href:
-                        await dispatcher.dispatch(actionGetAccountPage({path: data}));
-                        await dispatcher.dispatch(actionGetSecurityPage());
-                        currentTarget.dispatchEvent(
-                            new MouseEvent('click', {bubbles: true, cancelable: true}));
-                        break;
-                    case config.buttons.sidebarButtons.logout.href:
-                        await dispatcher.dispatch(actionLogout());
-                        break;
+
+                    await dispatcher.dispatch(actionGetMailboxPage({path: data}));
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+
+                case config.buttons.sidebarButtons.security.href:
+                    document.getElementById('navbar__frame__center')?.classList.remove('navbar__frame__center__hide');
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetSecurityPage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+
+                case config.buttons.sidebarButtons.anonymous.href:
+                    document.getElementById('navbar__frame__center')?.classList.remove('navbar__frame__center__hide');
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetAnonymousPage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+
+                case config.buttons.sidebarButtons.logout.href:
+                    await dispatcher.dispatch(actionLogout());
+                    break;
                 }
                 this.removeFooter();
             }
@@ -126,7 +148,6 @@ export class Footer extends Component {
     onFooterClick = (e: Event) => {
         e.preventDefault();
         this.removeFooter();
-
     };
 
     removeFooter = () => {

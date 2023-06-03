@@ -238,8 +238,8 @@
 }
 
 .letter-is-unread {
-    background-color: var(--primary-active-color);
-    border: 10px solid var(--secondary-background-color);
+    background-color: var(--letterstate-unread__background_default-color);
+    border: 10px solid var(--letterstate-unread__border_default-color);
 }
 
 .letter-frame_color-active,
@@ -250,23 +250,23 @@
 }
 
 .letter-frame:hover .letter-is-read {
-    background-color: var(--mail-state-unread);
-    border: 10px solid var(--delimeters-color);
+    background-color: var(--letterstate-read__background_hover-color);
+    border: 10px solid var(--letterstate-read__border_hover-color);
 }
 
 .letter-frame:hover .letter-is-unread {
-    background-color: var(--primary-active-color);
-    border: 10px solid var(--delimeters-color);
+    background-color: var(--letterstate-unread__background_hover-color);
+    border: 10px solid var(--letterstate-unread__border_hover-color);
 }
 
 .letter-frame_selected .letter-is-unread {
-    background-color: var(--primary-active-color);
-    border: 10px solid var(--letterlist-selected-color);
+    background-color: var(--letterstate-unread__background_selected-color);
+    border: 10px solid var(--letterstate-unread__border_selected-color);
 }
 
 .letter-frame_color-active .letter-is-unread {
-    background-color: var(--primary-active-color);
-    border: 10px solid var(--delimeters-color);
+    background-color: var(--letterstate-unread__background_active-color);
+    border: 10px solid var(--letterstate-unread__border_active-color-color);
 }
 
 // FIXIT

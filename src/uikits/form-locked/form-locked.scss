@@ -1,0 +1,41 @@
+.input-form-locked {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  position: relative;
+  cursor: pointer;
+
+  &__indent {
+    padding: 10px 0;
+  }
+
+  &__size {
+    box-sizing: border-box;
+    outline: none;
+    padding-left: 15px;
+    min-height: 36px;
+    min-width: 80%;
+    border: 1px solid var(--input-default-fill-color);
+  }
+
+  &__color {
+    border-radius: 7px;
+    color: var(--secondary-text-color);
+    background: var(--input-default-fill-color);
+  }
+
+  &__icon {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+
+    &__color {
+      stroke: var(--menu-icons-default-color);
+    }
+
+    &__size {
+      width: 22px;
+      height: 18px;
+    }
+  }
+}

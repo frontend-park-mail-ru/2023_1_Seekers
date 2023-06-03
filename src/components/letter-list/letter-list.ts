@@ -8,17 +8,16 @@ import {microEvents} from '@utils/microevents';
 import {
     actionAddSelectedLetter,
     actionChangeLetterStateToRead,
-    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteMail, actionDeleteSelectedLetter, actionSearch,
+    actionChangeLetterStateToUnread, actionCtxMail, actionDeleteSelectedLetter, actionSearch,
     actionShowMail,
 } from '@actions/letters';
 import {LetterFrameLoader} from '@uikits/letter-frame-loader/letter-frame-loader';
 import {ContextLetter} from '@components/context-letter/context-letter';
 import {LetterListHeader} from '@uikits/letter-list-header/letter-list-header';
 import {config} from '@config/config';
-import {actionCreateNewMail, actionSelectDraft} from '@actions/newMail';
+import {actionSelectDraft} from '@actions/newMail';
 import {ContextDraft} from '@components/context-draft/context-draft';
-import {Form} from "@uikits/form/form";
-import {loginPage} from "@views/login-page/login-page";
+import {Filter} from "@components/filter/filter";
 
 // import {actionChangeURL} from "@actions/user";
 
@@ -115,13 +114,13 @@ export class LetterList extends Component {
     searchDone = () => {
         this.purge();
         this.renderLetterFrames(reducerLetters.getSearchedLetters());
-        this.state.search.value = this.state.searchString;
+        this.state.search.value = reducerLetters._storage.get(reducerLetters._storeNames.searchString);
     };
 
     onIconSearch = async (e: Event) => {
         e.preventDefault();
         const message = this.getMessageInputs();
-        this.state.searchString = message.text;
+        // this.state.searchString = message.text;
         await dispatcher.dispatch(actionSearch(message));
     }
 
@@ -129,7 +128,7 @@ export class LetterList extends Component {
         if (e.key === 'Enter') {
             e.preventDefault();
             const message = this.getMessageInputs();
-            this.state.searchString = message.text;
+            // this.state.searchString = message.text;
             await dispatcher.dispatch(actionSearch(message));
         }
     };
@@ -363,7 +362,10 @@ export class LetterList extends Component {
         const letterList: object[] = [];
 
         if (letterObjs) {
-            letterObjs.forEach((letter: any) => {
+            letterObjs.forEach((letter) => {
+                if (reducerLetters.getCurrentLettersName() === '/outbox') {
+                    letter.showRecipient = true;
+                }
                 letterList.push(LetterFrame.renderTemplate(letter));
             });
         }
@@ -433,6 +435,18 @@ export class LetterList extends Component {
         this.registerEventListener();
     }
 
+    onFilterClick= (e: Event) => {
+        e.preventDefault();
+        if(document.getElementById('filter')) {
+            this.filter.purge();
+            this.filter = null;
+            return
+        }
+        this.filter = new Filter({parent: document.getElementById('letterList__top__area')!});
+        e.stopPropagation();
+        this.filter.render();
+    }
+
 
     /**
      * method letterList page clearing
@@ -477,6 +491,8 @@ export class LetterList extends Component {
         document.getElementsByClassName('search-form__icon')[0]!
             .addEventListener('click', this.onIconSearch);
         // microEvents.bind('mailChanged', this.changeLetterToActive);
+
+        document.getElementById('letter-list-filter')?.addEventListener('click', this.onFilterClick);
     }
 
     registerDefaultListeners() {
@@ -523,6 +539,8 @@ export class LetterList extends Component {
         this.state.search.removeEventListener('keypress', this.onSearch);
         document.getElementsByClassName('search-form__icon')[0]!
             .removeEventListener('click', this.onIconSearch);
+
+        document.getElementById('letter-list-filter')?.removeEventListener('click', this.onFilterClick);
     }
 
     unregisterDefaultListeners() {

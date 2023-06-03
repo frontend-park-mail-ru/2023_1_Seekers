@@ -9,6 +9,21 @@
   background: rgba(0, 0, 0, .58);
   flex: 1;
 
+  &__fromB {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+
+    &__text {
+      color: var(--active-elements-color);
+      font-family: Helvetica, sans-serif;
+      font-style: normal;
+      font-size: 15px;
+      text-decoration: underline;
+    }
+  }
+
   &__text_color {
     color: var(--menu-text-default-color);
   }
@@ -75,9 +90,10 @@
     border-radius: 6px;
     flex: none;
     padding: 10px 20px;
+
     &__button {
       display: flex;
-      width: 150px;
+      width: 155px;
     }
   }
 
@@ -181,6 +197,7 @@
     position: relative;
 
     flex: 1;
+    align-items: center;
     overflow: hidden;
     flex-wrap: wrap;
 
@@ -216,6 +233,11 @@
     align-self: stretch;
     flex-grow: 0;
   }
+  &__invisible {
+    display: none;
+    opacity: 0;
+    position: absolute;
+  }
 }
 
 @media only screen and (max-width: 991px) {
@@ -237,6 +259,7 @@
     }
   }
 }
+
 .send-mail__textarea_color,
 .send-mail__textarea_color:hover,
 .send-mail__textarea_color:focus {
@@ -279,7 +302,7 @@ select:-webkit-autofill:focus {
   overflow: auto;
   margin: 0 20px 0;
 
-  &__area{
+  &__area {
     flex-direction: row;
     flex-wrap: wrap;
     display: flex;
@@ -293,8 +316,8 @@ select:-webkit-autofill:focus {
 
     &__image {
       display: none;
-      height: 0;
-      width: 0;
+      opacity: 0;
+      position: absolute;
     }
 
     &__header {

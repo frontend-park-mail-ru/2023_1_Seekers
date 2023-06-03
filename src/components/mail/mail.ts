@@ -108,7 +108,7 @@ export class Mail extends Component {
         this.state.actionButtons.forEach((button) => {
             button.addEventListener('click', this.letterAction);
         });
-        document.getElementById('mail__contact')?.addEventListener('click', this.saveOnEmailClick);
+        document.getElementById('mail__contact')?.addEventListener('contextmenu', this.saveOnEmailClick);
     }
 
     /**
@@ -120,7 +120,7 @@ export class Mail extends Component {
         this.state.actionButtons.forEach((button) => {
             button.removeEventListener('click', this.letterAction);
         });
-        document.getElementById('mail__contact')?.removeEventListener('click', this.saveOnEmailClick);
+        document.getElementById('mail__contact')?.removeEventListener('contextmenu', this.saveOnEmailClick);
     }
 
     /**

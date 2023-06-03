@@ -55,6 +55,13 @@ export const actionGetSecurityPage = () => ({
     value: {},
 });
 
+export const actionGetAnonymousPage = () => ({
+    type: 'getAnonymousPage',
+    value: {},
+});
+
+
+
 export const actionLogout = () => ({
     type: 'logout',
     value: {},
@@ -83,4 +90,14 @@ export const actionToSignUp = () => ({
 export const actionToLogin = () => ({
     type: 'toLogin',
     value: {},
+});
+
+export const actionCreateAnonymous = () => ({
+    type: 'createAnonymous',
+    value: {},
+});
+
+export const actionDeleteAnonymous = (email: string) => ({
+    type: 'deleteAnonymous',
+    value: email,
 });

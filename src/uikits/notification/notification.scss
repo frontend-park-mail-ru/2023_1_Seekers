@@ -118,12 +118,15 @@
 
 @media only screen and (max-width: 991px) {
     .notification-area {
-        right: 0;
-        top: 5%;
+        bottom: 0;
+        width: 100vw;
+        border-radius: unset;
+        right: unset;
+        top: unset;
 
         &__notification {
             max-width: unset;
-            width: 100vw;
+            width: 95vw;
         }
     }
 }

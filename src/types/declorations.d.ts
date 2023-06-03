@@ -46,6 +46,8 @@ type LetterFrameData = {
     href: string,
     avatar: string,
     recipients?: ProfileData[],
+    attachments?: AttachmentData[],
+    showRecipient?: boolean,
 }
 
 type MailData = {
@@ -53,22 +55,23 @@ type MailData = {
     from_user_id: ProfileData,
     recipients: ProfileData[],
     attachments: AttachmentData[],
+    from_user_email?: string,
     title: string,
     created_at: string,
+    preview: string,
     text: string,
     reply_to: MailData,
     seen: boolean,
     favorite: string,
     is_draft: boolean,
     attachmentsSize: string,
-
 }
 
 type Folder = {
     folder_id: number,
     folder_slug: string,
     messages_count?: number,
-    messages_unseen: number,
+    messages_unseen?: number | string,
     name: string,
     img?: string
 }
@@ -91,6 +94,11 @@ type AttachmentData = {
 type MessageFromSocket = {
     mailData: MailData,
     folder: string,
+}
+
+type AnonymousEmails = {
+    count: number,
+    emails?: string[],
 }
 
 type CustomPages = LoginPage;

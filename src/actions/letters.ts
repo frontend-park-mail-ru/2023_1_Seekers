@@ -89,3 +89,13 @@ export const actionDownloadArchiveAttach = (href: string) => ({
     type: 'downloadArchiveAttach',
     value: href,
 });
+
+export const actionFreePasteEmail = () => ({
+    type: 'freePasteEmail',
+    value: {},
+});
+
+export const actionFilter = (filter: string) => ({
+    type: 'filter',
+    value: filter,
+});

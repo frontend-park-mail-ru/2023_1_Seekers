@@ -1,5 +1,4 @@
-@import "@styles/light/theme.scss" (prefers-color-scheme: light);
-@import "@styles/dark/theme.scss"  (prefers-color-scheme: dark);
+@import "@styles/dark/theme.scss";
 @import "@styles/fonts.scss";
 
 
@@ -85,4 +84,8 @@ body {
 
 .element-hidden {
     display: none !important;
+}
+
+a {
+    color: var(--active-elements-color);
 }

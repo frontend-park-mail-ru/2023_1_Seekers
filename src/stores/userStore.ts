@@ -14,6 +14,7 @@ class UserStore extends BaseStore {
         status: 'status',
         body: 'body',
         localRecipients: 'localRecipients',
+        emails: 'emails',
     };
 
     /**
@@ -25,6 +26,7 @@ class UserStore extends BaseStore {
         this._storage.set(this._storeNames.password, undefined);
         this._storage.set(this._storeNames.profile, undefined);
         this._storage.set(this._storeNames.localRecipients, []);
+        this._storage.set(this._storeNames.emails, []);
     }
 
     /**
@@ -67,6 +69,14 @@ class UserStore extends BaseStore {
 
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
+
+            const emailsPromise = Connector.makeGetRequest(config.api.getAnonymous);
+
+            const [emailsStatus, emailsBody] = await emailsPromise;
+            this._storage.set(this._storeNames.emails, emailsBody);
+
+            console.log(this.getAnonymousEmails());
+
             this._storage.set(this._storeNames.profile,
                 {
                     email: body.email,
@@ -84,6 +94,7 @@ class UserStore extends BaseStore {
      */
     async logout() {
         await Connector.makeDeleteRequest(config.api.logout);
+        window.location.replace(config.basePath);
         microEvents.trigger('loggedOut');
     }
 
@@ -141,7 +152,7 @@ class UserStore extends BaseStore {
         const [status, body] = await responsePromise;
         if (status === responseStatuses.OK) {
             const recipients: ProfileData[] = [];
-            body.users.forEach((user: ProfileData) => {
+            body.users?.forEach((user: ProfileData) => {
                 user.avatar = `${config.basePath}/${config.api.avatar}` +
                     `?email=${user.email}&t=${new Date().getTime()}`;
                 recipients.push(user);
@@ -164,6 +175,22 @@ class UserStore extends BaseStore {
         };
         xhr.send('null');
     }
+    // POST http://localhost:8001/api/v1/anonymous/create
+    createAnonymous = async () => {
+        const [status, body] = await Connector.makePostRequest(config.api.createAnonymous, {});
+        if (status === 200) {
+            await reducerUser.getProfile();
+            microEvents.trigger('anonymousCreated');
+        }
+    };
+
+    deleteAnonymous = async (email: string) => {
+        const [status, body] = await Connector.makeDeleteRequest(config.api.deleteAnonymous + email);
+        if (status === 200) {
+            await reducerUser.getProfile();
+            microEvents.trigger('anonymousDeleted');
+        }
+    };
 
     /**
      * function that triggers signup render
@@ -191,6 +218,15 @@ class UserStore extends BaseStore {
      */
     getLocalRecipients = () => {
         return this._storage.get(this._storeNames.localRecipients) as ProfileData[];
+    };
+
+    getAnonymousEmails = () => {
+        return this._storage.get(this._storeNames.emails) as AnonymousEmails;
+    };
+
+    getAvatar = (email: string) => {
+        return `${config.basePath}/${config.api.avatar}` +
+            `?email=${email}`;
     };
 }
 

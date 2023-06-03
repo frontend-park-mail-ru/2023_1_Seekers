@@ -3,6 +3,7 @@ import {reducerLetters} from '@stores/LettersStore';
 import {router} from '@utils/router';
 import {reducerNewMail} from '@stores/NewMailStore';
 import {reducerFolder} from '@stores/FolderStore';
+import {actionCreateAnonymous} from "@actions/user";
 
 
 const handlers = [
@@ -19,6 +20,7 @@ const handlers = [
     {type: 'getAccountPage', method: reducerLetters.getAccountPage.bind(reducerLetters)},
     {type: 'getProfilePage', method: reducerLetters.getProfilePage.bind(reducerLetters)},
     {type: 'getSecurityPage', method: reducerLetters.getSecurityPage.bind(reducerLetters)},
+    {type: 'getAnonymousPage', method: reducerLetters.getAnonymousPage.bind(reducerLetters)},
     {type: 'getMailboxPage', method: reducerLetters.getMailboxPage.bind(reducerLetters)},
     {type: 'changeLetterStateToUnread',
         method: reducerLetters.changeLetterStateToUnread.bind(reducerLetters)},
@@ -29,12 +31,14 @@ const handlers = [
     {type: 'addSelectedLetter', method: reducerLetters.addSelectedLetter.bind(reducerLetters)},
     {type: 'deleteSelectedLetter', method: reducerLetters.deleteSelectedLetter.bind(reducerLetters)},
     {type: 'search', method: reducerLetters.getLettersAfterSearch.bind(reducerLetters)},
+    {type: 'filter', method: reducerLetters.getLettersAfterFilter.bind(reducerLetters)},
     {type: 'pasteEmail', method: reducerLetters.pasteEmail.bind(reducerLetters)},
     {type: 'showPasteEmail', method: reducerLetters.showPasteEmail.bind(reducerLetters)},
     {type: 'getAttach', method: reducerLetters.getAttachment.bind(reducerLetters)},
     {type: 'appendMessage', method: reducerLetters.appendMessage.bind(reducerLetters)},
     {type: 'openAttach', method: reducerLetters.openAttachment.bind(reducerLetters)},
     {type: 'downloadArchiveAttach', method: reducerLetters.getArchiveAttachment.bind(reducerLetters)},
+    {type: 'freePasteEmail', method: reducerLetters.freePasteEmail.bind(reducerLetters)},
 
     {type: 'createNewMail', method: reducerNewMail.createNewMail.bind(reducerNewMail)},
     {type: 'replyToMail', method: reducerNewMail.replyToMail.bind(reducerNewMail)},
@@ -61,6 +65,8 @@ const handlers = [
 
     {type: 'toSignup', method: reducerUser.getSignupPage.bind(reducerUser)},
     {type: 'toLogin', method: reducerUser.getLoginPage.bind(reducerUser)},
+    {type: 'createAnonymous', method: reducerUser.createAnonymous.bind(reducerUser)},
+    {type: 'deleteAnonymous', method: reducerUser.deleteAnonymous.bind(reducerUser)},
 ];
 
 

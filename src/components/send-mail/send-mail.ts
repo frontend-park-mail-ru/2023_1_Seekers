@@ -6,14 +6,14 @@ import template from '@components/send-mail/send-mail.hbs';
 import '@components/send-mail/send-mail.scss';
 import {dispatcher} from '@utils/dispatcher';
 
-import {config, responseStatuses} from '@config/config';
+import {config, responseStatuses, ROOT} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
 import {
     actionAddAttachment,
     actionDownloadAttachFromSend,
     actionRemoveAttachment,
     actionSendDraft,
-    actionSendMail
+    actionSendMail,
 } from '@actions/newMail';
 import {microEvents} from '@utils/microevents';
 import {reducerNewMail} from '@stores/NewMailStore';
@@ -22,12 +22,15 @@ import {RecipientForm} from '@uikits/recipient-form/recipient-form';
 import {showNotification} from '@components/notification/notification';
 import {reducerLetters} from '@stores/LettersStore';
 import {DataList} from '@components/data-list/data-list';
-import {actionSearch} from '@actions/letters';
-import {fileDownloader} from '@utils/fileDownloader';
+import {actionFreePasteEmail} from '@actions/letters';
 import {MenuButton} from '@uikits/menu-button/menu-button';
-import {Attachment} from "@uikits/attachment/attachment";
-import {iconChooser} from "@utils/iconChooser";
-import {TextArea} from "@uikits/text-area/text-area";
+import {Attachment} from '@uikits/attachment/attachment';
+import {iconChooser} from '@utils/iconChooser';
+import {TextArea} from '@uikits/text-area/text-area';
+import {FormatterLine} from '@uikits/formatter-line/formatter-line';
+import {DataListFrom} from '@components/data-list-from/data-list-from';
+import {ActionButton} from '@uikits/action-button/action-button';
+import {Acceptor} from "@components/acceptor/acceptor";
 
 
 export interface SendMail {
@@ -36,6 +39,7 @@ export interface SendMail {
         area: Element,
         actionButtons: Element[],
         footerButtons: Element[],
+        iconButtons: Element[],
         iconButton: Element,
 
         topic: HTMLInputElement,
@@ -45,8 +49,11 @@ export interface SendMail {
 
         editRecipient: HTMLElement,
         attachList: Element[],
+
+        fromUser: Element,
     },
     datalist: DataList,
+    datalistFrom: DataListFrom,
 
 }
 
@@ -66,6 +73,7 @@ export class SendMail extends Component {
             area: document.createElement('div'),
             footerButtons: [],
             actionButtons: [],
+            iconButtons: [],
             iconButton: document.createElement('div'),
 
             topic: document.createElement('input') as HTMLInputElement,
@@ -75,6 +83,7 @@ export class SendMail extends Component {
 
             editRecipient: document.createElement('div'),
             attachList: [],
+            fromUser: document.createElement('div'),
         };
     }
 
@@ -88,11 +97,11 @@ export class SendMail extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newMailButtons.footerButtons.send.href:
+            case config.buttons.newMailButtons.footerButtons.contrastButtons.send.href:
                 await this.sendMail();
                 break;
 
-            case config.buttons.newMailButtons.footerButtons.save.href:
+            case config.buttons.newMailButtons.footerButtons.activeButtons.save.href:
                 const draft = this.getMailInputs();
 
                 if (draft.title === '' &&
@@ -105,8 +114,70 @@ export class SendMail extends Component {
                 dispatcher.dispatch(actionSendDraft(draft));
                 break;
 
-            case config.buttons.newMailButtons.footerButtons.cancel.href:
+            case config.buttons.newMailButtons.footerButtons.activeButtons.cancel.href:
                 this.purge();
+                break;
+            }
+        }
+    };
+
+
+    /**
+     * method handle click on navbar
+     * @param e - event that goes from one of childs of current element
+     */
+    iconButtonsClicked = async (e: Event) => {
+        e.preventDefault();
+        const {currentTarget} = e;
+        if (currentTarget instanceof HTMLElement &&
+            currentTarget.dataset.section) {
+            switch (currentTarget.dataset.section) {
+            case config.buttons.mailFormatterButtons.bold.href:
+                document.execCommand('bold');
+                break;
+
+            case config.buttons.mailFormatterButtons.cursive.href:
+                document.execCommand('italic');
+                break;
+
+            case config.buttons.mailFormatterButtons.underlined.href:
+                document.execCommand('underline');
+                break;
+
+            case config.buttons.mailFormatterButtons.strike.href:
+                document.execCommand('strikeThrough');
+                break;
+
+            case config.buttons.mailFormatterButtons.subscript.href:
+                document.execCommand('subscript');
+                break;
+
+            case config.buttons.mailFormatterButtons.superscript.href:
+                document.execCommand('superscript');
+                break;
+
+            case config.buttons.mailFormatterButtons.justifyLeft.href:
+                document.execCommand('justifyLeft');
+                break;
+
+            case config.buttons.mailFormatterButtons.justifyCenter.href:
+                document.execCommand('justifyCenter');
+                break;
+
+            case config.buttons.mailFormatterButtons.justifyRight.href:
+                document.execCommand('justifyRight');
+                break;
+
+            case config.buttons.mailFormatterButtons.undo.href:
+                document.execCommand('undo');
+                break;
+
+            case config.buttons.mailFormatterButtons.redo.href:
+                document.execCommand('redo');
+                break;
+
+            case config.buttons.mailFormatterButtons.removeFormat.href:
+                document.execCommand('removeFormat');
                 break;
             }
         }
@@ -128,7 +199,11 @@ export class SendMail extends Component {
                         const files = (<HTMLInputElement>e.target).files;
                         if (files) {
                             [...files].forEach((file) => {
-                                dispatcher.dispatch(actionAddAttachment(file));
+                                if (file.size >= 104857600) {
+                                    showNotification('Файл слишком большой!');
+                                } else {
+                                    dispatcher.dispatch(actionAddAttachment(file));
+                                }
                             });
                         }
                     }
@@ -143,12 +218,14 @@ export class SendMail extends Component {
     getMailInputs() {
         let text = '';
         [...this.state.text.children].forEach((str) => {
-            text += str.outerHTML.replace('"', '\"')
-        })
+            text += str.outerHTML.replace('"', '\"');
+        });
+
         return {
             title: this.state.topic.value,
             recipients: [...this.state.recipients.keys()],
             text: text,
+            from_user: (document.getElementById('send-mail__from') as HTMLElement).textContent,
         } as MailToSend;
     }
 
@@ -160,7 +237,7 @@ export class SendMail extends Component {
 
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.add('skeleton__block');
@@ -193,7 +270,7 @@ export class SendMail extends Component {
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
@@ -217,7 +294,7 @@ export class SendMail extends Component {
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newMailButtons.footerButtons.send.href;
+                config.buttons.newMailButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
@@ -235,7 +312,6 @@ export class SendMail extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.newMailButtons.closeButton.href:
-                this.purge();
                 [...document.getElementsByClassName('data-list')].forEach((ctxMenu) => {
                     [...ctxMenu.children].forEach((child) => {
                         if (child.classList.contains('profile-data__item')) {
@@ -245,6 +321,22 @@ export class SendMail extends Component {
                     });
                     ctxMenu.remove();
                 });
+
+                [...document.getElementsByClassName('data-list-from')].forEach((ctxMenu) => {
+                    [...ctxMenu.children].forEach((child) => {
+                        if (child.classList.contains('profile-data__item')) {
+                            child.removeEventListener('click', this.buttonsClicked);
+                            child.removeEventListener('mouseover', this.mouseOverButton);
+                        }
+                    });
+                    ctxMenu.remove();
+                });
+
+                microEvents.bind('/cancel', this.cancelSaveDraft);
+                microEvents.bind('/not_save', this.notSaveDraft);
+                microEvents.bind('/save', this.saveDraft);
+                const acceptor = new Acceptor({parent: document.getElementById('root')!});
+                acceptor.render('Сохранить черновик?', config.buttons.acceptorSaveDraftButtons);
                 return;
             }
         }
@@ -324,12 +416,29 @@ export class SendMail extends Component {
                 this.state.editRecipient.remove();
                 e.stopPropagation();
             } else {
+                input.value = input.value.replace(/\s+/g, '');
+
+                if (input.value.length === 0) {
+                    this.state.editRecipient.getElementsByClassName('icon-button')[0]
+                        .removeEventListener('click', this.onRemoveRecipientClicked);
+                    this.state.editRecipient.remove();
+                    e.stopPropagation();
+                    return;
+                }
                 this.state.recipients.set(input.value, this.state.editRecipient);
                 this.state.editRecipient.dataset.section = input.value;
                 span.textContent = input.value;
                 this.state.editRecipient.addEventListener('click', this.onRecipientClicked);
             }
         }
+    };
+
+    selectFromEmail = (e: Event) => {
+        e.preventDefault();
+        const me = e as MouseEvent;
+        this.datalistFrom = new DataListFrom({parent: document.getElementById('root')!});
+        e.stopPropagation();
+        this.datalistFrom.render(me.clientX, me.clientY);
     };
 
     showDataList = (e: Event) => {
@@ -349,10 +458,18 @@ export class SendMail extends Component {
                 const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
                 recipientInput.value = '';
             }
+
+            if (!(document.getElementById('data-list-from') === e.target as HTMLElement ||
+                document.getElementById('data-list-from')?.contains(e.target as HTMLElement))) {
+                this.datalistFrom?.purge();
+            }
         }
     };
 
     _addRecipient = (recipient: string, recipientInput: HTMLElement) => {
+        if (recipient === '') {
+            return;
+        }
         if (!this.state.recipients.has(recipient)) {
             recipientInput.insertAdjacentHTML('afterbegin', RecipientForm.renderTemplate({
                 text: recipient,
@@ -412,7 +529,7 @@ export class SendMail extends Component {
                 config.buttons.newMailButtons.closeButton),
         };
         area!.insertAdjacentHTML('afterbegin', Attachment.renderTemplate(attachShow));
-        const curAttach = ([...area!.getElementsByClassName('attachment')]as HTMLElement[])
+        const curAttach = ([...area!.getElementsByClassName('attachment')] as HTMLElement[])
             .find((attach) => attach.dataset.section! === reducerNewMail.getAttachID().toString());
         this.state.attachList.push(curAttach as Element);
 
@@ -457,6 +574,8 @@ export class SendMail extends Component {
         this.datalist.purge();
         const recipientInput = document.getElementById('new-mail-recipients') as HTMLInputElement;
         recipientInput.value = '';
+
+        dispatcher.dispatch(actionFreePasteEmail());
         document.getElementById('new-mail-recipients')?.focus();
     };
 
@@ -482,6 +601,16 @@ export class SendMail extends Component {
         }
     };
 
+    onFromClick = () => {
+        const invisible = [...document.getElementsByClassName('send-mail__invisible')];
+
+        invisible.forEach((el) => {
+            el.classList.remove('send-mail__invisible');
+        });
+
+        document.getElementById('send-mail__fromB')?.classList.add('send-mail__invisible');
+    };
+
     /**
      * method registerEventListener
      * register listeners for each action that may happen in send mail
@@ -497,6 +626,13 @@ export class SendMail extends Component {
             button.addEventListener('click', this.bottomButtonsClicked);
         });
 
+        this.state.iconButtons.forEach((button: Element) => {
+            button.addEventListener('click', this.iconButtonsClicked);
+        });
+
+        this.state.fromUser.addEventListener('click', this.selectFromEmail);
+
+
         this.state.iconButton.addEventListener('click', this.closeButtonClicked);
         microEvents.bind('mailSent', this.getSendResponse);
         microEvents.bind('draftSent', this.getDraftResponse);
@@ -505,10 +641,13 @@ export class SendMail extends Component {
         microEvents.bind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.addEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.addEventListener('focusout', this.pasteEmailToRecipient);
+        this.state.recipientsInput.addEventListener('focusout', this.addRecipient);
 
         document.getElementById('new-mail-recipients')?.addEventListener('click', this.showDataList);
+
         this.state.element.addEventListener('click', this.removeDataList);
+
+        document.getElementById('send-mail__fromB')!.addEventListener('click', this.onFromClick);
     };
 
     /**
@@ -518,9 +657,15 @@ export class SendMail extends Component {
     unregisterEventListener = () => {
         document.removeEventListener('click', this.onSidebarClick);
 
+        this.state.iconButtons.forEach((button: Element) => {
+            button.removeEventListener('click', this.iconButtonsClicked);
+        });
+
         this.state.footerButtons.forEach((button: Element) => {
             button.removeEventListener('click', this.bottomButtonsClicked);
         });
+
+        this.state.fromUser.removeEventListener('click', this.selectFromEmail);
 
         this.state.attachList.forEach((button: Element) => {
             button.getElementsByClassName('attachment__close-button')[0]!
@@ -541,7 +686,7 @@ export class SendMail extends Component {
         microEvents.unbind('addAttachmentToSendMail', this.addAttachment);
 
         this.state.recipientsInput.removeEventListener('input', this.onContentChanged);
-        // this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
+        this.state.recipientsInput.removeEventListener('focusout', this.addRecipient);
 
         this.state.recipients.forEach((element, key) => {
             element.getElementsByClassName('icon-button')[0]
@@ -551,6 +696,8 @@ export class SendMail extends Component {
 
         document.getElementById('new-mail-recipients')?.removeEventListener('click', this.showDataList);
         this.state.element.removeEventListener('click', this.removeDataList);
+
+        document.getElementById('send-mail__fromB')!.removeEventListener('click', this.onFromClick);
     };
 
     /**
@@ -560,8 +707,8 @@ export class SendMail extends Component {
         this.state.topic.value = reducerNewMail._storage.get(reducerNewMail._storeNames.title);
         this.state.recipientsInput.value =
             reducerNewMail._storage.get(reducerNewMail._storeNames.recipients);
-        this.state.text.insertAdjacentHTML('beforeend', reducerNewMail._storage.get(reducerNewMail._storeNames.text))
-    }
+        this.state.text.insertAdjacentHTML('beforeend', reducerNewMail._storage.get(reducerNewMail._storeNames.text));
+    };
 
 
     /**
@@ -569,13 +716,22 @@ export class SendMail extends Component {
      */
     render() {
         const footerButtons: object[] = [];
-        Object.values(config.buttons.newMailButtons.footerButtons).forEach((button) => {
+        Object.values(config.buttons.newMailButtons.footerButtons.contrastButtons).forEach((button) => {
             footerButtons.push(ContrastButton.renderTemplate(button));
+        });
+
+        Object.values(config.buttons.newMailButtons.footerButtons.activeButtons).forEach((button) => {
+            footerButtons.push(ActionButton.renderTemplate(button));
         });
 
         const actionButtons: object[] = [];
         Object.values(config.buttons.newMailButtons.actionButtons).forEach((button) => {
             actionButtons.push(MenuButton.renderTemplate(button));
+        });
+
+        const IconButtons: object[] = [];
+        Object.values(config.buttons.mailFormatterButtons).forEach((button: object) => {
+            IconButtons.push(IconButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
@@ -584,14 +740,20 @@ export class SendMail extends Component {
             actionButtons: actionButtons,
             footerButtons: footerButtons,
             closeButton: IconButton.renderTemplate(config.buttons.newMailButtons.closeButton),
-            textArea: TextArea.renderTemplate({})
+            textArea: TextArea.renderTemplate({}),
+            formatter: FormatterLine.renderTemplate({
+                actionButtons: IconButtons,
+            }),
         }));
 
         this.state.element = this.parent.getElementsByClassName('send-mail')[0];
         this.state.area = this.state.element.getElementsByClassName('send-mail-area')[0];
         this.state.actionButtons = [...this.state.element.getElementsByClassName('menu-button')];
-        this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
+        this.state.footerButtons = [...this.state.element.getElementsByClassName('action-button')];
+        this.state.footerButtons.push(this.state.element.getElementsByClassName('contrast-button')[0]);
+        this.state.iconButtons = [...this.state.element.getElementsByClassName('icon-button')];
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
+        this.state.fromUser = document.getElementById('send-mail__from')!;
 
         this.state.topic =
             this.state.element.getElementsByTagName('input').namedItem(config.forms.newMail.topic.name)!;
@@ -602,8 +764,32 @@ export class SendMail extends Component {
         this.registerEventListener();
         this.setInputsState();
 
-        // this.state.recipientsInput.dispatchEvent(new Event('focusout'));
+        this.state.fromUser.textContent = reducerNewMail.getFromEmail();
+
+        this.state.recipientsInput.dispatchEvent(new Event('focusout'));
     }
+
+    cancelSaveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+    };
+
+    saveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+        const draft = this.getMailInputs();
+        dispatcher.dispatch(actionSendDraft(draft));
+    };
+
+    notSaveDraft = () => {
+        microEvents.unbind('/cancel', this.cancelSaveDraft);
+        microEvents.unbind('/not_save', this.notSaveDraft);
+        microEvents.unbind('/save', this.saveDraft);
+        this.purge();
+        return;
+    };
 
     /**
      * method that triggers when user click beyond the boundaries of a new letter
@@ -613,14 +799,11 @@ export class SendMail extends Component {
         e.preventDefault();
         if (e.target) {
             if (this.state.element === e.target as HTMLElement) {
-                const draft = this.getMailInputs();
-                if (draft.title === '' &&
-                    draft.recipients.length === 0 &&
-                    draft.text === '') {
-                    this.purge();
-                    return;
-                }
-                dispatcher.dispatch(actionSendDraft(draft));
+                microEvents.bind('/cancel', this.cancelSaveDraft);
+                microEvents.bind('/not_save', this.notSaveDraft);
+                microEvents.bind('/save', this.saveDraft);
+                const acceptor = new Acceptor({parent: document.getElementById('root')!});
+                acceptor.render('Сохранить черновик?', config.buttons.acceptorSaveDraftButtons);
             }
         }
     };

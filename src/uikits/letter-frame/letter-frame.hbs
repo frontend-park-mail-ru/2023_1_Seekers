@@ -10,11 +10,22 @@
                 <label for="checkbox_for_{{message_id}}"></label>
             </div>
             <div class="letter-frame__image">
-                <img src='{{avatar}}' class="letter-frame__image_size skeleton__block" alt="">
+
+                {{#if showRecipient includeZero=false}}
+                    <img src='{{recipients.0.avatar}}' class="letter-frame__image_size skeleton__block" alt="">
+                {{else}}
+                    <img src='{{avatar}}' class="letter-frame__image_size skeleton__block" alt="">
+                {{/if}}
             </div>
             <div class="letter-frame__header__content">
                 <p class="letter-frame__name font-normal-0">
-                    {{from_user_email}}
+
+                    {{#if showRecipient includeZero=false}}
+                        {{recipients.0.email}}
+                    {{else}}
+                        {{from_user_email}}
+                    {{/if}}
+
                 </p>
                 <div class="letter-frame__title">
                     <p class="letter-frame__title_text font-caption-0">

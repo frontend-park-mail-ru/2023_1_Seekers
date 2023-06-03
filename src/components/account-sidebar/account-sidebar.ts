@@ -5,9 +5,11 @@ import {Component} from '@components/component';
 import {config} from '@config/config';
 import {reducerUser} from '@stores/userStore';
 import {dispatcher} from '@utils/dispatcher';
-import {actionLogout, actionGetAccountPage,
-    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage} from '@actions/user';
-import {showNotification} from "@components/notification/notification";
+import {
+    actionLogout, actionGetAccountPage,
+    actionGetMailboxPage, actionGetProfilePage, actionGetSecurityPage, actionGetAnonymousPage,
+} from '@actions/user';
+import {showNotification} from '@components/notification/notification';
 
 export interface AccountSidebar {
     state: {
@@ -67,9 +69,15 @@ export class AccountSidebar extends Component {
                     await dispatcher.dispatch(actionGetSecurityPage());
                     currentTarget.dispatchEvent(
                         new MouseEvent('click', {bubbles: true, cancelable: true}));
-                    // this.purge();
-                    // return;
                     break;
+
+                case config.buttons.sidebarButtons.anonymous.href:
+                    await dispatcher.dispatch(actionGetAccountPage({path: data}));
+                    await dispatcher.dispatch(actionGetAnonymousPage());
+                    currentTarget.dispatchEvent(
+                        new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    break;
+
                 case config.buttons.sidebarButtons.logout.href:
                     await dispatcher.dispatch(actionLogout());
                     break;
@@ -85,12 +93,12 @@ export class AccountSidebar extends Component {
         if (currentTarget instanceof HTMLElement) {
             if (currentTarget.dataset.section) {
                 navigator.clipboard.writeText(currentTarget.dataset.section).then(() => {
-                        showNotification('Скопировано!');
-                    }
+                    showNotification('Скопировано!');
+                },
                 );
             }
         }
-    }
+    };
 
     registerEventListener = () => {
         document.addEventListener('click', this.onSidebarClick);
@@ -100,7 +108,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.addEventListener('transitionend', this.waitSidebarTransition);
-        document.getElementById('account-sidebar__desc')?.addEventListener('click', this.saveOnEmailClick);
+        document.getElementById('account-sidebar__desc')?.addEventListener('contextmenu', this.saveOnEmailClick);
     };
 
     /**
@@ -114,7 +122,7 @@ export class AccountSidebar extends Component {
         });
 
         this.state.element.removeEventListener('transitionend', this.waitSidebarTransition);
-        document.getElementById('account-sidebar__desc')?.removeEventListener('click', this.saveOnEmailClick);
+        document.getElementById('account-sidebar__desc')?.removeEventListener('contextmenu', this.saveOnEmailClick);
     };
 
     /**

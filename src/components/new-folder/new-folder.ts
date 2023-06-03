@@ -7,12 +7,12 @@ import '@components/new-folder/new-folder.scss';
 
 import {config, responseStatuses} from '@config/config';
 import {IconButton} from '@uikits/icon-button/icon-button';
-import {reducerNewMail} from '@stores/NewMailStore';
 import {showNotification} from '@components/notification/notification';
 import {microEvents} from '@utils/microevents';
 import {dispatcher} from "@utils/dispatcher";
 import {actionSendFolderToCreate} from "@actions/folders";
 import {reducerFolder} from "@stores/FolderStore";
+import {ActionButton} from "@uikits/action-button/action-button";
 
 
 export interface NewFolder {
@@ -56,11 +56,11 @@ export class NewFolder extends Component {
         if (currentTarget instanceof HTMLElement &&
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
-            case config.buttons.newFolderButtons.footerButtons.send.href:
+            case config.buttons.newFolderButtons.footerButtons.contrastButtons.send.href:
                 await this.createFolder();
                 break;
 
-            case config.buttons.newFolderButtons.footerButtons.cancel.href:
+            case config.buttons.newFolderButtons.footerButtons.activeButtons.cancel.href:
                 this.purge();
                 break;
             }
@@ -73,7 +73,7 @@ export class NewFolder extends Component {
     createFolder = async () => {
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newFolderButtons.footerButtons.send.href;
+                config.buttons.newFolderButtons.footerButtons.contrastButtons.send.href;
         });
         sendButton?.classList.add('contrast-button_disabled');
         sendButton?.classList.add('skeleton__block');
@@ -101,7 +101,7 @@ export class NewFolder extends Component {
         }
         const sendButton = this.state.footerButtons.find((button) => {
             return (button as HTMLElement).dataset.section ===
-                config.buttons.newFolderButtons.footerButtons.send.href;
+                config.buttons.newFolderButtons.footerButtons.contrastButtons.send.href;
         });
 
         sendButton?.classList.remove('skeleton__block');
@@ -161,8 +161,11 @@ export class NewFolder extends Component {
      */
     render() {
         const actionButtons: object[] = [];
-        Object.values(config.buttons.newFolderButtons.footerButtons).forEach((button) => {
+        Object.values(config.buttons.newFolderButtons.footerButtons.contrastButtons).forEach((button) => {
             actionButtons.push(ContrastButton.renderTemplate(button));
+        });
+        Object.values(config.buttons.newFolderButtons.footerButtons.activeButtons).forEach((button) => {
+            actionButtons.push(ActionButton.renderTemplate(button));
         });
 
         this.parent.insertAdjacentHTML('afterbegin', template({
@@ -175,6 +178,7 @@ export class NewFolder extends Component {
         this.state.element = this.parent.getElementsByClassName('new-folder')[0];
         this.state.area = this.state.element.getElementsByClassName('new-folder-area')[0];
         this.state.footerButtons = [...this.state.element.getElementsByClassName('contrast-button')];
+        this.state.footerButtons.push(this.state.element.getElementsByClassName('action-button')[0]);
         this.state.iconButton = this.state.element.getElementsByClassName('icon-button')[0];
 
         this.state.folderInput = this.state.element

@@ -12,6 +12,7 @@ class FolderStore extends BaseStore {
         answerStatus: 'answerStatus',
         answerBody: 'answerBody',
         contextFolder: 'contextFolder',
+        commonMenu: 'Menu',
         menu: 'menu',
     };
 
@@ -49,17 +50,35 @@ class FolderStore extends BaseStore {
      * function that makes request to get menu
      */
     getMenu = async () => {
-        if (!this._storage.get(this._storeNames.menu)) {
-            this._storage.set(this._storeNames.menu, []);
-        }
-        const responsePromise = Connector.makeGetRequest(config.api.getMenu + '?custom=true');
+
+        const responsePromise = Connector.makeGetRequest(config.api.getMenu);
         const [status, response] = await responsePromise;
         if (status === responseStatuses.OK) {
+            this._storage.set(this._storeNames.menu, []);
             if (response.folders) {
+                this._storage.set(this._storeNames.commonMenu, Object.values(config.buttons.commonMenuButtons));
+
                 (response.folders as Folder[])?.forEach((folder) => {
                     folder.folder_slug = '/' + folder.folder_slug;
+                    folder.messages_unseen = folder.messages_unseen === 0? '': folder.messages_unseen;
                 });
-                this._storage.set(this._storeNames.menu, response.folders);
+
+                (this._storage.get(this._storeNames.commonMenu) as Folder[]).forEach((folder) => {
+                    const fFolder = response.folders.find((foundFolder: Folder) => {
+                        return foundFolder.folder_slug === folder.folder_slug;
+                    });
+                    if (fFolder) {
+                        folder.messages_unseen = fFolder.messages_unseen;
+                    }
+                });
+                (response.folders as Folder[])?.forEach((folder, index, object) => {
+                    const fFolder = (this._storage.get(this._storeNames.commonMenu) as Folder[]).find((foundFolder: Folder) => {
+                        return foundFolder.folder_slug === folder.folder_slug;
+                    });
+                    if (!fFolder) {
+                        this._storage.get(this._storeNames.menu).push(folder);
+                    }
+                });
             }
             microEvents.trigger('menuChanged');
         }
@@ -102,6 +121,7 @@ class FolderStore extends BaseStore {
 
             microEvents.trigger('mailChanged');
         }
+        reducerFolder.getMenu();
         // }
     };
 
@@ -141,6 +161,8 @@ class FolderStore extends BaseStore {
                         reducerLetters.showMail(mailHref);
                     }
                 }
+
+                reducerFolder.getMenu();
             });
         });
     };

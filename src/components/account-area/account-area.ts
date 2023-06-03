@@ -9,6 +9,7 @@ import {reducerUser} from '@stores/userStore';
 import {AccountSecurity} from '@components/account-security/account-security';
 import {microEvents} from '@utils/microevents';
 import {reducerLetters} from '@stores/LettersStore';
+import {AccountAnonymous} from "@components/account-anonymous/account-anonymous";
 
 export interface AccountArea {
     state: {
@@ -55,6 +56,9 @@ export class AccountArea extends Component {
                 break;
             case '/security':
                 this.renderSecurity();
+                break;
+            case '/anonymous':
+                this.renderAnonymous();
                 break;
             }
         }
@@ -103,6 +107,21 @@ export class AccountArea extends Component {
         document.getElementById('footer-button')!.classList.add('footer-button__show');
     };
 
+    renderAnonymous = () => {
+        if (!this.state.element) {
+            this.render();
+        }
+        if (this.state.content) {
+            this.state.content.purge();
+        }
+        this.state.content = new AccountAnonymous({
+            parent: document.getElementById('account-area__content')!,
+        });
+        this.state.content.render();
+
+        document.getElementById('footer-button')!.classList.add('footer-button__show');
+    };
+
     /**
      * method registerEventListener
      * register listeners for pages rendering
@@ -110,6 +129,7 @@ export class AccountArea extends Component {
     registerEventListener() {
         microEvents.bind('renderProfilePage', this.renderProfile);
         microEvents.bind('renderSecurityPage', this.renderSecurity);
+        microEvents.bind('renderAnonymousPage', this.renderAnonymous);
     }
 
     /**
@@ -119,6 +139,7 @@ export class AccountArea extends Component {
     unregisterEventListener() {
         microEvents.unbind('renderProfilePage', this.renderProfile);
         microEvents.unbind('renderSecurityPage', this.renderSecurity);
+        microEvents.unbind('renderAnonymousPage', this.renderAnonymous);
     }
 
     purge = () => {

@@ -4,7 +4,8 @@ import {microEvents} from '@utils/microevents';
 import BaseStore from '@stores/BaseStore';
 import {reducerUser} from '@stores/userStore';
 import {reducerFolder} from '@stores/FolderStore';
-import {socket} from "@utils/webSocket";
+import {socket} from '@utils/webSocket';
+import {dateUtil} from '@utils/dateUtil';
 
 /**
  * class that implements all possible actions with letters data
@@ -22,6 +23,8 @@ class LettersStore extends BaseStore {
         emailToPaste: 'emailToPaste',
         searchedLetters: 'searchedLetters',
         mailToAppend: 'mailToAppend',
+        reverse: 'reverse',
+        searchString: 'searchString',
     };
 
     /**
@@ -37,6 +40,8 @@ class LettersStore extends BaseStore {
         this._storage.set(this._storeNames.selectedLetters, []);
         this._storage.set(this._storeNames.searchedLetters, []);
         this._storage.set(this._storeNames.mailToAppend, undefined);
+        this._storage.set(this._storeNames.reverse, true);
+        this._storage.set(this._storeNames.searchString, '');
     }
 
     /**
@@ -45,25 +50,47 @@ class LettersStore extends BaseStore {
      */
     getLetters = async (folderName: string) => {
         this.clearSelectedLetter();
-        Connector.makeGetRequest(config.api.getLetters + folderName)
+        this._storage.set(this._storeNames.searchedLetters, []);
+        this._storage.set(this._storeNames.searchString, '');
+        this._storage.set(this._storeNames.reverse, true);
+        Connector.makeGetRequest(config.api.getLetters + folderName + '?reverse=' + this._storage.get(this._storeNames.reverse))
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
+                    const curDate = new Date();
                     this._storage.get(this._storeNames.letters).set(folderName, []);
                     body.messages?.forEach((message: any) => {
-                        const time = message.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
+                        const date = new Date(message.created_at);
+
+                        let time = '';
+
+                        if (curDate.getDate() === date.getDate() &&
+                           curDate.getMonth() === date.getMonth() &&
+                           curDate.getFullYear() === date.getFullYear()) {
+                            time = 'сегодня, ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        } else {
+                            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                        }
+
+                        (message.recipients as ProfileData[])?.forEach((recipient) => {
+                            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                                `?email=${recipient.email}`;
+                        });
+
                         const letterFrame: LetterFrameData = {
                             message_id: message.message_id,
                             seen: message.seen,
                             from_user_email: message.from_user_id.email,
                             title: message.title,
-                            text: '',
+                            text: message.text,
                             preview: message.preview,
                             created_at: time,
                             href: folderName + '/' + message.message_id,
                             avatar: `${config.basePath}/${config.api.avatar}` +
                                 `?email=${message.from_user_id.email}`,
                             recipients: message.recipients,
+                            attachments: message.attachments,
                         };
 
                         this._storage.get(this._storeNames.letters).get(folderName).push(letterFrame);
@@ -87,47 +114,85 @@ class LettersStore extends BaseStore {
      * function that makes request to get all the letters from folder
      */
     getLettersAfterSearch = async (message: SearchMessage) => {
+        this._storage.set(this._storeNames.searchString, message.text);
         this.clearSelectedLetter();
-        Connector.makeGetRequest(config.api.search + this.getCurrentLettersName().split('/').pop() +
-            config.api.search_post + message.text)
-            .then(([status, body]) => {
-                if (status === responseStatuses.OK) {
-                    const searchedLetters: LetterFrameData[] = [];
-                    body.messages?.forEach((message: any) => {
-                        const time = message.created_at.substring(0, 10)
-                            .replace('-', '.').replace('-', '.');
-                        const letterFrame: LetterFrameData = {
-                            message_id: message.message_id,
-                            seen: message.seen,
-                            from_user_email: message.from_user_id.email,
-                            title: message.title,
-                            text: '',
-                            preview: message.preview,
-                            created_at: time,
-                            href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
-                            avatar: `${config.basePath}/${config.api.avatar}` +
-                                `?email=${message.from_user_id.email}`,
-                            recipients: message.recipients,
-                        };
 
-                        searchedLetters.push(letterFrame);
+        const request = this._storage.get(this._storeNames.searchString) === '' ?
+            config.api.search + this.getCurrentLettersName().split('/').pop() +
+            '&reverse=' + this._storage.get(this._storeNames.reverse):
+            config.api.search + this.getCurrentLettersName().split('/').pop() +
+            '&reverse=' + this._storage.get(this._storeNames.reverse) +
+            config.api.search_post + message.text +
+            '&fromUser=' + message.text +
+            '&toUser=' + message.text;
+
+        Connector.makeGetRequest(request).then(([status, body]) => {
+            if (status === responseStatuses.OK) {
+                const curDate = new Date();
+                const searchedLetters: LetterFrameData[] = [];
+                body.messages?.forEach((message: any) => {
+                    const date = new Date(message.created_at);
+
+                    let time = '';
+
+                    if (curDate.getDate() === date.getDate() &&
+                            curDate.getMonth() === date.getMonth() &&
+                            curDate.getFullYear() === date.getFullYear()) {
+                        time = 'сегодня, ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    } else {
+                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    }
+
+                    (message.recipients as ProfileData[])?.forEach((recipient) => {
+                        recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                                `?email=${recipient.email}`;
                     });
-                    this._storage.set(this._storeNames.searchedLetters, searchedLetters);
-                    // if (folderName === this._storage.get(this._storeNames.currentLetters)) {
-                    microEvents.trigger('searchDone');
-                    //     microEvents.trigger('mailChanged');
-                    // }
-                }
-            });
-        // this._storage.set(this._storeNames.currentLetters, folderName);
-        // this._storage.set(this._storeNames.shownMail, undefined);
-        // microEvents.trigger('letterListChanged');
-        // microEvents.trigger('mailChanged');
+
+                    const letterFrame: LetterFrameData = {
+                        message_id: message.message_id,
+                        seen: message.seen,
+                        from_user_email: message.from_user_id.email,
+                        title: message.title,
+                        text: '',
+                        preview: message.preview,
+                        created_at: time,
+                        href: '/' + message.message_id, //  folderName + как вычислить где оно лежит
+                        avatar: `${config.basePath}/${config.api.avatar}` +
+                                `?email=${message.from_user_id.email}`,
+                        recipients: message.recipients,
+                    };
+
+                    searchedLetters.push(letterFrame);
+                });
+                this._storage.set(this._storeNames.searchedLetters, searchedLetters);
+                microEvents.trigger('searchDone');
+            }
+        });
+    };
+
+    /**
+     * function that makes request to get all the letters from folder
+     */
+    getLettersAfterFilter = async (filter: string) => {
+        this.clearSelectedLetter();
+        console.log(filter);
+        if (filter === 'old') {
+            this._storage.set(this._storeNames.reverse, false);
+        } else if (filter === 'new') {
+            this._storage.set(this._storeNames.reverse, true);
+        }
+        this.getLettersAfterSearch({text: this._storage.get(this._storeNames.searchString)});
     };
 
     pasteEmail = async (email: string) => {
         this._storage.set(this._storeNames.emailToPaste, email);
         microEvents.trigger('pasteEmailInRecipient');
+    };
+
+    freePasteEmail = async () => {
+        this._storage.set(this._storeNames.emailToPaste, '');
     };
 
     showPasteEmail = async (email: string) => {
@@ -185,8 +250,20 @@ class LettersStore extends BaseStore {
             .then(([status, body]) => {
                 if (status === responseStatuses.OK) {
                     const mailData: MailData = body.message;
-                    mailData.created_at = mailData.created_at.substring(0, 10)
-                        .replace('-', '.').replace('-', '.');
+                    const date = new Date(mailData.created_at);
+                    const curDate = new Date();
+                    let time = '';
+
+                    if (curDate.getDate() === date.getDate() &&
+                        curDate.getMonth() === date.getMonth() &&
+                        curDate.getFullYear() === date.getFullYear()) {
+                        time = 'сегодня, ' +
+                            dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    } else {
+                        time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                            dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+                    }
+                    mailData.created_at = time;
                     mailData.from_user_id.avatar =
                         `${config.basePath}/${config.api.avatar}?email=` +
                         `${body.message.from_user_id.email}`;
@@ -208,8 +285,8 @@ class LettersStore extends BaseStore {
     getArchiveAttachment = async (href: string) => {
         const mailId = href.split('/').pop();
         const link = document.createElement('a');
-        link.href = config.basePath + '/' + config.api.getArchiveAttach
-            + mailId + '/attaches';
+        link.href = config.basePath + '/' + config.api.getArchiveAttach +
+            mailId + '/attaches';
         link.click();
     };
 
@@ -237,7 +314,7 @@ class LettersStore extends BaseStore {
 
     appendMessage(sockMsg: MessageFromSocket) {
         const message = sockMsg.mailData;
-
+        reducerFolder.getMenu();
         if (this.getCurrentLettersName() !== sockMsg.folder) {
             return;
         }
@@ -295,6 +372,8 @@ class LettersStore extends BaseStore {
             this._storage.set(this._storeNames.accountName, 'Личные данные');
         } else if (obj.path == '/security') {
             this._storage.set(this._storeNames.accountName, 'Пароль и безопасность');
+        } else if (obj.path == '/anonymous') {
+            this._storage.set(this._storeNames.accountName, 'Анонимный ящик');
         }
 
         this._storage.set(this._storeNames.currentAccountPage, obj.path);
@@ -318,6 +397,14 @@ class LettersStore extends BaseStore {
     };
 
     /**
+     * function that makes requests for all the components of anonymous
+     */
+    getAnonymousPage = async () => {
+        this._storage.set(this._storeNames.accountName, 'Анонимный ящик');
+        microEvents.trigger('renderAnonymousPage');
+    };
+
+    /**
      * function that makes requests for changing letter state
      */
     changeLetterStateToRead = async (letterId: string) => {
@@ -325,7 +412,7 @@ class LettersStore extends BaseStore {
             '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
-            // microEvents.trigger('letterStateChanged');
+            reducerFolder.getMenu();
         }
     };
 
@@ -337,7 +424,7 @@ class LettersStore extends BaseStore {
             '?fromFolder=' + reducerLetters.getCurrentLettersName().split('/')[1], {});
         const [status] = await responsePromise;
         if (status === responseStatuses.OK) {
-            // microEvents.trigger('letterStateChanged');
+            reducerFolder.getMenu();
         }
     };
 
@@ -403,7 +490,6 @@ class LettersStore extends BaseStore {
     }
 
     getLetterByFolderAndId(folder: string, id: number) {
-
         return (this._storage.get(this._storeNames.letters)
             .get('/' + folder) as MailData[]).find((letterFrame) => {
             if (letterFrame.message_id === id) {
@@ -413,15 +499,32 @@ class LettersStore extends BaseStore {
     }
 
     getLetterFrameFromMailData(message: MailData) {
-        const time = message.created_at.substring(0, 10)
-            .replace('-', '.').replace('-', '.');
+        const date = new Date(message.created_at);
+        const curDate = new Date();
+        let time = '';
+
+        if (curDate.getDate() === date.getDate() &&
+            curDate.getMonth() === date.getMonth() &&
+            curDate.getFullYear() === date.getFullYear()) {
+            time = 'сегодня, ' +
+                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+        } else {
+            time = date.getDate().toString() + ' ' + dateUtil.getMonth(date.getMonth()) + ', ' +
+                dateUtil.padTo2Digits(date.getHours()) + ':' + dateUtil.padTo2Digits(date.getMinutes());
+        }
+
+        (message.recipients as ProfileData[])?.forEach((recipient) => {
+            recipient.avatar = `${config.basePath}/${config.api.avatar}` +
+                `?email=${recipient.email}`;
+        });
+
         const letterFrame: LetterFrameData = {
             message_id: message.message_id,
             seen: message.seen,
             from_user_email: message.from_user_id.email,
             title: message.title,
             text: message.text,
-            preview: '',
+            preview: message.preview,
             created_at: time,
             href: this.getCurrentLettersName() + '/' + message.message_id,
             avatar: `${config.basePath}/${config.api.avatar}` +

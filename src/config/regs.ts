@@ -7,4 +7,5 @@ export const hrefRegExp = {
 
 export const validatorRegExp = {
     emojis: /\p{Extended_Pictographic}/u,
+    russianSymbols: /[а-яА-Я]/g,
 };

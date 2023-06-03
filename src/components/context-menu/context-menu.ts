@@ -14,6 +14,8 @@ import {
     actionRenameFolderByCtx,
     actionRenameFolderForm
 } from "@actions/folders";
+import {Acceptor} from "@components/acceptor/acceptor";
+import {actionSendDraft} from "@actions/newMail";
 
 
 export interface ContextMenu {
@@ -42,6 +44,20 @@ export class ContextMenu extends Component {
         };
     }
 
+    cancelDelete = () => {
+        microEvents.unbind('/cancel', this.cancelDelete);
+        microEvents.unbind('/delete', this.delete);
+        // this.purge();
+    };
+
+    delete = () => {
+        microEvents.unbind('/cancel', this.cancelDelete);
+        microEvents.unbind('/delete', this.delete);
+        // this.purge();
+        dispatcher.dispatch(actionDeleteFolderByCtx());
+        return;
+    };
+
     /**
      * method handle click on navbar
      * @param e - event that goes from one of childs of current element
@@ -56,12 +72,15 @@ export class ContextMenu extends Component {
             currentTarget.dataset.section) {
             switch (currentTarget.dataset.section) {
             case config.buttons.contextMenuButtons.delete.folder_slug:
-                dispatcher.dispatch(actionDeleteFolderByCtx());
+                microEvents.bind('/cancel', this.cancelDelete);
+                microEvents.bind('/delete', this.delete);
+                const acceptor = new Acceptor({parent: document.getElementById('root')!});
+                acceptor.render('Вы действительно хотите удалить папку?', config.buttons.acceptorDeleteFolderButtons);
+                this.purge();
                 break;
 
             case config.buttons.contextMenuButtons.rename.folder_slug:
                 dispatcher.dispatch(actionRenameFolderForm());
-                this.purge();
                 break;
             }
         }
